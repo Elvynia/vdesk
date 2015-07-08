@@ -11,11 +11,9 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<mvc:annotation-driven />
-	<mvc:default-servlet-handler/>
-	<context:property-placeholder location="classpath:config_extractdata.properties" />
-	<context:property-placeholder location="classpath:log4j.properties" />
-	<context:component-scan
-		base-package="com.eurocopter.techpub.aecma.tools.extractdata" />
+<!-- 	<mvc:default-servlet-handler/> -->
+<!-- 	<context:component-scan -->
+<!-- 		base-package="com.eurocopter.techpub.aecma.tools.extractdata" /> -->
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
