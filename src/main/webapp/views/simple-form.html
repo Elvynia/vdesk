@@ -1,0 +1,25 @@
+<div id="newBubble">
+
+    <h2>New Bubble</h2>
+
+    <form>
+
+        <div>
+            <label for="bubble.title">Title</label>
+            <input id="bubble.title" type="text" ng-model="bubble.title"/>
+        </div>
+
+        <div>
+            <label for="bubble.description">Description</label>
+            <textarea id="bubble.description" ng-model="bubble.description">
+            </textarea>
+        </div>
+
+        <hr/>
+
+        <button class="button" ng-click="gotoSimpleListPage()">&lt; Back</button> &nbsp;
+        <button class="button" ng-click="submit()">Save</button>
+
+    </form>
+
+</div>
