@@ -15,12 +15,19 @@
 
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler/>
-	<context:component-scan base-package="org.arcanic" />
+	
+	<context:component-scan base-package="org.arcanic.ramm" />
+	<context:property-placeholder location="classpath:database.properties" />
 
-	<mongo:mongo id="mongo" host="localhost" port="27017" />
+	<mongo:mongo id="mongo" host="${database.host}" port="${database.port}" />
+	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
+	    <constructor-arg name="username" value="${database.user}" />
+	    <constructor-arg name="password" value="${database.password}" />
+	</bean>
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongo" ref="mongo" />
-		<constructor-arg name="databaseName" value="test" />
+		<constructor-arg name="databaseName" value="${database.name}" />
+		<constructor-arg name="userCredentials" ref="userCredentials"/>
 	</bean>
 	<mongo:repositories base-package="org.arcanic.ramm.repository" />
 

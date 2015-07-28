@@ -66,6 +66,12 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -77,5 +83,31 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>prod</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<env.db.host>elvynia-RAMM-mongo-2-6-1.mongo-2-6.cloud.unit</env.db.host>
+				<env.db.port>27017</env.db.port>
+				<env.db.user>adminuabteujm</env.db.user>
+				<env.db.pwd>oflstod7</env.db.pwd>
+				<env.db.name>ramm</env.db.name>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env.db.host>localhost</env.db.host>
+				<env.db.port>27017</env.db.port>
+				<env.db.user></env.db.user>
+				<env.db.pwd></env.db.pwd>
+				<env.db.name>test</env.db.name>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>
