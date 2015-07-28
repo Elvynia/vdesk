@@ -93,8 +93,10 @@
 			<properties>
 				<env.db.host>elvynia-RAMM-mongo-2-6-1.mongo-2-6.cloud.unit</env.db.host>
 				<env.db.port>27017</env.db.port>
-				<env.db.user>adminuabteujm</env.db.user>
-				<env.db.pwd>oflstod7</env.db.pwd>
+<!-- 				<env.db.user>adminuabteujm</env.db.user> -->
+				<env.db.user></env.db.user>
+<!-- 				<env.db.pwd>oflstod7</env.db.pwd> -->
+				<env.db.pwd></env.db.pwd>
 				<env.db.name>ramm</env.db.name>
 			</properties>
 		</profile>
