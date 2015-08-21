@@ -1,31 +1,41 @@
 'use strict';
 
-function SimpleListController($scope, $location, Bubble) {
-    $scope.bubbles = Bubble.query();
-    $scope.gotoSimpleNewPage = function () {
-        $location.path("/simple/add")
-    };
-    $scope.deleteBubble = function (bubble) {
-    	bubble.$delete({'id':bubble.title}, function () {
-            $location.path('/');
-        });
-    };
-}
+var rammController = angular.module('rammController', ['ngRoute']);
 
-function SimpleDetailController($scope, $routeParams, $location, Bubble) {
-    $scope.bubble = Bubble.get({id:$routeParams.id}, function (bubble) {});
-    $scope.gotoSimpleListPage = function () {
-        $location.path("/")
+rammController.controller('BubbleController', function($scope, ngDialog) {
+	$scope.addForm = function () {
+		ngDialog.open({
+			template: 'views/bubble-add.html',
+			controller: 'BubbleAddController',
+			className: 'ngdialog-theme-default'
+		});
     };
-}
+})
 
-function SimpleNewController($scope, $location, Bubble) {
+rammController.controller('BubbleAddController', function($scope, $location, Bubble) {
+	$scope.updateFocus = false;
+	$scope.contents = [];
     $scope.submit = function () {
+    	$scope.updateFocus = true;
     	Bubble.save($scope.bubble, function (bubble) {
+    		document.getElementById('bubble.content').value ='';
+    		$scope.contents.push(bubble.content);
+    		$scope.updateFocus = false;
             $location.path('/');
         });
     };
-    $scope.gotoSimpleListPage = function () {
+    $scope.gotoViewPage = function () {
         $location.path("/")
     };
-}
+});
+
+rammController.controller('BubbleViewController', function($scope, Bubble) {
+	$scope.bubbles = Bubble.query();
+});
+
+rammController.controller('BubbleListController', function($scope, $location, Bubble) {
+	$scope.bubbles = Bubble.query();
+	$scope.gotoViewPage = function () {
+		$location.path("/")
+	};
+});

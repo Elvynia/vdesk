@@ -1,0 +1,16 @@
+<div>
+    <h1>New Bubbles : </h1>
+    <div id="contents" ng-show="contents.length > 0">
+    	<p ng-repeat="content in contents track by $index">{{content}}</p>
+    </div>
+    <form>
+        <label for="bubble.content">Text content :</label>
+        <textarea id="bubble.content"
+        	ng-model="bubble.content"
+        	focus-if="updateFocus"
+        	style="width:100%">
+        </textarea>
+        <hr/>
+        <button ng-click="submit()">Save</button>
+    </form>
+</div>

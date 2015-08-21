@@ -1,0 +1,12 @@
+<div id="bubbleView">
+    <h1>Bubble view</h1>
+    <div>
+    	<ul>
+    		<li id="bubble-{{bubble.id}}" ng-repeat="bubble in bubbles">
+    			{{bubble.content}}
+    		</li>
+    	</ul>
+    	<hr/>
+        <button class="button" ng-click="gotoViewPage()">&lt; Back</button>
+    </div>
+</div>

@@ -1,64 +1,100 @@
 package org.arcanic.ramm.document;
 
-import java.util.List;
+import java.math.BigInteger;
+import java.util.Objects;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Bubble collection carrying a text note.
+ *
+ * @author jeremy.masson
+ *
+ */
 @Document(collection = "bubbles")
 public class Bubble {
 
-	private String description;
-
-	@DBRef
-	private List<Bubble> links;
-
-	@Id
-	private String title;
+	/**
+	 * Bubble text content.
+	 */
+	private String content;
 
 	/**
-	 * @return the description
+	 * Bubble generated identifier.
 	 */
-	public String getDescription() {
-		return description;
+	private BigInteger id;
+
+	/**
+	 * Default constructor.
+	 */
+	public Bubble() {
 	}
 
 	/**
-	 * @return the links
+	 * Constructor with identifier.
+	 *
+	 * @param id the bubble identifier.
 	 */
-	public List<Bubble> getLinks() {
-		return links;
+	public Bubble(final BigInteger id) {
+		this.id = id;
 	}
 
 	/**
-	 * @return the title
+	 * Constructor with identifier and content.
+	 *
+	 * @param id the bubble identifier.
+	 * @param content the bubble text content.
 	 */
-	public String getTitle() {
-		return title;
+	public Bubble(final BigInteger id, final String content) {
+		this(id);
+		this.content = content;
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
+	 * {@inheritDoc}
 	 */
-	public void setDescription(final String description) {
-		this.description = description;
+	@Override
+	public boolean equals(final Object obj) {
+		if (Bubble.class.isAssignableFrom(obj.getClass())) {
+			return obj.hashCode() == hashCode();
+		}
+		return super.equals(obj);
 	}
 
 	/**
-	 * @param links
-	 *            the links to set
+	 * @return the content
 	 */
-	public void setLinks(final List<Bubble> links) {
-		this.links = links;
+	public String getContent() {
+		return content;
 	}
 
 	/**
-	 * @param title
-	 *            the title to set
+	 * @return the id
 	 */
-	public void setTitle(final String title) {
-		this.title = title;
+	public BigInteger getId() {
+		return id;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(content);
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(final String content) {
+		this.content = content;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(final BigInteger id) {
+		this.id = id;
+	}
+
 }
