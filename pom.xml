@@ -4,7 +4,7 @@
 	<groupId>org.arcanic</groupId>
 	<artifactId>ramm</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>${project.groupId}.${project.artifactId}-${project.version}</name>
 	<description>Project Reckless Access Memory Map</description>
 
