@@ -4,6 +4,13 @@
     	<p ng-repeat="content in contents track by $index">{{content}}</p>
     </div>
     <form>
+    	<label for="reference">References :</label>
+    	<ui-select multiple ng-model="bubble.selectedRefs" theme="bootstrap" style="width: 100%;">
+			<ui-select-match placeholder="Select references...">{{$item.keyword}}</ui-select-match>
+			<ui-select-choices repeat="ref in refs">
+				<div ng-bind-html="ref.keyword | highlight: $select.search"></div>
+			</ui-select-choices>
+		</ui-select>
         <label for="bubble.content">Text content :</label>
         <textarea id="bubble.content"
         	ng-model="bubble.content"

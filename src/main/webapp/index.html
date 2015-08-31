@@ -4,23 +4,21 @@
 	<head>
 		<title>RAMM</title>
 		<meta charset="UTF-8">
-		<script src="js/lib/angular-1.4.4.js"></script>
-		<script src="js/lib/angular-1.4.4-route.js"></script>
-		<script src="js/lib/angular-1.4.4-resource.js"></script>
-		<script src="js/lib/angular-1.4.4-animate.js"></script>
-		<script src="js/lib/angular-dialog.js"></script>
-		<script src="js/lib/focus-if.js"></script>
-		<script src="js/services.js"></script>
-		<script src="js/controllers.js"></script>
+		<script src="js/backend.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/backend.css" />
 		<script src="js/application.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
-		<link rel="stylesheet" type="text/css" href="css/ngDialog.css" />
-		<link rel="stylesheet" type="text/css" href="css/ngDialog-theme-default.css" />
+		<link rel="stylesheet" type="text/css" href="css/application.css" />
 	</head>
 	<body ng-controller="BubbleController as controller">
 		<div id="page">
 			<div id="pageHeader">
 				<h1>RAMM application</h1>
+				<div class="pageTabs">
+					<a href="#/bubble/view">Bubble View</a>
+					<a href="#/bubble/list">Bubble List</a>
+					<a href="#/manage/bubble">Manage bubbles</a>
+					<a href="#/manage/reference">Manage references</a>
+				</div>
 			</div>
 			<div id="pageBody">
 				<div ng-view></div>

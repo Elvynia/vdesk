@@ -5,3 +5,7 @@ angular.module('bubbleService', ['ngResource']).
 	    return $resource('spring/bubble/:id');
 	});
 
+angular.module('referenceService', ['ngResource']).
+	factory('Reference', function ($resource) {
+		return $resource('spring/reference/:id');
+	});

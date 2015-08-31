@@ -1,0 +1,34 @@
+#pageFooter {
+	position: fixed;
+    bottom: 0;
+	right: 0;
+}
+
+.pageTabs.a {
+	padding: 10px;
+}
+
+.leftPanel {
+	float: left;
+	width: 50%;
+}
+
+.rightPanel {
+	float: right;
+	width: 50%;
+}
+
+#manageReference {
+	width: 50%;
+	margin-left: 25%;
+	margin-top: 5%;
+}
+
+#pageHeader {
+	text-align: center;
+}
+
+.deleteBtn {
+	width: 1em;
+	display: inline-block;
+}

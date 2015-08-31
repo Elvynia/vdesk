@@ -34,26 +34,26 @@ public class BubbleController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void create(@RequestBody final Bubble bubble) {
-		logger.debug("Calling SimpleController::create() with content '{}'.", bubble.getContent());
+		logger.debug("Calling BubbleController::create() with content '{}'.", bubble.getContent());
 		bubbleService.insert(bubble);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable final long id) {
-		logger.debug("Calling SimpleController::delete() with id '{}'.", id);
+		logger.debug("Calling BubbleController::delete() with id '{}'.", id);
 		bubbleService.delete(id);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
-	public @ResponseBody Bubble detail(@PathVariable final long id) {
-		logger.debug("Calling SimpleController::detail() with id '{}'.", id);
+	public @ResponseBody Bubble get(@PathVariable final long id) {
+		logger.debug("Calling BubbleController::detail() with id '{}'.", id);
 		return bubbleService.findOne(id);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
-	public @ResponseBody List<Bubble> view() {
-		logger.debug("Calling SimpleController::list()");
+	public @ResponseBody List<Bubble> list() {
+		logger.debug("Calling BubbleController::list()");
 		return bubbleService.findAll();
 	}
 }

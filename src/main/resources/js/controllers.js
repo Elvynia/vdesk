@@ -1,6 +1,6 @@
 'use strict';
 
-var rammController = angular.module('rammController', ['ngRoute']);
+var rammController = angular.module('rammController', ['ngRoute', 'bubbleService', 'referenceService', 'ui.select']);
 
 rammController.controller('BubbleController', function($scope, ngDialog) {
 	$scope.addForm = function () {
@@ -12,7 +12,8 @@ rammController.controller('BubbleController', function($scope, ngDialog) {
     };
 })
 
-rammController.controller('BubbleAddController', function($scope, $location, Bubble) {
+rammController.controller('BubbleAddController', function($scope, $location, Bubble, Reference) {
+	$scope.refs = Reference.query();
 	$scope.updateFocus = false;
 	$scope.contents = [];
     $scope.submit = function () {
@@ -33,9 +34,19 @@ rammController.controller('BubbleViewController', function($scope, Bubble) {
 	$scope.bubbles = Bubble.query();
 });
 
-rammController.controller('BubbleListController', function($scope, $location, Bubble) {
+rammController.controller('BubbleListController', function($scope, Bubble) {
 	$scope.bubbles = Bubble.query();
-	$scope.gotoViewPage = function () {
-		$location.path("/")
-	};
+});
+
+rammController.controller('ManageReferenceController', function($scope, Reference) {
+	$scope.references = Reference.query();
+	if ($scope.references.length > 0) {
+		$scope.selectedRef = $scope.references[0];
+	}
+	$scope.createRef = function () {
+		Reference.save($scope.newRef);
+	}
+	$scope.deleteRef = function (id) {
+		Reference.remove(id);
+	}
 });

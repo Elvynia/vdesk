@@ -1,0 +1,14 @@
+<div id="manageReference">
+    <div class="leftPanel">
+	    <ul>
+	   		<li id="reference-{{ref.id}}" ng-repeat="ref in references">
+	   			{{ref.keyword}}
+		   		<img src="images/delete.jpg" class="deleteBtn" ng-click="deleteRef(ref);" />
+	   		</li>
+	   	</ul>
+   	</div>
+   	<div class="rightPanel">
+   		<input id="addRef" value="" ng-model="newRef.keyword" />
+   		<button type="button" ng-click="createRef();">Add</button>
+   	</div>
+</div>
