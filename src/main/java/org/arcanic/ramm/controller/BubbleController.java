@@ -40,13 +40,13 @@ public class BubbleController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable final long id) {
+	public void delete(@PathVariable final String id) {
 		logger.debug("Calling BubbleController::delete() with id '{}'.", id);
 		bubbleService.delete(id);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
-	public @ResponseBody Bubble get(@PathVariable final long id) {
+	public @ResponseBody Bubble get(@PathVariable final String id) {
 		logger.debug("Calling BubbleController::detail() with id '{}'.", id);
 		return bubbleService.findOne(id);
 	}

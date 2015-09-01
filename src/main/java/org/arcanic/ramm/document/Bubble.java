@@ -1,6 +1,5 @@
 package org.arcanic.ramm.document;
 
-import java.math.BigInteger;
 import java.util.Objects;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,7 +21,7 @@ public class Bubble {
 	/**
 	 * Bubble generated identifier.
 	 */
-	private BigInteger id;
+	private String id;
 
 	/**
 	 * Default constructor.
@@ -35,7 +34,7 @@ public class Bubble {
 	 *
 	 * @param id the bubble identifier.
 	 */
-	public Bubble(final BigInteger id) {
+	public Bubble(final String id) {
 		this.id = id;
 	}
 
@@ -45,7 +44,7 @@ public class Bubble {
 	 * @param id the bubble identifier.
 	 * @param content the bubble text content.
 	 */
-	public Bubble(final BigInteger id, final String content) {
+	public Bubble(final String id, final String content) {
 		this(id);
 		this.content = content;
 	}
@@ -71,7 +70,7 @@ public class Bubble {
 	/**
 	 * @return the id
 	 */
-	public BigInteger getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -93,7 +92,7 @@ public class Bubble {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(final BigInteger id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 

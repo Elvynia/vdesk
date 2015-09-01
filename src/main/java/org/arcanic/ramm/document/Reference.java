@@ -1,7 +1,5 @@
 package org.arcanic.ramm.document;
 
-import java.math.BigInteger;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -16,7 +14,7 @@ public class Reference {
 	/**
 	 * Bubble generated identifier.
 	 */
-	private BigInteger id;
+	private String id;
 
 	/**
 	 * Single keyword that can be used to connect bubbles.
@@ -26,7 +24,7 @@ public class Reference {
 	/**
 	 * @return the id
 	 */
-	public BigInteger getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -40,7 +38,7 @@ public class Reference {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(final BigInteger id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 

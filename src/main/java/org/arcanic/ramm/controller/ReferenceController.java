@@ -40,13 +40,13 @@ public class ReferenceController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable final long id) {
+	public void delete(@PathVariable final String id) {
 		logger.debug("Calling ReferenceController::delete() with id '{}'.", id);
 		referenceService.delete(id);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public @ResponseBody List<Reference> get(@PathVariable final long id) {
+	public @ResponseBody List<Reference> get(@PathVariable final String id) {
 		logger.debug("Calling ReferenceController::get() with id '{}'.", id);
 		return referenceService.findAll();
 	}

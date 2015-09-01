@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public interface BubbleRepository extends MongoRepository<Bubble, Long> {
+public interface BubbleRepository extends MongoRepository<Bubble, String> {
 
 }
