@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Bubble REST API.
+ * REST API for {@link Bubble} Documents.
  *
  * @author jeremy.masson
  *
