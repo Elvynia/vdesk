@@ -1,6 +1,6 @@
 'use strict';
 
-var rammController = angular.module('rammController', ['ngRoute', 'bubbleService', 'referenceService', 'ui.select']);
+var rammController = angular.module('rammController', ['ngRoute', 'rammService', 'ui.select', 'cfp.hotkeys']);
 
 rammController.controller('BubbleController', function($scope, ngDialog) {
 	$scope.addForm = function () {
@@ -12,26 +12,55 @@ rammController.controller('BubbleController', function($scope, ngDialog) {
     };
 })
 
-rammController.controller('BubbleAddController', function($scope, $location, Bubble, Reference) {
+rammController.controller('BubbleAddController', function($scope, $location, Bubble, Reference, Note) {
 	$scope.refs = Reference.query();
 	$scope.updateFocus = false;
 	$scope.contents = [];
+	$scope.selection = {
+			selectedRefs: [],
+	};
+    $scope.addBubble = function () {
+    	if ($scope.bubble.content.length > 0) {
+	    	$scope.updateFocus = true;
+	    	Bubble.save($scope.bubble, function (response) {
+	    		document.getElementById('bubble.content').value ='';
+	    		$scope.bubble.id = response.id;
+	    		$scope.contents.push($scope.bubble);
+	    		$scope.updateFocus = false;
+	        });
+    	} else {
+    		alert('Please type at least one word for saving the bubble.')
+    	}
+    };
     $scope.submit = function () {
-    	$scope.updateFocus = true;
-    	Bubble.save($scope.bubble, function (bubble) {
-    		document.getElementById('bubble.content').value ='';
-    		$scope.contents.push(bubble.content);
-    		$scope.updateFocus = false;
-            $location.path('/');
-        });
-    };
-    $scope.gotoViewPage = function () {
-        $location.path("/")
-    };
+    	var note = {
+    		bubbles : [],
+    		references: [],
+    	};
+    	var bubbles = $scope.contents;
+    	if (bubbles !== undefined && bubbles.length > 0) {
+    		// Store bubble content identifiers.
+    		for (var i = 0; i < bubbles.length; ++i) {
+    			note.bubbles.push(bubbles[i].id);
+    		}
+    		var selectedRefs = $scope.selection.selectedRefs;
+    		if (selectedRefs !== undefined) {
+    			// Store references identifiers.
+	    		for (var i = 0; i < selectedRefs.length; ++i) {
+	    			note.references.push(selectedRefs[i].id);
+	    		}
+    		}
+    		// Save note.
+    		console.debug('Saving note...');
+    		Note.save(note);
+    	} else {
+    		alert('Please type at least one comment for saving the note.')
+    	}
+    }
 });
 
-rammController.controller('BubbleViewController', function($scope, Bubble) {
-	$scope.bubbles = Bubble.query();
+rammController.controller('BubbleViewController', function($scope, Note) {
+	$scope.notes = Note.query();
 });
 
 rammController.controller('BubbleListController', function($scope, Bubble) {

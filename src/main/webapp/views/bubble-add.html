@@ -1,11 +1,11 @@
 <div>
     <h1>New Bubbles : </h1>
     <div id="contents" ng-show="contents.length > 0">
-    	<p ng-repeat="content in contents track by $index">{{content}}</p>
+    	<p ng-repeat="bubble in contents track by $index">{{bubble.content}}</p>
     </div>
     <form>
     	<label for="reference">References :</label>
-    	<ui-select multiple ng-model="bubble.selectedRefs" theme="bootstrap" style="width: 100%;">
+    	<ui-select multiple ng-model="selection.selectedRefs" theme="bootstrap" style="width: 100%;">
 			<ui-select-match placeholder="Select references...">{{$item.keyword}}</ui-select-match>
 			<ui-select-choices repeat="ref in refs">
 				<div ng-bind-html="ref.keyword | highlight: $select.search"></div>
@@ -17,7 +17,8 @@
         	focus-if="updateFocus"
         	style="width:100%">
         </textarea>
-        <hr/>
-        <button ng-click="submit()">Save</button>
+        <button ng-click="addBubble()" style="float: right">Add</button>
+        <br>
+        <button ng-click="submit()">Save Note</button>
     </form>
 </div>

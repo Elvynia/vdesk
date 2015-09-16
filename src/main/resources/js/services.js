@@ -1,11 +1,15 @@
 'use strict';
 
-angular.module('bubbleService', ['ngResource']).
-	factory('Bubble', function ($resource) {
-	    return $resource('spring/bubble/:id');
-	});
+var rammService = angular.module('rammService', ['ngResource']);
 
-angular.module('referenceService', ['ngResource']).
-	factory('Reference', function ($resource) {
-		return $resource('spring/reference/:id');
-	});
+rammService.factory('Bubble', function ($resource) {
+    return $resource('spring/bubble/:id');
+});
+
+rammService.factory('Reference', function ($resource) {
+	return $resource('spring/reference/:id');
+});
+
+rammService.factory('Note', function ($resource) {
+	return $resource('spring/note/:id');
+});
