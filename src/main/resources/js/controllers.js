@@ -21,14 +21,13 @@ rammController.controller('BubbleAddController', function($scope, $location, Bub
 		selectedRefs: [],
 	};
     $scope.addBubble = function () {
-    	if ($scope.bubble.content.length > 0) {
+    	if ($scope.newBubble.content.length > 0) {
 	    	$scope.updateFocus = true;
-	    	Bubble.save($scope.newBubble, function (response) {
-	    		//$scope.newBubble.id = response.id;
-	    		$scope.contents.push($scope.newBubble);
-	    		$scope.updateFocus = false;
-	    		document.getElementById('bubble.content').value ='';
-	        });
+			var bubble = new Bubble({content: $scope.newBubble.content});
+			bubble.$save();
+			$scope.contents.push(bubble);
+	    	$scope.updateFocus = false;
+	    	document.getElementById('bubble.content').value ='';
     	} else {
     		alert('Please type at least one word for saving the bubble.')
     	}
@@ -42,13 +41,13 @@ rammController.controller('BubbleAddController', function($scope, $location, Bub
     	if (bubbles !== undefined && bubbles.length > 0) {
     		// Store bubble content identifiers.
     		for (var i = 0; i < bubbles.length; ++i) {
-    			note.bubbles.push(bubbles[i].id);
+    			note.bubbles.push({id: bubbles[i].id});
     		}
     		var selectedRefs = $scope.selection.selectedRefs;
     		if (selectedRefs !== undefined) {
     			// Store references identifiers.
 	    		for (var i = 0; i < selectedRefs.length; ++i) {
-	    			note.references.push(selectedRefs[i].id);
+	    			note.references.push({id: selectedRefs[i].id});
 	    		}
     		}
     		// Save note.
