@@ -32,10 +32,10 @@ public class ReferenceController {
 	private ReferenceRepository referenceService;
 
 	@RequestMapping(method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void create(@RequestBody final Reference ref) {
+	@ResponseBody
+	public Reference create(@RequestBody final Reference ref) {
 		logger.debug("Calling ReferenceController::create() with keyword '{}'.", ref.getKeyword());
-		referenceService.insert(ref);
+		return referenceService.insert(ref);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

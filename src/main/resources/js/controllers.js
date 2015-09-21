@@ -13,20 +13,21 @@ rammController.controller('BubbleController', function($scope, ngDialog) {
 })
 
 rammController.controller('BubbleAddController', function($scope, $location, Bubble, Reference, Note) {
+	$scope.newBubble = {};
 	$scope.refs = Reference.query();
 	$scope.updateFocus = false;
 	$scope.contents = [];
 	$scope.selection = {
-			selectedRefs: [],
+		selectedRefs: [],
 	};
     $scope.addBubble = function () {
     	if ($scope.bubble.content.length > 0) {
 	    	$scope.updateFocus = true;
-	    	Bubble.save($scope.bubble, function (response) {
-	    		document.getElementById('bubble.content').value ='';
-	    		$scope.bubble.id = response.id;
-	    		$scope.contents.push($scope.bubble);
+	    	Bubble.save($scope.newBubble, function (response) {
+	    		//$scope.newBubble.id = response.id;
+	    		$scope.contents.push($scope.newBubble);
 	    		$scope.updateFocus = false;
+	    		document.getElementById('bubble.content').value ='';
 	        });
     	} else {
     		alert('Please type at least one word for saving the bubble.')
@@ -73,9 +74,13 @@ rammController.controller('ManageReferenceController', function($scope, Referenc
 		$scope.selectedRef = $scope.references[0];
 	}
 	$scope.createRef = function () {
-		Reference.save($scope.newRef);
+		Reference.save($scope.newRef, function(newRef) {
+			$scope.references.push(newRef);
+		});
 	}
-	$scope.deleteRef = function (id) {
-		Reference.remove(id);
+	$scope.deleteRef = function (id, index) {
+		Reference.remove(id, function() {
+			$scope.references.splice(index, 1);
+		});
 	}
 });

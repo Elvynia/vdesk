@@ -1,7 +1,7 @@
 <div>
     <h1>New Bubbles : </h1>
     <div id="contents" ng-show="contents.length > 0">
-    	<p ng-repeat="bubble in contents track by $index">{{bubble.content}}</p>
+    	<p ng-repeat="typed in contents track by $index">{{typed.content}}</p>
     </div>
     <form>
     	<label for="reference">References :</label>
@@ -13,7 +13,7 @@
 		</ui-select>
         <label for="bubble.content">Text content :</label>
         <textarea id="bubble.content"
-        	ng-model="bubble.content"
+        	ng-model="newBubble.content"
         	focus-if="updateFocus"
         	style="width:100%">
         </textarea>

@@ -3,7 +3,7 @@
 	    <ul>
 	   		<li id="reference-{{ref.id}}" ng-repeat="ref in references">
 	   			{{ref.keyword}}
-		   		<img src="images/delete.jpg" class="deleteBtn" ng-click="deleteRef(ref);" />
+		   		<img src="images/delete.jpg" class="deleteBtn" ng-click="deleteRef(ref, $index);" />
 	   		</li>
 	   	</ul>
    	</div>
