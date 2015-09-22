@@ -2,7 +2,7 @@
 
 var rammController = angular.module('rammController', ['ngRoute', 'rammService', 'ui.select', 'cfp.hotkeys']);
 
-rammController.controller('BubbleController', function($scope, ngDialog) {
+rammController.controller('ViewController', function($scope, ngDialog) {
 	$scope.addForm = function () {
 		ngDialog.open({
 			template: 'views/bubble-add.html',
@@ -53,18 +53,49 @@ rammController.controller('BubbleAddController', function($scope, $location, Bub
     		// Save note.
     		console.debug('Saving note...');
     		Note.save(note);
+			$rootScope.$broadcast('reloadNotes');
     	} else {
     		alert('Please type at least one comment for saving the note.')
     	}
     }
 });
 
-rammController.controller('BubbleViewController', function($scope, Note) {
+rammController.controller('NoteViewController', function($scope, Note) {
 	$scope.notes = Note.query();
+	$scope.printRefs = function(references) {
+		var strRefs = references[0].keyword;
+		for (var i=1; i < references.length; ++i) {
+			strRefs = strRefs.concat(' - ').concat(references[i].keyword);
+		}
+		return strRefs;
+	}
+	$scope.$on('reloadNotes', function() {
+		$scope.notes = Note.query();
+	});
 });
 
-rammController.controller('BubbleListController', function($scope, Bubble) {
+rammController.controller('ManageNoteController', function($scope, Note) {
+	$scope.notes = Note.query();
+	$scope.deleteNote = function(note, index) {
+		Note.remove(note, function() {
+			$scope.notes.splice(index, 1);
+		});
+	};
+});
+
+rammController.controller('ManageBubbleController', function($scope, Bubble) {
 	$scope.bubbles = Bubble.query();
+	$scope.updateFocus = false;
+	$scope.edition = {};
+	$scope.editBubble = function(bubble, index) {
+		$scope.updateFocus = true;
+		$scope.edition = bubble;
+	}
+	$scope.saveEdition = function() {
+		$scope.updateFocus = false;
+		Bubble.save($scope.edition);
+		$scope.edition = {};
+	};
 });
 
 rammController.controller('ManageReferenceController', function($scope, Reference) {
@@ -77,8 +108,8 @@ rammController.controller('ManageReferenceController', function($scope, Referenc
 			$scope.references.push(newRef);
 		});
 	}
-	$scope.deleteRef = function (id, index) {
-		Reference.remove(id, function() {
+	$scope.deleteRef = function (ref, index) {
+		Reference.remove(ref, function() {
 			$scope.references.splice(index, 1);
 		});
 	}

@@ -34,9 +34,14 @@ public class BubbleController {
 
 	@RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Bubble create(@RequestBody final Bubble bubble) {
-		logger.debug("Calling BubbleController::create() with content '{}'.", bubble.getContent());
-		return bubbleService.insert(bubble);
+	public Bubble save(@RequestBody final Bubble bubble) {
+		if (bubble.getId() == null || bubble.getId().isEmpty()) {
+			logger.debug("Calling BubbleController::create() with content '{}'.", bubble.getContent());
+			return bubbleService.insert(bubble);
+		} else {
+			logger.debug("Calling BubbleController::save() with id {} and new content '{}'.", bubble.getId(), bubble.getContent());
+			return bubbleService.save(bubble);
+		}
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

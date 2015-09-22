@@ -4,9 +4,9 @@ var app = angular.module('rammApp', ['rammController', 'focus-if', 'ngDialog', '
 
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
-            when('/bubble/view', {templateUrl:'views/bubble-view.html', controller:'BubbleViewController'}).
-            when('/bubble/list', {templateUrl:'views/bubble-list.html', controller:'BubbleListController'}).
+            when('/view', {templateUrl:'views/bubble-view.html', controller:'NoteViewController'}).
+            when('/manage/note', {templateUrl:'views/manage-note.html', controller:'ManageNoteController'}).
             when('/manage/reference', {templateUrl:'views/manage-reference.html', controller:'ManageReferenceController'}).
             when('/manage/bubble', {templateUrl:'views/manage-bubble.html', controller:'ManageBubbleController'}).
-            otherwise({redirectTo:'/bubble/view'});
+            otherwise({redirectTo:'/view'});
 }]);
