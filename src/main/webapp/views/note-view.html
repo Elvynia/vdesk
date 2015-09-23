@@ -1,0 +1,10 @@
+<div id="bubbleView">
+	<div ng-repeat="circle in memoryMap.circles track by $index" id="memory-{{circle.reference.id}}" class="circle"
+	style="left: {{circle.centerX - circle.diameter / 2}}px; top: {{circle.centerY - circle.diameter / 2}}px; width: {{circle.diameter}}px; height: {{circle.diameter}}px; background: {{circle.color}} none repeat scroll 0 0">
+	
+	</div>
+    <div ng-repeat="square in memoryMap.squares track by $index" class="note" id="memory-{{square.note.id}}" style="position: absolute; left: {{square.posX}}px; top: {{square.posY}}px">
+    	<h1>{{printRefs(square.memory.references)}}</h1>
+    	<p ng-repeat="bubble in square.memory.bubbles">{{bubble.content}}</p>
+    </div>
+</div>

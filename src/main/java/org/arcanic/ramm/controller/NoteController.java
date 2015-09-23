@@ -56,5 +56,11 @@ public class NoteController {
 		logger.debug("Calling NoteController::list()");
 		return noteService.findAll();
 	}
+	
+	@RequestMapping(value = "view", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
+	public @ResponseBody List<Note> noteView() {
+		logger.debug("Calling NoteController::noteView()");
+		return noteService.findAll();
+	}
 
 }

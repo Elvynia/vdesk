@@ -60,8 +60,11 @@ rammController.controller('BubbleAddController', function($scope, $location, Bub
     }
 });
 
-rammController.controller('NoteViewController', function($scope, Note) {
-	$scope.notes = Note.query();
+rammController.controller('NoteViewController', function($scope, $window, Memory) {
+	$scope.memoryMap = new Memory({
+		screenX: $window.innerWidth,
+		screenY: $window.innerHeight
+	});
 	$scope.printRefs = function(references) {
 		var strRefs = references[0].keyword;
 		for (var i=1; i < references.length; ++i) {
@@ -69,8 +72,9 @@ rammController.controller('NoteViewController', function($scope, Note) {
 		}
 		return strRefs;
 	}
+	$scope.memoryMap.$query();
 	$scope.$on('reloadNotes', function() {
-		$scope.notes = Note.query();
+		$scope.memoryMap = Memory.query();
 	});
 });
 

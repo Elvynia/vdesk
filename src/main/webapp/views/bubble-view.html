@@ -1,6 +1,0 @@
-<div id="bubbleView">
-    <div ng-repeat="note in notes track by $index" class="note" id="note-{{note.id}}">
-    	<h1>{{printRefs(note.references)}}</h1>
-    	<p ng-repeat="bubble in note.bubbles">{{bubble.content}}</p>
-    </div>
-</div>

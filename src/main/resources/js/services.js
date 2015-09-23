@@ -13,3 +13,16 @@ rammService.factory('Reference', function ($resource) {
 rammService.factory('Note', function ($resource) {
 	return $resource('spring/note/:id');
 });
+
+rammService.factory('Memory', function ($resource) {
+	return $resource('spring/memory/:id', {}, {
+		query: {
+			method: 'POST',
+			isArray: false,
+			params: {
+				screenX: '@screenX',
+				screenY: '@screenY'
+			},
+		}
+	});
+});
