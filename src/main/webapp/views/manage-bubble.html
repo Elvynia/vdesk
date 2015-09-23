@@ -1,0 +1,19 @@
+<div id="manageBubble">
+	<div class="leftPanel">
+	   	<ul>
+	   		<li id="bubble-{{bubble.id}}" ng-repeat="bubble in bubbles">
+	   			{{bubble.content}}
+	   			<img src="images/edit.png" class="iconBtn" ng-click="editBubble(bubble, $index);" />
+	   		</li>
+	   	</ul>
+	</div>
+	<div class="rightPanel">
+		<label for="bubble.content">Text content :</label>
+        <textarea id="bubble.content"
+        	ng-model="edition.content"
+        	focus-if="updateFocus"
+        	style="width:100%">
+        </textarea>
+        <button ng-click="saveEdition()">Save</button>
+	</div>
+</div>

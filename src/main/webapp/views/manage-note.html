@@ -1,0 +1,10 @@
+<div id="manageNotes">
+    <div class="leftPanel">
+	    <ul>
+	   		<li id="note-{{note.id}}" ng-repeat="note in notes">
+	   			<span ng-repeat="bubble in note.bubbles">{{bubble.content}}<span ng-show="!$last"> / </span></span>
+		   		<img src="images/delete.jpg" class="iconBtn" ng-click="deleteNote(note, $index);" />
+	   		</li>
+	   	</ul>
+   	</div>
+</div>
