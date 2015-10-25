@@ -25,7 +25,14 @@
 }
 
 #pageHeader {
-	text-align: center;
+	left: 40%;
+    position: fixed;
+    text-align: center;
+    top: 0;
+}
+
+#pageBody {
+	margin: 5%;
 }
 
 .iconBtn {
@@ -34,15 +41,14 @@
 }
 
 .note {
-	border: 2px solid red;
+	mix-blend-mode: multiply;
+	border: 2px solid black;
+	background-color: lightgray;
 	margin: 5px;
 }
 
-#pageBody {
-	margin: 5%;
-}
-
 .circle {
+	mix-blend-mode: multiply;
 	position: absolute;
 	border-radius: 50%;
 	display: inline-block;

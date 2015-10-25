@@ -65,13 +65,6 @@ rammController.controller('NoteViewController', function($scope, $window, Memory
 		screenX: $window.innerWidth,
 		screenY: $window.innerHeight
 	});
-	$scope.printRefs = function(references) {
-		var strRefs = references[0].keyword;
-		for (var i=1; i < references.length; ++i) {
-			strRefs = strRefs.concat(' - ').concat(references[i].keyword);
-		}
-		return strRefs;
-	}
 	$scope.memoryMap.$query();
 	$scope.$on('reloadNotes', function() {
 		$scope.memoryMap = Memory.query();
