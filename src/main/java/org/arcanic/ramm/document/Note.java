@@ -2,6 +2,7 @@ package org.arcanic.ramm.document;
 
 import java.util.List;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -28,8 +29,8 @@ public class Note {
 	/**
 	 * References attached to this note.
 	 */
-	@DBRef
-	private List<Reference> references;
+	@Transient
+	private transient List<Reference> references;
 
 	/**
 	 * @return the bubbles

@@ -3,6 +3,9 @@ package org.arcanic.ramm.controller;
 import java.util.List;
 
 import org.arcanic.ramm.document.Note;
+import org.arcanic.ramm.document.NoteRef;
+import org.arcanic.ramm.document.Reference;
+import org.arcanic.ramm.repository.NoteRefRepository;
 import org.arcanic.ramm.repository.NoteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +32,9 @@ public class NoteController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
+	private NoteRefRepository noteRefService;
+
+	@Autowired
 	private NoteRepository noteService;
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -36,6 +42,14 @@ public class NoteController {
 	public void create(@RequestBody final Note note) {
 		logger.debug("Calling NoteController::create()");
 		noteService.insert(note);
+		if (note.getReferences() != null) {
+			for (final Reference reference : note.getReferences()) {
+				final NoteRef noteRef = new NoteRef();
+				noteRef.setNote(note);
+				noteRef.setReference(reference);
+				noteRefService.insert(noteRef);
+			}
+		}
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -56,11 +70,12 @@ public class NoteController {
 		logger.debug("Calling NoteController::list()");
 		return noteService.findAll();
 	}
-	
-	@RequestMapping(value = "view", method = RequestMethod.GET, headers = "Accept=application/json", produces = "application/json")
-	public @ResponseBody List<Note> noteView() {
-		logger.debug("Calling NoteController::noteView()");
-		return noteService.findAll();
-	}
+
+	// @RequestMapping(value = "view", method = RequestMethod.GET, headers =
+	// "Accept=application/json", produces = "application/json")
+	// public @ResponseBody List<Note> noteView() {
+	// logger.debug("Calling NoteController::noteView()");
+	// return noteService.findAll();
+	// }
 
 }
