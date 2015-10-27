@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.arcanic.ramm.document.Note;
 import org.arcanic.ramm.document.NoteRef;
 import org.arcanic.ramm.document.Reference;
 import org.arcanic.ramm.repository.NoteRefRepository;
@@ -22,19 +23,22 @@ public class SortService {
 		final List<Reference> references = referenceService.findAll();
 		for (final Reference reference : references) {
 			final SortedReference sortedRef = new SortedReference(reference);
-			// Fill notes.
+			// Fill notes and retrieve other references linked to each note.
 			final List<NoteRef> noteRefs = noteRefService.findByReference(reference);
-			final List<Reference> linkedRefs = new ArrayList<Reference>();
+			final List<Reference> otherRefs = new ArrayList<Reference>();
 			for (final NoteRef noteRef : noteRefs) {
-				sortedRef.getNotes().add(noteRef.getNote());
-				// TODO : If note has other references add them to linkedRefs.
-				// if (!linkedRefs.contains(noteRef.getReference())) {
-				// linkedRefs.add(noteRef.getReference());
-				// }
+				final Note note = noteRef.getNote();
+				sortedRef.getNotes().add(note);
+				final List<NoteRef> otherNoteRefs = noteRefService.findByNote(note, noteRef.getReference().getId());
+				for (final NoteRef otherNoteRef : otherNoteRefs) {
+					if (!otherRefs.contains(otherNoteRef.getReference())) {
+						otherRefs.add(otherNoteRef.getReference());
+					}
+				}
 			}
 			// Check sort type : none, inclusive or connected.
-			for (final Reference linkedRef : linkedRefs) {
-				// final int noteCount =
+			for (final Reference otherRef : otherRefs) {
+				final int noteCount = noteRefService.countByReferenceId(otherRef);
 			}
 			sortMap.put(sortedRef.getId(), sortedRef);
 		}

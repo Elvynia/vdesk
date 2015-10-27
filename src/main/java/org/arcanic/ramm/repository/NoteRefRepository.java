@@ -16,4 +16,6 @@ public interface NoteRefRepository extends MongoRepository<NoteRef, Long> {
 	List<NoteRef> findByNote(final Note note, final String referenceId);
 
 	List<NoteRef> findByReference(final Reference reference);
+	
+	int countByReferenceId(final Reference reference);
 }
