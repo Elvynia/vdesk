@@ -4,3 +4,5 @@
 .project
 /node_modules
 /bower_components
+/src/main/webapp/js
+/src/main/webapp/css
