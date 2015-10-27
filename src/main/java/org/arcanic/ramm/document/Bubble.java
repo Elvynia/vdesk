@@ -1,7 +1,5 @@
 package org.arcanic.ramm.document;
 
-import java.util.Objects;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -50,14 +48,30 @@ public class Bubble {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Equals based on bubble identifier.
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-		if (Bubble.class.isAssignableFrom(obj.getClass())) {
-			return obj.hashCode() == hashCode();
+		if (this == obj) {
+			return true;
 		}
-		return super.equals(obj);
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Bubble other = (Bubble) obj;
+		if (id == null) {
+			if (other.id != null) {
+				return false;
+			}
+		} else if (!id.equals(other.id)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -75,11 +89,16 @@ public class Bubble {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Hash code based on bubble identifier.
+	 *
+	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(content);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (id == null ? 0 : id.hashCode());
+		return result;
 	}
 
 	/**

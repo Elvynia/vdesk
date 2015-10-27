@@ -29,6 +29,29 @@ public class NoteRef {
 	@DBRef
 	private Reference reference;
 
+	/**
+	 * Equals based on noteRef identifier.
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final NoteRef other = (NoteRef) obj;
+		if (id != other.id) {
+			return false;
+		}
+		return true;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -45,6 +68,19 @@ public class NoteRef {
 	 */
 	public Reference getReference() {
 		return reference;
+	}
+
+	/**
+	 * Hashcode based on noteRef identifier.
+	 *
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ id >>> 32);
+		return result;
 	}
 
 	public void setId(final long id) {
