@@ -1,5 +1,6 @@
 package org.arcanic.ramm.sort;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.arcanic.ramm.document.Reference;
@@ -21,6 +22,20 @@ public class InclusiveReference extends SortedReference {
 	 */
 	public InclusiveReference(final Reference reference) {
 		super(reference);
+		setParents(new ArrayList<>());
+		setNotes(new ArrayList<>());
+	}
+
+	/**
+	 * Default constructor.
+	 *
+	 * @param reference for id, keyword and notes.
+	 */
+	public InclusiveReference(final SortedReference reference) {
+		super(reference);
+		setParents(new ArrayList<>());
+		setNotes(new ArrayList<>());
+		getNotes().addAll(reference.getNotes());
 	}
 
 	/**
