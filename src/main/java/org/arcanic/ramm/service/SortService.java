@@ -1,8 +1,10 @@
 package org.arcanic.ramm.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.arcanic.ramm.compare.SortedReferenceComparator;
 import org.arcanic.ramm.document.Note;
 import org.arcanic.ramm.document.NoteRef;
 import org.arcanic.ramm.document.Reference;
@@ -61,6 +63,9 @@ public class SortService {
 			}
 			sortedRefs.add(sortedRef);
 		}
+		// Now sort list by noteCount.
+		// FIXME: Also sort by siblingCount, parentCount ?
+		Collections.sort(sortedRefs, new SortedReferenceComparator());
 		return sortedRefs;
 	}
 }

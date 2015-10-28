@@ -30,7 +30,9 @@ public class MemoryService {
 	 *         with circle and square memories.
 	 */
 	public MemoryMap generateReferenceMap(final MemoryMap map, final List<Reference> references) {
-
+		float originX = map.getScreenX() / 2;
+		float originY = map.getScreenY() / 2;
+		float originAngle = 0;
 		final float diagonal = (float) Math.sqrt(Math.pow(map.getScreenX(), 2) + Math.pow(map.getScreenY(), 2));
 		final Iterator<Reference> it = references.iterator();
 		// Sort references to order by reference count.
@@ -38,6 +40,8 @@ public class MemoryService {
 			final Reference reference = it.next();
 			final CircleMemory memory = new CircleMemory(reference);
 			memory.setDiameter(diagonal / 2);
+			memory.setCenterX(originX);
+			memory.setCenterY(originY);
 		}
 		return map;
 	}
