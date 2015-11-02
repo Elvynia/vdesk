@@ -10,6 +10,7 @@ import org.arcanic.ramm.document.Reference;
 import org.arcanic.ramm.memory.CircleMemory;
 import org.arcanic.ramm.memory.MemoryMap;
 import org.arcanic.ramm.memory.SquareMemory;
+import org.arcanic.ramm.sort.SortedReference;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +21,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MemoryService {
+	
+	/**
+	 * 
+	 */
+	private SortService sortService;
 
 	/**
 	 * Generate default memory map for note view.
@@ -29,19 +35,28 @@ public class MemoryService {
 	 * @return MemoryMap the same memory map instance as parameter but filled
 	 *         with circle and square memories.
 	 */
-	public MemoryMap generateReferenceMap(final MemoryMap map, final List<Reference> references) {
-		float originX = map.getScreenX() / 2;
-		float originY = map.getScreenY() / 2;
-		float originAngle = 0;
-		final float diagonal = (float) Math.sqrt(Math.pow(map.getScreenX(), 2) + Math.pow(map.getScreenY(), 2));
-		final Iterator<Reference> it = references.iterator();
+	public MemoryMap generateReferenceMap(final MemoryMap map) {
+		final float originX = map.getScreenX() / 2;
+		final float originY = map.getScreenY() / 2;
+		float x = originX;
+		float y = originY;
+		double angle = 0;
+//		final float diagonal = (float) Math.sqrt(Math.pow(map.getScreenX(), 2) + Math.pow(map.getScreenY(), 2));
+		final List<SortedReference> references = sortService.sortReferences();
+		final Iterator<SortedReference> it = references.iterator();
 		// Sort references to order by reference count.
 		while (map.getCircles().size() < references.size()) {
-			final Reference reference = it.next();
+			double noteAngle = 0;
+			final SortedReference reference = it.next();
 			final CircleMemory memory = new CircleMemory(reference);
-			memory.setDiameter(diagonal / 2);
-			memory.setCenterX(originX);
-			memory.setCenterY(originY);
+			memory.setRay(CircleMemory.UNIT_RAY_PX);
+			memory.setCenterX(x);
+			memory.setCenterY(y);
+			final double angleUnit = 2 * Math.PI / reference.getNotes().size(); 
+			for (final Note note : reference.getNotes()) {
+				
+				noteAngle += angleUnit;
+			}
 		}
 		return map;
 	}
@@ -74,7 +89,7 @@ public class MemoryService {
 		final CircleMemory cm1 = new CircleMemory(ref1);
 		cm1.setCenterX(250);
 		cm1.setCenterY(250);
-		cm1.setDiameter(700);
+		cm1.setRay(350);
 		cm1.setColor("#FFFF99");
 
 		final Reference ref2 = new Reference();
@@ -93,7 +108,7 @@ public class MemoryService {
 		final CircleMemory cm2 = new CircleMemory(ref2);
 		cm2.setCenterX(700);
 		cm2.setCenterY(700);
-		cm2.setDiameter(900);
+		cm2.setRay(450);
 		cm2.setColor("#66FF66");
 
 		final Note noteC = new Note();

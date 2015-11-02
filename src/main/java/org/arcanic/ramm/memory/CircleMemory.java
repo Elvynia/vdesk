@@ -9,6 +9,11 @@ import org.arcanic.ramm.document.Reference;
  *
  */
 public class CircleMemory implements Memory<Reference> {
+	
+	/**
+	 * Unit size for rays in circle memories.
+	 */
+	public static final int UNIT_RAY_PX = 200;
 
 	/**
 	 * Horizontal axis position of the center.
@@ -28,7 +33,7 @@ public class CircleMemory implements Memory<Reference> {
 	/**
 	 * Diameter of the circle.
 	 */
-	private float diameter;
+	private float ray;
 
 	/**
 	 * The reference holding memory data.
@@ -63,13 +68,6 @@ public class CircleMemory implements Memory<Reference> {
 	}
 
 	/**
-	 * @return the diameter
-	 */
-	public float getDiameter() {
-		return diameter;
-	}
-
-	/**
 	 * {@inheritDoc} Type : {@link Reference}.
 	 */
 	@Override
@@ -96,10 +94,17 @@ public class CircleMemory implements Memory<Reference> {
 	}
 
 	/**
-	 * @param diameter the diameter to set
+	 * @return the ray
 	 */
-	public void setDiameter(final float diameter) {
-		this.diameter = diameter;
+	public float getRay() {
+		return ray;
+	}
+
+	/**
+	 * @param ray the ray to set
+	 */
+	public void setRay(float ray) {
+		this.ray = ray;
 	}
 
 }

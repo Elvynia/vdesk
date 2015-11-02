@@ -1,7 +1,7 @@
 <div id="bubbleView">
 	<div ng-repeat="circle in memoryMap.circles track by $index" id="memory-{{circle.reference.id}}" class="circle"
-	style="left: {{circle.centerX - circle.diameter / 2}}px; top: {{circle.centerY - circle.diameter / 2}}px; width: {{circle.diameter}}px; height: {{circle.diameter}}px; background: {{circle.color}} none repeat scroll 0 0">
-		<div style="position: relative; left: {{circle.diameter / 2}}px; top: {{circle.diameter / 2}}px;">
+	style="left: {{circle.centerX - circle.ray}}px; top: {{circle.centerY - circle.ray}}px; width: {{circle.ray * 2}}px; height: {{circle.ray * 2}}px; background: {{circle.color}} none repeat scroll 0 0">
+		<div style="position: relative; left: {{circle.ray}}px; top: {{circle.ray}}px;">
 			<h1>{{circle.memory.keyword}}</h1>
 		</div>
 	</div>
