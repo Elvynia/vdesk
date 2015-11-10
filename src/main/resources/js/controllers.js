@@ -62,8 +62,10 @@ rammController.controller('BubbleAddController', function($scope, $location, Bub
 
 rammController.controller('NoteViewController', function($scope, $window, Memory) {
 	$scope.memoryMap = new Memory({
-		screenX: $window.innerWidth,
-		screenY: $window.innerHeight
+		memoryLayout: {
+			screenX: $window.innerWidth,
+			screenY: $window.innerHeight
+		}
 	});
 	$scope.memoryMap.$query();
 	$scope.$on('reloadNotes', function() {
