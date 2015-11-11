@@ -2,13 +2,16 @@ package org.arcanic.ramm.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
+import org.arcanic.ramm.compare.NoteComparator;
 import org.arcanic.ramm.compare.SortedReferenceComparator;
 import org.arcanic.ramm.document.Note;
 import org.arcanic.ramm.document.NoteRef;
 import org.arcanic.ramm.document.Reference;
 import org.arcanic.ramm.repository.NoteRefRepository;
+import org.arcanic.ramm.repository.NoteRepository;
 import org.arcanic.ramm.repository.ReferenceRepository;
 import org.arcanic.ramm.sort.ConnectedReference;
 import org.arcanic.ramm.sort.InclusiveReference;
@@ -18,8 +21,40 @@ public class SortService {
 
 	private NoteRefRepository noteRefService;
 
+	private NoteRepository noteService;
+
 	private ReferenceRepository referenceService;
 
+	/**
+	 * Sorte notes by gathering their references to make a chain. Notes with the
+	 * most references in common are next to each others.
+	 *
+	 * @return List<Note> the notes sorted by reference count.
+	 */
+	public List<Note> sortNotes() {
+		final LinkedList<Note> notes = new LinkedList<>();
+		final List<Note> dbNotes = noteService.findAll();
+		for (final Note dbNote : dbNotes) {
+			dbNote.setReferences(new ArrayList<>());
+			final List<NoteRef> noteRefs = noteRefService.findByNote(dbNote);
+			for (final NoteRef noteRef : noteRefs) {
+				dbNote.getReferences().add(noteRef.getReference());
+			}
+			notes.add(dbNote);
+		}
+		// Sort notes in natural order by comparator.
+		Collections.sort(notes, new NoteComparator());
+		// Then reverse to have more important notes first.
+		Collections.reverse(notes);
+		return notes;
+	}
+
+	/**
+	 * Sort references by gathering the notes to identify their types
+	 * (connected, inclusive) and links.
+	 *
+	 * @return List<SortedReference> the reference sorted by note count.
+	 */
 	public List<SortedReference> sortReferences() {
 		final List<SortedReference> sortedRefs = new ArrayList<>();
 		final List<Reference> references = referenceService.findAll();

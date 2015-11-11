@@ -9,7 +9,12 @@ import org.arcanic.ramm.document.Reference;
  *
  */
 public class CircleMemory implements Memory<Reference> {
-	
+
+	/**
+	 * Unit count of notes in a circle memory.
+	 */
+	public static final int UNIT_CIRCLE_NOTE = 6;
+
 	/**
 	 * Unit size for rays in circle memories.
 	 */
@@ -76,6 +81,13 @@ public class CircleMemory implements Memory<Reference> {
 	}
 
 	/**
+	 * @return the ray
+	 */
+	public float getRay() {
+		return ray;
+	}
+
+	/**
 	 * @param centerX the centerX to set
 	 */
 	public void setCenterX(final float centerX) {
@@ -94,16 +106,9 @@ public class CircleMemory implements Memory<Reference> {
 	}
 
 	/**
-	 * @return the ray
-	 */
-	public float getRay() {
-		return ray;
-	}
-
-	/**
 	 * @param ray the ray to set
 	 */
-	public void setRay(float ray) {
+	public void setRay(final float ray) {
 		this.ray = ray;
 	}
 

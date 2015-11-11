@@ -15,6 +15,8 @@ public interface NoteRefRepository extends MongoRepository<NoteRef, Long> {
 	@Query("{'note.id' : {$in: ?1}}")
 	int countByReferenceId(final Reference reference, final List<String> noteIds);
 
+	List<NoteRef> findByNote(final Note note);
+
 	@Query("{'reference.id' : {$ne: ?1}}")
 	List<NoteRef> findByNote(final Note note, final String referenceId);
 

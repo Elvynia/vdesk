@@ -21,9 +21,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MemoryService {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private SortService sortService;
 
@@ -38,23 +38,28 @@ public class MemoryService {
 	public MemoryMap generateReferenceMap(final MemoryMap map) {
 		final float originX = map.getScreenX() / 2;
 		final float originY = map.getScreenY() / 2;
-		float x = originX;
-		float y = originY;
-		double angle = 0;
-//		final float diagonal = (float) Math.sqrt(Math.pow(map.getScreenX(), 2) + Math.pow(map.getScreenY(), 2));
+		final float refX = originX;
+		final float refY = originY;
+		final double angle = 0;
+		// final float diagonal = (float) Math.sqrt(Math.pow(map.getScreenX(),
+		// 2) + Math.pow(map.getScreenY(), 2));
 		final List<SortedReference> references = sortService.sortReferences();
 		final Iterator<SortedReference> it = references.iterator();
-		// Sort references to order by reference count.
+		// Create a circle memory for each reference.
 		while (map.getCircles().size() < references.size()) {
 			double noteAngle = 0;
 			final SortedReference reference = it.next();
-			final CircleMemory memory = new CircleMemory(reference);
-			memory.setRay(CircleMemory.UNIT_RAY_PX);
-			memory.setCenterX(x);
-			memory.setCenterY(y);
-			final double angleUnit = 2 * Math.PI / reference.getNotes().size(); 
+			final CircleMemory cm = new CircleMemory(reference);
+			cm.setRay(CircleMemory.UNIT_RAY_PX);
+			cm.setCenterX(refX);
+			cm.setCenterY(refY);
+			final double angleUnit = 2 * Math.PI / reference.getNotes().size();
+			// Place notes inside the reference.
 			for (final Note note : reference.getNotes()) {
-				
+				final SquareMemory sm = new SquareMemory(note);
+
+				// sm.setPosX(noteX);
+				// sm.setPosY(noteY);
 				noteAngle += angleUnit;
 			}
 		}
