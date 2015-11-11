@@ -18,19 +18,14 @@ public class MemoryMap {
 	private List<CircleMemory> circles;
 
 	/**
-	 * Horizontal screen size.
-	 */
-	private float screenX;
-
-	/**
-	 * Vertical screen size.
-	 */
-	private float screenY;
-
-	/**
 	 * List of notes memories.
 	 */
 	private List<SquareMemory> squares;
+	
+	/**
+	 * Layout with all limit values.
+	 */
+	private MemoryLayout memoryLayout;
 
 	/**
 	 * Default constructor with new array instances.
@@ -47,14 +42,6 @@ public class MemoryMap {
 		return circles;
 	}
 
-	public float getScreenX() {
-		return screenX;
-	}
-
-	public float getScreenY() {
-		return screenY;
-	}
-
 	/**
 	 * @return the squares
 	 */
@@ -69,18 +56,24 @@ public class MemoryMap {
 		this.circles = circles;
 	}
 
-	public void setScreenX(final float screenX) {
-		this.screenX = screenX;
-	}
-
-	public void setScreenY(final float screenY) {
-		this.screenY = screenY;
-	}
-
 	/**
 	 * @param squares the squares to set
 	 */
 	public void setSquares(final List<SquareMemory> squares) {
 		this.squares = squares;
+	}
+
+	/**
+	 * @return the memoryLayout
+	 */
+	public MemoryLayout getMemoryLayout() {
+		return memoryLayout;
+	}
+
+	/**
+	 * @param memoryLayout the memoryLayout to set
+	 */
+	public void setMemoryLayout(MemoryLayout memoryLayout) {
+		this.memoryLayout = memoryLayout;
 	}
 }

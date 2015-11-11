@@ -36,8 +36,8 @@ public class MemoryService {
 	 *         with circle and square memories.
 	 */
 	public MemoryMap generateReferenceMap(final MemoryMap map) {
-		final float originX = map.getScreenX() / 2;
-		final float originY = map.getScreenY() / 2;
+		final float originX = map.getMemoryLayout().getScreenX() / 2;
+		final float originY = map.getMemoryLayout().getScreenY() / 2;
 		final float refX = originX;
 		final float refY = originY;
 		final double angle = 0;
