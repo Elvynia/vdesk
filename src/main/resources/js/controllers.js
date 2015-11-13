@@ -116,10 +116,13 @@ rammController.controller('ManageReferenceController', function($scope, Referenc
 
 rammController.controller('MathDemoController', function($scope, Math) {
 	$scope.noteCount = 6;
-	$scope.absolute = false;
+	$scope.fixed = false;
 	
-	$scope.processDemo = function() {
-		$scope.mathDemo = new Math({noteCount: $scope.noteCount, absolute: $scope.absolute});
+	$scope.processDemo = function(apply) {
+		$scope.mathDemo = new Math({noteCount: $scope.noteCount, fixed: $scope.fixed});
 		$scope.mathDemo = Math.demo($scope.mathDemo);
+		if (apply) {
+			$scope.$apply();
+		}
 	};
 });

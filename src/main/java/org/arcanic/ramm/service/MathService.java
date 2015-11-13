@@ -28,6 +28,10 @@ public class MathService {
 			final Node node = new Node();
 			node.setX(Math.round(Math.cos(circleDemo.getAlpha() * i) * circleDemo.getRay()));
 			node.setY(Math.round(Math.sin(circleDemo.getAlpha() * i) * circleDemo.getRay()));
+			if (circleDemo.isFixed()) {
+				node.setX(node.getX() + circleDemo.getCenter().getX());
+				node.setY(node.getY() + circleDemo.getCenter().getY());
+			}
 			circleDemo.getNotes().add(node);
 		}
 		return circleDemo;

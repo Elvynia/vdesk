@@ -12,11 +12,6 @@ import java.util.List;
 public class CircleDemo {
 
 	/**
-	 * Whether positions are absolute.
-	 */
-	private boolean absolute;
-
-	/**
 	 * Angle between notes.
 	 */
 	private double alpha;
@@ -25,6 +20,11 @@ public class CircleDemo {
 	 * Center position of the circle.
 	 */
 	private Node center;
+
+	/**
+	 * Whether positions are absolute.
+	 */
+	private boolean fixed;
 
 	/**
 	 * Number of notes on the circle.
@@ -80,18 +80,8 @@ public class CircleDemo {
 		return ray;
 	}
 
-	/**
-	 * @return the absolute
-	 */
-	public boolean isAbsolute() {
-		return absolute;
-	}
-
-	/**
-	 * @param absolute the absolute to set
-	 */
-	public void setAbsolute(final boolean absolute) {
-		this.absolute = absolute;
+	public boolean isFixed() {
+		return fixed;
 	}
 
 	/**
@@ -106,6 +96,10 @@ public class CircleDemo {
 	 */
 	public void setCenter(final Node center) {
 		this.center = center;
+	}
+
+	public void setFixed(final boolean fixed) {
+		this.fixed = fixed;
 	}
 
 	/**

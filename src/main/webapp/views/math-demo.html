@@ -1,9 +1,9 @@
 <div id="mathDemo">
-	<div class="circle" style="left: {{mathDemo.center.x - mathDemo.ray}}px;top: {{mathDemo.center.y - mathDemo.ray}}px;width: {{mathDemo.ray * 2}}px;height: {{mathDemo.ray * 2}}px;background: #99ff99 none repeat scroll 0 0;">
-		<div class="node" style="left: {{mathDemo.ray - 5}}px;top: {{mathDemo.ray - 5}}px;"/>
-		<div ng-repeat="note in mathDemo.notes" class="node" style="left: {{note.x + mathDemo.ray - 5}}px;top: {{note.y + mathDemo.ray - 5}}px;" />
+	<div class="circle" style="left: {{mathDemo.center.x - mathDemo.ray}}px;top: {{mathDemo.center.y - mathDemo.ray}}px;width: {{mathDemo.ray * 2}}px;height: {{mathDemo.ray * 2}}px;background: #99ff99 none repeat scroll 0 0;" />
+	<div class="node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{mathDemo.center.x - 5}}px;top: {{mathDemo.center.y - 5}}px;">
+		<div ng-repeat="note in mathDemo.notes" class="node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{note.x - 5}}px;top: {{note.y - 5}}px;" />
 	</div>
-	<input ng-model="absolute" type="checkbox" />
-	<input ng-model="noteCount" length="2"></input>
-	<button ng-click="processDemo();">Process</button>
+	<input ng-model="fixed" type="checkbox" /> Fixed positions
+	<input ng-model="noteCount" size="2"></input>
+	<button ng-click="processDemo(false);">Process</button>
 </div>

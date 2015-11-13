@@ -34,7 +34,7 @@ rammService.factory('Math', function ($resource) {
 			isArray: false,
 			params: {
 				noteCount: '@noteCount',
-				absolute: '@absolute'
+				fixed: '@fixed'
 			}
 		}
 	});

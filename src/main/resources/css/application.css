@@ -35,6 +35,14 @@
 	margin: 5%;
 }
 
+.pAbsolute {
+	position: absolute;
+}
+
+.pFixed {
+	position: fixed;
+}
+
 .iconBtn {
 	width: 1em;
 	display: inline-block;
@@ -49,14 +57,13 @@
 
 .circle {
 	mix-blend-mode: multiply;
-	position: absolute;
+	position: fixed;
 	border-radius: 50%;
 	display: inline-block;
 	margin-right: 20px;
 }
 
 .node {
-	position: relative;
 	border-radius: 50%;
 	display: inline-block;
 	width: 10px;
