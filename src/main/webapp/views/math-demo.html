@@ -1,0 +1,9 @@
+<div id="mathDemo">
+	<div class="circle" style="left: {{mathDemo.center.x}};top: {{mathDemo.center.y}};width: {{mathDemo.ray * 2}};height: {{mathDemo.ray * 2}};background: grey none repeat scroll 0 0;">
+		<div class="node" style="left: {{mathDemo.center.x}};top: {{mathDemo.center.y}};"/>
+	</div>
+	<div ng-repeat="note in mathDemo.notes" class="node" style="left: {{note.x}};top: {{note.y}};" />
+	<input ng-model="absolute" type="checkbox" />
+	<input ng-model="noteCount" length="2"></input>
+	<button ng-click="processDemo();">Process</button>
+</div>

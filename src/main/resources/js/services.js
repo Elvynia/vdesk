@@ -26,3 +26,16 @@ rammService.factory('Memory', function ($resource) {
 		}
 	});
 });
+
+rammService.factory('Math', function ($resource) {
+	return $resource('spring/math', {}, {
+		demo: {
+			method: 'POST',
+			isArray: false,
+			params: {
+				noteCount: '@noteCount',
+				absolute: '@absolute'
+			}
+		}
+	});
+})

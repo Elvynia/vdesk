@@ -54,3 +54,12 @@
 	display: inline-block;
 	margin-right: 20px;
 }
+
+.node {
+	position: relative;
+	border-radius: 50%;
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	background: black none repeat scroll 0 0;
+}

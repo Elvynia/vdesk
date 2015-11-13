@@ -8,5 +8,6 @@ app.config(['$routeProvider', function ($routeProvider) {
             when('/manage/note', {templateUrl:'views/manage-note.html', controller:'ManageNoteController'}).
             when('/manage/reference', {templateUrl:'views/manage-reference.html', controller:'ManageReferenceController'}).
             when('/manage/bubble', {templateUrl:'views/manage-bubble.html', controller:'ManageBubbleController'}).
+			when('/math/demo', {templateUrl:'views/math-demo.html', controller:'MathDemoController'}).
             otherwise({redirectTo:'/view'});
 }]);
