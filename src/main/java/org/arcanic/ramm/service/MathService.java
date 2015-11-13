@@ -21,15 +21,13 @@ public class MathService {
 	 * @return CircleDemo the demo with positions and size.
 	 */
 	public CircleDemo processCircleDemo(final CircleDemo circleDemo) {
-		final double originAngle = 2 * Math.PI / circleDemo.getNoteCount();
-		circleDemo.setAlpha(originAngle);
+		circleDemo.setAlpha(2 * Math.PI / circleDemo.getNoteCount());
 		circleDemo.setRay(CircleMemory.UNIT_RAY_PX);
 		circleDemo.setCenter(new Node(1080, 520));
 		for (int i = 0; i < circleDemo.getNoteCount(); ++i) {
 			final Node node = new Node();
-			node.setX(Math.cos(circleDemo.getAlpha()) * circleDemo.getRay());
-			node.setY(Math.sin(circleDemo.getAlpha()) * circleDemo.getRay());
-			circleDemo.setAlpha(circleDemo.getAlpha() + originAngle);
+			node.setX(Math.round(Math.cos(circleDemo.getAlpha() * i) * circleDemo.getRay()));
+			node.setY(Math.round(Math.sin(circleDemo.getAlpha() * i) * circleDemo.getRay()));
 			circleDemo.getNotes().add(node);
 		}
 		return circleDemo;
