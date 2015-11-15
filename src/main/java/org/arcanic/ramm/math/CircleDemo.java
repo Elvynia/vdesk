@@ -27,6 +27,11 @@ public class CircleDemo {
 	private boolean fixed;
 
 	/**
+	 * Whether the angle valued and fixed.
+	 */
+	private boolean fixedAngle;
+
+	/**
 	 * Number of notes on the circle.
 	 */
 	private int noteCount;
@@ -121,5 +126,19 @@ public class CircleDemo {
 	 */
 	public void setRay(final double ray) {
 		this.ray = ray;
+	}
+
+	/**
+	 * @return the fixedAngle
+	 */
+	public boolean isFixedAngle() {
+		return fixedAngle;
+	}
+
+	/**
+	 * @param fixedAngle the fixedAngle to set
+	 */
+	public void setFixedAngle(boolean fixedAngle) {
+		this.fixedAngle = fixedAngle;
 	}
 }

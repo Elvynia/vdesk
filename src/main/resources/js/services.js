@@ -31,11 +31,7 @@ rammService.factory('Math', function ($resource) {
 	return $resource('spring/math', {}, {
 		demo: {
 			method: 'POST',
-			isArray: false,
-			params: {
-				noteCount: '@noteCount',
-				fixed: '@fixed'
-			}
+			isArray: false
 		}
 	});
 })

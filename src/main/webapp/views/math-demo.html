@@ -3,7 +3,17 @@
 	<div class="node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{mathDemo.center.x - 5}}px;top: {{mathDemo.center.y - 5}}px;">
 		<div ng-repeat="note in mathDemo.notes" class="node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{note.x - 5}}px;top: {{note.y - 5}}px;" />
 	</div>
-	<input ng-model="fixed" type="checkbox" /> Fixed positions
-	<input ng-model="noteCount" size="2"></input>
-	<button ng-click="processDemo(false);">Process</button>
+	<div style="float: left">
+		Notes : <input ng-model="mathDemo.noteCount" size="2"/>
+		<br />
+		Fixed positions : <input ng-model="mathDemo.fixed" type="checkbox" />
+		<br />
+		Fixed angle : <input ng-model="mathDemo.fixedAngle" type="checkbox" />
+		<br />
+		Angle : <img src="http://3.14inthesky.com/images/pi.png" width="12" height="12" /> / <input ng-model="mathDemo.alpha" ng-show="mathDemo.fixedAngle" />
+		<br />
+		Ray : <input ng-model="mathDemo.ray" />
+		<br />
+		<button ng-click="processDemo(false);">Process</button>
+	</div>
 </div>

@@ -21,8 +21,15 @@ public class MathService {
 	 * @return CircleDemo the demo with positions and size.
 	 */
 	public CircleDemo processCircleDemo(final CircleDemo circleDemo) {
-		circleDemo.setAlpha(2 * Math.PI / circleDemo.getNoteCount());
-		circleDemo.setRay(CircleMemory.UNIT_RAY_PX);
+		if (circleDemo.isFixedAngle()) {
+			circleDemo.setFixedAngle(true);
+			circleDemo.setAlpha(Math.PI / circleDemo.getAlpha());
+		} else {
+			circleDemo.setAlpha(2 * Math.PI / circleDemo.getNoteCount());
+		}
+		if (circleDemo.getRay() <= 0) {
+			circleDemo.setRay(CircleMemory.UNIT_RAY_PX);
+		}
 		circleDemo.setCenter(new Node(1080, 520));
 		for (int i = 0; i < circleDemo.getNoteCount(); ++i) {
 			final Node node = new Node();
@@ -34,6 +41,7 @@ public class MathService {
 			}
 			circleDemo.getNotes().add(node);
 		}
+		circleDemo.setAlpha(Math.PI / circleDemo.getAlpha());
 		return circleDemo;
 	}
 }

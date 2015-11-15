@@ -115,14 +115,15 @@ rammController.controller('ManageReferenceController', function($scope, Referenc
 });
 
 rammController.controller('MathDemoController', function($scope, Math) {
-	$scope.noteCount = 6;
-	$scope.fixed = false;
-	
-	$scope.processDemo = function(apply) {
-		$scope.mathDemo = new Math({noteCount: $scope.noteCount, fixed: $scope.fixed});
+	$scope.mathDemo = new Math({
+		noteCount: 6,
+		fixed: false,
+		fixedAngle: false,
+		alpha: 0,
+		notes: []
+	});
+	$scope.processDemo = function() {
+		$scope.mathDemo.notes.length = 0;
 		$scope.mathDemo = Math.demo($scope.mathDemo);
-		if (apply) {
-			$scope.$apply();
-		}
 	};
 });
