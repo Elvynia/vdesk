@@ -1,7 +1,7 @@
 <div id="mathDemo">
-	<div class="circle" style="left: {{mathDemo.center.x - mathDemo.ray}}px;top: {{mathDemo.center.y - mathDemo.ray}}px;width: {{mathDemo.ray * 2}}px;height: {{mathDemo.ray * 2}}px;background: #99ff99 none repeat scroll 0 0;" />
-	<div class="node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{mathDemo.center.x - 5}}px;top: {{mathDemo.center.y - 5}}px;">
-		<div ng-repeat="note in mathDemo.notes" class="node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{note.x - 5}}px;top: {{note.y - 5}}px;" />
+	<div class="pOriginToCenter circle" style="left: {{mathDemo.center.x}}px;top: {{mathDemo.center.y}}px;width: {{mathDemo.ray * 2}}px;height: {{mathDemo.ray * 2}}px;background: #99ff99 none repeat scroll 0 0;" />
+	<div class="pOriginToCenter node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{mathDemo.center.x}}px;top: {{mathDemo.center.y}}px;">
+		<div ng-repeat="note in mathDemo.notes" class="node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{note.x}}px;top: {{note.y}}px;" />
 	</div>
 	<div style="float: left">
 		Notes : <input ng-model="mathDemo.noteCount" size="2"/>
