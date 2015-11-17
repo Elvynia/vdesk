@@ -115,6 +115,7 @@ rammController.controller('ManageReferenceController', function($scope, Referenc
 });
 
 rammController.controller('MathDemoController', function($scope, Math) {
+	$scope.cleanNotes = true;
 	$scope.mathDemo = new Math({
 		noteCount: 6,
 		fixed: false,
@@ -122,8 +123,12 @@ rammController.controller('MathDemoController', function($scope, Math) {
 		alpha: 0,
 		notes: []
 	});
+	$scope.mathDemo.$demo();
 	$scope.processDemo = function() {
-		$scope.mathDemo.notes.length = 0;
+		if ($scope.cleanNotes) {
+			$scope.mathDemo.notes.length = 0;
+			$scope.mathDemo.fixedNotes.length = 0;
+		}	
 		$scope.mathDemo = Math.demo($scope.mathDemo);
 	};
 });

@@ -32,14 +32,16 @@ public class MathService {
 		}
 		circleDemo.setCenter(new Node(1080, 520));
 		for (int i = 0; i < circleDemo.getNoteCount(); ++i) {
+			// Node with absolute positions.
 			final Node node = new Node();
 			node.setX(Math.round(Math.cos(circleDemo.getAlpha() * i) * circleDemo.getRay()));
 			node.setY(Math.round(Math.sin(circleDemo.getAlpha() * i) * circleDemo.getRay()));
-			if (circleDemo.isFixed()) {
-				node.setX(node.getX() + circleDemo.getCenter().getX());
-				node.setY(node.getY() + circleDemo.getCenter().getY());
-			}
 			circleDemo.getNotes().add(node);
+			// Node with fixed positions.
+			final Node fixedNode = new Node();
+			fixedNode.setX(node.getX() + circleDemo.getCenter().getX());
+			fixedNode.setY(node.getY() + circleDemo.getCenter().getY());
+			circleDemo.getFixedNotes().add(fixedNode);
 		}
 		circleDemo.setAlpha(Math.PI / circleDemo.getAlpha());
 		return circleDemo;

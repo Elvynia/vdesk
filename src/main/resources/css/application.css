@@ -72,5 +72,14 @@
 	display: inline-block;
 	width: 20px;
 	height: 20px;
-	background: black none repeat scroll 0 0;
+	background-color: black;
+}
+
+#leftMenu {
+	float: left;
+	width: 30%;	
+}
+
+.menuItem {
+	padding: 5px;
 }

@@ -39,6 +39,11 @@ public class CircleDemo {
 	/**
 	 * List of note positions.
 	 */
+	private List<Node> fixedNotes;
+	
+	/**
+	 * List of note positions.
+	 */
 	private List<Node> notes;
 
 	/**
@@ -48,6 +53,7 @@ public class CircleDemo {
 
 	public CircleDemo() {
 		notes = new ArrayList<>();
+		fixedNotes = new ArrayList<>();
 	}
 
 	/**
@@ -140,5 +146,19 @@ public class CircleDemo {
 	 */
 	public void setFixedAngle(boolean fixedAngle) {
 		this.fixedAngle = fixedAngle;
+	}
+
+	/**
+	 * @return the fixedNotes
+	 */
+	public List<Node> getFixedNotes() {
+		return fixedNotes;
+	}
+
+	/**
+	 * @param fixedNotes the fixedNotes to set
+	 */
+	public void setFixedNotes(List<Node> fixedNotes) {
+		this.fixedNotes = fixedNotes;
 	}
 }
