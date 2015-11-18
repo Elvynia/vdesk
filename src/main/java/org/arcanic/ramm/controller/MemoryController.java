@@ -27,7 +27,7 @@ public class MemoryController {
 	@RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public MemoryMap viewDefault(@RequestBody final MemoryMap map) {
-		return memoryService.generateTestMap(map);
+		return memoryService.generateReferenceMap(map);
 	}
 
 	@RequestMapping(value = "/test", method = RequestMethod.POST, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)

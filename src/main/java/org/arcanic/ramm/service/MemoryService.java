@@ -7,10 +7,12 @@ import java.util.List;
 import org.arcanic.ramm.document.Bubble;
 import org.arcanic.ramm.document.Note;
 import org.arcanic.ramm.document.Reference;
+import org.arcanic.ramm.math.Node;
 import org.arcanic.ramm.memory.CircleMemory;
 import org.arcanic.ramm.memory.MemoryMap;
 import org.arcanic.ramm.memory.SquareMemory;
 import org.arcanic.ramm.sort.SortedReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,9 +25,16 @@ import org.springframework.stereotype.Service;
 public class MemoryService {
 
 	/**
-	 *
+	 * Sorting service.
 	 */
+	@Autowired
 	private SortService sortService;
+	
+	/**
+	 * Math service.
+	 */
+	@Autowired
+	private MathService mathService;
 
 	/**
 	 * Generate default memory map for note view.
@@ -40,9 +49,6 @@ public class MemoryService {
 		final float originY = map.getMemoryLayout().getScreenY() / 2;
 		final float refX = originX;
 		final float refY = originY;
-		final double angle = 0;
-		// final float diagonal = (float) Math.sqrt(Math.pow(map.getScreenX(),
-		// 2) + Math.pow(map.getScreenY(), 2));
 		final List<SortedReference> references = sortService.sortReferences();
 		final Iterator<SortedReference> it = references.iterator();
 		// Create a circle memory for each reference.
@@ -57,11 +63,13 @@ public class MemoryService {
 			// Place notes inside the reference.
 			for (final Note note : reference.getNotes()) {
 				final SquareMemory sm = new SquareMemory(note);
-
-				// sm.setPosX(noteX);
-				// sm.setPosY(noteY);
+				final Node position = mathService.processCircleNode(cm.getRay(), noteAngle);
+				sm.setPosX((float) position.getX());
+				sm.setPosY((float) position.getY());
 				noteAngle += angleUnit;
+				map.getSquares().add(sm);
 			}
+			map.getCircles().add(cm);
 		}
 		return map;
 	}

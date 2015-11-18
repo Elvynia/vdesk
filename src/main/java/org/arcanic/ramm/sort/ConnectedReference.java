@@ -23,7 +23,6 @@ public class ConnectedReference extends SortedReference {
 	public ConnectedReference(final Reference reference) {
 		super(reference);
 		setSiblings(new ArrayList<>());
-		setNotes(new ArrayList<>());
 	}
 
 	/**
@@ -34,7 +33,6 @@ public class ConnectedReference extends SortedReference {
 	public ConnectedReference(final SortedReference reference) {
 		super(reference);
 		setSiblings(new ArrayList<>());
-		setNotes(new ArrayList<>());
 		getNotes().addAll(reference.getNotes());
 	}
 

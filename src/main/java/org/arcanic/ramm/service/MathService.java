@@ -46,4 +46,11 @@ public class MathService {
 		circleDemo.setAlpha(Math.PI / circleDemo.getAlpha());
 		return circleDemo;
 	}
+	
+	public Node processCircleNode(final double ray, final double angle) {
+		final Node node = new Node();
+		node.setX(Math.round(Math.cos(angle) * ray));
+		node.setY(Math.round(Math.sin(angle) * ray));
+		return node;
+	}
 }

@@ -1,5 +1,6 @@
 package org.arcanic.ramm.sort;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.arcanic.ramm.document.Note;
@@ -21,6 +22,7 @@ public class SortedReference extends Reference {
 	 * @param reference with id and keyword.
 	 */
 	public SortedReference(final Reference reference) {
+		notes = new ArrayList<>();
 		setId(reference.getId());
 		setKeyword(reference.getKeyword());
 	}

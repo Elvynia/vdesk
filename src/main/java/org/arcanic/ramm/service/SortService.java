@@ -16,13 +16,19 @@ import org.arcanic.ramm.repository.ReferenceRepository;
 import org.arcanic.ramm.sort.ConnectedReference;
 import org.arcanic.ramm.sort.InclusiveReference;
 import org.arcanic.ramm.sort.SortedReference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SortService {
 
+	@Autowired
 	private NoteRefRepository noteRefService;
 
+	@Autowired
 	private NoteRepository noteService;
 
+	@Autowired
 	private ReferenceRepository referenceService;
 
 	/**

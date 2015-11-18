@@ -23,7 +23,6 @@ public class InclusiveReference extends SortedReference {
 	public InclusiveReference(final Reference reference) {
 		super(reference);
 		setParents(new ArrayList<>());
-		setNotes(new ArrayList<>());
 	}
 
 	/**
@@ -34,7 +33,6 @@ public class InclusiveReference extends SortedReference {
 	public InclusiveReference(final SortedReference reference) {
 		super(reference);
 		setParents(new ArrayList<>());
-		setNotes(new ArrayList<>());
 		getNotes().addAll(reference.getNotes());
 	}
 
