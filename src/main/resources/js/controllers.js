@@ -12,7 +12,7 @@ rammController.controller('ViewController', function($scope, ngDialog) {
     };
 })
 
-rammController.controller('BubbleAddController', function($scope, $location, Bubble, Reference, Note) {
+rammController.controller('BubbleAddController', function($rootScope, $scope, $location, Bubble, Reference, Note) {
 	$scope.newBubble = {};
 	$scope.refs = Reference.query();
 	$scope.updateFocus = false;
@@ -69,7 +69,9 @@ rammController.controller('NoteViewController', function($scope, $window, Memory
 	});
 	$scope.memoryMap.$query();
 	$scope.$on('reloadNotes', function() {
-		$scope.memoryMap = Memory.query();
+		$scope.memoryMap.circles = [];
+		$scope.memoryMap.squares = [];
+		$scope.memoryMap.$query();
 	});
 });
 
