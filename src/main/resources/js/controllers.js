@@ -121,7 +121,9 @@ rammController.controller('MathDemoController', function($scope, Math) {
 		fixed: false,
 		fixedAngle: false,
 		alpha: 0,
-		notes: []
+		arc : 0,
+		notes: [],
+		fixedNotes: []
 	});
 	$scope.mathDemo.$demo();
 	$scope.processDemo = function() {

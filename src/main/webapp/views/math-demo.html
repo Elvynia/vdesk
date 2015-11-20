@@ -1,18 +1,41 @@
 <div id="mathDemo">
-	<div class="pOriginToCenter circle" style="left: {{mathDemo.center.x}}px;top: {{mathDemo.center.y}}px;width: {{mathDemo.ray * 2}}px;height: {{mathDemo.ray * 2}}px;background: #99ff99 none repeat scroll 0 0;" />
-	<div class="pOriginToCenter node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{mathDemo.center.x}}px;top: {{mathDemo.center.y}}px;">
-		<div ng-show="!mathDemo.fixed"
-			ng-repeat="note in mathDemo.notes" class="node pAbsolute" style="left: {{note.x}}px;top: {{note.y}}px;" />
-	</div>
-	<div ng-show="mathDemo.fixed"
+	<div id="content">
+		<div class="pOriginToCenter circle" style="left: {{mathDemo.center.x}}px;top: {{mathDemo.center.y}}px;width: {{mathDemo.ray * 2}}px;height: {{mathDemo.ray * 2}}px;background: #99ff99 none repeat scroll 0 0;" />
+		<div class="pOriginToCenter node {{mathDemo.fixed ? 'pFixed' : 'pAbsolute'}}" style="left: {{mathDemo.center.x}}px;top: {{mathDemo.center.y}}px;">
+			<div ng-show="!mathDemo.fixed"
+				ng-repeat="note in mathDemo.notes" class="node pAbsolute" style="left: {{note.x}}px;top: {{note.y}}px;" />
+		</div>
+		<div ng-show="mathDemo.fixed"
 			ng-repeat="note in mathDemo.fixedNotes" class="pOriginToCenter node pFixed" style="left: {{note.x}}px;top: {{note.y}}px;background-color: darkblue;" />
+	</div>
 	<div id="leftMenu">
-		<div class="menuItem">Notes : <input ng-model="mathDemo.noteCount" size="2"/></div>
-		<div class="menuItem">Fixed positions : <input ng-model="mathDemo.fixed" type="checkbox" /></div>
-		<div class="menuItem">Fixed angle : <input ng-model="mathDemo.fixedAngle" type="checkbox" /></div>
-		<div class="menuItem">Angle : <img src="http://3.14inthesky.com/images/pi.png" width="12" height="12" /> / <input ng-model="mathDemo.alpha" ng-show="mathDemo.fixedAngle" /></div>
-		<div class="menuItem">Ray : <input ng-model="mathDemo.ray" /></div>
-		<div class="menuItem">Clean notes : <input ng-model="cleanNotes" type="checkbox" /></div>
-		<div class="menuItem"><button ng-click="processDemo(false);">Process</button></div>
+		<div class="menuItem">
+			Notes : <input ng-model="mathDemo.noteCount" size="2"/> (clean : <input ng-model="cleanNotes" type="checkbox" />)
+		</div>
+		<div class="menuItem">
+			Fixed / Absolute : <input ng-model="mathDemo.fixed" type="checkbox" />
+		</div>
+		<div class="menuItem">
+			Fixed angle : <input ng-model="mathDemo.fixedAngle" type="checkbox" />
+		</div>
+		<div class="menuItem" ng-show="!mathDemo.fixedAngle">
+			Angle : <img src="http://3.14inthesky.com/images/pi.png" width="12" height="12" /> / <input ng-model="mathDemo.alpha" maxlength="3" size="3" /> rd
+		</div>
+		<div>
+			<div class="menuItem" ng-show="mathDemo.fixedAngle">
+				Angle : <img src="http://3.14inthesky.com/images/pi.png" width="12" height="12" /> / {{mathDemo.alpha}} rd
+			</div>
+			<div class="menuItem">
+				Arc size : <input  ng-model="mathDemo.arc" maxlength="3" size="3" /> px
+			</div>
+		</div>
+		<div class="menuItem">
+			Ray : 
+			<span ng-show="!mathDemo.fixedAngle"><input ng-model="mathDemo.ray" maxlength="3" size="3" /> px</span>
+			<span ng-show="mathDemo.fixedAngle">{{mathDemo.ray}} px</span>
+		</div>
+		<div class="menuItem">
+			<button ng-click="processDemo(false);">Process</button>
+		</div>
 	</div>
 </div>

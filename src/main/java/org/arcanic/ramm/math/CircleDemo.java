@@ -17,6 +17,11 @@ public class CircleDemo {
 	private double alpha;
 
 	/**
+	 * Arc size in pixels between notes.
+	 */
+	private int arc;
+
+	/**
 	 * Center position of the circle.
 	 */
 	private Node center;
@@ -32,15 +37,15 @@ public class CircleDemo {
 	private boolean fixedAngle;
 
 	/**
+	 * List of note positions.
+	 */
+	private List<Node> fixedNotes;
+
+	/**
 	 * Number of notes on the circle.
 	 */
 	private int noteCount;
 
-	/**
-	 * List of note positions.
-	 */
-	private List<Node> fixedNotes;
-	
 	/**
 	 * List of note positions.
 	 */
@@ -64,10 +69,24 @@ public class CircleDemo {
 	}
 
 	/**
+	 * @return the arc
+	 */
+	public int getArc() {
+		return arc;
+	}
+
+	/**
 	 * @return the center
 	 */
 	public Node getCenter() {
 		return center;
+	}
+
+	/**
+	 * @return the fixedNotes
+	 */
+	public List<Node> getFixedNotes() {
+		return fixedNotes;
 	}
 
 	/**
@@ -96,10 +115,24 @@ public class CircleDemo {
 	}
 
 	/**
+	 * @return the fixedAngle
+	 */
+	public boolean isFixedAngle() {
+		return fixedAngle;
+	}
+
+	/**
 	 * @param alpha the alpha to set
 	 */
 	public void setAlpha(final double alpha) {
 		this.alpha = alpha;
+	}
+
+	/**
+	 * @param arc the arc to set
+	 */
+	public void setArc(final int arc) {
+		this.arc = arc;
 	}
 
 	/**
@@ -111,6 +144,20 @@ public class CircleDemo {
 
 	public void setFixed(final boolean fixed) {
 		this.fixed = fixed;
+	}
+
+	/**
+	 * @param fixedAngle the fixedAngle to set
+	 */
+	public void setFixedAngle(final boolean fixedAngle) {
+		this.fixedAngle = fixedAngle;
+	}
+
+	/**
+	 * @param fixedNotes the fixedNotes to set
+	 */
+	public void setFixedNotes(final List<Node> fixedNotes) {
+		this.fixedNotes = fixedNotes;
 	}
 
 	/**
@@ -132,33 +179,5 @@ public class CircleDemo {
 	 */
 	public void setRay(final double ray) {
 		this.ray = ray;
-	}
-
-	/**
-	 * @return the fixedAngle
-	 */
-	public boolean isFixedAngle() {
-		return fixedAngle;
-	}
-
-	/**
-	 * @param fixedAngle the fixedAngle to set
-	 */
-	public void setFixedAngle(boolean fixedAngle) {
-		this.fixedAngle = fixedAngle;
-	}
-
-	/**
-	 * @return the fixedNotes
-	 */
-	public List<Node> getFixedNotes() {
-		return fixedNotes;
-	}
-
-	/**
-	 * @param fixedNotes the fixedNotes to set
-	 */
-	public void setFixedNotes(List<Node> fixedNotes) {
-		this.fixedNotes = fixedNotes;
 	}
 }
