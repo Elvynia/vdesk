@@ -25,16 +25,16 @@ import org.springframework.stereotype.Service;
 public class MemoryService {
 
 	/**
-	 * Sorting service.
-	 */
-	@Autowired
-	private SortService sortService;
-	
-	/**
 	 * Math service.
 	 */
 	@Autowired
 	private MathService mathService;
+
+	/**
+	 * Sorting service.
+	 */
+	@Autowired
+	private SortService sortService;
 
 	/**
 	 * Generate default memory map for note view.
@@ -59,6 +59,7 @@ public class MemoryService {
 			cm.setRay(CircleMemory.UNIT_RAY_PX);
 			cm.setCenterX(refX);
 			cm.setCenterY(refY);
+			cm.setColor("#a0e8af");
 			final double angleUnit = 2 * Math.PI / reference.getNotes().size();
 			// Place notes inside the reference.
 			for (final Note note : reference.getNotes()) {
@@ -70,6 +71,7 @@ public class MemoryService {
 				map.getSquares().add(sm);
 			}
 			map.getCircles().add(cm);
+			break;
 		}
 		return map;
 	}

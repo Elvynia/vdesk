@@ -107,6 +107,7 @@ public class SortService {
 		// Now sort list by noteCount.
 		// FIXME: Also sort by siblingCount, parentCount ?
 		Collections.sort(sortedRefs, new SortedReferenceComparator());
+		Collections.reverse(sortedRefs);
 		return sortedRefs;
 	}
 }

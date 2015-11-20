@@ -39,7 +39,6 @@ public class MathService {
 				// Set to default ray.
 				circleDemo.setRay(CircleMemory.UNIT_RAY_PX);
 			}
-
 		}
 		circleDemo.setCenter(new Node(1080, 520));
 		for (int i = 0; i < circleDemo.getNoteCount(); ++i) {

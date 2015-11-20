@@ -1,11 +1,11 @@
 <div id="bubbleView">
-	<div ng-repeat="circle in memoryMap.circles track by $index" id="memory-{{circle.reference.id}}" class="circle"
-	style="left: {{circle.centerX - circle.ray}}px; top: {{circle.centerY - circle.ray}}px; width: {{circle.ray * 2}}px; height: {{circle.ray * 2}}px; background: {{circle.color}} none repeat scroll 0 0">
-		<div style="position: relative; left: {{circle.ray}}px; top: {{circle.ray}}px;">
-			<h1>{{circle.memory.keyword}}</h1>
+	<div ng-repeat="circle in memoryMap.circles track by $index" id="memory-{{circle.reference.id}}" class="circle pOriginToCenter"
+	style="left: {{circle.centerX}}px; top: {{circle.centerY}}px; width: {{circle.ray * 2}}px; height: {{circle.ray * 2}}px; background: {{circle.color}} none repeat scroll 0 0;">
+		<div class="pOriginToCenter pAbsolute" style="left: {{circle.ray}}px; top: {{circle.ray}}px;">
+			<div class="text">{{circle.memory.keyword}}</div>
+			<div ng-repeat="square in memoryMap.squares track by $index" class="square pAbsolute" id="memory-{{square.note.id}}" style="left: {{square.posX}}px; top: {{square.posY}}px">
+				<div class="text" ng-repeat="bubble in square.memory.bubbles">{{bubble.content}}</div>
+			</div>
 		</div>
 	</div>
-    <div ng-repeat="square in memoryMap.squares track by $index" class="note" id="memory-{{square.note.id}}" style="position: absolute; left: {{square.posX}}px; top: {{square.posY}}px">
-    	<p ng-repeat="bubble in square.memory.bubbles">{{bubble.content}}</p>
-    </div>
 </div>

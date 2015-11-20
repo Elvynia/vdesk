@@ -52,7 +52,7 @@
 	display: inline-block;
 }
 
-.note {
+.square {
 	mix-blend-mode: multiply;
 	border: 2px solid black;
 	background-color: lightgray;
@@ -67,12 +67,20 @@
 	margin-right: 20px;
 }
 
+div.circle  div.text {
+	font-size: 50px;
+}
+
 .node {
 	border-radius: 50%;
 	display: inline-block;
 	width: 20px;
 	height: 20px;
 	background-color: black;
+}
+
+div.node div.text, div.square div.text {
+	font-size: 30px;
 }
 
 #leftMenu {
