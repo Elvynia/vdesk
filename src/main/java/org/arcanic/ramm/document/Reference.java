@@ -88,5 +88,13 @@ public class Reference {
 	public void setKeyword(final String keyword) {
 		this.keyword = keyword;
 	}
+	
+	/**
+	 * {@inheritDoc} Returns keyword.
+	 */
+	@Override
+	public String toString() {
+		return keyword;
+	}
 
 }

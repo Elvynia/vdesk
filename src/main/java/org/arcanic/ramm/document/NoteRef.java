@@ -100,4 +100,17 @@ public class NoteRef {
 	public void setReference(final Reference reference) {
 		this.reference = reference;
 	}
+	
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder();
+		if (note != null) {
+			sb.append("Note : ").append(note.getId());
+			sb.append(", ");
+		}
+		if (reference != null) {
+			sb.append("Ref : ").append(reference.getId());
+		}
+		return sb.toString();
+	}
 }
