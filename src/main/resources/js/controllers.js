@@ -53,7 +53,9 @@ rammController.controller('BubbleAddController', function($rootScope, $scope, $l
     		// Save note.
     		console.debug('Saving note...');
     		Note.save(note);
-			$rootScope.$broadcast('reloadNotes');
+			setTimeout(1000, function() {
+				$rootScope.$broadcast('reloadNotes');
+			});
     	} else {
     		alert('Please type at least one comment for saving the note.')
     	}
