@@ -16,6 +16,8 @@ import org.arcanic.ramm.repository.ReferenceRepository;
 import org.arcanic.ramm.sort.ConnectedReference;
 import org.arcanic.ramm.sort.InclusiveReference;
 import org.arcanic.ramm.sort.SortedReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,8 @@ public class SortService {
 
 	@Autowired
 	private ReferenceRepository referenceService;
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * Sorte notes by gathering their references to make a chain. Notes with the
@@ -62,19 +66,24 @@ public class SortService {
 	 * @return List<SortedReference> the reference sorted by note count.
 	 */
 	public List<SortedReference> sortReferences() {
+		logger.debug("Calling BubbleController::sortReferences() :");
 		final List<SortedReference> sortedRefs = new ArrayList<>();
 		final List<Reference> references = referenceService.findAll();
+		logger.debug("\tFound {} references : {}", references.size(), references.toString());
 		for (final Reference reference : references) {
+			logger.debug("\tProcessing {} : ", reference);
 			SortedReference sortedRef = new SortedReference(reference);
 			// Fill notes and retrieve other references linked to each note.
 			final List<NoteRef> noteRefs = noteRefService.findByReference(reference);
+			logger.debug("\t\tFound {} noteRefs : {}", noteRefs.size(), noteRefs.toString());
 			final List<Reference> otherRefs = new ArrayList<>();
 			final List<String> noteIds = new ArrayList<>();
 			for (final NoteRef noteRef : noteRefs) {
 				final Note note = noteRef.getNote();
 				noteIds.add(note.getId());
 				sortedRef.getNotes().add(note);
-				final List<NoteRef> otherNoteRefs = noteRefService.findByNote(note, noteRef.getReference().getId());
+				final List<NoteRef> otherNoteRefs = noteRefService.findReferencesByNote(note, noteRef.getReference().getId());
+				logger.debug("\t\tFound {} otherNoteRefs : {}", otherNoteRefs.size(), otherNoteRefs.toString());
 				for (final NoteRef otherNoteRef : otherNoteRefs) {
 					if (!otherRefs.contains(otherNoteRef.getReference())) {
 						otherRefs.add(otherNoteRef.getReference());
