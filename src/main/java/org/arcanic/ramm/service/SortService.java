@@ -85,11 +85,13 @@ public class SortService {
 			final List<Reference> parents = new ArrayList<>();
 			final List<Reference> siblings = new ArrayList<>();
 			for (final Reference otherRef : otherRefs) {
-				final int noteCount = noteRefService.countByReferenceId(otherRef, noteIds);
-				if (noteCount == noteIds.size()) {
-					parents.add(otherRef);
-				} else if (noteCount > 0) {
-					siblings.add(otherRef);
+				final Integer noteCount = noteRefService.countByReferenceId(otherRef, noteIds);
+				if (noteCount != null) {
+					if (noteCount == noteIds.size()) {
+						parents.add(otherRef);
+					} else if (noteCount > 0) {
+						siblings.add(otherRef);
+					}
 				}
 			}
 			if (parents.size() > 0 && siblings.size() == 0) {

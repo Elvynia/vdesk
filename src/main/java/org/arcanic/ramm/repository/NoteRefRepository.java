@@ -10,10 +10,10 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NoteRefRepository extends MongoRepository<NoteRef, Long> {
+public interface NoteRefRepository extends MongoRepository<NoteRef, String> {
 
 	@Query("{'note.id' : {$in: ?1}}")
-	int countByReferenceId(final Reference reference, final List<String> noteIds);
+	Integer countByReferenceId(final Reference reference, final List<String> noteIds);
 
 	List<NoteRef> findByNote(final Note note);
 
