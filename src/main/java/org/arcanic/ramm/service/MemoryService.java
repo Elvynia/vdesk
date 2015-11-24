@@ -93,13 +93,15 @@ public class MemoryService {
 				for (final Reference sibling : cRef.getSiblings()) {
 					// Build connected memory.
 					final CircleMemory ccm = new CircleMemory(sibling);
-					cm.setRay(CircleMemory.UNIT_RAY_PX);
+					ccm.setRay(CircleMemory.UNIT_RAY_PX);
 					// Calculate position.
-					pRef = mathService.processCircleNode(ccm.getRay(), refAngle);
+					final Node newPos = mathService.processCircleNode(ccm.getRay(), refAngle);
+					pRef.setX(pRef.getX() + newPos.getX());
+					pRef.setY(pRef.getY() + newPos.getY());
 					// Set position.
-					cm.setCenterX((float) pRef.getX());
-					cm.setCenterY((float) pRef.getY());
-					cm.setColor(getColorAsString(generateRandomColor()));
+					ccm.setCenterX((float) pRef.getX());
+					ccm.setCenterY((float) pRef.getY());
+					ccm.setColor(getColorAsString(generateRandomColor()));
 					map.getCircles().add(ccm);
 					refAngle += refAngleUnit;
 				}
