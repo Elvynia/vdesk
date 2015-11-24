@@ -83,8 +83,7 @@ public class SortService {
 				final Note note = noteRef.getNote();
 				noteIds.add(note.getId());
 				sortedRef.getNotes().add(note);
-				final List<NoteRef> otherNoteRefs = noteRefService.findReferencesByNote(note.getId(),
-						noteRef.getReference().getId());
+				final List<NoteRef> otherNoteRefs = noteRefService.findReferencesByNote(note.getId(), noteRef.getReference().getId());
 				logger.debug("\t\t\tFound {} otherNoteRefs : {}", otherNoteRefs.size(), otherNoteRefs.toString());
 				for (final NoteRef otherNoteRef : otherNoteRefs) {
 					if (!otherRefs.contains(otherNoteRef.getReference())) {
@@ -98,16 +97,12 @@ public class SortService {
 			final List<Reference> siblings = new ArrayList<>();
 			for (final Reference otherRef : otherRefs) {
 				logger.debug("\t\tProcessing other reference {} : ", otherRef);
-				final Integer noteCount = noteRefService.countByReferenceId(otherRef.getId(), noteIds);
-				if (noteCount != null) {
-					logger.debug("\t\t\tFound {} notes.", noteCount);
-					if (noteCount == noteIds.size()) {
-						parents.add(otherRef);
-					} else if (noteCount > 0) {
-						siblings.add(otherRef);
-					}
-				} else {
-					logger.debug("\t\t\tFound null notes.");
+				final Integer noteCount = noteRefService.countByReferenceIdAndNoteIdIn(otherRef.getId(), noteIds).size();
+				logger.debug("\t\t\tFound {} notes.", noteCount);
+				if (noteCount == noteIds.size()) {
+					parents.add(otherRef);
+				} else if (noteCount > 0) {
+					siblings.add(otherRef);
 				}
 			}
 			if (parents.size() > 0 && siblings.size() == 0) {

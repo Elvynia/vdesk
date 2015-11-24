@@ -12,8 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NoteRefRepository extends MongoRepository<NoteRef, String> {
 
-	@Query(value = "{'reference.id': ?0, 'note.id' : {$in: ?1}}", count = true)
-	Integer countByReferenceId(final String referenceId, final List<String> noteIds);
+	List<NoteRef> countByReferenceIdAndNoteIdIn(final String referenceId, final List<String> noteIds);
 
 	List<NoteRef> findByNote(final Note note);
 
