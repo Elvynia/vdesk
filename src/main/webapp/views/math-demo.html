@@ -10,7 +10,7 @@
 	</div>
 	<div id="leftMenu">
 		<div class="menuItem">
-			Notes : <input ng-model="mathDemo.noteCount" size="2"/> (clean : <input ng-model="cleanNotes" type="checkbox" />)
+			Notes : <input ng-model="mathDemo.noteCount" maxlength="2" size="2" /> (clean : <input ng-model="cleanNotes" type="checkbox" />)
 		</div>
 		<div class="menuItem">
 			Fixed / Absolute : <input ng-model="mathDemo.fixed" type="checkbox" />
@@ -18,15 +18,20 @@
 		<div class="menuItem">
 			Fixed angle : <input ng-model="mathDemo.fixedAngle" type="checkbox" />
 		</div>
-		<div class="menuItem" ng-show="!mathDemo.fixedAngle">
-			Angle : <img src="http://3.14inthesky.com/images/pi.png" width="12" height="12" /> / <input ng-model="mathDemo.alpha" maxlength="3" size="3" /> rd
-		</div>
-		<div>
-			<div class="menuItem" ng-show="mathDemo.fixedAngle">
+		<div ng-show="mathDemo.fixedAngle">
+			<div class="menuItem">
 				Angle : <img src="http://3.14inthesky.com/images/pi.png" width="12" height="12" /> / {{mathDemo.alpha}} rd
 			</div>
 			<div class="menuItem">
 				Arc size : <input  ng-model="mathDemo.arc" maxlength="3" size="3" /> px
+			</div>
+		</div>
+		<div ng-show="!mathDemo.fixedAngle">
+			<div class="menuItem">
+				Angle : <img src="http://3.14inthesky.com/images/pi.png" width="12" height="12" /> / <input ng-model="mathDemo.alpha" maxlength="3" size="3" /> rd
+			</div>
+			<div class="menuItem">
+				Arc size : {{mathDemo.arc}} px
 			</div>
 		</div>
 		<div class="menuItem">
