@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SortService {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private NoteRefRepository noteRefService;
 
@@ -32,8 +34,6 @@ public class SortService {
 
 	@Autowired
 	private ReferenceRepository referenceService;
-	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * Sorte notes by gathering their references to make a chain. Notes with the
@@ -71,7 +71,7 @@ public class SortService {
 		final List<Reference> references = referenceService.findAll();
 		logger.debug("\tFound {} references : {}", references.size(), references.toString());
 		for (final Reference reference : references) {
-			logger.debug("\tProcessing {} : ", reference);
+			logger.debug("\tProcessing reference {} with ID {} : ", reference, reference.getId());
 			SortedReference sortedRef = new SortedReference(reference);
 			// Fill notes and retrieve other references linked to each note.
 			final List<NoteRef> noteRefs = noteRefService.findByReference(reference);
@@ -79,13 +79,16 @@ public class SortService {
 			final List<Reference> otherRefs = new ArrayList<>();
 			final List<String> noteIds = new ArrayList<>();
 			for (final NoteRef noteRef : noteRefs) {
+				logger.debug("\t\tProcessing noteRef : {}", noteRef);
 				final Note note = noteRef.getNote();
 				noteIds.add(note.getId());
 				sortedRef.getNotes().add(note);
-				final List<NoteRef> otherNoteRefs = noteRefService.findReferencesByNote(note, noteRef.getReference().getId());
-				logger.debug("\t\tFound {} otherNoteRefs : {}", otherNoteRefs.size(), otherNoteRefs.toString());
+				final List<NoteRef> otherNoteRefs = noteRefService.findReferencesByNote(note.getId(),
+						noteRef.getReference().getId());
+				logger.debug("\t\t\tFound {} otherNoteRefs : {}", otherNoteRefs.size(), otherNoteRefs.toString());
 				for (final NoteRef otherNoteRef : otherNoteRefs) {
 					if (!otherRefs.contains(otherNoteRef.getReference())) {
+						logger.debug("\t\t\t\tAdding other reference {}", otherNoteRef.getReference());
 						otherRefs.add(otherNoteRef.getReference());
 					}
 				}
@@ -94,11 +97,17 @@ public class SortService {
 			final List<Reference> parents = new ArrayList<>();
 			final List<Reference> siblings = new ArrayList<>();
 			for (final Reference otherRef : otherRefs) {
-				final int noteCount = noteRefService.countByReferenceId(otherRef, noteIds);
-				if (noteCount == noteIds.size()) {
-					parents.add(otherRef);
-				} else if (noteCount > 0) {
-					siblings.add(otherRef);
+				logger.debug("\t\tProcessing other reference {} : ", otherRef);
+				final Integer noteCount = noteRefService.countByReferenceId(otherRef.getId(), noteIds);
+				if (noteCount != null) {
+					logger.debug("\t\t\tFound {} notes.", noteCount);
+					if (noteCount == noteIds.size()) {
+						parents.add(otherRef);
+					} else if (noteCount > 0) {
+						siblings.add(otherRef);
+					}
+				} else {
+					logger.debug("\t\t\tFound null notes.");
 				}
 			}
 			if (parents.size() > 0 && siblings.size() == 0) {
