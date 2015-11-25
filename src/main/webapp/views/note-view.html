@@ -1,9 +1,10 @@
 <div id="bubbleView">
-	<div ng-repeat="circle in memoryMap.circles track by $index" id="memory-{{circle.reference.id}}" class="circle pOriginToCenter"
+	<div ng-repeat="circle in memoryMap.circles track by $index" id="memory-{{circle.memory.id}}" class="circle pOriginToCenter"
 	style="left: {{circle.centerX}}px; top: {{circle.centerY}}px; width: {{circle.ray * 2}}px; height: {{circle.ray * 2}}px; background: {{circle.color}} none repeat scroll 0 0;">
 		<div class="pOriginToCenter pAbsolute" style="left: {{circle.ray}}px; top: {{circle.ray}}px;">
 			<div class="text">{{circle.memory.keyword}}</div>
-			<div ng-repeat="square in memoryMap.squares track by $index" class="square pAbsolute" id="memory-{{square.note.id}}" style="left: {{square.posX}}px; top: {{square.posY}}px">
+			<div ng-repeat="square in memoryMap.squares track by $index" ng-if="square.referenceId == circle.memory.id"
+				 class="square pAbsolute" id="memory-{{square.memory.id}}" style="left: {{square.posX}}px; top: {{square.posY}}px">
 				<div class="text" ng-repeat="bubble in square.memory.bubbles">{{bubble.content}}</div>
 			</div>
 		</div>

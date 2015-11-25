@@ -78,8 +78,12 @@ public class MemoryService {
 			final double noteAngleUnit = 2 * Math.PI / reference.getNotes().size();
 			// Place notes inside the reference.
 			for (final Note note : reference.getNotes()) {
+				final SquareMemory sm = new SquareMemory(note);
+				sm.setReferenceId(reference.getId());
 				final Node pNode = mathService.processCircleNode(cm.getRay(), noteAngle);
-				map.getSquares().add(generateSquareMemory(pNode, note));
+				sm.setPosX((float) pNode.getX());
+				sm.setPosY((float) pNode.getY());
+				map.getSquares().add(sm);
 				noteAngle += noteAngleUnit;
 			}
 			map.getCircles().add(cm);
@@ -109,13 +113,6 @@ public class MemoryService {
 			break;
 		}
 		return map;
-	}
-
-	private SquareMemory generateSquareMemory(final Node position, final Note note) {
-		final SquareMemory sm = new SquareMemory(note);
-		sm.setPosX((float) position.getX());
-		sm.setPosY((float) position.getY());
-		return sm;
 	}
 
 	/**

@@ -14,6 +14,11 @@ public class SquareMemory implements Memory<Note> {
 	 * The note holding memory data.
 	 */
 	private final Note note;
+	
+	/**
+	 * The reference in which the memory should appear.
+	 */
+	private String referenceId;
 
 	/**
 	 * Horizontal position of the top left corner.
@@ -68,6 +73,20 @@ public class SquareMemory implements Memory<Note> {
 	 */
 	public void setPosY(final float posY) {
 		this.posY = posY;
+	}
+
+	/**
+	 * @return the referenceId
+	 */
+	public String getReferenceId() {
+		return referenceId;
+	}
+
+	/**
+	 * @param referenceId the referenceId to set
+	 */
+	public void setReferenceId(String referenceId) {
+		this.referenceId = referenceId;
 	}
 
 }
