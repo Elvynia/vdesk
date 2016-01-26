@@ -12,7 +12,7 @@ rammController.controller('ViewController', function($scope, ngDialog) {
     };
 })
 
-rammController.controller('BubbleAddController', function($rootScope, $scope, $location, Bubble, Reference, Note) {
+rammController.controller('BubbleAddController', function($rootScope, $scope, Bubble, Reference, Note) {
 	$scope.newBubble = {};
 	$scope.refs = Reference.query();
 	$scope.updateFocus = false;

@@ -53,10 +53,9 @@ public class MemoryService {
 	}
 
 	/**
-	 * Generate default memory map for note view.
+	 * Generate memory map based on references for note view.
 	 *
 	 * @param map the map with screen size values.
-	 * @param references the memory root objects.
 	 * @return MemoryMap the same memory map instance as parameter but filled
 	 *         with circle and square memories.
 	 */
@@ -91,7 +90,7 @@ public class MemoryService {
 			if (reference instanceof ConnectedReference) {
 				final ConnectedReference cRef = (ConnectedReference) reference;
 				// Iterate reference position.
-				pRef.setX(pRef.getX() + cm.getRay() * 1.25f);
+				pRef.setX(pRef.getX() + cm.getRay() * 0.75f);
 				double refAngle = 0;
 				final double refAngleUnit = 2 * Math.PI / cRef.getSiblings().size();
 				for (final Reference sibling : cRef.getSiblings()) {
