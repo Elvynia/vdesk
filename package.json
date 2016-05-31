@@ -2,9 +2,12 @@
   "name": "RAMM",
   "version": "1.0.0",
   "description": "Reckless Access Memory Map",
+  "engines": {
+    "node": "5.9.1"
+  },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "dependencies": {
     "ejs": "2.4.1",
@@ -16,7 +19,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Elvynia/ramm/issues"
   },
