@@ -1,0 +1,24 @@
+{
+  "name": "RAMM",
+  "version": "1.0.0",
+  "description": "Reckless Access Memory Map",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "2.4.1",
+    "express": "4.13.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elvynia/ramm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elvynia/ramm/issues"
+  },
+  "homepage": "https://github.com/Elvynia/ramm#readme"
+}
