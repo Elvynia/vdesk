@@ -7,7 +7,6 @@
   },
   "main": "server.js",
   "scripts": {
-    "postinstall": "typings install && ntsc",
     "start": "concurrently \"ntsc -w\" \"supervisor server.js\""
   },
   "dependencies": {
