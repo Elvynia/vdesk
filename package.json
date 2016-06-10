@@ -7,7 +7,8 @@
   },
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"ntsc -w\" \"supervisor server.js\""
+    "dev": "concurrently \"ntsc -w\" \"supervisor server.js\"",
+	"start": "node server.js"
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.1",
