@@ -13,8 +13,26 @@ router.get('/memory', function(request, response, next) {
 	});
 });
 
+router.get('/memory/:id', function(request, response, next) {
+	var id = request.params.id;
+	console.log('Get with id:' + id);
+	if (id) {
+		db.memories.find({_id: mongojs.ObjectId(id)}, function(error, result) {
+			if (error) {
+				response.send(error);
+			} else {
+				response.json(result);
+			}
+		});
+	} else {
+		response.status(400);
+		response.json({
+			"error": "Wrong id in url parameter."
+		});
+	}
+});
+
 router.post('/memory', function(request, response, next) {
-	console.log('Server request body : ', request.body);
 	var memory = request.body;
 	if (memory.title && memory.content) {
 		db.memories.save(memory, function(error, result) {
@@ -28,6 +46,25 @@ router.post('/memory', function(request, response, next) {
 		response.status(400);
 		response.json({
 			"error": "Bad memory, missing title or content"
+		});
+	}
+});
+
+router.delete('/memory/:id', function(request, response, next) {
+	var id = request.params.id;
+	console.log('Delete with id:' + id);
+	if (id) {
+		db.memories.remove({_id: mongojs.ObjectId(id)}, function(error, result) {
+			if (error) {
+				response.send(error);
+			} else {
+				response.json(result);
+			}
+		});
+	} else {
+		response.status(400);
+		response.json({
+			"error": "Wrong id in url parameter."
 		});
 	}
 });
