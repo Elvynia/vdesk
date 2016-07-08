@@ -1,0 +1,15 @@
+<h1>Welcome to {{ name }}!</h1>
+<div class="memories" *ngIf="memories != null">
+	<div class="memory" *ngFor="let memory of memories; let memoryIndex = index" title="{{memory._id}}">
+		TITLE : {{memory.title}}
+		CONTENT : {{memory.content}}
+		<img class="delete-icon" (click)="deleteMemory(memory._id, memoryIndex)">
+	</div>
+</div>
+<div class="inputs">
+	<form [ngFormModel]="memoryForm" (submit)="addMemory($event)">
+		<input ngControl="title" placeholder="Title..." />
+		<textarea ngControl="content" placeholder="Content..."></textarea>
+		<button>Add memory</button>
+	</form>
+</div>

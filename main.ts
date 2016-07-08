@@ -6,24 +6,8 @@ import 'rxjs/add/operator/map';
 
 @Component({
 	selector: 'ralm-app',
-	template: `
-		<h1>Welcome to {{ name }}!</h1>
-		<div style="float: left;width:50%;" *ngIf="memories != null">
-			<div *ngFor="let memory of memories; let memoryIndex = index" title="{{memory._id}}">
-				TITLE : {{memory.title}}
-				CONTENT : {{memory.content}}
-				<img src="http://vignette3.wikia.nocookie.net/criminal-case-grimsborough/images/b/b1/Delete_Icon.png/revision/latest?cb=20141216101607"
-					style="width: 30px; height: auto;" (click)="deleteMemory(memory._id, memoryIndex)">
-			</div>
-		</div>
-		<div style="float: right;width:50%;">
-			<form [ngFormModel]="memoryForm" (submit)="addMemory($event)">
-				<input ngControl="title" placeholder="Title..." />
-				<textarea ngControl="content" placeholder="Content..."></textarea>
-				<button>Add memory</button>
-			</form>
-		</div>
-	`,
+	templateUrl: 'views/app.template.html',
+	styleUrls: ['css/app.css'],
 	providers: [HTTP_PROVIDERS]
 })
 class AppComponent {
