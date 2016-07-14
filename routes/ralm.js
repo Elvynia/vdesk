@@ -34,7 +34,7 @@ router.get('/memory/:id', function(request, response, next) {
 
 router.post('/memory', function(request, response, next) {
 	var memory = request.body;
-	if (memory.title && memory.content) {
+	if (memory.content) {
 		db.memories.save(memory, function(error, result) {
 			if (error) {
 				response.send(error);
@@ -45,7 +45,7 @@ router.post('/memory', function(request, response, next) {
 	} else {
 		response.status(400);
 		response.json({
-			"error": "Bad memory, missing title or content"
+			"error": "Bad memory, missing content"
 		});
 	}
 });

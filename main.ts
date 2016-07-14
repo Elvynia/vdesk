@@ -27,7 +27,6 @@ class AppComponent {
 				(error) => console.error('Get memories error : ', error),
 				() => console.debug('Get memories complete'));
 		this.memoryForm = formBuilder.group({
-			title: ['', Validators.required],
 			content: ['', Validators.required],
 		});
 	}
