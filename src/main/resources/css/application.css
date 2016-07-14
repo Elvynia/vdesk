@@ -91,3 +91,19 @@ div.node div.text, div.square div.text {
 .menuItem {
 	padding: 5px;
 }
+
+.math-targets {
+	float: right;
+	display: inline-block;
+	width: 300px;
+}
+
+.link {
+	color: lightblue;
+	font-size: 18px;
+}
+
+.link:hover {
+	color: blue;
+	cursor: pointer;
+}

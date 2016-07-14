@@ -28,8 +28,14 @@ rammService.factory('Memory', function ($resource) {
 });
 
 rammService.factory('Math', function ($resource) {
-	return $resource('spring/math', {}, {
-		demo: {
+	return $resource('spring/math/', {}, {
+		circle: {
+			url: 'spring/math/circle',
+			method: 'POST',
+			isArray: false
+		},
+		spiral: {
+			url: 'spring/math/spiral',
 			method: 'POST',
 			isArray: false
 		}

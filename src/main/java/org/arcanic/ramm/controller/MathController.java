@@ -1,6 +1,7 @@
 package org.arcanic.ramm.controller;
 
 import org.arcanic.ramm.math.CircleDemo;
+import org.arcanic.ramm.math.SpiralDemo;
 import org.arcanic.ramm.service.MathService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,22 @@ public class MathController {
 	@Autowired
 	private MathService mathService;
 
-	@RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/circle", method = RequestMethod.POST, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public CircleDemo circle(@RequestBody final CircleDemo circleDemo) {
 		logger.debug("Calling MathController::circle().");
 		return mathService.processCircleDemo(circleDemo);
+	}
+
+	@RequestMapping(value = "/spiral", method = RequestMethod.POST, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public SpiralDemo spiral(@RequestBody SpiralDemo spiralDemo) {
+		if (spiralDemo.getParameters() != null && spiralDemo.getParameters().getReferenceId() != null) {
+			spiralDemo = mathService.processSpiralDemo(spiralDemo);
+		} else {
+			logger.error("Cannot process SpiralDemo with empty parameters.");
+		}
+		logger.debug("Calling MathController::spiral().");
+		return spiralDemo;
 	}
 }

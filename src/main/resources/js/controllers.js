@@ -117,22 +117,34 @@ rammController.controller('ManageReferenceController', function($scope, Referenc
 });
 
 rammController.controller('MathDemoController', function($scope, Math) {
+	$scope.target = '';
 	$scope.cleanNotes = true;
-	$scope.mathDemo = new Math({
-		noteCount: 6,
-		fixed: false,
-		fixedAngle: false,
-		alpha: 0,
-		arc : 0,
-		notes: [],
-		fixedNotes: []
+	$scope.$watch('target', function(value) {
+		console.log(value);
+		var callback = function(data) {
+			$scope.mathDemo = data;
+		};
+		if ($scope.target == 'circle') {
+			Math.circle({
+				noteCount: 6,
+				fixed: false,
+				fixedAngle: false,
+				alpha: 0,
+				arc : 0,
+				notes: [],
+				fixedNotes: []
+			}, callback);
+		} else if ($scope.target == 'spiral') {
+			Math.spiral({
+				
+			}, callback);
+		}
 	});
-	$scope.mathDemo.$demo();
-	$scope.processDemo = function() {
+	$scope.processCirle = function() {
 		if ($scope.cleanNotes) {
 			$scope.mathDemo.notes.length = 0;
 			$scope.mathDemo.fixedNotes.length = 0;
 		}	
-		$scope.mathDemo = Math.demo($scope.mathDemo);
+		$scope.mathDemo.$circle();
 	};
 });

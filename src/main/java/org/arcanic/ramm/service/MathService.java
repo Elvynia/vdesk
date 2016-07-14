@@ -1,8 +1,15 @@
 package org.arcanic.ramm.service;
 
+import org.arcanic.ramm.document.Reference;
+import org.arcanic.ramm.layout.Layer;
 import org.arcanic.ramm.math.CircleDemo;
 import org.arcanic.ramm.math.Node;
+import org.arcanic.ramm.math.SpiralDemo;
+import org.arcanic.ramm.math.spiral.Parameters;
+import org.arcanic.ramm.math.spiral.Transform;
 import org.arcanic.ramm.memory.CircleMemory;
+import org.arcanic.ramm.repository.ReferenceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +20,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MathService {
+
+	@Autowired
+	private LayoutService layoutService;
+
+	@Autowired
+	private ReferenceRepository referenceRepo;
 
 	/**
 	 * Process calculation to find note distribution.
@@ -63,5 +76,15 @@ public class MathService {
 		node.setX(Math.round(Math.cos(angle) * ray));
 		node.setY(Math.round(Math.sin(angle) * ray));
 		return node;
+	}
+
+	public SpiralDemo processSpiralDemo(final SpiralDemo spiralDemo) {
+		final Parameters params = spiralDemo.getParameters();
+		final Transform transform = spiralDemo.getTransform();
+		final Reference root = referenceRepo.findOne(params.getReferenceId());
+		final Layer layer = layoutService.buildLayer(root);
+
+		spiralDemo.setRoot(root);
+		return spiralDemo;
 	}
 }

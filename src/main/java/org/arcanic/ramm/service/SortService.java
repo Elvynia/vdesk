@@ -11,7 +11,6 @@ import org.arcanic.ramm.document.Note;
 import org.arcanic.ramm.document.NoteRef;
 import org.arcanic.ramm.document.Reference;
 import org.arcanic.ramm.repository.NoteRefRepository;
-import org.arcanic.ramm.repository.NoteRepository;
 import org.arcanic.ramm.repository.ReferenceRepository;
 import org.arcanic.ramm.sort.ConnectedReference;
 import org.arcanic.ramm.sort.InclusiveReference;
@@ -29,28 +28,29 @@ public class SortService {
 	@Autowired
 	private NoteRefRepository noteRefService;
 
-	@Autowired
-	private NoteRepository noteService;
+	// @Autowired
+	// private NoteRepository noteService;
 
 	@Autowired
 	private ReferenceRepository referenceService;
 
 	/**
-	 * Sorte notes by gathering their references to make a chain. Notes with the
+	 * Sort notes by gathering their references to make a chain. Notes with the
 	 * most references in common are next to each others.
 	 *
 	 * @return List<Note> the notes sorted by reference count.
 	 */
-	public List<Note> sortNotes() {
+	public List<Note> sortNotes(final Reference reference) {
 		final LinkedList<Note> notes = new LinkedList<>();
-		final List<Note> dbNotes = noteService.findAll();
-		for (final Note dbNote : dbNotes) {
-			dbNote.setReferences(new ArrayList<>());
-			final List<NoteRef> noteRefs = noteRefService.findByNote(dbNote);
+		final List<NoteRef> refs = noteRefService.findByReference(reference);
+		for (final NoteRef ref : refs) {
+			final Note note = ref.getNote();
+			note.setReferences(new ArrayList<>());
+			final List<NoteRef> noteRefs = noteRefService.findByNote(note);
 			for (final NoteRef noteRef : noteRefs) {
-				dbNote.getReferences().add(noteRef.getReference());
+				note.getReferences().add(noteRef.getReference());
 			}
-			notes.add(dbNote);
+			notes.add(note);
 		}
 		// Sort notes in natural order by comparator.
 		Collections.sort(notes, new NoteComparator());
@@ -83,7 +83,8 @@ public class SortService {
 				final Note note = noteRef.getNote();
 				noteIds.add(note.getId());
 				sortedRef.getNotes().add(note);
-				final List<NoteRef> otherNoteRefs = noteRefService.findReferencesByNote(note.getId(), noteRef.getReference().getId());
+				final List<NoteRef> otherNoteRefs = noteRefService.findReferencesByNote(note.getId(),
+						noteRef.getReference().getId());
 				logger.debug("\t\t\tFound {} otherNoteRefs : {}", otherNoteRefs.size(), otherNoteRefs.toString());
 				for (final NoteRef otherNoteRef : otherNoteRefs) {
 					if (!otherRefs.contains(otherNoteRef.getReference())) {
@@ -97,7 +98,8 @@ public class SortService {
 			final List<Reference> siblings = new ArrayList<>();
 			for (final Reference otherRef : otherRefs) {
 				logger.debug("\t\tProcessing other reference {} : ", otherRef);
-				final Integer noteCount = noteRefService.countByReferenceIdAndNoteIdIn(otherRef.getId(), noteIds).size();
+				final Integer noteCount = noteRefService.countByReferenceIdAndNoteIdIn(otherRef.getId(), noteIds)
+						.size();
 				logger.debug("\t\t\tFound {} notes.", noteCount);
 				if (noteCount == noteIds.size()) {
 					parents.add(otherRef);
