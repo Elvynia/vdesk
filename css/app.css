@@ -28,3 +28,8 @@ h1 {
 	float: right;
 	width:50%;
 }
+
+.typing-area {
+	min-width: 400px;
+	min-height: 100px;
+}

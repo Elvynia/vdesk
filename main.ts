@@ -32,12 +32,15 @@ class AppComponent {
 	}
 	
 	private addMemory(event) {
-		console.log('Form data : ', this.memoryForm.value);
+		console.debug('Form data : ', this.memoryForm.value);
 		this.http.post('/ws/ralm/memory', JSON.stringify(this.memoryForm.value), {headers: this.headers})
 			.map(response => response.json())
 			.subscribe((result) => this.memories.push(result),
 				(error) => console.error('Post memory error : ', error),
-				() => console.debug('Post memory complete'));
+				() => {
+					this.memoryForm.value.content = null;
+					this.memoryForm.controls.content.updateValue('', {onlySelf:true, emitEvent:true, emitModelToViewChange:true})
+				});
 	}
 	
 	private deleteMemory(memoryId, memoryIndex) {
