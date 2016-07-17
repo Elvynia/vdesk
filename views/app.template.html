@@ -8,7 +8,7 @@
 <div class="inputs">
 	<form [ngFormModel]="memoryForm" (submit)="addMemory($event)">
 		<textarea class="typing-area" ngControl="content" placeholder="Content..."></textarea>
-		<tg-keyboard keys="ctrl+enter" (keyUp)="addBtn.click()"></tg-keyboard>
+		<tg-keyboard keys="ctrl+enter" (keyUp)="addBtn.click()" [global]="true"></tg-keyboard>
 		<button #addBtn>Add memory</button>
 	</form>
 </div>
