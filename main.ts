@@ -4,10 +4,13 @@ import {FormBuilder, Validators} from '@angular/common';
 import {HTTP_PROVIDERS, Http, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import {TgKeyboardComponent} from 'trilliangular/core/tg-keyboard.component';
+
 @Component({
 	selector: 'ralm-app',
 	templateUrl: 'views/app.template.html',
 	styleUrls: ['css/app.css'],
+	directives: [TgKeyboardComponent],
 	providers: [HTTP_PROVIDERS]
 })
 class AppComponent {
