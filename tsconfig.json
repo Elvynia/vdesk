@@ -8,11 +8,12 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": false,
-	"outDir": "dist/",
-	"declaration": false
+    "rootDir": "src",
+    "outDir": "dist/",
+    "declaration": false
   },
   "exclude": [
-	"node_modules",
-	"dist"
+    "node_modules",
+    "dist"
   ]
 }

@@ -1,0 +1,6 @@
+<tg-object [id]="tag._id" [bound]="true" name="Mesh" (started)="onMeshStart($event)">
+	<tg-instance name="BoxGeometry" [args]="[scale, scale, scale]"></tg-instance>
+	<tg-instance name="MeshLambertMaterial" [args]="{color: 65280}"></tg-instance>
+</tg-object>
+<tg-instance *ngIf="selected" [id]="tag._id + '_light'" [bound]="true" name="SpotLight"
+	[args]="[16777215, 2, scale * 4, 0.25]" (instantiated)="onLightInstantiated($event)"></tg-instance>

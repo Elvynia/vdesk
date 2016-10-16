@@ -1,0 +1,51 @@
+<h1>Welcome to RAMM demo !</h1>
+<trilliangular [width]="displaySize.x" [height]="displaySize.y" debug="true"
+	(started)="start($event)" (updated)="update($event)">
+	<canvas #canvas></canvas>
+	<tg-scene>
+		<tg-actor id="tagPlane">
+			<tg-object [bound]="true" name="Mesh" #plane>
+				<tg-instance name="PlaneBufferGeometry" [args]="[1000, 1000]"></tg-instance>
+				<tg-instance name="MeshBasicMaterial" [args]="{color: 1710618, wireframe: true}"></tg-instance>
+			</tg-object>
+			<tg-instance [bound]="true" name="AmbientLight" [args]="[4210752]"></tg-instance>
+		</tg-actor>
+		<tg-actor id="tags" #tags>
+			<tag *ngFor="let tag of memoryMap.tags; let tagIndex = index" [tag]="tag"
+				[position]="{x: tagIndex === 0 ? tagIndex : tagIndex + 1 * tagIndex, y: tagIndex === 0 ? tagIndex : tagIndex + 1 * tagIndex}" [selected]="selectedTags.indexOf(tag) >= 0"></tag>
+		</tg-actor>
+	</tg-scene>
+	<tg-renderer [renderTarget]="canvas" [transparent]="true" #renderer>
+		<div *ngIf="cameraControls">
+			<translation [keys]="['z', 'd', 's', 'q', 'a', 'e']" [velocity]="500"
+				[position]="renderer.cameraInstance.position"></translation>
+			<translation [keys]="['left', 'up', 'right', 'down', 'pageup', 'pagedown']"
+				[position]="renderer.cameraInstance.rotation"></translation>
+		</div>
+	</tg-renderer>
+</trilliangular>
+<div class="memories" *ngIf="memoryMap.memories.length > 0">
+	<div class="memory" *ngFor="let memory of memoryMap.filterMemories(selectedTags)" title="{{memory._id}}">
+		CONTENT : {{memory.content}}
+		<img class="delete-icon" (click)="rammService.deleteMemory(memory)">
+	</div>
+</div>
+<tg-keylistener keys="alt+enter" (keyUp)="showInputs = !showInputs" [global]="true"></tg-keylistener>
+<tg-keylistener keys="escape" (keyUp)="tag = null" [global]="true"></tg-keylistener>
+<div class="memory-edit" *ngIf="showInputs">
+	<form (submit)="addMemory()">
+		<textarea class="typing-area" placeholder="Content..."
+			name="content" [(ngModel)]="memory.content" required></textarea>
+		<tg-keylistener keys="ctrl+enter" (keyUp)="addBtn.click()" [global]="true"></tg-keylistener>
+		<button type="submit" #addBtn>Add memory</button>
+	</form>
+</div>
+<div class="tag-hover" *ngIf="hoverTag" [ngStyle]="{left: mouseService.mousePosition.x + 5, top: mouseService.mousePosition.y + 5}">
+	<h2>{{hoverTag.name}}</h2>
+</div>
+<div class="tag-edit" *ngIf="tag">
+	<form (submit)="saveTag()">
+		<input type="text" name="name" [(ngModel)]="tag.name" required>
+		<button type="submit">Save tag</button>
+	</form>
+</div>

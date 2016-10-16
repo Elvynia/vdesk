@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 app.use('/', require('./routes/index'));
-app.use('/ws/ralm/', require('./routes/ralm'));
+app.use('/ws/ramm/', require('./routes/ramm'));
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
