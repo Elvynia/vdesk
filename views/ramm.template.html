@@ -1,6 +1,5 @@
 <h1>Welcome to RAMM demo !</h1>
-<trilliangular [width]="displaySize.x" [height]="displaySize.y" debug="true"
-	(started)="start($event)" (updated)="update($event)">
+<trilliangular [width]="displaySize.x" [height]="displaySize.y" debug="true" (started)="start($event)">
 	<canvas #canvas></canvas>
 	<tg-scene>
 		<tg-actor id="tagPlane">
@@ -11,17 +10,12 @@
 			<tg-instance [bound]="true" name="AmbientLight" [args]="[4210752]"></tg-instance>
 		</tg-actor>
 		<tg-actor id="tags" #tags>
-			<tag *ngFor="let tag of memoryMap.tags; let tagIndex = index" [tag]="tag"
-				[position]="{x: tagIndex === 0 ? tagIndex : tagIndex + 1 * tagIndex, y: tagIndex === 0 ? tagIndex : tagIndex + 1 * tagIndex}" [selected]="selectedTags.indexOf(tag) >= 0"></tag>
+			<tag *ngFor="let tag of memoryMap.tags; let tagIndex = index" [tag]="tag" [selected]="selectedTags.indexOf(tag) >= 0"
+				[position]="{x: tagIndex === 0 ? tagIndex : tagIndex + 1 * tagIndex, y: tagIndex === 0 ? tagIndex : tagIndex + 1 * tagIndex}" ></tag>
 		</tg-actor>
 	</tg-scene>
 	<tg-renderer [renderTarget]="canvas" [transparent]="true" #renderer>
-		<div *ngIf="cameraControls">
-			<translation [keys]="['z', 'd', 's', 'q', 'a', 'e']" [velocity]="500"
-				[position]="renderer.cameraInstance.position"></translation>
-			<translation [keys]="['left', 'up', 'right', 'down', 'pageup', 'pagedown']"
-				[position]="renderer.cameraInstance.rotation"></translation>
-		</div>
+		<camera-controls *ngIf="cameraControls" [velocity]="500" [camera]="renderer.cameraInstance"></camera-controls>
 	</tg-renderer>
 </trilliangular>
 <div class="memories" *ngIf="memoryMap.memories.length > 0">
@@ -40,7 +34,8 @@
 		<button type="submit" #addBtn>Add memory</button>
 	</form>
 </div>
-<div class="tag-hover" *ngIf="hoverTag" [ngStyle]="{left: mouseService.mousePosition.x + 5, top: mouseService.mousePosition.y + 5}">
+<div class="tag-hover" *ngIf="hoverTag" #hoverTagDiv
+	[ngStyle]="{left: mouseService.mousePosition.x - hoverTagDiv.clientWidth / 2, top: mouseService.mousePosition.y - hoverTagDiv.clientHeight * 2}">
 	<h2>{{hoverTag.name}}</h2>
 </div>
 <div class="tag-edit" *ngIf="tag">

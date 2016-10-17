@@ -34,7 +34,6 @@ export class RammComponent implements OnInit, DoCheck {
 		y: window.innerHeight
 	};
 	private tagScale: number;
-	private mousePosition: THREE.Vector2;
 	private hoverTag: Tag;
 	private selectedTags: Array<Tag>;
 	@ViewChild('renderer') renderer: TgRendererComponent;
@@ -48,7 +47,6 @@ export class RammComponent implements OnInit, DoCheck {
 		this.tag = null;
 		this.memoryMap = new Ramm();
 		this.tagScale = 50;
-		this.mousePosition = new THREE.Vector2();
 		this.hoverTag = null;
 		this.selectedTags = new Array<Tag>();
 	}
@@ -56,14 +54,26 @@ export class RammComponent implements OnInit, DoCheck {
 	ngOnInit() {
 		this.mouseService.initialize(document.getElementsByTagName("canvas")[0]);
 		this.mouseService.events
-			.filter((event) => event.type === MOUSE.CLICKED || event.type === MOUSE.DOUBLE_CLICKED)
+			.filter((event:TgMouselistener) => event.type === MOUSE.CLICKED || event.type === MOUSE.DOUBLE_CLICKED)
 			.debounceTime(200)
-			.subscribe((event) => {
-				if (event.type === MOUSE.CLICKED) {
+			.subscribe((event:TgMouselistener) => {
+				if (event.type === MOUSE.CLICKED
+					&& event.nativeEvent.button == 0) {
 					this.selectTag(event);
 				} else {
-					this.editTag(event);
+					// TODO: Enter the tag !
 				}
+			});
+		this.mouseService
+			.eventsByType(MOUSE.MOVED)
+			.subscribe((event:TgMouselistener) => {
+				this.hoverTag = this.projectOnTag(event.nativeEvent.clientX, event.nativeEvent.clientY);
+			});
+		this.mouseService
+			.eventsByType(MOUSE.CONTEXT_MENU)
+			.subscribe((event:TgMouselistener) => {
+				this.editTag(event);
+				event.nativeEvent.preventDefault();
 			});
 		this.rammService.events.subscribe((ramm:Ramm) => {
 			this.memoryMap = ramm;
@@ -112,7 +122,9 @@ export class RammComponent implements OnInit, DoCheck {
 	}
 
 	private editTag(listener: TgMouselistener) {
-		let editTag = this.selectTag(listener);
+		let x = listener.nativeEvent.clientX;
+		let y = listener.nativeEvent.clientY;
+		let editTag: Tag = this.projectOnTag(x, y);
 		if (editTag) {
 			// Modify an existing tag.
 			this.tag = editTag;
@@ -143,15 +155,6 @@ export class RammComponent implements OnInit, DoCheck {
 			}
 		}
 		return tag;
-	}
-
-	private update(delta: number) {
-		let newPos = this.mouseService.mousePosition;
-		if (newPos && (newPos.x !== this.mousePosition.x || newPos.y !== this.mousePosition.y)) {
-			this.mousePosition.x = newPos.x;
-			this.mousePosition.y = newPos.y;
-			this.hoverTag = this.projectOnTag(this.mousePosition.x, this.mousePosition.y);
-		}
 	}
 
 	private projectOnTag(x: number, y: number): Tag {

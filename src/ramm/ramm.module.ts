@@ -10,7 +10,7 @@ import {TgThreeModule}  from 'trilliangular/runtime/three/tg-three.module';
 import {RammComponent} from './ramm.component';
 import {MemoryComponent} from '../memory/memory.component';
 import {TagComponent} from '../tag/tag.component';
-import {TranslationComponent} from '../translation.component';
+import {CameraControlsComponent} from '../camera-controls.component';
 
 @NgModule({
 	imports: [
@@ -24,7 +24,7 @@ import {TranslationComponent} from '../translation.component';
 		RammComponent,
 		MemoryComponent,
 		TagComponent,
-		TranslationComponent
+		CameraControlsComponent
 	],
 	bootstrap: [RammComponent]
 })
