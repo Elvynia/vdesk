@@ -18,18 +18,7 @@ export class Ramm {
 		this._tags = tagIds || new Array<Tag>();
 	}
 
-	public getTagById(id: string): Tag {
-		let result = null;
-		for (var i = this._tags.length - 1; i >= 0; i--) {
-			if (this._tags[i]._id === id) {
-				result = this._tags[i];
-				break;
-			}
-		}
-		return result;
-	}
-
-	public setTagById(tag: Tag) {
+	public updateTag(tag: Tag) {
 		for (var i = this._tags.length - 1; i >= 0; i--) {
 			if (this._tags[i]._id === tag._id) {
 				this._tags[i] = tag;

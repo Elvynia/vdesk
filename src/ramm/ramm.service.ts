@@ -64,7 +64,7 @@ export class RammService {
 		this.http.put('/ws/ramm/tag', JSON.stringify(tag), {headers: this.headers})
 			.map(response => response.json())
 			.subscribe({
-				next: (result) => this.memoryMap.setTagById(result),
+				next: (result) => this.memoryMap.updateTag(result),
 				error: (error) => console.error('Put tag error : ', error),
 				complete: () => this.next()
 			});
@@ -77,6 +77,19 @@ export class RammService {
 				for (var i = memories.length - 1; i >= 0; i--) {
 					if (memories[i] === memory) {
 						memories.splice(i, 1);
+					}
+				}
+				this.next();
+			});
+	}
+
+	public deleteTag(tag: Tag) {
+		this.http.delete('ws/ramm/tag/' + tag._id, {headers: this.headers})
+			.subscribe(() => {
+				let tags = this.memoryMap.tags;
+				for (var i = tags.length - 1; i >= 0; i--) {
+					if (tags[i] === tag) {
+						tags.splice(i, 1);
 					}
 				}
 				this.next();
