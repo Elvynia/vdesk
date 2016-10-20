@@ -15,19 +15,20 @@ import {TgRendererComponent} from 'trilliangular/runtime/three/tg-renderer.compo
 import {RammService} from './ramm.service';
 import {Ramm} from './ramm.class';
 import {Memory} from '../memory/memory.class';
+import {MemoryService} from '../memory/memory.service';
 import {Tag} from '../tag/tag.class';
+import {TagService} from '../tag/tag.service';
 
 @Component({
 	selector: 'ramm',
 	templateUrl: '../views/ramm.template.html',
 	styleUrls: ['../css/ramm.css'],
-	providers: [TrilliangularService, TgMouselistenerService, RammService]
+	providers: [TrilliangularService, TgMouselistenerService, MemoryService, TagService, RammService]
 })
 export class RammComponent implements OnInit, DoCheck {
-	private showInputs: boolean;
 	private cameraControls: boolean;
-	private memory: Memory;
 	private memoryMap: Ramm;
+	private selectedTags: Array<Tag>;
 	private displaySize = {
 		x: window.innerWidth,
 		y: window.innerHeight
@@ -35,15 +36,14 @@ export class RammComponent implements OnInit, DoCheck {
 	@ViewChild('renderer') renderer: TgRendererComponent;
 	
 	constructor(private mouseService: TgMouselistenerService, private rammService: RammService) {
-		this.showInputs = false;
 		this.cameraControls = false;
-		this.memory = new Memory();
 		this.memoryMap = new Ramm();
+		this.selectedTags = new Array<Tag>();
 	}
 
 	ngOnInit() {
 		this.mouseService.initialize(document.getElementsByTagName("canvas")[0]);
-		this.rammService.events.subscribe((ramm:Ramm) => {
+		this.rammService.changes.subscribe((ramm:Ramm) => {
 			this.memoryMap = ramm;
 			console.debug('Memory map updated !');
 		});
@@ -53,6 +53,8 @@ export class RammComponent implements OnInit, DoCheck {
 				y: window.innerHeight
 			}
 		});
+		this.rammService.getMemories();
+		this.rammService.getTags();
 	}
 
 	ngDoCheck() {
@@ -63,19 +65,11 @@ export class RammComponent implements OnInit, DoCheck {
 		}
 	}
 
-	private addMemory() {
-		if (this.memory.tags.length === 0) {
-			this.memory.tags = undefined;
-		}
-		this.rammService.addMemory(this.memory);
-		this.memory = new Memory();
-	}
-
 	private updateMemoryTags(selection: [Tag, boolean]) {
 		if (selection[1]) {
-			this.memory.tags.push(selection[0]);
+			this.selectedTags.push(selection[0]);
 		} else {
-			this.memory.tags.splice(this.memory.tags.indexOf(selection[0]), 1);
+			this.selectedTags.splice(this.selectedTags.indexOf(selection[0]), 1);
 		}
 	}
 

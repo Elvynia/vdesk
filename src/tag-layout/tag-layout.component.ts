@@ -8,6 +8,7 @@ import {TgMouselistenerService} from 'trilliangular/inputs/tg-mouselistener.serv
 
 import {RammService} from '../ramm/ramm.service';
 import {Tag} from '../tag/tag.class';
+import {TagService} from '../tag/tag.service';
 
 @Component({
 	selector: 'tag-layout',
@@ -22,7 +23,7 @@ export class TagLayoutComponent implements OnInit {
 	private hovering: Tag;
 	private selectedTags: Array<Tag>;
 
-	constructor(private mouseService: TgMouselistenerService, private rammService: RammService) {
+	constructor(private mouseService: TgMouselistenerService, private tagService: TagService) {
 		this.tagSelected = new EventEmitter<[Tag, boolean]>();
 		this.editing = null;
 		this.hovering = null;
@@ -57,9 +58,9 @@ export class TagLayoutComponent implements OnInit {
 
 	private saveTag() {
 		if (this.editing._id) {
-			this.rammService.editTag(this.editing);
+			this.tagService.update(this.editing);
 		} else {
-			this.rammService.addTag(this.editing);
+			this.tagService.create(this.editing);
 		}
 		this.editing = null;
 	}
@@ -70,7 +71,7 @@ export class TagLayoutComponent implements OnInit {
 			if (index >= 0) {
 				this.selectedTags.splice(index, 1);
 			}
-			this.rammService.deleteTag(this.editing);
+			this.tagService.delete(this.editing);
 		}
 		this.editing = null;
 	}
@@ -119,7 +120,7 @@ export class TagLayoutComponent implements OnInit {
 	private projectOnTag(x: number, y: number): Tag {
 		let result = null;
 		let intersections = this.mouseService.mouseSelect(x, y);
-		if (intersections.length > 0/* && intersections[0].object !== this.plane.instance*/) {
+		if (intersections.length > 0 && intersections[0].object !== this.plane.instance) {
 			result = this.getTagById(intersections[0].object.name);
 		}
 		return result;

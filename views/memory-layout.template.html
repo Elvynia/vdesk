@@ -1,0 +1,15 @@
+<div class="memories" *ngIf="memories && memories.length > 0">
+	<div class="memory" *ngFor="let memory of memories" title="{{memory._id}}">
+		{{memory.content}}
+		<img class="delete-icon" (click)="rammService.deleteMemory(memory)">
+	</div>
+</div>
+<tg-keylistener keys="alt+enter" (keyUp)="showInputs = !showInputs" [global]="true"></tg-keylistener>
+<div class="memory-edit" *ngIf="showInputs">
+	<form (submit)="addMemory()">
+		<textarea class="typing-area" placeholder="Content..."
+			name="content" [(ngModel)]="editing.content" required></textarea>
+		<tg-keylistener keys="ctrl+enter" (keyUp)="addBtn.click()" [global]="true"></tg-keylistener>
+		<button type="submit" #addBtn>Add memory</button>
+	</form>
+</div>
