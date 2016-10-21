@@ -29,6 +29,7 @@ export class RammComponent implements OnInit, DoCheck {
 	private cameraControls: boolean;
 	private memoryMap: Ramm;
 	private selectedTags: Array<Tag>;
+	private filteredMemories: Array<Memory>;
 	private displaySize = {
 		x: window.innerWidth,
 		y: window.innerHeight
@@ -39,12 +40,14 @@ export class RammComponent implements OnInit, DoCheck {
 		this.cameraControls = false;
 		this.memoryMap = new Ramm();
 		this.selectedTags = new Array<Tag>();
+		this.filteredMemories = new Array<Memory>();
 	}
 
 	ngOnInit() {
 		this.mouseService.initialize(document.getElementsByTagName("canvas")[0]);
 		this.rammService.changes.subscribe((ramm:Ramm) => {
 			this.memoryMap = ramm;
+			this.updateHoveredTags([null, false]);
 			console.debug('Memory map updated !');
 		});
 		window.addEventListener("resize", () => {
@@ -65,11 +68,31 @@ export class RammComponent implements OnInit, DoCheck {
 		}
 	}
 
-	private updateMemoryTags(selection: [Tag, boolean]) {
+	private updateSelectedTags(selection: [Tag, boolean]) {
 		if (selection[1]) {
 			this.selectedTags.push(selection[0]);
 		} else {
 			this.selectedTags.splice(this.selectedTags.indexOf(selection[0]), 1);
+		}
+	}
+
+	private updateHoveredTags(selection: [Tag, boolean]) {
+		let memories: Array<Memory> = this.memoryMap.memories;
+		if (selection[1]) {
+			this.filteredMemories = new Array<Memory>();
+			for (let i = memories.length - 1; i >= 0; i--) {
+				let tags: Array<any> = memories[i].tags;
+				if (tags) {
+					for (let j = tags.length - 1; j >= 0; j--) {
+						if (tags[j].$id === selection[0]._id) {
+							this.filteredMemories.push(memories[i]);
+							break;
+						}
+					}
+				}
+			}
+		} else {
+			this.filteredMemories = this.memoryMap.memories;
 		}
 	}
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, DoCheck} from '@angular/core';
 
 import {RammService} from '../ramm/ramm.service';
 import {Memory} from '../memory/memory.class';
@@ -7,11 +7,12 @@ import {Tag} from '../tag/tag.class';
 @Component({
 	selector: 'memory-layout',
 	templateUrl: '../views/memory-layout.template.html',
-	styleUrls: ['../css/memory-layout.css']
+	styleUrls: ['../css/memory-layout.css'],
 })
-export class MemoryLayoutComponent implements OnInit {
+export class MemoryLayoutComponent {
 	@Input() memories: Array<Memory>;
-	@Input() linkedTags: Array<Tag>;
+	@Input() activeTags: Array<Tag>;
+	@Input() filterTags: Array<Tag>;
 	private editing: Memory;
 	private showInputs: boolean;
 
@@ -20,11 +21,8 @@ export class MemoryLayoutComponent implements OnInit {
 		this.showInputs = false;
 	}
 
-	ngOnInit() {
-
-	}
-
 	private addMemory() {
+		console.debug('Active tags : ' + this.activeTags);
 		if (this.editing.tags.length === 0) {
 			this.editing.tags = undefined;
 		}

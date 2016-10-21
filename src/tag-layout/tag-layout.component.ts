@@ -18,6 +18,7 @@ import {TagService} from '../tag/tag.service';
 export class TagLayoutComponent implements OnInit {
 	@Input() tags: Array<Tag>;
 	@Output() tagSelected: EventEmitter<[Tag, boolean]>;
+	@Output() tagHovered: EventEmitter<[Tag, boolean]>;
 	@ViewChild('plane') plane: TgInstanceComponent;
 	private editing: Tag;
 	private hovering: Tag;
@@ -25,6 +26,7 @@ export class TagLayoutComponent implements OnInit {
 
 	constructor(private mouseService: TgMouselistenerService, private tagService: TagService) {
 		this.tagSelected = new EventEmitter<[Tag, boolean]>();
+		this.tagHovered = new EventEmitter<[Tag, boolean]>();
 		this.editing = null;
 		this.hovering = null;
 		this.selectedTags = new Array<Tag>();
@@ -46,7 +48,11 @@ export class TagLayoutComponent implements OnInit {
 		this.mouseService
 			.eventsByType(MOUSE.MOVED)
 			.subscribe((event:TgMouselistener) => {
+				let oldValue = this.hovering;
 				this.hovering = this.projectOnTag(event.nativeEvent.clientX, event.nativeEvent.clientY);
+				if (this.hovering !== oldValue) {
+					this.tagHovered.next([this.hovering || oldValue, this.hovering !== null]);
+				}
 			});
 		this.mouseService
 			.eventsByType(MOUSE.CONTEXT_MENU)

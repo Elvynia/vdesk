@@ -2,10 +2,18 @@
 <trilliangular [width]="displaySize.x" [height]="displaySize.y" debug="true" (started)="start($event)">
 	<canvas #canvas></canvas>
 	<tg-scene>
-		<tag-layout [tags]="memoryMap.tags" (tagSelected)="updateMemoryTags($event)"></tag-layout>
-		<memory-layout [memories]="memoryMap.memories" [linkedTags]="selectedTags"></memory-layout>
+		<tag-layout [tags]="memoryMap.tags"
+			(tagSelected)="updateSelectedTags($event)"
+			(tagHovered)="updateHoveredTags($event)">
+		</tag-layout>
+		<memory-layout [memories]="filteredMemories"
+			[activeTags]="selectedTags">
+		</memory-layout>
 	</tg-scene>
 	<tg-renderer [renderTarget]="canvas" [transparent]="true" #renderer>
-		<camera-controls *ngIf="cameraControls" [velocity]="500" [camera]="renderer.cameraInstance"></camera-controls>
+		<camera-controls *ngIf="cameraControls"
+			[velocity]="500"
+			[camera]="renderer.cameraInstance">
+		</camera-controls>
 	</tg-renderer>
 </trilliangular>
