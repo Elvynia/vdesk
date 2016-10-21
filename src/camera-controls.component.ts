@@ -57,7 +57,6 @@ export class CameraControlsComponent {
 			let onMouseDownPosition: THREE.Vector2 = new THREE.Vector2(event.nativeEvent.clientX, event.nativeEvent.clientY);
 			let onMouseDownTheta: number = this.theta;
 			let onMouseDownPhi: number = this.phi;
-			let radius: number = this.camera.position.distanceTo(new THREE.Vector3());
 			this.mouseService
 				.eventsByType(MOUSE.MOVED)
 				.takeUntil(this.mouseService.eventsByType(MOUSE.MOUSE_UP))
@@ -66,7 +65,7 @@ export class CameraControlsComponent {
 					this.phi = ( ( event.nativeEvent.clientY - onMouseDownPosition.y ) * 0.5 ) + onMouseDownPhi;
 
 					this.phi = Math.min( 180, Math.max( 0, this.phi ) );
-
+					let radius: number = this.camera.position.distanceTo(new THREE.Vector3());
 					this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 ) * Math.cos( this.phi * Math.PI / 360 );
 					this.camera.position.y = radius * Math.sin( this.phi * Math.PI / 360 );
 					this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 ) * Math.cos( this.phi * Math.PI / 360 );
