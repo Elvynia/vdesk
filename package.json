@@ -6,6 +6,9 @@
     "node": "5.9.1"
   },
   "scripts": {
+    "start": "lite-server",
+    "ntsc:w": "ntsc -w",
+    "dev": "concurrently \"npm run ntsc:w\" \"npm start\"",
     "postinstall": "typings install && ntsc"
   },
   "dependencies": {
@@ -33,7 +36,7 @@
   },
   "devDependencies": {
     "concurrently": "^2.1.0",
-    "supervisor": "^0.11.0",
+    "lite-server": "^2.2.2",
     "ntypescript": "^1.x.x",
     "typescript": "^2.0.3",
     "typings": "^1.0.4"

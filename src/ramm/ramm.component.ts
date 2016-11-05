@@ -84,7 +84,7 @@ export class RammComponent implements OnInit, DoCheck {
 				let tags: Array<any> = memories[i].tags;
 				if (tags) {
 					for (let j = tags.length - 1; j >= 0; j--) {
-						if (tags[j].$id === selection[0]._id) {
+						if (tags[j] && tags[j].id === selection[0].id) {
 							this.filteredMemories.push(memories[i]);
 							break;
 						}

@@ -1,5 +1,5 @@
 <div class="memories" *ngIf="memories && memories.length > 0">
-	<div class="memory" *ngFor="let memory of memories" title="{{memory._id}}">
+	<div class="memory" *ngFor="let memory of memories" title="{{memory.id}}">
 		{{memory.content}}
 		<img class="delete-icon" (click)="rammService.deleteMemory(memory)">
 	</div>

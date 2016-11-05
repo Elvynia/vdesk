@@ -63,7 +63,7 @@ export class TagLayoutComponent implements OnInit {
 	}
 
 	private saveTag() {
-		if (this.editing._id) {
+		if (this.editing.id) {
 			this.tagService.update(this.editing);
 		} else {
 			this.tagService.create(this.editing);
@@ -72,12 +72,15 @@ export class TagLayoutComponent implements OnInit {
 	}
 
 	private deleteTag() {
-		if (this.editing._id) {
-			let index = this.selectedTags.indexOf(this.editing);
-			if (index >= 0) {
-				this.selectedTags.splice(index, 1);
-			}
-			this.tagService.delete(this.editing);
+		if (this.editing.id) {
+			this.tagService.delete(this.editing).subscribe({
+				complete: () => {
+					let index = this.selectedTags.indexOf(this.editing);
+					if (index >= 0) {
+						this.selectedTags.splice(index, 1);
+					}
+				}
+			});
 		}
 		this.editing = null;
 	}
@@ -135,7 +138,7 @@ export class TagLayoutComponent implements OnInit {
 	private getTagById(id: string): Tag {
 		let result = null;
 		for (var i = this.tags.length - 1; i >= 0; i--) {
-			if (this.tags[i]._id === id) {
+			if (this.tags[i].id === id) {
 				result = this.tags[i];
 				break;
 			}

@@ -20,7 +20,7 @@ export class Ramm {
 
 	public updateTag(tag: Tag) {
 		for (var i = this._tags.length - 1; i >= 0; i--) {
-			if (this._tags[i]._id === tag._id) {
+			if (this._tags[i].id === tag.id) {
 				this._tags[i] = tag;
 				break;
 			}
@@ -37,7 +37,7 @@ export class Ramm {
 					for (var j = memory.tags.length - 1; j >= 0; j--) {
 						for (var t = tags.length - 1; t >= 0; t--) {
 							let filterTag:any = memory.tags[j];
-							if (tags[t]._id === filterTag.$id) {
+							if (tags[t].id === filterTag.id) {
 								filtered.push(memory);
 								found = true;
 								break;

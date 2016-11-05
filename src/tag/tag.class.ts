@@ -1,5 +1,5 @@
 export class Tag {
-	_id: string;
+	id: string;
 	name: string;
 	metadata: any;
 

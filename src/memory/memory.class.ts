@@ -1,7 +1,7 @@
 import {Tag} from '../tag/tag.class';
 
 export class Memory {
-	_id: string;
+	id: string;
 	content: string;
 	tags: Array<Tag>;
 
