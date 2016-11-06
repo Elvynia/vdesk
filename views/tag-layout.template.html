@@ -1,9 +1,9 @@
 <tg-actor id="tagPlane" (started)="startTagPlane($event)">
-	<tg-object [bound]="true" name="Mesh" #plane>
-		<tg-instance name="PlaneBufferGeometry" [args]="[1000, 1000]"></tg-instance>
-		<tg-instance name="MeshBasicMaterial" [args]="{color: 1710618, wireframe: true}"></tg-instance>
-	</tg-object>
-	<tg-instance [bound]="true" name="AmbientLight" [args]="[4210752]"></tg-instance>
+	<three-object [bound]="true" name="Mesh" #plane>
+		<three-instance name="PlaneBufferGeometry" [args]="[1000, 1000]"></three-instance>
+		<three-instance name="MeshBasicMaterial" [args]="{color: 1710618, wireframe: true}"></three-instance>
+	</three-object>
+	<three-instance [bound]="true" name="AmbientLight" [args]="[4210752]"></three-instance>
 </tg-actor>
 <tg-actor id="tags">
 	<tag *ngFor="let tag of tags; let tagIndex = index" [tag]="tag" [selected]="selectedTags.indexOf(tag) >= 0"
@@ -14,7 +14,7 @@
 	<h2>{{hovering.name}}</h2>
 </div>
 <div class="tag-edit" *ngIf="editing">
-	<tg-keylistener keys="escape" (keyUp)="editing = null" [global]="true"></tg-keylistener>
+	<tg-keys keys="escape" (keyUp)="editing = null" [global]="true"></tg-keys>
 	<form (submit)="saveTag()">
 		<input type="text" name="name" [(ngModel)]="editing.name" required>
 		<button type="submit">Save</button>

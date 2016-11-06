@@ -23,8 +23,12 @@ export class MemoryLayoutComponent {
 
 	private addMemory() {
 		console.debug('Active tags : ' + this.activeTags);
-		if (this.editing.tags.length === 0) {
+		if (this.activeTags.length === 0) {
 			this.editing.tags = undefined;
+		} else {
+			for (var i = this.activeTags.length - 1; i >= 0; i--) {
+				this.editing.tags.push(this.activeTags[i]);
+			}
 		}
 		this.rammService.addMemory(this.editing);
 		this.editing = new Memory();

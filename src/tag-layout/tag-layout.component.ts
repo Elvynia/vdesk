@@ -1,10 +1,8 @@
 import {Component, Input, Output, EventEmitter, ViewChild, OnInit} from '@angular/core';
 
-import {TgInstanceComponent} from 'trilliangular/runtime/three/tg-instance.component';
-import {TgState} from 'trilliangular/core/tg-state.class';
-import {MOUSE} from 'trilliangular/inputs/tg-mouse.enum';
-import {TgMouselistener} from 'trilliangular/inputs/tg-mouselistener.class';
-import {TgMouselistenerService} from 'trilliangular/inputs/tg-mouselistener.service';
+import {TgState} from '@trilliangular/core';
+import {MOUSE, TgMouse, TgMouseService} from '@trilliangular/inputs';
+import {ThreeInstanceComponent, ThreeMouseService} from '@trilliangular/runtime-three';
 
 import {RammService} from '../ramm/ramm.service';
 import {Tag} from '../tag/tag.class';
@@ -13,18 +11,19 @@ import {TagService} from '../tag/tag.service';
 @Component({
 	selector: 'tag-layout',
 	templateUrl: '../views/tag-layout.template.html',
-	styleUrls: ['../css/tag-layout.css']
+	styleUrls: ['../css/tag-layout.css'],
+	providers: [ThreeMouseService, {provide: TgMouseService, useExisting: ThreeMouseService}]
 })
 export class TagLayoutComponent implements OnInit {
 	@Input() tags: Array<Tag>;
 	@Output() tagSelected: EventEmitter<[Tag, boolean]>;
 	@Output() tagHovered: EventEmitter<[Tag, boolean]>;
-	@ViewChild('plane') plane: TgInstanceComponent;
+	@ViewChild('plane') plane: ThreeInstanceComponent;
 	private editing: Tag;
 	private hovering: Tag;
 	private selectedTags: Array<Tag>;
 
-	constructor(private mouseService: TgMouselistenerService, private tagService: TagService) {
+	constructor(private mouseService: ThreeMouseService, private tagService: TagService) {
 		this.tagSelected = new EventEmitter<[Tag, boolean]>();
 		this.tagHovered = new EventEmitter<[Tag, boolean]>();
 		this.editing = null;
@@ -35,9 +34,9 @@ export class TagLayoutComponent implements OnInit {
 	ngOnInit() {
 		this.mouseService.initialize(document.getElementsByTagName("canvas")[0]);
 		this.mouseService.events
-			.filter((event:TgMouselistener) => event.type === MOUSE.CLICKED || event.type === MOUSE.DOUBLE_CLICKED)
+			.filter((event:TgMouse) => event.type === MOUSE.CLICKED || event.type === MOUSE.DOUBLE_CLICKED)
 			.debounceTime(200)
-			.subscribe((event:TgMouselistener) => {
+			.subscribe((event:TgMouse) => {
 				if (event.type === MOUSE.CLICKED
 					&& event.nativeEvent.button == 0) {
 					this.selectTag(event);
@@ -47,7 +46,7 @@ export class TagLayoutComponent implements OnInit {
 			});
 		this.mouseService
 			.eventsByType(MOUSE.MOVED)
-			.subscribe((event:TgMouselistener) => {
+			.subscribe((event:TgMouse) => {
 				let oldValue = this.hovering;
 				this.hovering = this.projectOnTag(event.nativeEvent.clientX, event.nativeEvent.clientY);
 				if (this.hovering !== oldValue) {
@@ -56,7 +55,7 @@ export class TagLayoutComponent implements OnInit {
 			});
 		this.mouseService
 			.eventsByType(MOUSE.CONTEXT_MENU)
-			.subscribe((event:TgMouselistener) => {
+			.subscribe((event:TgMouse) => {
 				this.editTag(event);
 				event.nativeEvent.preventDefault();
 			});
@@ -89,7 +88,7 @@ export class TagLayoutComponent implements OnInit {
 		this.plane.instance.rotation.x = -Math.PI / 2;
 	}
 
-	private editTag(listener: TgMouselistener) {
+	private editTag(listener: TgMouse) {
 		let x = listener.nativeEvent.clientX;
 		let y = listener.nativeEvent.clientY;
 		let editTag: Tag = this.projectOnTag(x, y);
@@ -108,7 +107,7 @@ export class TagLayoutComponent implements OnInit {
 		}
 	}
 
-	private selectTag(listener: TgMouselistener) {
+	private selectTag(listener: TgMouse) {
 		let x = listener.nativeEvent.clientX;
 		let y = listener.nativeEvent.clientY;
 		let tag: Tag = this.projectOnTag(x, y);

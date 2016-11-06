@@ -1,6 +1,6 @@
 import {Component, Input, SimpleChange} from '@angular/core';
 
-import {TgState} from 'trilliangular/core/tg-state.class';
+import {TgInstance} from '@trilliangular/core';
 
 import {Tag} from './tag.class';
 
@@ -22,15 +22,15 @@ export class TagComponent {
 		this.selected = false;
 	}
 
-	private onMeshStart(state: TgState) {
-		this.mesh = state.target.instance;
+	private onMeshStart(state: TgInstance) {
+		this.mesh = state.instance;
 		this.mesh.position.x = this.position.x * this.scale;
 		this.mesh.position.z = this.position.y * this.scale;
 		this.mesh.position.y = this.scale / 2;
 	}
 
-	private onLightInstantiated(state: TgState) {
-		let light = state.target.instance;
+	private onLightInstantiated(state: TgInstance) {
+		let light = state.instance;
 		light.position.x = this.position.x * this.scale;
 		light.position.z = this.position.y * this.scale;
 		light.position.y = this.scale * 4;

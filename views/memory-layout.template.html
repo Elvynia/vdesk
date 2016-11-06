@@ -4,12 +4,12 @@
 		<img class="delete-icon" (click)="rammService.deleteMemory(memory)">
 	</div>
 </div>
-<tg-keylistener keys="alt+enter" (keyUp)="showInputs = !showInputs" [global]="true"></tg-keylistener>
+<tg-keys keys="alt+enter" (keyUp)="showInputs = !showInputs" [global]="true"></tg-keys>
 <div class="memory-edit" *ngIf="showInputs">
 	<form (submit)="addMemory()">
 		<textarea class="typing-area" placeholder="Content..."
 			name="content" [(ngModel)]="editing.content" required></textarea>
-		<tg-keylistener keys="ctrl+enter" (keyUp)="addBtn.click()" [global]="true"></tg-keylistener>
+		<tg-keys keys="ctrl+enter" (keyUp)="addBtn.click()" [global]="true"></tg-keys>
 		<button type="submit" #addBtn>Add memory</button>
 	</form>
 </div>

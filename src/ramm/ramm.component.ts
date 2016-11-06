@@ -3,14 +3,9 @@ import {Component, ViewChild, OnInit, DoCheck} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import {TgContainer} from 'trilliangular/core/tg-container.class';
-import {TgActorComponent} from 'trilliangular/core/tg-actor.component';
-import {TrilliangularService} from 'trilliangular/app/trilliangular.service';
-import {MOUSE} from 'trilliangular/inputs/tg-mouse.enum';
-import {TgMouselistener} from 'trilliangular/inputs/tg-mouselistener.class';
-import {TgMouselistenerService} from 'trilliangular/inputs/tg-mouselistener.service';
-import {TgInstanceComponent} from 'trilliangular/runtime/three/tg-instance.component';
-import {TgRendererComponent} from 'trilliangular/runtime/three/tg-renderer.component';
+import {Trilliangular, TrilliangularService} from '@trilliangular/core';
+import {MOUSE, TgMouse, TgMouseService} from '@trilliangular/inputs';
+import {ThreeInstanceComponent, ThreeRenderer, ThreeRendererComponent} from '@trilliangular/runtime-three';
 
 import {RammService} from './ramm.service';
 import {Ramm} from './ramm.class';
@@ -23,7 +18,7 @@ import {TagService} from '../tag/tag.service';
 	selector: 'ramm',
 	templateUrl: '../views/ramm.template.html',
 	styleUrls: ['../css/ramm.css'],
-	providers: [TrilliangularService, TgMouselistenerService, MemoryService, TagService, RammService]
+	providers: [TrilliangularService, TgMouseService, MemoryService, TagService, RammService]
 })
 export class RammComponent implements OnInit, DoCheck {
 	private cameraControls: boolean;
@@ -34,9 +29,9 @@ export class RammComponent implements OnInit, DoCheck {
 		x: window.innerWidth,
 		y: window.innerHeight
 	};
-	@ViewChild('renderer') renderer: TgRendererComponent;
+	@ViewChild('renderer') renderer: ThreeRendererComponent;
 	
-	constructor(private mouseService: TgMouselistenerService, private rammService: RammService) {
+	constructor(private mouseService: TgMouseService, private rammService: RammService) {
 		this.cameraControls = false;
 		this.memoryMap = new Ramm();
 		this.selectedTags = new Array<Tag>();
@@ -56,8 +51,11 @@ export class RammComponent implements OnInit, DoCheck {
 				y: window.innerHeight
 			}
 		});
-		this.rammService.getMemories();
-		this.rammService.getTags();
+		// FIXME: have to wait unitl module.initialize is called for backendUrl.
+		setTimeout(() => {
+			this.rammService.getMemories();
+			this.rammService.getTags();
+		}, 0);
 	}
 
 	ngDoCheck() {
@@ -96,8 +94,8 @@ export class RammComponent implements OnInit, DoCheck {
 		}
 	}
 
-	private start(state: TgContainer) {
-		let camera:THREE.PerspectiveCamera = state.target.renderer.camera;
+	private start(state: Trilliangular) {
+		let camera:THREE.PerspectiveCamera = (<ThreeRenderer>state.renderer).camera;
 		camera.position.set(500, 800, 1300);
 		camera.lookAt(new THREE.Vector3());
 	}

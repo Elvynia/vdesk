@@ -1,7 +1,7 @@
 <h1>Welcome to RAMM demo !</h1>
 <trilliangular [width]="displaySize.x" [height]="displaySize.y" debug="true" (started)="start($event)">
 	<canvas #canvas></canvas>
-	<tg-scene>
+	<three-scene>
 		<tag-layout [tags]="memoryMap.tags"
 			(tagSelected)="updateSelectedTags($event)"
 			(tagHovered)="updateHoveredTags($event)">
@@ -9,11 +9,11 @@
 		<memory-layout [memories]="filteredMemories"
 			[activeTags]="selectedTags">
 		</memory-layout>
-	</tg-scene>
-	<tg-renderer [renderTarget]="canvas" [transparent]="true" #renderer>
+	</three-scene>
+	<three-renderer [renderTarget]="canvas" [transparent]="true" #renderer>
 		<camera-controls *ngIf="cameraControls"
 			[velocity]="500"
 			[camera]="renderer.cameraInstance">
 		</camera-controls>
-	</tg-renderer>
+	</three-renderer>
 </trilliangular>
