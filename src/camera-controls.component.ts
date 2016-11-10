@@ -22,13 +22,15 @@ export class CameraControlsComponent {
 	@Output() cameraChange: EventEmitter<any>;
 	private theta: number;
 	private phi: number;
+	private minZ: number;
 	
 	constructor(private appService: TrilliangularService, private mouseService: TgMouseService) {
 		this.directions = [false, false, false, false, false, false];
 		this.velocity = 1;
 		this.cameraChange = new EventEmitter<any>();
 		this.theta = 0;
-		this.phi = 60;
+		this.phi = 0;
+		this.minZ = 8;
 	}
 	
 	ngOnInit() {
@@ -41,6 +43,10 @@ export class CameraControlsComponent {
 			let theta = this.theta;
 			let phi = this.phi;
 			if (this.directions[0]) {
+				let distance = this.camera.position.distanceTo(new THREE.Vector3());
+				if (distance - step < this.minZ) {
+					step = distance - this.minZ;
+				}
 				this.camera.translateZ(-step);
 			} else if (this.directions[2]) {
 				this.camera.translateZ(step);
@@ -84,6 +90,19 @@ export class CameraControlsComponent {
 					this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 ) * Math.cos( this.phi * Math.PI / 360 );
 					this.camera.lookAt(new THREE.Vector3());
 				});
+		});
+		this.mouseService.eventsByType(MOUSE.SCROLLED).subscribe((event:TgMouse) => {
+			let wEvent: MouseWheelEvent = <MouseWheelEvent> event.nativeEvent;
+			let step:number = this.velocity / 10;
+			if (wEvent.deltaY < 0) {
+				let distance = this.camera.position.distanceTo(new THREE.Vector3());
+				if (distance - step < this.minZ) {
+					step = distance - this.minZ;
+				}
+				this.camera.translateZ(-step);
+			} else if (wEvent.deltaY > 0) {
+				this.camera.translateZ(step);
+			}
 		});
 	}
 }

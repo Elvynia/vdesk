@@ -3,3 +3,7 @@
 	<three-instance [name]="'SphereGeometry'" [args]="[bubble.size * 5, 32, 32]"></three-instance>
 	<three-instance [name]="'MeshPhongMaterial'" [args]="{color: bubble.color}"></three-instance>
 </three-object>
+<three-object [bound]="true" *ngIf="bubble && bubble.parent" [name]="'Line'">
+	<three-instance [name]="'Geometry'" (instantiated)="buildLine($event)"></three-instance>
+	<three-instance [name]="'LineBasicMaterial'" [args]="{color: bubble.parent.color}"></three-instance>
+</three-object>

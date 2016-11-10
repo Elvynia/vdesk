@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, SimpleChange} from '@angular/core';
 
+import {Bubble} from '../bubble/bubble.class';
 import {Memory} from './memory.class';
 
 @Component({
@@ -12,5 +13,11 @@ export class MemoryComponent {
 
 	constructor() {
 		this.active = false;
+	}
+
+	ngOnChanges(changes: {[key: string]: SimpleChange}) {
+		if (changes['memory'] && this.memory) {
+			this.memory.children.forEach((child:Bubble) => child.parent = this.memory.root);
+		}
 	}
 }

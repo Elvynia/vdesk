@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
 
+import {TgInstance} from '@trilliangular/core';
+
 import {Bubble} from './bubble.class';
 
 @Component({
@@ -16,5 +18,10 @@ export class BubbleComponent {
 		if (!this.bubble.size) {
 			this.bubble.size = 1;
 		}
+	}
+
+	private buildLine(state: TgInstance) {
+		let geom:THREE.Geometry = state.instance;
+		geom.vertices.push(this.bubble.position, this.bubble.parent.position);
 	}
 }
