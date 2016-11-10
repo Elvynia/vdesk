@@ -9,7 +9,7 @@
     "start": "lite-server",
     "ntsc:w": "ntsc -w",
     "dev": "concurrently \"npm run ntsc:w\" \"npm start\"",
-    "postinstall": "typings install && ntsc"
+    "postinstall": "npm update && typings install && ntsc"
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.6",
