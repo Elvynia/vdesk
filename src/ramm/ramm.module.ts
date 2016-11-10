@@ -9,12 +9,10 @@ import {TgInputsModule}  from '@trilliangular/inputs';
 import {RuntimeThreeModule}  from '@trilliangular/runtime-three';
 
 import {RammComponent} from './ramm.component';
-import {MemoryComponent} from '../memory/memory.component';
-import {MemoryLayoutComponent} from '../memory-layout/memory-layout.component';
-import {TagComponent} from '../tag/tag.component';
-import {TagLayoutComponent} from '../tag-layout/tag-layout.component';
 import {CameraControlsComponent} from '../camera-controls.component';
-import { Config } from '../config.class';
+import {MemoryComponent} from '../memory/memory.component';
+import {BubbleComponent} from '../bubble/bubble.component';
+import {Config} from '../config.class';
 
 @NgModule({
 	imports: [
@@ -27,11 +25,9 @@ import { Config } from '../config.class';
 	],
 	declarations: [
 		RammComponent,
+		CameraControlsComponent,
 		MemoryComponent,
-		MemoryLayoutComponent,
-		TagComponent,
-		TagLayoutComponent,
-		CameraControlsComponent
+		BubbleComponent
 	],
 	providers: [Config],
 	bootstrap: [RammComponent]

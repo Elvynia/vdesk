@@ -1,0 +1,6 @@
+<tg-actor>
+	<bubble [bubble]="memory.root"></bubble>
+	<div *ngIf="active" class="bubbleChildren">
+		<bubble *ngFor="let child of memory.children" [bubble]="child"></bubble>
+	</div>
+</tg-actor>

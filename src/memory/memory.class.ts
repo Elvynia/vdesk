@@ -1,12 +1,11 @@
-import {Tag} from '../tag/tag.class';
+import {Bubble} from '../bubble/bubble.class';
 
 export class Memory {
-	id: string;
-	content: string;
-	tags: Array<Tag>;
+	root: Bubble;
+	children: Array<Bubble>;
 
-	constructor(content?: string, tags?: Array<Tag>) {
-		this.content = content;
-		this.tags = tags || new Array<Tag>();
+	constructor(root: Bubble, children?: Array<Bubble>) {
+		this.root = root;
+		this.children = children || new Array<Bubble>();
 	}
 }

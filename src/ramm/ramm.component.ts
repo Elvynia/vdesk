@@ -3,59 +3,47 @@ import {Component, ViewChild, OnInit, DoCheck} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import {Trilliangular, TrilliangularService} from '@trilliangular/core';
+import {TrilliangularService} from '@trilliangular/core';
 import {MOUSE, TgMouse, TgMouseService} from '@trilliangular/inputs';
-import {ThreeInstanceComponent, ThreeRenderer, ThreeRendererComponent} from '@trilliangular/runtime-three';
+import {ThreeInstanceComponent, ThreeRenderer, ThreeRendererComponent, ThreeMouseService} from '@trilliangular/runtime-three';
 
 import {RammService} from './ramm.service';
 import {Ramm} from './ramm.class';
-import {Memory} from '../memory/memory.class';
 import {MemoryService} from '../memory/memory.service';
-import {Tag} from '../tag/tag.class';
-import {TagService} from '../tag/tag.service';
 
 @Component({
 	selector: 'ramm',
-	templateUrl: '../views/ramm.template.html',
+	templateUrl: '/views/ramm.template.html',
 	styleUrls: ['../css/ramm.css'],
-	providers: [TrilliangularService, TgMouseService, MemoryService, TagService, RammService]
+	providers: [TrilliangularService, {provide: TgMouseService, useClass: ThreeMouseService}, RammService, MemoryService]
 })
 export class RammComponent implements OnInit, DoCheck {
+	private debug: boolean;
 	private cameraControls: boolean;
-	private memoryMap: Ramm;
-	private selectedTags: Array<Tag>;
-	private filteredMemories: Array<Memory>;
 	private displaySize = {
 		x: window.innerWidth,
 		y: window.innerHeight
 	};
 	@ViewChild('renderer') renderer: ThreeRendererComponent;
+
+	public get ramm(): Ramm {
+		return this.rammService.ramm;
+	}
 	
 	constructor(private mouseService: TgMouseService, private rammService: RammService) {
+		this.debug = true;
 		this.cameraControls = false;
-		this.memoryMap = new Ramm();
-		this.selectedTags = new Array<Tag>();
-		this.filteredMemories = new Array<Memory>();
 	}
 
 	ngOnInit() {
-		this.mouseService.initialize(document.getElementsByTagName("canvas")[0]);
-		this.rammService.changes.subscribe((ramm:Ramm) => {
-			this.memoryMap = ramm;
-			this.updateHoveredTags([null, false]);
-			console.debug('Memory map updated !');
-		});
+		this.mouseService.initialize(document.body);
 		window.addEventListener("resize", () => {
 			this.displaySize = {
 				x: window.innerWidth,
 				y: window.innerHeight
 			}
 		});
-		// FIXME: have to wait unitl module.initialize is called for backendUrl.
-		setTimeout(() => {
-			this.rammService.getMemories();
-			this.rammService.getTags();
-		}, 0);
+		setTimeout(() => this.rammService.initialize(), 0);
 	}
 
 	ngDoCheck() {
@@ -66,38 +54,7 @@ export class RammComponent implements OnInit, DoCheck {
 		}
 	}
 
-	private updateSelectedTags(selection: [Tag, boolean]) {
-		if (selection[1]) {
-			this.selectedTags.push(selection[0]);
-		} else {
-			this.selectedTags.splice(this.selectedTags.indexOf(selection[0]), 1);
-		}
+	private reload() {
+		this.rammService.initialize();
 	}
-
-	private updateHoveredTags(selection: [Tag, boolean]) {
-		let memories: Array<Memory> = this.memoryMap.memories;
-		if (selection[1]) {
-			this.filteredMemories = new Array<Memory>();
-			for (let i = memories.length - 1; i >= 0; i--) {
-				let tags: Array<any> = memories[i].tags;
-				if (tags) {
-					for (let j = tags.length - 1; j >= 0; j--) {
-						if (tags[j] && tags[j].id === selection[0].id) {
-							this.filteredMemories.push(memories[i]);
-							break;
-						}
-					}
-				}
-			}
-		} else {
-			this.filteredMemories = this.memoryMap.memories;
-		}
-	}
-
-	private start(state: Trilliangular) {
-		let camera:THREE.PerspectiveCamera = (<ThreeRenderer>state.renderer).camera;
-		camera.position.set(500, 800, 1300);
-		camera.lookAt(new THREE.Vector3());
-	}
-
 }

@@ -1,0 +1,5 @@
+<three-object *ngIf="bubble" [bound]="true" [name]="'Mesh'">
+	<tg-property [key]="'POSITION'" [value]="bubble.position"></tg-property>
+	<three-instance [name]="'SphereGeometry'" [args]="[bubble.size * 5, 32, 32]"></three-instance>
+	<three-instance [name]="'MeshPhongMaterial'" [args]="{color: bubble.color}"></three-instance>
+</three-object>

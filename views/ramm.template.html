@@ -1,19 +1,22 @@
 <h1>Welcome to RAMM demo !</h1>
-<trilliangular [width]="displaySize.x" [height]="displaySize.y" debug="true" (started)="start($event)">
-	<canvas #canvas></canvas>
-	<three-scene>
-		<tag-layout [tags]="memoryMap.tags"
-			(tagSelected)="updateSelectedTags($event)"
-			(tagHovered)="updateHoveredTags($event)">
-		</tag-layout>
-		<memory-layout [memories]="filteredMemories"
-			[activeTags]="selectedTags">
-		</memory-layout>
-	</three-scene>
-	<three-renderer [renderTarget]="canvas" [transparent]="true" #renderer>
-		<camera-controls *ngIf="cameraControls"
-			[velocity]="500"
-			[camera]="renderer.cameraInstance">
-		</camera-controls>
-	</three-renderer>
-</trilliangular>
+<div class="canvasLayer">
+	<trilliangular [width]="displaySize.x" [height]="displaySize.y" [debug]="debug">
+		<canvas #canvas></canvas>
+		<three-scene>
+			<tg-actor>
+				<three-instance [bound]="true" [name]="'AmbientLight'" [args]="13684944"></three-instance>
+			</tg-actor>
+			<div *ngIf="ramm.root">
+				<memory [memory]="ramm.root" [active]="true"></memory>
+			</div>
+		</three-scene>
+		<three-renderer [renderTarget]="canvas" [transparent]="true" #renderer>
+			<camera-controls *ngIf="cameraControls" [velocity]="500" [camera]="renderer.cameraInstance"></camera-controls>
+		</three-renderer>
+	</trilliangular>
+</div>
+<div class="widgetLayer">
+	<div class="options">
+		<button (click)="reload()">Reload</button>
+	</div>
+</div>
