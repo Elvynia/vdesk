@@ -1,7 +1,0 @@
-{
-	"name": "RAMM application",
-	"description": "Test application with Express4 for RAMM application.",
-	"repository": "https://github.com/Elvynia/ramm",
-	"logo": "http://node-js-sample.herokuapp.com/node.svg",
-	"image": "heroku/nodejs"
-}
