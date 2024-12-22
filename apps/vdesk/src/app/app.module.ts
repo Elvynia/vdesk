@@ -4,10 +4,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { MongooseModule } from '@nestjs/mongoose';
 import { APP_CONFIG } from '../config/type';
-import { AddressModule } from './address/address.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { join } from 'path';
+import { AddressModule } from '@lv/entity';
 
 @Module({
 	imports: [
