@@ -13,18 +13,8 @@ type Address {
   zip: String!
 }
 
-type Query {
-  address: [Address!]!
-  addressId(id: Int!): Address!
-}
-
-type Mutation {
-  createAddress(createAddressInput: CreateAddressInput!): Address!
-  updateAddress(updateAddressInput: UpdateAddressInput!): Address!
-  removeAddress(id: Int!): Address!
-}
-
-input CreateAddressInput {
+input AddressInput {
+  _id: String!
   city: String!
   firstname: String
   lastname: String!
@@ -34,13 +24,13 @@ input CreateAddressInput {
   zip: String!
 }
 
-input UpdateAddressInput {
-  city: String
-  firstname: String
-  lastname: String
-  line1: String
-  line2: String
-  siren: String
-  zip: String
-  id: Int!
+type Query {
+  address: [Address!]!
+  addressId(id: Int!): Address!
+}
+
+type Mutation {
+  createAddress(createAddressInput: AddressInput!): Address!
+  updateAddress(updateAddressInput: AddressInput!): Address!
+  removeAddress(id: Int!): Address!
 }
