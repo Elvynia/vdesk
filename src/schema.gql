@@ -1,0 +1,46 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Address {
+  _id: String!
+  city: String!
+  firstname: String
+  lastname: String!
+  line1: String!
+  line2: String
+  siren: String
+  zip: String!
+}
+
+type Query {
+  address: [Address!]!
+  addressId(id: Int!): Address!
+}
+
+type Mutation {
+  createAddress(createAddressInput: CreateAddressInput!): Address!
+  updateAddress(updateAddressInput: UpdateAddressInput!): Address!
+  removeAddress(id: Int!): Address!
+}
+
+input CreateAddressInput {
+  city: String!
+  firstname: String
+  lastname: String!
+  line1: String!
+  line2: String
+  siren: String
+  zip: String!
+}
+
+input UpdateAddressInput {
+  city: String
+  firstname: String
+  lastname: String
+  line1: String
+  line2: String
+  siren: String
+  zip: String
+  id: Int!
+}

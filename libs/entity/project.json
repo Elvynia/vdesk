@@ -1,0 +1,20 @@
+{
+  "name": "entity",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/entity/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/entity",
+        "tsConfig": "libs/entity/tsconfig.lib.json",
+        "packageJson": "libs/entity/package.json",
+        "main": "libs/entity/src/index.ts",
+        "assets": ["libs/entity/*.md"]
+      }
+    }
+  }
+}
