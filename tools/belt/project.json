@@ -1,0 +1,41 @@
+{
+	"name": "belt",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "tools/belt/src",
+	"projectType": "library",
+	"tags": [],
+	"targets": {
+		"build": {
+			"executor": "@nx/js:tsc",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/tools/belt",
+				"main": "tools/belt/src/index.ts",
+				"tsConfig": "tools/belt/tsconfig.lib.json",
+				"assets": [
+					"tools/belt/*.md",
+					{
+						"input": "./tools/belt/src",
+						"glob": "**/!(*.ts)",
+						"output": "./src"
+					},
+					{
+						"input": "./tools/belt/src",
+						"glob": "**/*.d.ts",
+						"output": "./src"
+					},
+					{
+						"input": "./tools/belt",
+						"glob": "generators.json",
+						"output": "."
+					},
+					{
+						"input": "./tools/belt",
+						"glob": "executors.json",
+						"output": "."
+					}
+				]
+			}
+		}
+	}
+}

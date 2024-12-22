@@ -1,0 +1,40 @@
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { <%= clazz %>Service } from './<%= name %>.service';
+import { <%= clazz %> } from './<%= name %>.entity';
+
+@Resolver(() => <%= clazz %>)
+export class <%= clazz %>Resolver {
+	constructor(private readonly <%= name %>Service: <%= clazz %>Service) {}
+
+	@Mutation(() => <%= clazz %>)
+	create<%= clazz %>(
+		@Args('create<%= clazz %>Input') create<%= clazz %>Input: <%= clazz %>
+	) {
+		return this.<%= name %>Service.create(create<%= clazz %>Input);
+	}
+
+	@Query(() => [<%= clazz %>], { name: '<%= name %>' })
+	findAll() {
+		return this.<%= name %>Service.findAll();
+	}
+
+	@Query(() => <%= clazz %>, { name: '<%= name %>Id' })
+	findOne(@Args('id', { type: () => Int }) id: number) {
+		return this.<%= name %>Service.findOne(id);
+	}
+
+	@Mutation(() => <%= clazz %>)
+	update<%= clazz %>(
+		@Args('update<%= clazz %>Input') update<%= clazz %>Input: <%= clazz %>
+	) {
+		return this.<%= name %>Service.update(
+			update<%= clazz %>Input._id,
+			update<%= clazz %>Input
+		);
+	}
+
+	@Mutation(() => <%= clazz %>)
+	remove<%= clazz %>(@Args('id', { type: () => Int }) id: number) {
+		return this.<%= name %>Service.remove(id);
+	}
+}

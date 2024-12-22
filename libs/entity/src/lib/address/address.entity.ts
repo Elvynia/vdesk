@@ -1,12 +1,11 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId } from 'mongoose';
-import { EntityId } from '../entity/entity.type';
 
 @InputType("AddressInput")
 @ObjectType()
 @Schema()
-export class Address implements EntityId {
+export class Address {
 	@Field(_ => String)
 	_id: ObjectId;
 
