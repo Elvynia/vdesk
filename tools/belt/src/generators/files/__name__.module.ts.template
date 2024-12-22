@@ -1,0 +1,12 @@
+import { Module } from '@nestjs/common';
+import { <%= clazz %>Service } from './<%= name %>.service';
+import { <%= clazz %>Resolver } from './<%= name %>.resolver';
+import { MongooseModule } from '@nestjs/mongoose';
+import { <%= clazz %>, <%= clazz %>Schema } from './<%= name %>.entity';
+
+@Module({
+
+	imports: [MongooseModule.forFeature([{ name: <%= clazz %>.name, schema: <%= clazz %>Schema, collection: '<%= name %>' }])],
+	providers: [<%= clazz %>Resolver, <%= clazz %>Service],
+})
+export class <%= clazz %>Module {}

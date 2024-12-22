@@ -1,0 +1,23 @@
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ObjectId } from 'mongoose';
+
+@InputType("<%= clazz %>Input")
+@ObjectType()
+@Schema()
+export class <%= clazz %> {
+	@Field(_ => String)
+	_id: ObjectId;
+
+<% for (let field of fieldList) { %>
+	<% if (field.required) { %>
+	@Field()
+	<% } else { %>
+	@Field({ nullable: true })
+	<% } %>
+	@Prop()
+	<%= field.name %>: <%= field.type %>;
+<%  } %>
+}
+
+export const <%= clazz %>Schema = SchemaFactory.createForClass(<%= clazz %>);

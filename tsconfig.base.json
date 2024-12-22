@@ -15,6 +15,7 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
+			"@lv/belt": ["tools/belt/src/index.ts"],
 			"@lv/entity": ["libs/entity/src/index.ts"]
 		}
 	},
