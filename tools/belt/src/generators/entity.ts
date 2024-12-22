@@ -25,7 +25,7 @@ export async function entityGenerator(
 		});
 	generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
 	const exportFile = `libs/entity/src/index.ts`;
-	const contents = tree.read(exportFile).toString().split('\n');
+	const contents = tree.read(exportFile).toString().split('\n').filter((l) => !!l);
 	tree.write(exportFile, contents.concat([
 		`export * from './lib/${options.name}/${options.name}.entity'; `,
 		`export * from './lib/${options.name}/${options.name}.module'; `,

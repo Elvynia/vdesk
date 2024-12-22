@@ -1,3 +1,7 @@
+export * from './lib/account/account.entity';
+export * from './lib/account/account.module';
+export * from './lib/account/account.resolver';
+export * from './lib/account/account.service';
 export * from './lib/address/address.entity';
 export * from './lib/address/address.module';
 export * from './lib/address/address.resolver';

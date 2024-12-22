@@ -1,3 +1,4 @@
+import { AccountModule, AddressModule } from '@lv/entity';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -6,8 +7,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { APP_CONFIG } from '../config/type';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { join } from 'path';
-import { AddressModule } from '@lv/entity';
 
 @Module({
 	imports: [
@@ -20,11 +19,12 @@ import { AddressModule } from '@lv/entity';
 		}),
 		GraphQLModule.forRoot<MercuriusDriverConfig>({
 			driver: MercuriusDriver,
-			autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-			subscription : true,
+			autoSchemaFile: true,
+			subscription: true,
 			graphiql: true
 		}),
 		AddressModule,
+		AccountModule
 	],
 	controllers: [AppController],
 	providers: [AppService],
