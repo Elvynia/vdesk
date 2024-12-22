@@ -18,7 +18,20 @@ export class AppComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.httpClient.post('http://localhost:3000/graphql', { "query": "{\n  address {\n    _id\n    line1\n    firstname\n    line2\n    siren\n  }\n}" }).subscribe(({ data }: any) => {
+		this.httpClient.post('http://localhost:3000/graphql', {
+			"query": `{
+  address {
+    _id
+    line1
+    firstname
+    line2
+    siren
+  }
+  account {
+    _id
+	username
+  }
+}` }).subscribe(({ data }: any) => {
 			console.log(data);
 			this.addresses = data.address;
 		});
