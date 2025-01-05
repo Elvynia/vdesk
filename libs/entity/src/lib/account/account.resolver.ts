@@ -1,10 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { AccountService } from './account.service';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Account } from './account.entity';
+import { AccountService } from './account.service';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Resolver(() => Account)
 export class AccountResolver {
-	constructor(private readonly accountService: AccountService) {}
+	constructor(private readonly accountService: AccountService) { }
 
 	@Mutation(() => Account)
 	createAccount(@Args('createAccountInput') createAccountInput: Account) {
@@ -12,6 +14,7 @@ export class AccountResolver {
 	}
 
 	@Query(() => [Account], { name: 'account' })
+	@UseGuards(AuthGuard)
 	findAll() {
 		return this.accountService.findAll();
 	}
@@ -24,7 +27,7 @@ export class AccountResolver {
 	@Mutation(() => Account)
 	updateAccount(@Args('updateAccountInput') updateAccountInput: Account) {
 		return this.accountService.update(
-			updateAccountInput._id,
+			updateAccountInput.id,
 			updateAccountInput
 		);
 	}

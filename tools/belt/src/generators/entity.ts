@@ -27,10 +27,10 @@ export async function entityGenerator(
 	const exportFile = `libs/entity/src/index.ts`;
 	const contents = tree.read(exportFile).toString().split('\n').filter((l) => !!l);
 	tree.write(exportFile, contents.concat([
-		`export * from './lib/${options.name}/${options.name}.entity'; `,
 		`export * from './lib/${options.name}/${options.name}.module'; `,
 		`export * from './lib/${options.name}/${options.name}.resolver'; `,
 		`export * from './lib/${options.name}/${options.name}.service'; `,
+		`export * from './lib/${options.name}/${options.name}.type'; `,
 	]).join('\n'));
 	await formatFiles(tree);
 }

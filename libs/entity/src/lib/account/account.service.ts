@@ -11,4 +11,8 @@ export class AccountService extends EntityService<Account> {
 	) {
 		super();
 	}
+
+	findByUsername(username: string) {
+		return this.model.findOne({ username }).exec();
+	}
 }

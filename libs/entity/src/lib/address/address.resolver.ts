@@ -1,10 +1,13 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { AddressService } from './address.service';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Address } from './address.entity';
+import { AddressService } from './address.service';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Resolver(() => Address)
+@UseGuards(AuthGuard)
 export class AddressResolver {
-	constructor(private readonly addressService: AddressService) {}
+	constructor(private readonly addressService: AddressService) { }
 
 	@Mutation(() => Address)
 	createAddress(
@@ -28,7 +31,7 @@ export class AddressResolver {
 		@Args('updateAddressInput') updateAddressInput: Address
 	) {
 		return this.addressService.update(
-			updateAddressInput._id,
+			updateAddressInput.id,
 			updateAddressInput
 		);
 	}
