@@ -2,7 +2,7 @@
 	"name": "vdash",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
-	"prefix": "app",
+	"prefix": "lv",
 	"sourceRoot": "apps/vdash/src",
 	"tags": [],
 	"targets": {
@@ -39,7 +39,13 @@
 							"maximumError": "8kb"
 						}
 					],
-					"outputHashing": "all"
+					"outputHashing": "all",
+					"fileReplacements": [
+						{
+							"replace": "apps/vdash/src/environments/environment.ts",
+							"with": "apps/vdash/src/environments/environment.prod.ts"
+						}
+					]
 				},
 				"development": {
 					"optimization": false,

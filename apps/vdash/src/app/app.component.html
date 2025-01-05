@@ -1,2 +1,7 @@
 <h1 *ngFor="let a of addresses">{{ a.line1 }}</h1>
-<!-- <router-outlet></router-outlet> -->
+<div class="container">
+	<lv-auth-form></lv-auth-form>
+	<div class="mt-5">
+		<button mat-raised-button color="primary" (click)="query()">Query</button>
+	</div>
+</div>

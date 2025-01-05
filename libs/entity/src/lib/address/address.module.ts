@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AddressService } from './address.service';
-import { AddressResolver } from './address.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from '../auth/auth.module';
 import { Address, AddressSchema } from './address.entity';
+import { AddressResolver } from './address.resolver';
+import { AddressService } from './address.service';
 
 @Module({
 
-	imports: [MongooseModule.forFeature([{ name: Address.name, schema: AddressSchema, collection: 'address' }])],
+	imports: [
+		AuthModule,
+		MongooseModule.forFeature([{ name: Address.name, schema: AddressSchema, collection: 'address' }])
+	],
 	providers: [AddressResolver, AddressService],
 })
-export class AddressModule {}
+export class AddressModule { }

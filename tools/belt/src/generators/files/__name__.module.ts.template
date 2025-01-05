@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { <%= clazz %>Service } from './<%= name %>.service';
 import { <%= clazz %>Resolver } from './<%= name %>.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
-import { <%= clazz %>, <%= clazz %>Schema } from './<%= name %>.entity';
+import { <%= clazz %>, <%= clazz %>Schema } from './<%= name %>.type';
 
 @Module({
 

@@ -1,4 +1,4 @@
-import { Model, ObjectId, UpdateQuery } from "mongoose";
+import { Model, UpdateQuery } from "mongoose";
 import { from, Observable } from "rxjs";
 
 export abstract class EntityService<Entity, CreateEntity = Entity, UpdateEntity extends UpdateQuery<Entity> = UpdateQuery<Entity>> {
@@ -17,7 +17,7 @@ export abstract class EntityService<Entity, CreateEntity = Entity, UpdateEntity 
 		return from(this.model.findOne({ _id }).exec());
 	}
 
-	update(_id: ObjectId, editEntity: UpdateEntity) {
+	update(_id: string, editEntity: UpdateEntity) {
 		return from(this.model
 			.findByIdAndUpdate({ _id }, editEntity, { new: true })
 			.exec());

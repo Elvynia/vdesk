@@ -2,9 +2,16 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AuthFormComponent } from '../auth/form/form.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-	imports: [CommonModule, RouterModule],
+	imports: [
+		CommonModule,
+		RouterModule,
+		AuthFormComponent,
+		MatButtonModule
+	],
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
@@ -18,7 +25,12 @@ export class AppComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.httpClient.post('http://localhost:3000/graphql', {
+		this.query();
+	}
+
+	query() {
+		const accounts = ``;
+		this.httpClient.post('http://localhost:3000/api', {
 			"query": `{
   address {
     _id
@@ -31,9 +43,9 @@ export class AppComponent implements OnInit {
     _id
 	username
   }
-}` }).subscribe(({ data }: any) => {
-			console.log(data);
-			this.addresses = data.address;
+}` }).subscribe(({ data, errors }: any) => {
+			console.log(data, errors?.map((e: any) => e.message));
+			this.addresses = data?.address;
 		});
 	}
 }

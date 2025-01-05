@@ -8,6 +8,7 @@ import { ObjectId } from 'mongoose';
 export class Account {
 	@Field((_) => String)
 	_id: ObjectId;
+	id: string;
 
 	@Field()
 	@Prop()

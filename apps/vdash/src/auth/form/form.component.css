@@ -1,0 +1,20 @@
+:host {
+    display: flex;
+    width: 100%;
+}
+
+mat-card {
+    width: 100%;
+}
+
+mat-card-content {
+    min-height: 250px;
+}
+
+mat-form-field {
+    width: 80%;
+}
+
+.password {
+    margin-bottom: 4.5rem;
+}
