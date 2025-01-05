@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { <%= clazz %>Service } from './<%= name %>.service';
-import { <%= clazz %> } from './<%= name %>.type';
+import { <%= clazz %> } from './<%= name %>.entity';
 
 @Resolver(() => <%= clazz %>)
 export class <%= clazz %>Resolver {

@@ -1,0 +1,89 @@
+{
+	"name": "vtally",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"projectType": "application",
+	"prefix": "lv",
+	"sourceRoot": "apps/vtally/src",
+	"tags": [],
+	"targets": {
+		"build": {
+			"executor": "@angular-devkit/build-angular:application",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/apps/vtally",
+				"index": "apps/vtally/src/index.html",
+				"browser": "apps/vtally/src/main.ts",
+				"polyfills": ["zone.js"],
+				"tsConfig": "apps/vtally/tsconfig.app.json",
+				"inlineStyleLanguage": "scss",
+				"assets": [
+					{
+						"glob": "**/*",
+						"input": "apps/vtally/public"
+					}
+				],
+				"styles": ["apps/vtally/src/styles.scss"],
+				"scripts": []
+			},
+			"configurations": {
+				"production": {
+					"budgets": [
+						{
+							"type": "initial",
+							"maximumWarning": "500kb",
+							"maximumError": "1mb"
+						},
+						{
+							"type": "anyComponentStyle",
+							"maximumWarning": "4kb",
+							"maximumError": "8kb"
+						}
+					],
+					"outputHashing": "all",
+					"fileReplacements": [
+						{
+							"replace": "apps/vtally/src/environments/environment.ts",
+							"with": "apps/vtally/src/environments/environment.prod.ts"
+						}
+					]
+				},
+				"development": {
+					"optimization": false,
+					"extractLicenses": false,
+					"sourceMap": true
+				}
+			},
+			"defaultConfiguration": "production"
+		},
+		"serve": {
+			"executor": "@angular-devkit/build-angular:dev-server",
+			"configurations": {
+				"production": {
+					"buildTarget": "vtally:build:production"
+				},
+				"development": {
+					"buildTarget": "vtally:build:development",
+					"port": 6402
+				}
+			},
+			"defaultConfiguration": "development"
+		},
+		"extract-i18n": {
+			"executor": "@angular-devkit/build-angular:extract-i18n",
+			"options": {
+				"buildTarget": "vtally:build"
+			}
+		},
+		"lint": {
+			"executor": "@nx/eslint:lint"
+		},
+		"serve-static": {
+			"executor": "@nx/web:file-server",
+			"options": {
+				"buildTarget": "vtally:build",
+				"staticFilePath": "dist/apps/vtally/browser",
+				"spa": true
+			}
+		}
+	}
+}

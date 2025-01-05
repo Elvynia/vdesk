@@ -1,11 +1,12 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectId } from 'mongoose';
+import { Entity } from '../entity.type';
 
 @InputType("<%= clazz %>Input")
 @ObjectType()
 @Schema()
-export class <%= clazz %> {
+export class <%= clazz %> extends Entity {
 	@Field(_ => String)
 	_id: ObjectId;
 

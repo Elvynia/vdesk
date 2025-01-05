@@ -1,9 +1,9 @@
+import { AuthJwtPayload, AuthJwtPayloadCreate, AuthToken } from "@lv/common";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService, JwtSignOptions } from "@nestjs/jwt";
-import { Account } from "../account/account.entity";
+import { AccountEntity } from "../account/account.entity";
 import { CommonConfig } from "../config/config.type";
-import { AuthJwtPayload, AuthJwtPayloadCreate, AuthToken } from "./auth.type";
 
 @Injectable()
 export class AuthResolver {
@@ -21,7 +21,7 @@ export class AuthResolver {
 		} as JwtSignOptions
 	}
 
-	async getAccountOptions(account: Account, expiresKey: string) {
+	async getAccountOptions(account: AccountEntity, expiresKey: string) {
 		return {
 			...this.defaultOptions,
 			// audience: account.role,
@@ -33,7 +33,7 @@ export class AuthResolver {
 		} as JwtSignOptions
 	}
 
-	async generate(account: Account): Promise<AuthToken> {
+	async generate(account: AccountEntity): Promise<AuthToken> {
 		const payload = { acc: account.id } as AuthJwtPayloadCreate;
 		return {
 			apiToken: await this.jwtService.signAsync(payload, {

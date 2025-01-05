@@ -32,14 +32,29 @@ module.exports = [
 					],
 				},
 			],
-			"@typescript-eslint/no-non-null-assertion": "off",
-			"@typescript-eslint/no-inferrable-types": "off",
-			"@typescript-eslint/no-unused-expressions": "off"
+			'@typescript-eslint/no-non-null-assertion': 'off',
+			'@typescript-eslint/no-inferrable-types': 'off',
+			'@typescript-eslint/no-unused-expressions': 'off',
+			'@typescript-eslint/no-explicit-any': 'off',
 		},
 	},
 	{
 		files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
 		// Override or add rules here
 		rules: {},
+	},
+	{
+		files: ['**/*.json'],
+		rules: {
+			'@nx/dependency-checks': [
+				'error',
+				{
+					ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'],
+				},
+			],
+		},
+		languageOptions: {
+			parser: require('jsonc-eslint-parser'),
+		},
 	},
 ];

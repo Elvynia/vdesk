@@ -1,38 +1,38 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Account } from './account.entity';
+import { AccountEntity } from './account.entity';
 import { AccountService } from './account.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
 
-@Resolver(() => Account)
+@Resolver(() => AccountEntity)
 export class AccountResolver {
 	constructor(private readonly accountService: AccountService) { }
 
-	@Mutation(() => Account)
-	createAccount(@Args('createAccountInput') createAccountInput: Account) {
+	@Mutation(() => AccountEntity)
+	createAccount(@Args('createAccountInput') createAccountInput: AccountEntity) {
 		return this.accountService.create(createAccountInput);
 	}
 
-	@Query(() => [Account], { name: 'account' })
+	@Query(() => [AccountEntity], { name: 'account' })
 	@UseGuards(AuthGuard)
 	findAll() {
 		return this.accountService.findAll();
 	}
 
-	@Query(() => Account, { name: 'accountId' })
+	@Query(() => AccountEntity, { name: 'accountId' })
 	findOne(@Args('id', { type: () => Int }) id: number) {
 		return this.accountService.findOne(id);
 	}
 
-	@Mutation(() => Account)
-	updateAccount(@Args('updateAccountInput') updateAccountInput: Account) {
+	@Mutation(() => AccountEntity)
+	updateAccount(@Args('updateAccountInput') updateAccountInput: AccountEntity) {
 		return this.accountService.update(
 			updateAccountInput.id,
 			updateAccountInput
 		);
 	}
 
-	@Mutation(() => Account)
+	@Mutation(() => AccountEntity)
 	removeAccount(@Args('id', { type: () => Int }) id: number) {
 		return this.accountService.remove(id);
 	}

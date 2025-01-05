@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { LoginRequest } from "./auth.type";
 import { MappingPublic } from "../decorator/mapping-public";
+import { LoginRequest } from "@lv/common";
 
 @Controller('auth')
 export class AuthController {

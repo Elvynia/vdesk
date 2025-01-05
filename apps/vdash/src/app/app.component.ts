@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AuthFormComponent } from '../auth/form/form.component';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthFormComponent } from '@lv/angular';
 
 @Component({
 	imports: [
 		CommonModule,
-		RouterModule,
 		AuthFormComponent,
 		MatButtonModule
 	],
@@ -25,7 +23,7 @@ export class AppComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.query();
+		// this.query();
 	}
 
 	query() {
@@ -44,8 +42,8 @@ export class AppComponent implements OnInit {
 	username
   }
 }` }).subscribe(({ data, errors }: any) => {
-			console.log(data, errors?.map((e: any) => e.message));
-			this.addresses = data?.address;
-		});
+				console.log(data, errors?.map((e: any) => e.message));
+				this.addresses = data?.address;
+			});
 	}
 }
