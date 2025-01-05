@@ -5,10 +5,10 @@ import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { jwtDecode } from "jwt-decode";
 import { AsyncSubject, EMPTY, Observable, catchError, first, map, tap } from "rxjs";
-import { DashConfig } from "../config";
 import { notifyUserWarning } from "../util/notify-user";
 import { authActions } from "./actions";
 import { AuthState, ChangePasswordRequest, HasAuthState, LoginRequest } from "./type";
+import { ApiConfig } from "../config";
 
 @Injectable({
 	providedIn: 'root'
@@ -44,7 +44,7 @@ export class AuthService {
 	}
 
 	constructor(private httpClient: HttpClient, private snackBar: MatSnackBar,
-		private store: Store<HasAuthState>, private actions: Actions, config: DashConfig) {
+		private store: Store<HasAuthState>, private actions: Actions, config: ApiConfig) {
 		this.resetAuth();
 		this.url = config.apiUrl + config.apiPath + '/auth';
 		this._refreshing = false;

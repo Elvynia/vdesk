@@ -15,7 +15,9 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
+			"@lv/angular": ["libs/angular/src/index.ts"],
 			"@lv/belt": ["tools/belt/src/index.ts"],
+			"@lv/common": ["libs/common/src/index.ts"],
 			"@lv/entity": ["libs/entity/src/index.ts"]
 		}
 	},

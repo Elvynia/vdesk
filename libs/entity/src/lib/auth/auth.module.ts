@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Account, AccountSchema } from '../account/account.entity';
+import { AccountEntity, AccountSchema } from '../account/account.entity';
 import { AccountResolver } from '../account/account.resolver';
 import { AccountService } from '../account/account.service';
 import { AuthConfig } from './auth.config';
@@ -23,7 +23,7 @@ import { AuthService } from './auth.service';
 		}),
 		MongooseModule.forFeature([
 			{
-				name: Account.name,
+				name: AccountEntity.name,
 				schema: AccountSchema,
 				collection: 'account',
 			},

@@ -1,3 +1,4 @@
+import { AuthToken } from "@lv/common";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { AccountService } from "../account/account.service";
 import { AuthResolver } from "./auth.resolver";
@@ -8,7 +9,7 @@ export class AuthService {
 
 	constructor(private accountService: AccountService, private authResolver: AuthResolver) { }
 
-	async signIn(username: string, pass: string): Promise<any> {
+	async signIn(username: string, pass: string): Promise<AuthToken> {
 		const account = await this.accountService.findByUsername(username);
 		if (!account || account?.password !== pass) {
 			throw new UnauthorizedException();

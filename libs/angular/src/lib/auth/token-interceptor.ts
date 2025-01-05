@@ -1,13 +1,13 @@
 import { HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { defer, retry, switchMap } from 'rxjs';
-import { DashConfig } from '../config';
+import { ApiConfig } from '../config';
 import { AuthService } from './service';
 
 export function authHttpInterceptor(): HttpInterceptorFn {
 	return (req: HttpRequest<any>, next: HttpHandlerFn) => {
 		const authService = inject(AuthService);
-		const config = inject(DashConfig);
+		const config = inject(ApiConfig);
 		if (authService.authenticated && req.url.includes(config.apiUrl)) {
 			const handle = () => {
 				return defer(() => next(req.clone({

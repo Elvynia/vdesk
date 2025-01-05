@@ -1,34 +1,34 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Address } from './address.entity';
+import { AddressEntity } from './address.entity';
 import { AddressService } from './address.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
 
-@Resolver(() => Address)
+@Resolver(() => AddressEntity)
 @UseGuards(AuthGuard)
 export class AddressResolver {
 	constructor(private readonly addressService: AddressService) { }
 
-	@Mutation(() => Address)
+	@Mutation(() => AddressEntity)
 	createAddress(
-		@Args('createAddressInput') createAddressInput: Address
+		@Args('createAddressInput') createAddressInput: AddressEntity
 	) {
 		return this.addressService.create(createAddressInput);
 	}
 
-	@Query(() => [Address], { name: 'address' })
+	@Query(() => [AddressEntity], { name: 'address' })
 	findAll() {
 		return this.addressService.findAll();
 	}
 
-	@Query(() => Address, { name: 'addressId' })
+	@Query(() => AddressEntity, { name: 'addressId' })
 	findOne(@Args('id', { type: () => Int }) id: number) {
 		return this.addressService.findOne(id);
 	}
 
-	@Mutation(() => Address)
+	@Mutation(() => AddressEntity)
 	updateAddress(
-		@Args('updateAddressInput') updateAddressInput: Address
+		@Args('updateAddressInput') updateAddressInput: AddressEntity
 	) {
 		return this.addressService.update(
 			updateAddressInput.id,
@@ -36,7 +36,7 @@ export class AddressResolver {
 		);
 	}
 
-	@Mutation(() => Address)
+	@Mutation(() => AddressEntity)
 	removeAddress(@Args('id', { type: () => Int }) id: number) {
 		return this.addressService.remove(id);
 	}

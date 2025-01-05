@@ -7,8 +7,8 @@ import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { isJWT } from 'class-validator';
 import { MappingPublicKey } from '../decorator/mapping-public';
+import { EntityRequest } from '../util/request.type';
 import { AuthResolver } from './auth.resolver';
-import { EntityRequest } from './request.type';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

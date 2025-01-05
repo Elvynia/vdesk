@@ -62,7 +62,8 @@
 					"buildTarget": "vdash:build:production"
 				},
 				"development": {
-					"buildTarget": "vdash:build:development"
+					"buildTarget": "vdash:build:development",
+					"port": 6401
 				}
 			},
 			"defaultConfiguration": "development"

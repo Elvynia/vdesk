@@ -48,6 +48,11 @@
 			"cache": true,
 			"dependsOn": ["^build"],
 			"inputs": ["production", "^production"]
+		},
+		"@nx/angular:ng-packagr-lite": {
+			"cache": true,
+			"dependsOn": ["^build"],
+			"inputs": ["production", "^production"]
 		}
 	},
 	"generators": {
@@ -56,6 +61,13 @@
 			"linter": "eslint",
 			"style": "scss",
 			"unitTestRunner": "none"
+		},
+		"@nx/angular:library": {
+			"linter": "eslint",
+			"unitTestRunner": "none"
+		},
+		"@nx/angular:component": {
+			"style": "css"
 		}
 	}
 }
