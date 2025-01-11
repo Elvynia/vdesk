@@ -1,0 +1,68 @@
+import { Component, OnInit } from '@angular/core';
+import { <%= name %>Actions, <%= clazz %>FormComponent, <%= clazz %>ListComponent, ApiAction, ObserverCompomix } from '@lv/angular';
+import { <%= clazz %>, select<%= clazz %>s } from '@lv/common';
+import { Actions, ofType } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+import { filter, first, takeUntil, tap } from 'rxjs';
+
+@Component({
+	selector: 'lv-<%= name %>-view',
+	imports: [
+		<%= clazz %>ListComponent,
+		<%= clazz %>FormComponent
+	],
+	templateUrl: './view.component.html',
+	styleUrl: './view.component.scss'
+})
+export class <%= clazz %>ViewComponent extends ObserverCompomix() implements OnInit {
+	<%= name %>s: <%= clazz %>[];
+	edit<%= clazz %>?: <%= clazz %>;
+
+	constructor(private store: Store<any>, private actions: Actions) {
+		super();
+		this.<%= name %>s = [];
+	}
+
+	ngOnInit() {
+		this.store.select(select<%= clazz %>s).pipe(
+			tap((s) => console.log(s)),
+			filter((s) => !!s),
+			takeUntil(this.destroy$)
+		).subscribe((<%= name %>s) => this.<%= name %>s = Object.values(<%= name %>s));
+		this.store.dispatch(<%= name %>Actions.list());
+	}
+
+	cancel() {
+		this.edit<%= clazz %> = undefined;
+	}
+
+	delete(value: <%= clazz %>) {
+		if (this.edit<%= clazz %>?._id === value._id) {
+			this.edit<%= clazz %> = undefined;
+		}
+		this.store.dispatch(<%= name %>Actions.delete({ value }));
+	}
+
+	edit(<%= name %>: <%= clazz %>) {
+		this.edit<%= clazz %> = <%= name %>;
+	}
+
+	save(value: <%= clazz %>) {
+		let action;
+		if (value._id) {
+			action = <%= name %>Actions.update({ value });
+		} else {
+			action = <%= name %>Actions.create({ value });
+		}
+		this.store.dispatch(action);
+		this.actions.pipe(
+			ofType<ApiAction<<%= clazz %>> & Action>(<%= name %>Actions.createSuccess, <%= name %>Actions.createError,
+				<%= name %>Actions.updateSuccess, <%= name %>Actions.updateError),
+			first()
+		).subscribe((action) => {
+			if (action.success) {
+				this.cancel();
+			}
+		});
+	}
+}

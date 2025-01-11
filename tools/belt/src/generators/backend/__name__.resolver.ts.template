@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { <%= clazz %>Service } from './<%= name %>.service';
 import { <%= clazz %> } from './<%= name %>.entity';
 
@@ -19,7 +19,7 @@ export class <%= clazz %>Resolver {
 	}
 
 	@Query(() => <%= clazz %>, { name: '<%= name %>Id' })
-	findOne(@Args('id', { type: () => Int }) id: string) {
+	findOne(@Args('id', { type: () => String }) id: string) {
 		return this.<%= name %>Service.findOne(id);
 	}
 

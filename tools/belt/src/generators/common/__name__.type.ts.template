@@ -5,3 +5,9 @@ export interface <%= clazz %> extends IEntity {
 	<%= field.name %>: <%= field.type %>;
 <%  } %>
 }
+
+export interface <%= clazz %>State {
+	accounts: Record<string, <%= clazz %>>;
+}
+
+export const select<%= clazz %>s = (state: <%= clazz %>State) => state.<%= clazz %>s;

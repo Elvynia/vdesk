@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { IEntity } from "@lv/common";
-import { map } from "rxjs";
+import { map, tap } from "rxjs";
 import { ApiConfig } from "../config";
 
 @Injectable({
@@ -76,17 +76,23 @@ export abstract class ApiService<T extends IEntity> {
 		})
 	}
 
-	sendGet() {
+	sendGet(id: string) {
 		return this.httpClient.post(this.graphUrl, {
-			"query": `{
-				${this.entity}Id {
-					_id
-					username
-					email
+			query: `
+				query Get${this.clazz}($id: String!) {
+					${this.entity}Id(id: $id) {
+						_id
+						username
+						email
+					}
 				}
-			}`
+			`,
+			variables: {
+				id
+			}
 		}).pipe(
-			map((results: any) => results.data[this.entity] as T)
+			tap(r => console.log(r)),
+			map((results: any) => results.data as T)
 		);
 	}
 

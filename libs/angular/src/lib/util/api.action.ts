@@ -24,6 +24,7 @@ export interface ApiActionId<T> extends ApiAction<T> {
 
 export interface ApiActionError {
 	reason: string;
+	success: false;
 }
 
 export interface ApiActionSuccess {

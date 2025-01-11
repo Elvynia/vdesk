@@ -15,11 +15,13 @@ import { AccountItemComponent } from '../item/item.component';
 export class AccountListComponent {
 	@Input() values: Account[];
 	@Output() delete: EventEmitter<Account>;
+	@Output() detail: EventEmitter<string>;
 	@Output() edit: EventEmitter<Account>;
 
 	constructor() {
 		this.values = [];
 		this.delete = new EventEmitter();
+		this.detail = new EventEmitter();
 		this.edit = new EventEmitter();
 	}
 }

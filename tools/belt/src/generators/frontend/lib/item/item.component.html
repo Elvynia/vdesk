@@ -1,13 +1,9 @@
 <div class="content">
 	<h3>
-		{{ value.username }}
+		{{ value.<%= fields[0].name %> }}
 	</h3>
 	<div class="actions">
 		@if (hovering) {
-		<button mat-icon-button [class.lv-accent]="!value.pending" [disabled]="value.pending"
-			(click)="detail.next(value._id)">
-			<mat-icon>info</mat-icon>
-		</button>
 		<button mat-icon-button [class.lv-accent]="!value.pending" [disabled]="value.pending"
 			(click)="edit.next(value)">
 			<mat-icon>edit</mat-icon>

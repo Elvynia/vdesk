@@ -41,13 +41,13 @@ export class AccountEffects {
 		))
 	));
 
-	// get$ = createEffect(() => this.actions$.pipe(
-	// 	ofType(accountActions.get),
-	// 	switchMap(({ valueId }) => this.service.get(valueId).pipe(
-	// 		map((value) => accountActions.getSuccess({ value, success: true })),
-	// 		catchBackendErrorAction(this.snackbar, accountActions.getError)
-	// 	))
-	// ));
+	get$ = createEffect(() => this.actions$.pipe(
+		ofType(accountActions.get),
+		switchMap(({ valueId }) => this.service.sendGet(valueId).pipe(
+			map((value) => accountActions.getSuccess({ value, success: true })),
+			catchBackendErrorAction(this.snackbar, accountActions.getError)
+		))
+	));
 
 	update$ = createEffect(() => this.actions$.pipe(
 		ofType(accountActions.update),
