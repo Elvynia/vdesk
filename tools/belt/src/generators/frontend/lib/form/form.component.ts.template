@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -21,9 +21,12 @@ import { <%= clazz %> } from '@lv/common';
 export class <%= clazz %>FormComponent implements OnInit, OnChanges {
 	@Input() group!: FormGroup;
 	@Input() value?: <%= clazz %>;
+	@Output() back: EventEmitter<void>;
+	@Output() save: EventEmitter<<%= clazz %>>;
 
 	constructor(private formBuilder: FormBuilder) {
-
+		this.back = new EventEmitter();
+		this.save = new EventEmitter();
 	}
 
 	ngOnInit(): void {
@@ -34,14 +37,27 @@ export class <%= clazz %>FormComponent implements OnInit, OnChanges {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes['value']) {
-			// TODO
+			this.reset();
 		}
+	}
+
+	cancel() {
+		this.reset();
+		this.back.next();
+	}
+
+	submit() {
+		this.save.next(this.group.getRawValue());
 	}
 
 	private reset() {
 		this.group = this.formBuilder.group({
+			_id: [{
+				value: this.value?._id,
+				disabled: true
+			}],
 <% for (let field of fieldList) { %>
-			<%= field.name %>: [this.value?.<%= field.name %>, <% if (field.required) %> [Validators.required] <% } { %> [] <% } %>],
+			<%= field.name %>: [this.value?.<%= field.name %>, <% if (field.required) { %> [Validators.required] <% } else { %> [] <% } %>],
 <%  } %>
 		})
 	}

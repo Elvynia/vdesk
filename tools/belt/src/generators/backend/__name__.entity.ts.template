@@ -17,7 +17,7 @@ export class <%= clazz %> extends Entity {
 	@Field({ nullable: true })
 	<% } %>
 	@Prop()
-	<%= field.name %>: <%= field.type %>;
+	<%= field.name + (field.required ? '' : '?') %>: <%= field.type %>;
 <%  } %>
 }
 
@@ -32,7 +32,7 @@ export class <%= clazz %>Create {
 		@Field({ nullable: true })
 		<% } %>
 		@Prop()
-		<%= field.name %>: <%= field.type %>;
+		<%= field.name + (field.required ? '' : '?') %>: <%= field.type %>;
 	<%  } %>
 <%  } %>
 }

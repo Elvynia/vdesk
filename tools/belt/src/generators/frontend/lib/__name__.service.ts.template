@@ -1,0 +1,20 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { <%= clazz%> } from '@lv/common';
+import { ApiConfig } from '../config';
+import { ApiService } from '../util/api.service';
+
+@Injectable({
+	providedIn: 'root'
+})
+export class <%= clazz%>Service extends ApiService<<%= clazz%>> {
+
+	get entity(): string {
+		return '<%= name %>';
+	}
+
+	constructor(httpClient: HttpClient, config: ApiConfig) {
+		super(httpClient, config);
+		this.apiUrl = config.apiUrl + config.apiPath + '/<%= name %>';
+	}
+}

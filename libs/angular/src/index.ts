@@ -1,4 +1,5 @@
 export * from './lib/account/account.actions';
+export * from './lib/account/account.config';
 export * from './lib/account/account.effects';
 export * from './lib/account/account.reducer';
 export * from './lib/account/account.service';

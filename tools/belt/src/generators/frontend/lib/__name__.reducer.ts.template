@@ -1,0 +1,31 @@
+import { <%= clazz%> } from "@lv/common";
+import { Action, createReducer, on } from "@ngrx/store";
+import { authActions } from "../auth/actions";
+import { <%= name %>Actions } from "./<%= name %>.actions";
+
+const initState = {};
+
+export const <%= name %>Reducer = (state: Record<string, <%= clazz%>> | undefined, action: Action) => createReducer<Record<string, <%= clazz%>>>(
+	initState,
+	on(<%= name %>Actions.createSuccess, <%= name %>Actions.getSuccess, <%= name %>Actions.updateSuccess, (state, { value }) => ({
+		...state,
+		[value._id]: value
+	})),
+	on(<%= name %>Actions.delete, <%= name %>Actions.deleteError, (state, { value, type }) => ({
+		...state,
+		[value._id]: {
+			...state[value._id],
+			pending: <%= name %>Actions.delete.type === type
+		}
+	})),
+	on(<%= name %>Actions.listSuccess, (state, { values }) => ({
+		...state,
+		...values
+	})),
+	on(<%= name %>Actions.deleteSuccess, (state, { value }) => {
+		const values = { ...state };
+		delete values[value._id];
+		return values;
+	}),
+	on(authActions.logout, () => ({ ...initState }))
+)(state, action);

@@ -1,0 +1,24 @@
+import { <%= clazz%> } from "@lv/common";
+import { createActionGroup, emptyProps, props } from "@ngrx/store";
+import { ApiActionError, ApiActionId, ApiActionListSuccess, ApiActionSave, ApiActionSuccess } from "../util/api.action";
+
+export const <%= name %>Actions = createActionGroup({
+	source: '<%= clazz%>',
+	events: {
+		'Create': props<ApiActionSave<<%= clazz%>>>(),
+		'Create Success': props<ApiActionSave<<%= clazz%>> & ApiActionSuccess>(),
+		'Create Error': props<ApiActionSave<<%= clazz%>>>(),
+		'Delete': props<ApiActionSave<<%= clazz%>>>(),
+		'Delete Success': props<ApiActionSave<<%= clazz%>> & ApiActionSuccess>(),
+		'Delete Error': props<ApiActionSave<<%= clazz%>> & ApiActionError>(),
+		'Get': props<ApiActionId<<%= clazz%>>>(),
+		'Get Success': props<ApiActionSave<<%= clazz%>> & ApiActionSuccess>(),
+		'Get Error': props<ApiActionError>(),
+		'List': emptyProps(),
+		'List Success': props<ApiActionListSuccess<<%= clazz%>>>(),
+		'List Error': props<ApiActionError>(),
+		'Update': props<ApiActionSave<<%= clazz%>>>(),
+		'Update Success': props<ApiActionSave<<%= clazz%>> & ApiActionSuccess>(),
+		'Update Error': props<ApiActionError>(),
+	}
+});

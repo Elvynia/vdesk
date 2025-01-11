@@ -1,0 +1,2 @@
+<lv-account-list [values]="accounts" (edit)="edit($event)" (delete)="delete($event)"></lv-account-list>
+<lv-account-form [value]="editAccount" (back)="cancel()" (save)="save($event)"></lv-account-form>

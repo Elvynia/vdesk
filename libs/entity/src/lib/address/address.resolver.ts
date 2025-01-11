@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthGuard } from '../auth/auth.guard';
 import { AddressEntity } from './address.entity';
 import { AddressService } from './address.service';
@@ -22,7 +22,7 @@ export class AddressResolver {
 	}
 
 	@Query(() => AddressEntity, { name: 'addressId' })
-	findOne(@Args('id', { type: () => Int }) id: string) {
+	findOne(@Args('id', { type: () => String }) id: string) {
 		return this.addressService.findOne(id);
 	}
 

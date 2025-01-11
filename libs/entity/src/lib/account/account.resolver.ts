@@ -1,9 +1,9 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthGuard } from '../auth/auth.guard';
+import { MappingPublic } from '../decorator/mapping-public';
 import { AccountCreate, AccountEntity } from './account.entity';
 import { AccountService } from './account.service';
-import { MappingPublic } from '../decorator/mapping-public';
 
 @Resolver(() => AccountEntity)
 export class AccountResolver {
@@ -22,7 +22,7 @@ export class AccountResolver {
 	}
 
 	@Query(() => AccountEntity, { name: 'accountId' })
-	findOne(@Args('id', { type: () => Int }) id: string) {
+	findOne(@Args('id', { type: () => String }) id: string) {
 		return this.accountService.findOne(id);
 	}
 

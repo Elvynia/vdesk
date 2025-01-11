@@ -1,0 +1,59 @@
+import { inject, Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { from, map, mergeMap, reduce, switchMap, tap } from 'rxjs';
+import { notifyUserSuccess } from '../util/notify-user';
+import { catchBackendErrorAction } from '../util/operator/catch-backend-action';
+import { <%= name %>Actions } from './<%= name %>.actions';
+import { <%= clazz%>Service } from './<%= name %>.service';
+
+@Injectable()
+export class <%= clazz%>Effects {
+	private actions$ = inject(Actions);
+
+	constructor(private service: <%= clazz%>Service, private snackbar: MatSnackBar) { }
+
+	create$ = createEffect(() => this.actions$.pipe(
+		ofType(<%= name %>Actions.create),
+		mergeMap(({ value }) => this.service.sendCreate(value).pipe(
+			map((created) => <%= name %>Actions.createSuccess({ value: created, success: true })),
+			catchBackendErrorAction(this.snackbar, <%= name %>Actions.createError)
+		))
+	));
+
+	delete$ = createEffect(() => this.actions$.pipe(
+		ofType(<%= name %>Actions.delete),
+		mergeMap(({ value }) => this.service.sendDelete(value._id).pipe(
+			map(() => <%= name %>Actions.deleteSuccess({ value, success: true })),
+			tap(() => notifyUserSuccess(this.snackbar, `<%= clazz%> ${value.username} deleted with success !`)),
+			catchBackendErrorAction(this.snackbar, <%= name %>Actions.deleteError, { value })
+		))
+	));
+
+	list$ = createEffect(() => this.actions$.pipe(
+		ofType(<%= name %>Actions.list),
+		switchMap(() => this.service.sendList().pipe(
+			switchMap((results) => from(results).pipe(
+				reduce((acc, value) => Object.assign(acc, { [value._id!]: value }), {}),
+				map((values) => <%= name %>Actions.listSuccess({ values })),
+			)),
+			catchBackendErrorAction(this.snackbar, <%= name %>Actions.listError)
+		))
+	));
+
+	get$ = createEffect(() => this.actions$.pipe(
+		ofType(<%= name %>Actions.get),
+		switchMap(({ valueId }) => this.service.sendGet(valueId).pipe(
+			map((value) => <%= name %>Actions.getSuccess({ value, success: true })),
+			catchBackendErrorAction(this.snackbar, <%= name %>Actions.getError)
+		))
+	));
+
+	update$ = createEffect(() => this.actions$.pipe(
+		ofType(<%= name %>Actions.update),
+		mergeMap(({ value }) => this.service.sendUpdate(value).pipe(
+			map((updated) => <%= name %>Actions.updateSuccess({ value: updated, success: true })),
+			catchBackendErrorAction(this.snackbar, <%= name %>Actions.updateError)
+		))
+	));
+}
