@@ -1,13 +1,13 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { AuthState, ChangePasswordRequest, LoginRequest } from './type';
-import { ApiError } from '../util/api.type';
+import { ApiActionError } from '../util/api.action';
 
 export const authActions = createActionGroup({
     source: 'Auth',
     events: {
         'Login': props<{ request: LoginRequest }>(),
         'Login Success': props<{ auth: AuthState }>(),
-        'Login Error': props<ApiError>(),
+        'Login Error': props<ApiActionError>(),
         'Logout': emptyProps(),
         'Refresh success': props<{ auth: AuthState }>(),
         'Refresh error': emptyProps(),

@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+
+:host {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+mat-toolbar {
+	z-index: 100;
+	@include mat.elevation(8);
+}
+
+mat-drawer {
+	@include mat.elevation-transition();
+	@include mat.elevation(6);
+	display: flex;
+	width: 256px;
+	height: calc(100% - 3rem);
+	margin-top: 1.5rem;
+	padding: 1rem;
+
+	&:hover {
+	  @include mat.elevation(12);
+	}
+}

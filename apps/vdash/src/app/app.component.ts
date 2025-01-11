@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthFormComponent } from '@lv/angular';
 
@@ -14,16 +14,12 @@ import { AuthFormComponent } from '@lv/angular';
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 	title = 'vdash';
 	addresses: any[];
 
 	constructor(private httpClient: HttpClient) {
 		this.addresses = [];
-	}
-
-	ngOnInit(): void {
-		// this.query();
 	}
 
 	query() {

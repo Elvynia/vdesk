@@ -3,17 +3,18 @@ import { isDevMode } from '@angular/core';
 import { EMPTY, Observable, TimeoutError, from, map, of } from 'rxjs';
 
 export const handleBackendError = (response: HttpErrorResponse): Observable<string> => {
+	console.log(response, (response as any).error)
 	let reason = 'Erreur technique inconnue. Veuillez contacter l\'administrateur';
 	if (response.error && !(response.error instanceof ProgressEvent)) {
 		try {
 			if (typeof response.error === 'string') {
-				reason = JSON.parse(response.error).message;
+				reason = JSON.parse(response.error).errors.map((e: any) => e.message).join(';');
 			} else if (response.error instanceof Blob) {
 				return from(response.error.text()).pipe(
-					map((e) => JSON.parse(e).message)
+					map((e) => JSON.parse(e).errors.map((e: any) => e.message).join(';'))
 				);
 			} else if (typeof response.error === 'object') {
-				reason = response.error.message;
+				reason = response.error.errors.map((e: any) => e.message).join(';');
 			}
 		} catch (e) {
 			isDevMode() && console.warn('Could not parse error from backend :', response.error, e);

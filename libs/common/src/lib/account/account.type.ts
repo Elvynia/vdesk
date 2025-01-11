@@ -9,3 +9,9 @@ export interface Account extends IEntity {
 	username: string;
 	verified: boolean;
 }
+
+export interface AccountState {
+	accounts: Record<string, Account>;
+}
+
+export const selectAccounts = (state: AccountState) => state.accounts;

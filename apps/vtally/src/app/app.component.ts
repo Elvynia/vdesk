@@ -1,19 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '@lv/angular';
 
 @Component({
 	imports: [
 		RouterModule,
+		MatButtonModule,
 		MatIconModule,
 		MatToolbarModule,
-		MatButtonModule
+		MatSidenavModule,
+		MatProgressSpinnerModule
 	],
 	selector: 'lv-root',
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+	constructor(private authService: AuthService) {
+
+	}
+
+	ngOnInit(): void {
+		this.authService.initialize();
+	}
+
+	logout() {
+		this.authService.logout();
+	}
 }

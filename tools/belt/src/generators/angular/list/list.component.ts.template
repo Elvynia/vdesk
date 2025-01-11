@@ -1,0 +1,23 @@
+import { Component, Input } from '@angular/core';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { Account } from '@lv/common';
+
+@Component({
+	selector: 'lv-<%= name %>-list',
+	imports: [
+		MatButtonModule,
+		MatIconModule,
+		MatListModule,
+	],
+	templateUrl: './list.component.html',
+	styleUrl: './list.component.scss'
+})
+export class <%= clazz %>ListComponent {
+	@Input() values: <%= clazz %>[];
+
+	constructor() {
+		this.values = [];
+	}
+}

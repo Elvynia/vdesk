@@ -1,0 +1,20 @@
+<div class="content">
+	<h3>
+		{{ value.username }}
+	</h3>
+	<div class="actions">
+		@if (hovering) {
+		<button mat-icon-button [class.lv-accent]="!value.pending" [disabled]="value.pending"
+			(click)="edit.next(value)">
+			<mat-icon>edit</mat-icon>
+		</button>
+		<button mat-icon-button [class.lv-error]="!value.pending" [disabled]="value.pending"
+			(click)="delete.next(value)">
+			<mat-icon>delete</mat-icon>
+		</button>
+		}
+	</div>
+</div>
+@if (value.pending) {
+<lv-loading-placeholder [diameter]="32" color="error"></lv-loading-placeholder>
+}

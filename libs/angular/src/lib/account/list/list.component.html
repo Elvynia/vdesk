@@ -1,0 +1,7 @@
+<mat-list>
+	@for (value of values; track value._id) {
+		<mat-list-item>
+			<lv-account-item [value]="value" (edit)="edit.next($event)" (delete)="delete.next($event)"></lv-account-item>
+		</mat-list-item>
+	}
+</mat-list>

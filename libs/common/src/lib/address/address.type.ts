@@ -9,3 +9,9 @@ export interface Address extends IEntity {
 	siren: string;
 	zip: string;
 }
+
+export interface AddressState {
+	addresses: Record<string, Address>;
+}
+
+export const selectAddresses = (state: AddressState) => state.addresses;

@@ -1,0 +1,25 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatListModule } from '@angular/material/list';
+import { Account } from '@lv/common';
+import { AccountItemComponent } from '../item/item.component';
+
+@Component({
+	selector: 'lv-account-list',
+	imports: [
+		AccountItemComponent,
+		MatListModule,
+	],
+	templateUrl: './list.component.html',
+	styleUrl: './list.component.scss'
+})
+export class AccountListComponent {
+	@Input() values: Account[];
+	@Output() delete: EventEmitter<Account>;
+	@Output() edit: EventEmitter<Account>;
+
+	constructor() {
+		this.values = [];
+		this.delete = new EventEmitter();
+		this.edit = new EventEmitter();
+	}
+}

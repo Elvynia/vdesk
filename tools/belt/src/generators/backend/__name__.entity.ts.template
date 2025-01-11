@@ -21,4 +21,20 @@ export class <%= clazz %> extends Entity {
 <%  } %>
 }
 
+@InputType('<%= clazz %>Create')
+export class <%= clazz %>Create {
+
+<% for (let field of fieldList) { %>
+	<%  if (field.create) { %>
+		<% if (field.required) { %>
+		@Field()
+		<% } else { %>
+		@Field({ nullable: true })
+		<% } %>
+		@Prop()
+		<%= field.name %>: <%= field.type %>;
+	<%  } %>
+<%  } %>
+}
+
 export const <%= clazz %>Schema = SchemaFactory.createForClass(<%= clazz %>);
