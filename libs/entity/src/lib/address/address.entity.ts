@@ -1,15 +1,13 @@
 import { Address } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ObjectId } from 'mongoose';
-import { Entity } from '../entity.type';
 
 @InputType("AddressInput")
 @ObjectType()
 @Schema()
-export class AddressEntity extends Entity implements Address {
+export class AddressEntity implements Address {
 	@Field(_ => String)
-	_id: ObjectId;
+	_id: string;
 
 	@Field()
 	@Prop()
@@ -40,4 +38,5 @@ export class AddressEntity extends Entity implements Address {
 	zip: string;
 
 }
+
 export const AddressSchema = SchemaFactory.createForClass(AddressEntity);

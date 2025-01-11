@@ -34,7 +34,7 @@ export class AuthResolver {
 	}
 
 	async generate(account: AccountEntity): Promise<AuthToken> {
-		const payload = { acc: account.id } as AuthJwtPayloadCreate;
+		const payload = { acc: account._id } as AuthJwtPayloadCreate;
 		return {
 			apiToken: await this.jwtService.signAsync(payload, {
 				...await this.getAccountOptions(account, 'Api')

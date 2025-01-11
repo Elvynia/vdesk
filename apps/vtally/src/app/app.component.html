@@ -1,15 +1,32 @@
 <mat-toolbar>
-	<button mat-icon-button color="primary">
+	<button mat-icon-button (click)="drawer.toggle()">
 		<mat-icon>menu</mat-icon>
 	</button>
-	<span>Tally</span>
-	<div class="ms-auto">
-		<button mat-icon-button color="primary">
-			<mat-icon>favorite</mat-icon>
+	<span class="cursor-pointer ms-6" [routerLink]="['/']">Tally</span>
+	<div class="flex gap-2 ms-auto">
+		<button mat-stroked-button class="lv-accent">
+			<mat-icon>person</mat-icon>
+			username
 		</button>
-		<button mat-raised-button color="accent">
-			<mat-icon>favorite</mat-icon>
+		<button mat-icon-button class="lv-error" (click)="logout()">
+			<mat-icon>logout</mat-icon>
 		</button>
 	</div>
 </mat-toolbar>
-<router-outlet></router-outlet>
+<mat-drawer-container class="h-full" autosize>
+	<mat-drawer mode="over" #drawer>
+		<div class="flex flex-col gap-2">
+			<button mat-stroked-button routerLinkActive="lv-accent" [routerLink]="['account']" (click)="drawer.close()">
+				<mat-icon>person</mat-icon>
+				Accounts
+			</button>
+			<button mat-stroked-button routerLinkActive="lv-accent" [routerLink]="['address']" (click)="drawer.close()">
+				<mat-icon>address</mat-icon>
+				Addresses
+			</button>
+		</div>
+	</mat-drawer>
+	<div class="p-16">
+		<router-outlet></router-outlet>
+	</div>
+</mat-drawer-container>

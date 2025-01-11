@@ -1,15 +1,13 @@
 import { Account } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ObjectId } from 'mongoose';
-import { Entity } from '../entity.type';
 
 @InputType('AccountInput')
 @ObjectType()
 @Schema()
-export class AccountEntity extends Entity implements Account {
+export class AccountEntity implements Account {
 	@Field((_) => String)
-	_id: ObjectId;
+	_id: string;
 
 	@Field({ nullable: true })
 	@Prop()
@@ -38,6 +36,19 @@ export class AccountEntity extends Entity implements Account {
 	@Field({ nullable: true })
 	@Prop()
 	verified: boolean;
+}
+
+@InputType('AccountCreate')
+export class AccountCreate {
+
+	@Field()
+	password?: string;
+
+	@Field({ nullable: true })
+	email: string;
+
+	@Field({ nullable: true })
+	username: string;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(AccountEntity);

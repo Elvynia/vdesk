@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-	selector: 'perma-loading-placeholder',
+	selector: 'lv-loading-placeholder',
 	imports: [
 		CommonModule,
 		MatProgressSpinnerModule

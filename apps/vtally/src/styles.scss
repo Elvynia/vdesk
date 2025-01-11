@@ -1,25 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
-@import "../../../libs/styles/tailwind.css";
+@use '../../../libs/styles/palettes' as palettes;
+@import '../../../libs/styles/tailwind.css';
+
+@include mat.core();
+
+$theme: mat.define-theme((color: (theme-type: light,
+				primary: palettes.$primary,
+				tertiary: palettes.$tertiary,
+			),
+			density: (scale: 0,
+			),
+		));
 
 html {
-	@include mat.theme((color: (theme-type: light,
-				primary: mat.$azure-palette,
-				tertiary: mat.$blue-palette,
-			),
-			typography: Roboto,
-			density: 0,
-		));
+	color-scheme: light dark;
+	@include mat.all-component-themes($theme);
 }
 
 /* You can add global styles to this file, and also import other style files */
 
 html,
 body {
-	height: 100%;
+	height: 100vh;
 }
 
 body {
 	margin: 0;
-	font-family: Roboto, "Helvetica Neue", sans-serif;
+	font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.lv-accent {
+	@include mat.button-color($theme: $theme, $color-variant: 'secondary');
+	@include mat.form-field-color($theme: $theme, $color-variant: 'secondary');
+	@include mat.icon-color($theme: $theme, $color-variant: 'secondary');
+	@include mat.progress-spinner-color($theme: $theme, $color-variant: 'secondary');
+}
+
+.lv-error {
+	@include mat.button-color($theme: $theme, $color-variant: 'error');
+	@include mat.icon-color($theme: $theme, $color-variant: 'error');
+	@include mat.progress-spinner-color($theme: $theme, $color-variant: 'error');
 }

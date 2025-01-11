@@ -1,0 +1,48 @@
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { <%= clazz %> } from '@lv/common';
+
+@Component({
+	selector: 'lv-<%= name %>-form',
+	imports: [
+		MatButtonModule,
+		MatCardModule,
+		MatFormFieldModule,
+		MatInputModule,
+		ReactiveFormsModule
+	],
+	templateUrl: './form.component.html',
+	styleUrl: './form.component.scss'
+})
+export class <%= clazz %>FormComponent implements OnInit, OnChanges {
+	@Input() group!: FormGroup;
+	@Input() value?: <%= clazz %>;
+
+	constructor(private formBuilder: FormBuilder) {
+
+	}
+
+	ngOnInit(): void {
+		if (!this.group) {
+			this.reset();
+		}
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes['value']) {
+			// TODO
+		}
+	}
+
+	private reset() {
+		this.group = this.formBuilder.group({
+<% for (let field of fieldList) { %>
+			<%= field.name %>: [this.value?.<%= field.name %>, <% if (field.required) %> [Validators.required] <% } { %> [] <% } %>],
+<%  } %>
+		})
+	}
+}

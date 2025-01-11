@@ -1,3 +1,4 @@
 export interface IEntity {
-	readonly id: string;
+	readonly _id: string;
+	pending?: boolean;
 }

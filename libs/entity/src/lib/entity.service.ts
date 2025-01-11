@@ -13,7 +13,7 @@ export abstract class EntityService<Entity, CreateEntity = Entity, UpdateEntity 
 		return from(this.model.find().exec());
 	}
 
-	findOne(_id: number) {
+	findOne(_id: string) {
 		return from(this.model.findOne({ _id }).exec());
 	}
 
@@ -23,7 +23,7 @@ export abstract class EntityService<Entity, CreateEntity = Entity, UpdateEntity 
 			.exec());
 	}
 
-	remove(_id: number) {
+	remove(_id: string) {
 		return from(this.model
 			.findByIdAndDelete({ _id })
 			.exec());

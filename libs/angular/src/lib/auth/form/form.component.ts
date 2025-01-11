@@ -11,11 +11,11 @@ import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { finalize, first } from 'rxjs';
-import { passwordConfirmValidatorFn } from '../../account/password-confirm.validator';
-import { passwordDifferentValidatorFn } from '../../account/password-different.validator';
-import { passwordPolicyValidatorFn, SpecialChars } from '../../account/password-policy.validator';
-import { authActions } from '../actions';
+import { passwordConfirmValidatorFn } from '../../account/validator/password-confirm.validator';
+import { passwordDifferentValidatorFn } from '../../account/validator/password-different.validator';
+import { passwordPolicyValidatorFn, SpecialChars } from '../../account/validator/password-policy.validator';
 import { LoadingDirective } from '../../loading/loading.directive';
+import { authActions } from '../actions';
 
 @Component({
 	selector: 'lv-auth-form',
