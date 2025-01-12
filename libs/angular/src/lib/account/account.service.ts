@@ -18,6 +18,10 @@ export class AccountService extends ApiService<Account> {
 		this.apiUrl = config.apiUrl + config.apiPath + '/account';
 	}
 
+	getFields(): string {
+		return ['_id', 'creationDate', 'email', 'enabled', 'username'].join('\n');
+	}
+
 	search(keywords: string) {
 		return this.httpClient.get<Account[]>(this.apiUrl + '/search', {
 			params: new HttpParams().append('keywords', keywords)

@@ -21,14 +21,14 @@ export abstract class ApiService<T extends IEntity> {
 		this.graphUrl = config.apiUrl + config.apiPath;
 	}
 
+	abstract getFields(apiAction: string): string;
+
 	sendCreate(data: T) {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
 				mutation($input: ${this.clazz}Create!) {
 					create${this.clazz}(create${this.clazz}Input: $input) {
-						_id
-						username
-						email
+						${this.getFields('create')}
 					}
 				}
 			`,
@@ -45,9 +45,7 @@ export abstract class ApiService<T extends IEntity> {
 			query: `
 				mutation($input: ${this.clazz}Input!) {
 					update${this.clazz}(update${this.clazz}Input: $input) {
-						_id
-						username
-						email
+						${this.getFields('update')}
 					}
 				}
 			`,
@@ -64,9 +62,7 @@ export abstract class ApiService<T extends IEntity> {
 			query: `
                 mutation($input: String!) {
 					remove${this.clazz}(id: $input) {
-						_id
-						username
-						email
+						${this.getFields('delete')}
 					}
 				}
             `,
@@ -81,9 +77,7 @@ export abstract class ApiService<T extends IEntity> {
 			query: `
 				query Get${this.clazz}($id: String!) {
 					${this.entity}Id(id: $id) {
-						_id
-						username
-						email
+						${this.getFields('get')}
 					}
 				}
 			`,
@@ -91,8 +85,7 @@ export abstract class ApiService<T extends IEntity> {
 				id
 			}
 		}).pipe(
-			tap(r => console.log(r)),
-			map((results: any) => results.data as T)
+			map((results: any) => results.data[`${this.entity}Id`] as T)
 		);
 	}
 
@@ -100,9 +93,7 @@ export abstract class ApiService<T extends IEntity> {
 		return this.httpClient.post(this.graphUrl, {
 			"query": `{
 				${this.entity} {
-					_id
-					username
-					email
+					${this.getFields('list')}
 				}
 			}`
 		}).pipe(

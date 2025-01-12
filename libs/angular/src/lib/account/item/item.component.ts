@@ -1,7 +1,8 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { Account } from '@lv/common';
 import { LoadingPlaceholderComponent } from '../../loading/placeholder/loading-placeholder.component';
 import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
@@ -12,7 +13,11 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 		CommonModule,
 		MatButtonModule,
 		MatIconModule,
+		MatListModule,
 		LoadingPlaceholderComponent
+	],
+	providers: [
+		DatePipe
 	],
 	templateUrl: './item.component.html',
 	styleUrl: './item.component.scss',

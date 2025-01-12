@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { <%= clazz %> } from '@lv/common';
 import { LoadingPlaceholderComponent } from '../../loading/placeholder/loading-placeholder.component';
 import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
@@ -12,6 +13,7 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 		CommonModule,
 		MatButtonModule,
 		MatIconModule,
+		MatListModule,
 		LoadingPlaceholderComponent
 	],
 	templateUrl: './item.component.html',
@@ -20,11 +22,13 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 export class <%= clazz %>ItemComponent extends HoverableCompomix() {
 	@Input() value!: <%= clazz %>;
 	@Output() delete: EventEmitter<<%= clazz %>>;
+	@Output() detail: EventEmitter<string>;
 	@Output() edit: EventEmitter<<%= clazz %>>;
 
 	constructor() {
 		super();
 		this.delete = new EventEmitter();
+		this.detail = new EventEmitter();
 		this.edit = new EventEmitter();
 	}
 }
