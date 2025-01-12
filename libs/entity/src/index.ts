@@ -16,3 +16,7 @@ export * from './lib/decorator/mapping-public';
 export * from './lib/entity.module';
 export * from './lib/entity.service';
 export * from './lib/util/request.type';
+export * from './lib/role/role.entity';
+export * from './lib/role/role.module';
+export * from './lib/role/role.resolver';
+export * from './lib/role/role.service';

@@ -1,0 +1,10 @@
+<lv-role-list
+	[values]="roles"
+	(edit)="edit($event)"
+	(delete)="delete($event)"
+></lv-role-list>
+<lv-role-form
+	[value]="editRole"
+	(back)="cancel()"
+	(save)="save($event)"
+></lv-role-form>
