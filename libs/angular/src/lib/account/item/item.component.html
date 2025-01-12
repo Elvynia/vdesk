@@ -1,9 +1,13 @@
-<div class="content">
-	<h3>
+<mat-list-item class="mb-2">
+	<h3 matListItemTitle class="font-2rem">
 		{{ value.username }}
 	</h3>
-	<div class="actions">
-		@if (hovering) {
+	<span matListItemLine>
+		<a class="link" [href]="'emailto:' + value.email">{{ value.email }}</a>
+	</span>
+	<span matListItemLine>Created on {{ value.creationDate | date:'medium' }}</span>
+	@if (hovering) {
+	<div matListItemMeta>
 		<button mat-icon-button [class.lv-accent]="!value.pending" [disabled]="value.pending"
 			(click)="detail.next(value._id)">
 			<mat-icon>info</mat-icon>
@@ -16,9 +20,9 @@
 			(click)="delete.next(value)">
 			<mat-icon>delete</mat-icon>
 		</button>
-		}
 	</div>
-</div>
-@if (value.pending) {
-<lv-loading-placeholder [diameter]="32" color="error"></lv-loading-placeholder>
-}
+	}
+	@if (value.pending) {
+	<lv-loading-placeholder [diameter]="32" color="error"></lv-loading-placeholder>
+	}
+</mat-list-item>
