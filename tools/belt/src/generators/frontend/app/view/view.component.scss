@@ -5,7 +5,7 @@
 	justify-content: space-between;
 }
 
-lv-account-list,
-lv-account-form {
+lv-<%= name %>-list,
+lv-<%= name %>-form {
 	width: calc(50% - 2rem);
 }

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { EntityService } from '../type.service';
-import { <%= clazz %> } from './<%= name %>.entity';
+import { EntityService } from '../entity.service';
+import { <%= clazz %>Create, <%= clazz %>Entity } from './<%= name %>.entity';
 
 @Injectable()
-export class <%= clazz %>Service extends EntityService<<%= clazz %>> {
+export class <%= clazz %>Service extends EntityService<<%= clazz %>Entity, <%= clazz %>Create> {
 
-	constructor(@InjectModel(<%= clazz %>.name) protected readonly model: Model<<%= clazz %>>) {
+	constructor(@InjectModel(<%= clazz %>Entity.name) protected readonly model: Model<<%= clazz %>Entity>) {
 		super();
 	}
 

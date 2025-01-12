@@ -8,9 +8,9 @@ import { EntityGeneratorSchema } from './schema';
 import { promptForEntity } from './prompt';
 
 function makeExportUpdater(tree: Tree) {
-	return (target: string, name: string, files: string[]) => {
+	return (target: string, folder: string, name: string, files: string[]) => {
 		const contents = tree.read(target).toString().split('\n').filter((l) => !!l);
-		tree.write(target, contents.concat(files.map((f) => `export * from './lib/${name}/${name}.${f}'; `)).join('\n'));
+		tree.write(target, contents.concat(files.map((f) => `export * from './lib/${folder}/${name}.${f}'; `)).join('\n'));
 	}
 }
 
@@ -24,23 +24,22 @@ export async function entityGenerator(
 	const frontlib = 'angular';
 	const exportUpdater = makeExportUpdater(tree);
 	options.clazz = options.name.charAt(0).toUpperCase() + options.name.slice(1);
-
 	options.fields = await promptForEntity();
 
 	// Backend
 	generateFiles(tree, path.join(__dirname, 'backend'), `libs/${backlib}/src/lib/${options.name}`, options);
-	exportUpdater('libs/entity/src/index.ts', options.name, ['entity', 'module', 'resolver', 'service']);
+	exportUpdater('libs/entity/src/index.ts', options.name, options.name, ['entity', 'module', 'resolver', 'service']);
 
 	// Common
 	generateFiles(tree, path.join(__dirname, 'common'), `libs/common/src/lib/${options.name}`, options);
-	exportUpdater('libs/common/src/index.ts', options.name, ['type']);
+	exportUpdater('libs/common/src/index.ts', options.name, options.name, ['type']);
 
 	// Frontend lib
 	generateFiles(tree, path.join(__dirname, 'frontend/lib'), `libs/${frontlib}/src/lib/${options.name}`, options);
-	exportUpdater('libs/angular/src/index.ts', options.name, ['actions', 'config', 'effects', 'reducer', 'service']);
-	exportUpdater('libs/angular/src/index.ts', options.name + '/form', ['component']);
-	exportUpdater('libs/angular/src/index.ts', options.name + '/item', ['component']);
-	exportUpdater('libs/angular/src/index.ts', options.name + '/list', ['component']);
+	exportUpdater('libs/angular/src/index.ts', options.name, options.name, ['actions', 'config', 'effects', 'reducer', 'service']);
+	exportUpdater('libs/angular/src/index.ts', options.name + '/form', 'form', ['component']);
+	exportUpdater('libs/angular/src/index.ts', options.name + '/item', 'item', ['component']);
+	exportUpdater('libs/angular/src/index.ts', options.name + '/list', 'list', ['component']);
 
 	// Frontend app
 	generateFiles(tree, path.join(__dirname, 'frontend/app'), `apps/${frontapp}/src/lib/${options.name}`, options);

@@ -25,7 +25,7 @@ export class <%= clazz%>Effects {
 		ofType(<%= name %>Actions.delete),
 		mergeMap(({ value }) => this.service.sendDelete(value._id).pipe(
 			map(() => <%= name %>Actions.deleteSuccess({ value, success: true })),
-			tap(() => notifyUserSuccess(this.snackbar, `<%= clazz%> ${value.username} deleted with success !`)),
+			tap(() => notifyUserSuccess(this.snackbar, `<%= clazz %> ${value.<%= fields[0].name %>} deleted with success !`)),
 			catchBackendErrorAction(this.snackbar, <%= name %>Actions.deleteError, { value })
 		))
 	));

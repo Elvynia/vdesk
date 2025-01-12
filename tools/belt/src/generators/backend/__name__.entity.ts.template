@@ -1,14 +1,13 @@
+import { <%= clazz %> } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ObjectId } from 'mongoose';
-import { Entity } from '../entity.type';
 
 @InputType("<%= clazz %>Input")
 @ObjectType()
 @Schema()
-export class <%= clazz %> extends Entity {
+export class <%= clazz %>Entity implements <%= clazz %> {
 	@Field(_ => String)
-	_id: ObjectId;
+	_id: string;
 
 <% for (let field of fields) { %>
 	<% if (field.required) { %>
@@ -18,12 +17,12 @@ export class <%= clazz %> extends Entity {
 	<% } %>
 	@Prop()
 	<%= field.name + (field.required ? '' : '?') %>: <%= field.type %>;
+
 <%  } %>
 }
 
 @InputType('<%= clazz %>Create')
 export class <%= clazz %>Create {
-
 <% for (let field of fields) { %>
 	<%  if (field.create) { %>
 		<% if (field.required) { %>
@@ -33,8 +32,9 @@ export class <%= clazz %>Create {
 		<% } %>
 		@Prop()
 		<%= field.name + (field.required ? '' : '?') %>: <%= field.type %>;
+
 	<%  } %>
 <%  } %>
 }
 
-export const <%= clazz %>Schema = SchemaFactory.createForClass(<%= clazz %>);
+export const <%= clazz %>Schema = SchemaFactory.createForClass(<%= clazz %>Entity);
