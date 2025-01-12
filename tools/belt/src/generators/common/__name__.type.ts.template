@@ -1,7 +1,7 @@
 import { IEntity } from "../entity/entity.type";
 
 export interface <%= clazz %> extends IEntity {
-<% for (let field of fieldList) { %>
+<% for (let field of fields) { %>
 	<%= field.name %>: <%= field.type %>;
 <%  } %>
 }

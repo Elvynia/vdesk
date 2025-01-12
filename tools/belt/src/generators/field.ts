@@ -3,4 +3,5 @@ export interface Field {
 	type: string;
 	required: boolean;
 	create: boolean;
+	component: string;
 }

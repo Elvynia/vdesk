@@ -6,21 +6,12 @@
 	"properties": {
 		"name": {
 			"type": "string",
-			"description": "Entity name to use (lowercase)",
+			"description": "Entity name to use (camelCase)",
 			"$default": {
 				"$source": "argv",
 				"index": 0
 			},
 			"x-prompt": "What name would you like to use?"
-		},
-		"fields": {
-			"type": "string",
-			"description": "List with :types separated by ;",
-			"$default": {
-				"$source": "argv",
-				"index": 1
-			},
-			"x-prompt": "What fields would you like to use?"
 		}
 	},
 	"required": [
