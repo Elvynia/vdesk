@@ -1,5 +1,5 @@
 <mat-list>
-	@for (value of values; track value.id) {
+	@for (value of values; track value._id) {
 		<mat-list-item>
 			{{ value.<%= fields[0].name %> }}
 		</mat-list-item>
