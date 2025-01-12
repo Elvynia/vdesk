@@ -5,6 +5,7 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { EntityGeneratorSchema } from './schema';
+import { promptForEntity } from './prompt';
 
 function makeExportUpdater(tree: Tree) {
 	return (target: string, name: string, files: string[]) => {
@@ -23,28 +24,8 @@ export async function entityGenerator(
 	const frontlib = 'angular';
 	const exportUpdater = makeExportUpdater(tree);
 	options.clazz = options.name.charAt(0).toUpperCase() + options.name.slice(1);
-	options.fieldList = options.fields
-		.split(';')
-		.filter((f) => !!f)
-		.map((source) => {
-			const parts = source.split(':');
-			let create = false;
-			let required = false;
-			if (parts[0].includes('!')) {
-				create = true;
-				parts[0] = parts[0].replace('!', '');
-			}
-			if (parts[0].includes('?')) {
-				required = true;
-				parts[0] = parts[0].replace('?', '');
-			}
-			return {
-				name: parts[0].trim(),
-				type: parts[1].trim(),
-				required,
-				create
-			}
-		});
+
+	options.fields = await promptForEntity();
 
 	// Backend
 	generateFiles(tree, path.join(__dirname, 'backend'), `libs/${backlib}/src/lib/${options.name}`, options);

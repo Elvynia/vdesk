@@ -56,7 +56,7 @@ export class <%= clazz %>FormComponent implements OnInit, OnChanges {
 				value: this.value?._id,
 				disabled: true
 			}],
-<% for (let field of fieldList) { %>
+<% for (let field of fields) { %>
 			<%= field.name %>: [this.value?.<%= field.name %>, <% if (field.required) { %> [Validators.required] <% } else { %> [] <% } %>],
 <%  } %>
 		})

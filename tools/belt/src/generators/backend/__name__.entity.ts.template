@@ -10,7 +10,7 @@ export class <%= clazz %> extends Entity {
 	@Field(_ => String)
 	_id: ObjectId;
 
-<% for (let field of fieldList) { %>
+<% for (let field of fields) { %>
 	<% if (field.required) { %>
 	@Field()
 	<% } else { %>
@@ -24,7 +24,7 @@ export class <%= clazz %> extends Entity {
 @InputType('<%= clazz %>Create')
 export class <%= clazz %>Create {
 
-<% for (let field of fieldList) { %>
+<% for (let field of fields) { %>
 	<%  if (field.create) { %>
 		<% if (field.required) { %>
 		@Field()

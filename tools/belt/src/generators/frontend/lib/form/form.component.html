@@ -5,7 +5,7 @@
 	<mat-card-content [formGroup]="group">
 		<div  class="pt-3">
 			<div class="flex flex-col lg:flex-row lg:gap-6">
-				<% for (let field of fieldList) { %>
+				<% for (let field of fields) { %>
 				<mat-form-field [class.lv-accent]="group.get('<%= field.name %>')!.valid">
 					<mat-label><%= field.name %></mat-label>
 					<input matInput name="<%= field.name %>" formControlName="<%= field.name %>">
