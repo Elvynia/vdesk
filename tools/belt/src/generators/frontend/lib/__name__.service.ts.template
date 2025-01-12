@@ -17,4 +17,12 @@ export class <%= clazz%>Service extends ApiService<<%= clazz%>> {
 		super(httpClient, config);
 		this.apiUrl = config.apiUrl + config.apiPath + '/<%= name %>';
 	}
+
+	getFields(): string {
+		return [
+			<% for (let field of fetchFields) { %>
+				'<%= field %>',
+			<% } %>
+		].join('\n');
+	}
 }
