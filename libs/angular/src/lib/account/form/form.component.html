@@ -2,8 +2,8 @@
 	<mat-card-header>
 		<h1 mat-card-title>{{ value?._id ? 'Edit' : 'New' }} account</h1>
 	</mat-card-header>
-	<mat-card-content [formGroup]="group">
-		<div  class="pt-3">
+	<mat-card-content class="!flex flex-col justify-center" [formGroup]="group">
+		<div class="content pt-3" *lvLoading="pending; color: 'accent'; diameter: 128">
 			<div class="flex flex-col lg:flex-row lg:gap-6">
 				<mat-form-field [class.lv-accent]="group.get('username')!.valid">
 					<mat-label>Username</mat-label>
@@ -13,15 +13,26 @@
 					<mat-label>Password</mat-label>
 					<input matInput type="password" formControlName="password">
 				</mat-form-field>
+			</div>
+			<div class="flex flex-col lg:flex-row lg:gap-6">
 				<mat-form-field [class.lv-accent]="group.get('email')!.valid">
 					<mat-label>Email</mat-label>
 					<input matInput name="email" formControlName="email">
 				</mat-form-field>
+				<mat-form-field [class.lv-accent]="group.get('role')!.valid">
+					<mat-label>Role</mat-label>
+					<mat-select [compareWith]="compareRole" formControlName="role">
+						@for (role of roles; track role._id) {
+						<mat-option [value]="role">{{ role.name }}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
 			</div>
 		</div>
 	</mat-card-content>
-	<mat-card-actions>
-		<button mat-stroked-button class="lv-error" (click)="cancel()">Cancel</button>
-		<button mat-raised-button class="lv-accent" (click)="submit()">Submit</button>
+	<mat-card-actions class="duo">
+		<button mat-stroked-button class="lv-error" [disabled]="pending" (click)="cancel()">Cancel</button>
+		<button mat-raised-button class="lv-accent" [disabled]="pending || group.invalid || group.pending"
+			(click)="submit()">Submit</button>
 	</mat-card-actions>
 </mat-card>

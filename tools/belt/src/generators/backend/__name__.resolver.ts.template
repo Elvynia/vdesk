@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { <%= clazz %>Service } from './<%= name %>.service';
-import { <%= clazz %>Entity, <%= clazz %>Create } from './<%= name %>.entity';
+import { <%= clazz %>Entity, <%= clazz %>Create, <%= clazz %>Update } from './<%= name %>.entity';
 
 @Resolver(() => <%= clazz %>Entity)
 export class <%= clazz %>Resolver {
@@ -25,7 +25,7 @@ export class <%= clazz %>Resolver {
 
 	@Mutation(() => <%= clazz %>Entity)
 	update<%= clazz %>(
-		@Args('update<%= clazz %>Input') update<%= clazz %>Input: <%= clazz %>Entity
+		@Args('update<%= clazz %>Input') update<%= clazz %>Input: <%= clazz %>Update
 	) {
 		return this.<%= name %>Service.update(
 			update<%= clazz %>Input._id,

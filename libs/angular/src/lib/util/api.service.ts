@@ -43,7 +43,7 @@ export abstract class ApiService<T extends IEntity> {
 	sendUpdate(data: T) {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
-				mutation($input: ${this.clazz}Input!) {
+				mutation($input: ${this.clazz}Update!) {
 					update${this.clazz}(update${this.clazz}Input: $input) {
 						${this.getFields('update')}
 					}

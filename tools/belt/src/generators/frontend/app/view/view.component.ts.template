@@ -25,7 +25,6 @@ export class <%= clazz %>ViewComponent extends ObserverCompomix() implements OnI
 
 	ngOnInit() {
 		this.store.select(select<%= clazz %>s).pipe(
-			tap((s) => console.log(s)),
 			filter((s) => !!s),
 			takeUntil(this.destroy$)
 		).subscribe((<%= name %>s) => this.<%= name %>s = Object.values(<%= name %>s));
