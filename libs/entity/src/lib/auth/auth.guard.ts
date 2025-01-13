@@ -68,7 +68,7 @@ export class AuthGuard implements CanActivate {
 			req.user = id;
 			return true;
 		} catch (_) {
-			return isPublic || true;
+			return isPublic || false;
 		}
 	}
 }

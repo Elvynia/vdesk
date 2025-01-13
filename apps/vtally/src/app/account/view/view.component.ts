@@ -25,7 +25,6 @@ export class AccountViewComponent extends ObserverCompomix() implements OnInit {
 
 	ngOnInit() {
 		this.store.select(selectAccounts).pipe(
-			tap((s) => console.log(s)),
 			filter((s) => !!s),
 			takeUntil(this.destroy$)
 		).subscribe((accounts) => this.accounts = Object.values(accounts));
