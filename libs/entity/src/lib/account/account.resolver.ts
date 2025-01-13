@@ -1,13 +1,18 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { firstValueFrom } from 'rxjs';
 import { AuthGuard } from '../auth/auth.guard';
 import { MappingPublic } from '../decorator/mapping-public';
-import { AccountCreate, AccountEntity } from './account.entity';
+import { RoleEntity } from '../role/role.entity';
+import { RoleService } from '../role/role.service';
+import { AccountCreate, AccountEntity, AccountUpdate } from './account.entity';
 import { AccountService } from './account.service';
 
 @Resolver(() => AccountEntity)
 export class AccountResolver {
-	constructor(private readonly accountService: AccountService) { }
+	constructor(private readonly accountService: AccountService,
+		private readonly roleService: RoleService
+	) { }
 
 	@Mutation(() => AccountEntity)
 	@MappingPublic()
@@ -27,7 +32,7 @@ export class AccountResolver {
 	}
 
 	@Mutation(() => AccountEntity)
-	updateAccount(@Args('updateAccountInput') updateAccountInput: AccountEntity) {
+	updateAccount(@Args('updateAccountInput') updateAccountInput: AccountUpdate) {
 		return this.accountService.update(
 			updateAccountInput._id,
 			updateAccountInput
@@ -37,5 +42,10 @@ export class AccountResolver {
 	@Mutation(() => AccountEntity)
 	removeAccount(@Args('id', { type: () => String }) id: string) {
 		return this.accountService.remove(id);
+	}
+
+	@ResolveField(() => RoleEntity)
+	async role(@Parent() parent: AccountEntity) {
+		return await firstValueFrom(this.roleService.findOne(parent.role as any));
 	}
 }

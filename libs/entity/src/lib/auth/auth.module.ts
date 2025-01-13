@@ -11,6 +11,7 @@ import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
+import { RoleModule } from '../role/role.module';
 
 @Module({
 	controllers: [
@@ -28,6 +29,7 @@ import { AuthService } from './auth.service';
 				collection: 'account',
 			},
 		]),
+		RoleModule,
 	],
 	providers: [
 		AuthConfig,
@@ -46,6 +48,7 @@ import { AuthService } from './auth.service';
 		AccountResolver,
 		AccountService,
 		JwtModule,
+		RoleModule,
 	],
 })
 export class AuthModule { }

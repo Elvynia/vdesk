@@ -21,10 +21,26 @@ export class <%= clazz %>Entity implements <%= clazz %> {
 <%  } %>
 }
 
-@InputType('<%= clazz %>Create')
+@InputType()
 export class <%= clazz %>Create {
 <% for (let field of fields) { %>
 	<%  if (field.create) { %>
+		<% if (field.required) { %>
+		@Field()
+		<% } else { %>
+		@Field({ nullable: true })
+		<% } %>
+		@Prop()
+		<%= field.name + (field.required ? '' : '?') %>: <%= field.type %>;
+
+	<%  } %>
+<%  } %>
+}
+
+@InputType()
+export class <%= clazz %>Update {
+<% for (let field of fields) { %>
+	<%  if (field.update) { %>
 		<% if (field.required) { %>
 		@Field()
 		<% } else { %>

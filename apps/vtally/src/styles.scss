@@ -42,3 +42,13 @@ body {
 	@include mat.icon-color($theme: $theme, $color-variant: 'error');
 	@include mat.progress-spinner-color($theme: $theme, $color-variant: 'error');
 }
+
+mat-card-actions.duo {
+	display: flex;
+	justify-content: space-between;
+
+	button {
+		width: calc(100%);
+		margin: 0 1rem;
+	}
+}

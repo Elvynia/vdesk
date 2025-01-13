@@ -19,7 +19,7 @@ export class AccountService extends ApiService<Account> {
 	}
 
 	getFields(): string {
-		return ['_id', 'creationDate', 'email', 'enabled', 'username'].join('\n');
+		return ['_id', 'creationDate', 'email', 'enabled', 'username', 'role { _id name }'].join('\n');
 	}
 
 	search(keywords: string) {
