@@ -6,7 +6,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @ObjectType()
 @Schema()
 export class AddressEntity implements Address {
-	@Field(_ => String)
+	@Field()
 	_id: string;
 
 	@Field()

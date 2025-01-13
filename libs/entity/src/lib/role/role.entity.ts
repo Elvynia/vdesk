@@ -6,7 +6,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @ObjectType()
 @Schema()
 export class RoleEntity implements Role {
-	@Field((_) => String)
+	@Field()
 	_id: string;
 
 	@Field()
