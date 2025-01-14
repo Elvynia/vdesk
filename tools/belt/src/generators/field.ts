@@ -3,5 +3,6 @@ export interface Field {
 	type: string;
 	required: boolean;
 	create: boolean;
+	update: boolean;
 	component: string;
 }
