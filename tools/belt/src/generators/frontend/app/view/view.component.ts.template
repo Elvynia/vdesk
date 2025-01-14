@@ -3,7 +3,7 @@ import { <%= name %>Actions, <%= clazz %>FormComponent, <%= clazz %>ListComponen
 import { <%= clazz %>, select<%= clazz %>s } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { filter, first, takeUntil, tap } from 'rxjs';
+import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'lv-<%= name %>-view',
