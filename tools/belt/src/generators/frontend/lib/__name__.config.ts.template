@@ -6,7 +6,7 @@ import { <%= name %>Reducer } from "./<%= name %>.reducer";
 
 export function provideEntity<%= clazz%>(): Array<Provider | EnvironmentProviders> {
 	return [
-		provideState('<%= name %>s', <%= name %>Reducer),
+		provideState('<%= namePlural %>', <%= name %>Reducer),
 		provideEffects([<%= clazz%>Effects])
 	];
 }

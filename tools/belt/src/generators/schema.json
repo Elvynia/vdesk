@@ -11,7 +11,12 @@
 				"$source": "argv",
 				"index": 0
 			},
-			"x-prompt": "What name would you like to use?"
+			"x-prompt": "Entity name to use (camelCase)"
+		},
+		"namePlural": {
+			"type": "string",
+			"required": "false",
+			"description": "Plural name to use (camelCase)> Defaults to `${name}s`"
 		}
 	},
 	"required": [

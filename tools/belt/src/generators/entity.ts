@@ -82,7 +82,7 @@ function makeAstUpdaterEntity(project: Project) {
 				.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
 			appComponentMenu.addPropertyAssignment({
 				name: options.name,
-				initializer: (writer) => writer.write("'" + options.name + "'")
+				initializer: (writer) => writer.write("'" + options.clazzPlural + "'")
 			});
 		}
 	}
@@ -103,6 +103,8 @@ async function entityGenerator(
 	const updaterEntity = makeAstUpdaterEntity(project);
 	options.clazz = options.name.charAt(0).toUpperCase() + options.name.slice(1);
 	options.fields = await promptForEntity();
+	options.namePlural = options.namePlural || options.name + 's';
+	options.clazzPlural = options.namePlural.charAt(0).toUpperCase() + options.namePlural.slice(1);
 	options.fetchFields = await select({
 		message: 'select',
 		options: options.fields.map(({ name }) => ({ name, value: name })).concat([{ name: '_id', value: '_id' }]),

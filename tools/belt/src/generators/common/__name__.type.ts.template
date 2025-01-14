@@ -7,7 +7,7 @@ export interface <%= clazz %> extends IEntity {
 }
 
 export interface <%= clazz %>State {
-	<%= name %>s: Record<string, <%= clazz %>>;
+	<%= namePlural %>: Record<string, <%= clazz %>>;
 }
 
-export const select<%= clazz %>s = (state: <%= clazz %>State) => state.<%= name %>s;
+export const select<%= clazzPlural %> = (state: <%= clazz %>State) => state.<%= namePlural %>;
