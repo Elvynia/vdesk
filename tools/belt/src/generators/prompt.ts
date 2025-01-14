@@ -7,6 +7,7 @@ export async function promptForField(): Promise<Field> {
 		type: await input({ message: 'Type ?', default: 'string' }),
 		required: await confirm({ message: 'Required ?', default: true }),
 		create: await confirm({ message: 'Use at creation ?', default: true }),
+		update: await confirm({ message: 'Use at update ?', default: true }),
 		component: await confirm({ message: 'Custom component ?', default: false }) ?
 			// TODO
 			'input'

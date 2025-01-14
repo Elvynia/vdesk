@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
@@ -9,6 +10,7 @@ import { AuthService } from '@lv/angular';
 
 @Component({
 	imports: [
+		CommonModule,
 		RouterModule,
 		MatButtonModule,
 		MatIconModule,
@@ -21,9 +23,14 @@ import { AuthService } from '@lv/angular';
 	styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
+	menu: Record<string, string>;
 
 	constructor(private authService: AuthService, private matIconReg: MatIconRegistry) {
-
+		this.menu = {
+			account: 'Accounts',
+			address: 'Addresses',
+			role: 'Roles'
+		};
 	}
 
 	ngOnInit(): void {

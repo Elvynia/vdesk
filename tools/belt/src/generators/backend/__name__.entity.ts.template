@@ -6,7 +6,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @ObjectType()
 @Schema()
 export class <%= clazz %>Entity implements <%= clazz %> {
-	@Field(_ => String)
+	@Field()
 	_id: string;
 
 <% for (let field of fields) { %>
@@ -39,6 +39,9 @@ export class <%= clazz %>Create {
 
 @InputType()
 export class <%= clazz %>Update {
+	@Field()
+	_id: string;
+
 <% for (let field of fields) { %>
 	<%  if (field.update) { %>
 		<% if (field.required) { %>

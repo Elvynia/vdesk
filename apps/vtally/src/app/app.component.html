@@ -16,18 +16,12 @@
 <mat-drawer-container class="h-full" autosize>
 	<mat-drawer mode="over" #drawer>
 		<div class="flex flex-col gap-2">
-			<button mat-stroked-button routerLinkActive="lv-accent" [routerLink]="['account']" (click)="drawer.close()">
-				<mat-icon>person</mat-icon>
-				Accounts
-			</button>
-			<button mat-stroked-button routerLinkActive="lv-accent" [routerLink]="['address']" (click)="drawer.close()">
-				<mat-icon>home_pin</mat-icon>
-				Addresses
-			</button>
-			<button mat-stroked-button routerLinkActive="lv-accent" [routerLink]="['role']" (click)="drawer.close()">
-				<mat-icon>license</mat-icon>
-				Roles
-			</button>
+			@for (item of menu | keyvalue; track item.key) {
+				<button mat-stroked-button routerLinkActive="lv-accent" [routerLink]="[item.key]" (click)="drawer.close()">
+					<mat-icon>person</mat-icon>
+					{{ item.value }}
+				</button>
+			}
 		</div>
 	</mat-drawer>
 	<div class="p-16">
