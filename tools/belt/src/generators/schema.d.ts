@@ -6,5 +6,6 @@ export interface EntityGeneratorSchema {
 	clazz: string;
 	clazzPlural: string;
 	fields: Field[];
+	formFields: Field[][];
 	fetchFields: string[];
 }
