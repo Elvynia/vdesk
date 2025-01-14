@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { <%= name %>Actions, <%= clazz %>FormComponent, <%= clazz %>ListComponent, ApiAction, ObserverCompomix } from '@lv/angular';
-import { <%= clazz %>, select<%= clazz %>s } from '@lv/common';
+import { <%= clazz %>, select<%= clazzPlural %> } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
@@ -15,19 +15,19 @@ import { filter, first, takeUntil } from 'rxjs';
 	styleUrl: './view.component.scss'
 })
 export class <%= clazz %>ViewComponent extends ObserverCompomix() implements OnInit {
-	<%= name %>s: <%= clazz %>[];
+	<%= namePlural %>: <%= clazz %>[];
 	edit<%= clazz %>?: <%= clazz %>;
 
 	constructor(private store: Store<any>, private actions: Actions) {
 		super();
-		this.<%= name %>s = [];
+		this.<%= namePlural %> = [];
 	}
 
 	ngOnInit() {
-		this.store.select(select<%= clazz %>s).pipe(
+		this.store.select(select<%= clazzPlural %>).pipe(
 			filter((s) => !!s),
 			takeUntil(this.destroy$)
-		).subscribe((<%= name %>s) => this.<%= name %>s = Object.values(<%= name %>s));
+		).subscribe((<%= namePlural %>) => this.<%= namePlural %> = Object.values(<%= namePlural %>));
 		this.store.dispatch(<%= name %>Actions.list());
 	}
 
