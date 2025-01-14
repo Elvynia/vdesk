@@ -8,6 +8,7 @@ import { provideStore } from '@ngrx/store';
 import { TallyConfig } from '../config';
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
+import { provideEntityAddress } from "@lv/angular";
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
 		provideStore({ auth: authReducer }),
 		provideEffects([AuthEffects]),
 		provideEntityAccount(),
-		provideEntityRole()
-	],
+		provideEntityRole(),
+        provideEntityAddress()
+    ],
 };
