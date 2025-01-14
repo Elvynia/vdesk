@@ -103,6 +103,8 @@ async function entityGenerator(
 	const updaterEntity = makeAstUpdaterEntity(project);
 	options.clazz = options.name.charAt(0).toUpperCase() + options.name.slice(1);
 	options.fields = await promptForEntity();
+	options.formFields = options.fields.slice(options.fields.length / 2)
+		.map((_, i) => options.fields.slice(i *= 2, i + 2));
 	options.namePlural = options.namePlural || options.name + 's';
 	options.clazzPlural = options.namePlural.charAt(0).toUpperCase() + options.namePlural.slice(1);
 	options.fetchFields = await select({
