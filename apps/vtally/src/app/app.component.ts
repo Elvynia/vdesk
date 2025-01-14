@@ -39,8 +39,9 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 		super();
 		this.menu = {
 			account: 'Accounts',
-			role: 'Roles'
-		};
+			role: 'Roles',
+            address: 'Addresses'
+        };
 	}
 
 	ngOnInit(): void {
