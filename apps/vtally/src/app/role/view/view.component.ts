@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {
+	ApiAction,
+	ObserverCompomix,
 	roleActions,
 	RoleFormComponent,
 	RoleListComponent,
-	ApiAction,
-	ObserverCompomix,
 } from '@lv/angular';
 import { Role, selectRoles } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { filter, first, takeUntil, tap } from 'rxjs';
+import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'lv-role-view',
@@ -30,7 +30,6 @@ export class RoleViewComponent extends ObserverCompomix() implements OnInit {
 		this.store
 			.select(selectRoles)
 			.pipe(
-				tap((s) => console.log(s)),
 				filter((s) => !!s),
 				takeUntil(this.destroy$)
 			)

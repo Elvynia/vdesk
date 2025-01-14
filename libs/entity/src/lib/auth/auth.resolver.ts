@@ -1,7 +1,7 @@
 import { AuthJwtPayload, AuthJwtPayloadCreate, AuthToken } from "@lv/common";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { JwtService, JwtSignOptions } from "@nestjs/jwt";
+import { JwtService, JwtSignOptions, TokenExpiredError } from "@nestjs/jwt";
 import { AccountEntity } from "../account/account.entity";
 import { CommonConfig } from "../config/config.type";
 
@@ -24,12 +24,9 @@ export class AuthResolver {
 	async getAccountOptions(account: AccountEntity, expiresKey: string) {
 		return {
 			...this.defaultOptions,
-			// audience: account.role,
-
+			// FIXME: audience: account.role.authorizations,
 			subject: account.username,
-			expiresIn: await this.config.get('jwt.expires' + expiresKey as any, {
-				infer: true
-			}),
+			expiresIn: await this.config.get('jwt.expires' + expiresKey as any),
 		} as JwtSignOptions
 	}
 
@@ -45,7 +42,9 @@ export class AuthResolver {
 		};
 	}
 
-	async verify(token: string) {
+	async verify(token: string): Promise<AuthJwtPayload>;
+	async verify(token: string, throwOnExpiry: false): Promise<AuthJwtPayload>;
+	async verify(token: string, throwOnExpiry: boolean = true): Promise<AuthJwtPayload | undefined> {
 		if (!token) {
 			throw new UnauthorizedException();
 		}
@@ -53,7 +52,10 @@ export class AuthResolver {
 			return this.jwtService.verify<AuthJwtPayload>(token, {
 				...await this.defaultOptions
 			});
-		} catch {
+		} catch (e) {
+			if (!throwOnExpiry && e instanceof TokenExpiredError) {
+				return undefined;
+			}
 			throw new UnauthorizedException();
 		}
 	}

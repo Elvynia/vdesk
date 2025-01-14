@@ -8,7 +8,8 @@ export function authHttpInterceptor(): HttpInterceptorFn {
 	return (req: HttpRequest<any>, next: HttpHandlerFn) => {
 		const authService = inject(AuthService);
 		const config = inject(ApiConfig);
-		if (authService.authenticated && req.url.includes(config.apiUrl)) {
+		if (authService.authenticated && req.url.includes(config.apiUrl)
+			&& !req.url.includes('/auth')) {
 			const handle = () => {
 				return defer(() => next(req.clone({
 					headers: authService.apiHeaders

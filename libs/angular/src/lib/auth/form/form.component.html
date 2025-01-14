@@ -1,80 +1,83 @@
-<mat-card class="perma">
-    <mat-card-title class="flex justify-center">
-        <h2 matCardTitle *ngIf="expiredPassword">Renouvelement du mot de passe pour {{ group.get('username')!.value }}
-        </h2>
-        <h2 matCardTitle *ngIf="forgotPassword">Réinitialisation du mot de passe</h2>
-        <h2 matCardTitle *ngIf="!forgotPassword && !expiredPassword">Formulaire de connexion</h2>
-    </mat-card-title>
-    <mat-card-content class="flex flex-col justify-between mb-0" [formGroup]="group">
-        <ng-container *lvLoading="pending; diameter: 128">
-            <div class="mt-4 ps-3" *ngIf="!admin">
-                <p *ngIf="!forgotPassword && !expiredPassword">Veuillez entrer votre nom d'utilisateur et mot de passe.
-                </p>
-                <!-- <p>
-                    <a mat-button class="ps-0" color="accent" (click)="backToLogin()" *ngIf="forgotPassword">
-                        Retour au login
-                    </a>
-                    <a mat-button class="ps-0" color="warn" (click)="resetPassword()" *ngIf="!forgotPassword">
-                        Mot de passe oublié ?
-                    </a>
-                </p> -->
-            </div>
-            <div class="flex flex-col align-items-center">
-                <h3 *ngIf="forgotPassword">Entrez votre email pour recevoir un lien de réinitialisation</h3>
-                <h3 *ngIf="expiredPassword">Entrez votre ancien mot de passe et un nouveau différent</h3>
-                <h3 *ngIf="!forgotPassword && !expiredPassword">Connexion</h3>
-                <ng-container *ngIf="expiredPassword">
-                    <mat-form-field *ngIf="expiredPassword">
-                        <mat-label>Ancien mot de passe</mat-label>
-                        <input matInput type="password" name="oldPassword" formControlName="oldPassword">
-                    </mat-form-field>
-                    <mat-form-field class="password" *ngIf="!forgotPassword">
-                        <mat-label>Mot de passe</mat-label>
-                        <input matInput type="password" name="password" formControlName="password">
-                        <mat-error *ngIf="group.get('password')?.hasError('passwordPolicyNumber')">
-                            Doit contenir au moins un chiffre
-                        </mat-error>
-                        <mat-error *ngIf="group.get('password')?.hasError('passwordPolicyUppercase')">
-                            Doit contenir au moins une majuscule
-                        </mat-error>
-                        <mat-error *ngIf="group.get('password')?.hasError('passwordPolicySpecial')">
-                            Doit contenir au moins un des caractère spéciaux {{ specialChars }}
-                        </mat-error>
-                        <mat-error *ngIf="group.get('password')?.hasError('passwordPolicyLength')">
-                            Doit contenir au moins 8 caractères
-                        </mat-error>
-                        <mat-error *ngIf="group.get('password')?.hasError('passwordPolicyDifferent')">
-                            Doit être différent du précédent mot de passe
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field *ngIf="expiredPassword">
-                        <mat-label>Confirmation du mot de passe</mat-label>
-                        <input matInput type="password" name="confirmPassword" formControlName="confirmPassword">
-                        <mat-error *ngIf="group.get('confirmPassword')!.hasError('passwordPolicyConfirm')">
-                            La confirmation du mot de passe est incorrecte
-                        </mat-error>
-                    </mat-form-field>
-                </ng-container>
-                <ng-container *ngIf="!expiredPassword">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Nom d'utilisateur</mat-label>
-                        <input matInput name="username" formControlName="username" twsTrimFormat>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" *ngIf="!forgotPassword">
-                        <mat-label>Mot de passe</mat-label>
-                        <input matInput type="password" name="password" formControlName="password">
-                    </mat-form-field>
-                    <div *ngIf="!forgotPassword">
-                        <mat-checkbox name="rememberMe" formControlName="rememberMe">Remember me</mat-checkbox>
-                    </div>
-                </ng-container>
-            </div>
-        </ng-container>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="primary" class="d-block mx-auto"
-            [disabled]="group.invalid || group.pending || pending" (click)="submit()">
-            {{ forgotPassword ? 'Send reset link' : 'Valider' }}
-        </button>
-    </mat-card-actions>
+<mat-card>
+	<mat-card-header class="flex justify-center">
+		<h2 mat-card-title *ngIf="expiredPassword">Renouvelement du mot de passe pour {{ group.get('username')!.value }}
+		</h2>
+		<h2 mat-card-title *ngIf="forgotPassword">Réinitialisation du mot de passe</h2>
+		<h2 mat-card-title *ngIf="!forgotPassword && !expiredPassword">Formulaire de connexion</h2>
+	</mat-card-header>
+	<mat-card-content class="flex flex-col justify-between mb-0" [formGroup]="group">
+		<ng-container *lvLoading="pending; diameter: 128">
+			<div class="mt-4 ps-3" *ngIf="!admin">
+				<p>
+					@if (forgotPassword) {
+					<a mat-button class="ps-0" color="accent" (click)="backToLogin()">
+						Retour au login
+					</a>
+					} @else {
+					<a mat-button class="ps-0" color="warn" (click)="resetPassword()">
+						Mot de passe oublié ?
+					</a>
+					}
+				</p>
+			</div>
+			<div class="flex flex-col items-center mt-10">
+				@if (forgotPassword) {
+					<h3>Entrez votre email pour recevoir un lien de réinitialisation</h3>
+				} @else if (!!expiredPassword) {
+					<h3>Connexion</h3>
+				}
+				@if (expiredPassword) {
+				<h3>Entrez votre ancien mot de passe et un nouveau différent</h3>
+				<mat-form-field>
+					<mat-label>Ancien mot de passe</mat-label>
+					<input matInput type="password" name="oldPassword" formControlName="oldPassword">
+				</mat-form-field>
+				<mat-form-field class="password">
+					<mat-label>Mot de passe</mat-label>
+					<input matInput type="password" name="password" formControlName="password">
+					<mat-error *ngIf="group.get('password')?.hasError('passwordPolicyNumber')">
+						Doit contenir au moins un chiffre
+					</mat-error>
+					<mat-error *ngIf="group.get('password')?.hasError('passwordPolicyUppercase')">
+						Doit contenir au moins une majuscule
+					</mat-error>
+					<mat-error *ngIf="group.get('password')?.hasError('passwordPolicySpecial')">
+						Doit contenir au moins un des caractère spéciaux {{ specialChars }}
+					</mat-error>
+					<mat-error *ngIf="group.get('password')?.hasError('passwordPolicyLength')">
+						Doit contenir au moins 8 caractères
+					</mat-error>
+					<mat-error *ngIf="group.get('password')?.hasError('passwordPolicyDifferent')">
+						Doit être différent du précédent mot de passe
+					</mat-error>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>Confirmation du mot de passe</mat-label>
+					<input matInput type="password" name="confirmPassword" formControlName="confirmPassword">
+					<mat-error *ngIf="group.get('confirmPassword')!.hasError('passwordPolicyConfirm')">
+						La confirmation du mot de passe est incorrecte
+					</mat-error>
+				</mat-form-field>
+				} @else {
+				<mat-form-field appearance="outline">
+					<mat-label>Nom d'utilisateur</mat-label>
+					<input matInput name="username" formControlName="username" twsTrimFormat>
+				</mat-form-field>
+				<mat-form-field appearance="outline" *ngIf="!forgotPassword">
+					<mat-label>Mot de passe</mat-label>
+					<input matInput type="password" name="password" formControlName="password">
+				</mat-form-field>
+				<div *ngIf="!forgotPassword">
+					<mat-checkbox name="rememberMe" formControlName="rememberMe">Remember me</mat-checkbox>
+				</div>
+				}
+			</div>
+		</ng-container>
+	</mat-card-content>
+	<mat-card-actions>
+		<button mat-raised-button color="primary" class="d-block mx-auto"
+			[disabled]="group.invalid || group.pending || pending" (click)="submit()">
+			{{ forgotPassword ? 'Send reset link' : 'Valider' }}
+		</button>
+	</mat-card-actions>
 </mat-card>

@@ -6,7 +6,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '@lv/angular';
+import { AuthEntity, AuthService, isAuthenticated, ObserverCompomix, selectAuth } from '@lv/angular';
+import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs';
+import { TallyState } from './app.type';
 
 @Component({
 	imports: [
@@ -22,10 +25,18 @@ import { AuthService } from '@lv/angular';
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent extends ObserverCompomix() implements OnInit {
 	menu: Record<string, string>;
+	auth!: AuthEntity;
 
-	constructor(private authService: AuthService, private matIconReg: MatIconRegistry) {
+	get authenticated() {
+		return isAuthenticated(this.auth);
+	}
+
+	constructor(private authService: AuthService, private matIconReg: MatIconRegistry,
+		private store: Store<TallyState>
+	) {
+		super();
 		this.menu = {
 			account: 'Accounts',
 			address: 'Addresses',
@@ -36,6 +47,9 @@ export class AppComponent implements OnInit {
 	ngOnInit(): void {
 		this.matIconReg.setDefaultFontSetClass('material-symbols-outlined');
 		this.authService.initialize();
+		this.store.select(selectAuth).pipe(
+			takeUntil(this.destroy$)
+		).subscribe((auth) => this.auth = auth);
 	}
 
 	logout() {

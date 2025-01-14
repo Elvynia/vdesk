@@ -38,6 +38,7 @@ module.exports = [
 					style: 'kebab-case',
 				},
 			],
+			'@angular-eslint/template/interactive-supports-focus': 'off'
 		},
 	},
 	{

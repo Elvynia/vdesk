@@ -1,7 +1,7 @@
+import { AuthToken, LoginRequest } from "@lv/common";
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
-import { AuthService } from "./auth.service";
 import { MappingPublic } from "../decorator/mapping-public";
-import { LoginRequest } from "@lv/common";
+import { AuthService } from "./auth.service";
 
 @Controller('auth')
 export class AuthController {
@@ -12,5 +12,11 @@ export class AuthController {
 	@MappingPublic()
 	signIn(@Body() req: LoginRequest) {
 		return this.authService.signIn(req.username, req.password);
+	}
+	@HttpCode(HttpStatus.OK)
+	@Post('refresh')
+	@MappingPublic()
+	refresh(@Body() req: AuthToken) {
+		return this.authService.refresh(req);
 	}
 }

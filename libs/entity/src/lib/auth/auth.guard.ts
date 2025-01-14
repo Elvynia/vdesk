@@ -1,11 +1,11 @@
 import {
 	CanActivate,
-	Injectable,
-	UnauthorizedException
+	Injectable
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { isJWT } from 'class-validator';
+import { ErrorWithProps } from 'mercurius';
 import { MappingPublicKey } from '../decorator/mapping-public';
 import { EntityRequest } from '../util/request.type';
 import { AuthResolver } from './auth.resolver';
@@ -26,16 +26,16 @@ export class AuthGuard implements CanActivate {
 		if (!req.headers) {
 			req = GqlExecutionContext.create(context).getContext().req;
 		}
-		const activate = await this.setHttpHeader(
+		const valid = await this.setHttpHeader(
 			req,
 			isPublic,
 		);
 
-		if (!activate) {
-			throw new UnauthorizedException();
+		if (!valid) {
+			throw new ErrorWithProps('Session expired', {}, 401);
 		}
 
-		return activate;
+		return valid;
 	}
 
 	/**
@@ -47,6 +47,9 @@ export class AuthGuard implements CanActivate {
 		req: EntityRequest,
 		isPublic: boolean,
 	): Promise<boolean> {
+		if (isPublic) {
+			return true;
+		}
 		const auth = req.headers?.authorization;
 		if (!auth) {
 			return isPublic;
@@ -68,7 +71,7 @@ export class AuthGuard implements CanActivate {
 			req.user = id;
 			return true;
 		} catch (_) {
-			return isPublic || false;
+			return false;
 		}
 	}
 }
