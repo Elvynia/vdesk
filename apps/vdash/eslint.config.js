@@ -23,10 +23,7 @@ module.exports = [
 					prefix: 'app',
 					style: 'kebab-case',
 				},
-			],
-			'@angular-eslint/component-selector': 'off',
-			'@angular-eslint/component-selector': 'off',
-			'@angular-eslint/directive-selector': 'off'
+			]
 		},
 	},
 	{

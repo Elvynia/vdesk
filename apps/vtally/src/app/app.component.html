@@ -1,26 +1,28 @@
 <mat-toolbar>
-	<button mat-icon-button (click)="drawer.toggle()">
+	<button mat-icon-button [disabled]="!authenticated" (click)="drawer.toggle()">
 		<mat-icon>menu</mat-icon>
 	</button>
 	<span class="cursor-pointer ms-6" [routerLink]="['/']">Tally</span>
+	@if (authenticated) {
 	<div class="flex gap-2 ms-auto">
 		<button mat-stroked-button class="lv-accent">
 			<mat-icon>person</mat-icon>
-			username
+			{{ auth.username }}
 		</button>
 		<button mat-icon-button class="lv-error" (click)="logout()">
 			<mat-icon>logout</mat-icon>
 		</button>
 	</div>
+	}
 </mat-toolbar>
 <mat-drawer-container class="h-full" autosize>
 	<mat-drawer mode="over" #drawer>
 		<div class="flex flex-col gap-2">
 			@for (item of menu | keyvalue; track item.key) {
-				<button mat-stroked-button routerLinkActive="lv-accent" [routerLink]="[item.key]" (click)="drawer.close()">
-					<mat-icon>person</mat-icon>
-					{{ item.value }}
-				</button>
+			<button mat-stroked-button routerLinkActive="lv-accent" [routerLink]="[item.key]" (click)="drawer.close()">
+				<mat-icon>person</mat-icon>
+				{{ item.value }}
+			</button>
 			}
 		</div>
 	</mat-drawer>

@@ -1,6 +1,5 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { firstValueFrom } from 'rxjs';
 import { AuthGuard } from '../auth/auth.guard';
 import { MappingPublic } from '../decorator/mapping-public';
 import { RoleEntity } from '../role/role.entity';
@@ -46,6 +45,6 @@ export class AccountResolver {
 
 	@ResolveField(() => RoleEntity)
 	async role(@Parent() parent: AccountEntity) {
-		return await firstValueFrom(this.roleService.findOne(parent.role as any));
+		return await this.roleService.findOne(parent.role as any);
 	}
 }

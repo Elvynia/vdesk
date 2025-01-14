@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { EntityService } from '../entity.service';
 import { AccountCreate, AccountEntity, AccountUpdate } from './account.entity';
 
@@ -13,7 +12,7 @@ export class AccountService extends EntityService<AccountEntity, AccountCreate, 
 		super();
 	}
 
-	override create(editEntity: AccountCreate): Observable<AccountEntity> {
+	override create(editEntity: AccountCreate) {
 		return super.create({
 			...editEntity,
 			creationDate: new Date().toISOString(),

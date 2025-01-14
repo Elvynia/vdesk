@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,14 +12,15 @@ import { Store } from '@ngrx/store';
 import { finalize, first, takeUntil } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { roleActions } from '../../role/role.actions';
-import { accountActions } from '../account.actions';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
+import { accountActions } from '../account.actions';
 
 @Component({
 	selector: 'lv-account-form',
 	imports: [
 		MatButtonModule,
 		MatCardModule,
+		MatCheckboxModule,
 		MatFormFieldModule,
 		MatInputModule,
 		MatSelectModule,
@@ -110,6 +112,7 @@ export class AccountFormComponent extends ObserverCompomix() implements OnInit, 
 			username: [this.value?.username, [Validators.required]],
 			password: [this.value?.username, [Validators.required]],
 			email: [this.value?.email, [Validators.required, Validators.email]],
+			enabled: [this.value?.enabled],
 			role: [this.value?.role, [Validators.required]],
 		});
 	}
