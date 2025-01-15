@@ -22,6 +22,7 @@ export async function promptForComponent(field: Omit<EntityField, 'component'>):
 		} as EntityComponentCheckbox;
 	} else if (type === 'select') {
 		component = {
+			type,
 			store: await confirm({ message: 'Populate select from store', default: true })
 		} as EntityComponentSelect
 		if (component.store) {
