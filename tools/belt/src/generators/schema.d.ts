@@ -2,6 +2,7 @@ import { EntityField, FormFieldSelect, RelationField } from "./field";
 
 export interface EntityGeneratorSchema {
 	name: string;
+	nameDash: string;
 	namePlural: string;
 	clazz: string;
 	clazzPlural: string;

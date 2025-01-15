@@ -8,7 +8,7 @@ import { LoadingPlaceholderComponent } from '../../loading/placeholder/loading-p
 import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 
 @Component({
-	selector: 'lv-<%= name %>-item',
+	selector: 'lv-<%= nameDash %>-item',
 	imports: [
 		CommonModule,
 		MatButtonModule,

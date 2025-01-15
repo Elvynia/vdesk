@@ -5,7 +5,7 @@
 	justify-content: space-between;
 }
 
-lv-<%= name %>-list,
-lv-<%= name %>-form {
+lv-<%= nameDash %>-list,
+lv-<%= nameDash %>-form {
 	width: calc(50% - 2rem);
 }

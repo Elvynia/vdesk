@@ -4,7 +4,7 @@ import { <%= clazz %> } from '@lv/common';
 import { <%= clazz %>ItemComponent } from '../item/item.component';
 
 @Component({
-	selector: 'lv-<%= name %>-list',
+	selector: 'lv-<%= nameDash %>-list',
 	imports: [
 		<%= clazz %>ItemComponent,
 		MatListModule,

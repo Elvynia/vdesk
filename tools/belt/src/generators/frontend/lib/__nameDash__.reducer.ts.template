@@ -1,7 +1,7 @@
 import { <%= clazz%> } from "@lv/common";
 import { Action, createReducer, on } from "@ngrx/store";
 import { authActions } from "../auth/actions";
-import { <%= name %>Actions } from "./<%= name %>.actions";
+import { <%= name %>Actions } from "./<%= nameDash %>.actions";
 
 const initState = {};
 
