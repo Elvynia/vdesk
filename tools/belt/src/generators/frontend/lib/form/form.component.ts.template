@@ -17,8 +17,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 <% if (formFieldSelects.length > 0) { %>
 import { MatSelectModule } from '@angular/material/select';
 <% } %>
-<% for (let field of formFieldSelects) { %>
-import { <%= field.relation.clazz %>, <%= field.relation.clazz %>State, <%= field.relation.storeSelect %> } from '@lv/common';
+<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
+import { <%= key %>, <%= key %>State, <%= value[0].component.storeSelect %> } from '@lv/common';
+import { <%= value[0].relation.name %>Actions %> } from '@lv/angular';
 <% } %>
 
 @Component({
@@ -46,15 +47,15 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<<%= clazz %>>;
 	pending: boolean;
-<% for (let field of formFieldSelects) { %>
-	<%= field.relation.name %>List: <%= field.relation.clazz %>[];
+<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
+	<%= value[0].relation.name %>List: <%= key %>[];
 <% } %>
 
 	constructor(private formBuilder: FormBuilder,
 		private store: Store<
 		<%= clazz %>State
-<% for (let field of formFieldSelects) { %>
-		& <%= field.relation.clazz %>State
+<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
+		& <%= key %>State
 <% } %>
 		>,
 		private actions: Actions
@@ -62,18 +63,18 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 		super();
 		this.back = new EventEmitter();
 		this.save = new EventEmitter();
-<% for (let field of formFieldSelects) { %>
-		this.<%= field.relation.name %>List = [];
+<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
+		this.<%= value[0].relation.name %>List = [];
 <% } %>
 		this.pending = false;
 	}
 
 	ngOnInit(): void {
-<% for (let field of formFieldSelects) { %>
-		this.store.select(<%= field.relation.storeSelect %>).pipe(
+<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
+		this.store.select(<%= value[0].component.storeSelect %>).pipe(
 			takeUntil(this.destroy$)
-		).subscribe((<%= field.relation.name %>List) => this.<%= field.relation.name %>List = Object.values(<%= field.relation.name %>List));
-		this.store.dispatch(<%= field.relation.name %>Actions.list());
+		).subscribe((<%= value[0].relation.name %>List) => this.<%= value[0].relation.name %>List = Object.values(<%= value[0].relation.name %>List));
+		this.store.dispatch(<%= value[0].relation.name %>Actions.list());
 <% } %>
 		if (!this.group) {
 			this.reset();
@@ -132,11 +133,7 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 			),
 			first(),
 			finalize(() => this.pending = false)
-		).subscribe(({ success }) => {
-			if (success) {
-				this.reset();
-			}
-		});
+		).subscribe();
 	}
 
 	private reset() {

@@ -127,6 +127,13 @@ async function entityGenerator(
 	options.formFields = options.fields.slice(options.fields.length / 2)
 		.map((_, i) => options.fields.slice(i *= 2, i + 2));
 	options.formFieldSelects = options.fields.filter((f): f is FormFieldSelect => f.component.type === 'select');
+	options.formFieldSelectTyped = options.formFieldSelects.reduce((typed, field) => {
+		if (!typed[field.relation.clazz]) {
+			typed[field.relation.clazz] = [];
+		}
+		typed[field.relation.clazz].push(field);
+		return typed;
+	}, {});
 	options.formFieldCheckboxes = options.fields.filter((f): f is FormFieldCheckbox => f.component.type === 'checkbox');
 	options.createFields = options.fields.filter((f) => f.create);
 	options.updateFields = options.fields.filter((f) => f.update);
