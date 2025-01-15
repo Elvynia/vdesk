@@ -7,6 +7,7 @@ import { select } from 'inquirer-select-pro';
 import * as path from 'path';
 import { Node, Project, SyntaxKind } from "ts-morph";
 import { makeAstUpdaterModuleImports } from '../manipulation/add-module-imports';
+import { FetchField, FormFieldCheckbox, FormFieldSelect, RelationField } from './field';
 import { promptForEntity } from './prompt';
 import { EntityGeneratorSchema } from './schema';
 
@@ -102,16 +103,31 @@ async function entityGenerator(
 	const updaterExport = makeAstUpdaterExport(tree);
 	const updaterEntity = makeAstUpdaterEntity(project);
 	options.clazz = options.name.charAt(0).toUpperCase() + options.name.slice(1);
-	options.fields = await promptForEntity();
-	options.formFields = options.fields.slice(options.fields.length / 2)
-		.map((_, i) => options.fields.slice(i *= 2, i + 2));
 	options.namePlural = options.namePlural || options.name + 's';
 	options.clazzPlural = options.namePlural.charAt(0).toUpperCase() + options.namePlural.slice(1);
-	options.fetchFields = await select({
+	options.fields = await promptForEntity();
+	const fetchList = await select({
 		message: 'select',
 		options: options.fields.map(({ name }) => ({ name, value: name })).concat([{ name: '_id', value: '_id' }]),
 		defaultValue: options.fields.map(({ name }) => name).concat(['_id'])
 	});
+	options.fields.filter((f) => fetchList.includes(f.name)).forEach((f) => f.fetch = true);
+	options.fetchFields = options.fields.filter((f): f is FetchField => f.fetch);
+	options.relationFields = options.fields.filter((f): f is RelationField => !!f.relation);
+	options.relationFieldTyped = options.relationFields.reduce((typed, field) => {
+		if (!typed[field.type]) {
+			typed[field.type] = [];
+		}
+		typed[field.type].push(field);
+		return typed;
+	}, {});
+
+	options.formFields = options.fields.slice(options.fields.length / 2)
+		.map((_, i) => options.fields.slice(i *= 2, i + 2));
+	options.formFieldSelects = options.fields.filter((f): f is FormFieldSelect => f.component.type === 'select');
+	options.formFieldCheckboxes = options.fields.filter((f): f is FormFieldCheckbox => f.component.type === 'checkbox');
+	options.createFields = options.fields.filter((f) => f.create);
+	options.updateFields = options.fields.filter((f) => f.update);
 	// Backend lib
 	generateFiles(tree, path.join(__dirname, 'backend'), `libs/${backlib}/src/lib/${options.name}`, options);
 	updaterExport('libs/entity/src/index.ts', options.name, options.name, ['entity', 'module', 'resolver', 'service']);
@@ -121,7 +137,7 @@ async function entityGenerator(
 
 	// Common
 	generateFiles(tree, path.join(__dirname, 'common'), `libs/common/src/lib/${options.name}`, options);
-	updaterExport('libs/common/src/index.ts', options.name, options.name, ['type']);
+	updaterExport('libs/common/src/index.ts', options.name, options.name, ['fields', 'type']);
 
 	// Frontend lib
 	generateFiles(tree, path.join(__dirname, 'frontend/lib'), `libs/${frontlib}/src/lib/${options.name}`, options);

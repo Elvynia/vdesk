@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Address } from '@lv/common';
+import { Address, addressFields } from '@lv/common';
 import { ApiConfig } from '../config';
 import { ApiService } from '../util/api.service';
 
@@ -18,20 +18,6 @@ export class AddressService extends ApiService<Address> {
 	}
 
 	getFields(): string {
-		return [
-			'city',
-
-			'firstname',
-
-			'lastname',
-
-			'line1',
-
-			'line2',
-
-			'zip',
-
-			'_id',
-		].join('\n');
+		return addressFields.join('\n');
 	}
 }

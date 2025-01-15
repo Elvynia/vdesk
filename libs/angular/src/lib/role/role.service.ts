@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Role } from '@lv/common';
+import { Role, roleFields } from '@lv/common';
 import { ApiConfig } from '../config';
 import { ApiService } from '../util/api.service';
 
@@ -18,6 +18,6 @@ export class RoleService extends ApiService<Role> {
 	}
 
 	getFields(): string {
-		return ['name', '_id'].join('\n');
+		return roleFields.join('\n');
 	}
 }

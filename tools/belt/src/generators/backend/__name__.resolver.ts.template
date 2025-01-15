@@ -1,10 +1,14 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Parent, ResolveField } from '@nestjs/graphql';
 import { <%= clazz %>Service } from './<%= name %>.service';
 import { <%= clazz %>Entity, <%= clazz %>Create, <%= clazz %>Update } from './<%= name %>.entity';
 
 @Resolver(() => <%= clazz %>Entity)
 export class <%= clazz %>Resolver {
-	constructor(private readonly <%= name %>Service: <%= clazz %>Service) {}
+	constructor(private readonly <%= name %>Service: <%= clazz %>Service
+<% for (let [key, value] of Object.entries(relationFieldTyped)) { %>
+	, private <%= value[0].relation.name %>Service: <%= key %>Service
+<% } %>
+	) { }
 
 	@Mutation(() => <%= clazz %>Entity)
 	create<%= clazz %>(
@@ -37,4 +41,12 @@ export class <%= clazz %>Resolver {
 	remove<%= clazz %>(@Args('id', { type: () => String }) id: string) {
 		return this.<%= name %>Service.remove(id);
 	}
+
+<% for (let field of relationFields) { %>
+	@ResolveField(() => <%= field.type %>)
+	async role(@Parent() parent: <%= clazz %>Entity) {
+		return await this.<%= field.relation.name %>Service.findOne(parent.<%= field.name %> as any);
+	}
+
+<% } %>
 }

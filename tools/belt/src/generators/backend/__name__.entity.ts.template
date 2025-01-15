@@ -1,6 +1,9 @@
 import { <%= clazz %> } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+<% for (let field of relationFields) { %>
+import { <%= field.type %> } from '<%= field.relation.importPath %>.entity';
+<%  } %>
 
 @InputType("<%= clazz %>Input")
 @ObjectType()
@@ -10,7 +13,10 @@ export class <%= clazz %>Entity implements <%= clazz %> {
 	_id: string;
 
 <% for (let field of fields) { %>
-	<% if (field.required) { %>
+	<% if (field.relation) { %>
+	@Field(() => <%= field.type %>)
+	@Prop({ type: String, ref: <%= field.type %>.name })
+	<% } else if (field.required) { %>
 	@Field()
 	<% } else { %>
 	@Field({ nullable: true })
@@ -23,17 +29,15 @@ export class <%= clazz %>Entity implements <%= clazz %> {
 
 @InputType()
 export class <%= clazz %>Create {
-<% for (let field of fields) { %>
-	<%  if (field.create) { %>
-		<% if (field.required) { %>
-		@Field()
-		<% } else { %>
-		@Field({ nullable: true })
-		<% } %>
-		@Prop()
-		<%= field.name + (field.required ? '' : '?') %>: <%= field.type %>;
+<% for (let field of createFields) { %>
+	<% if (field.required) { %>
+	@Field()
+	<% } else { %>
+	@Field({ nullable: true })
+	<% } %>
+	@Prop()
+	<%= field.name + (field.required ? '' : '?') %>: <%= field.relation ? 'string' : field.type %>;
 
-	<%  } %>
 <%  } %>
 }
 
@@ -42,17 +46,15 @@ export class <%= clazz %>Update {
 	@Field()
 	_id: string;
 
-<% for (let field of fields) { %>
-	<%  if (field.update) { %>
-		<% if (field.required) { %>
-		@Field()
-		<% } else { %>
-		@Field({ nullable: true })
-		<% } %>
-		@Prop()
-		<%= field.name + (field.required ? '' : '?') %>: <%= field.type %>;
+<% for (let field of updateFields) { %>
+	<% if (field.required) { %>
+	@Field()
+	<% } else { %>
+	@Field({ nullable: true })
+	<% } %>
+	@Prop()
+	<%= field.name + (field.required ? '' : '?') %>: <%= field.relation ? 'string' : field.type %>;
 
-	<%  } %>
 <%  } %>
 }
 
