@@ -6,3 +6,5 @@ export * from './lib/auth/auth.type';
 export * from './lib/entity/entity.type';
 export * from './lib/role/role.fields';
 export * from './lib/role/role.type';
+export * from './lib/company-type/company-type.fields';
+export * from './lib/company-type/company-type.type';

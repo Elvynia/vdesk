@@ -9,6 +9,7 @@ import { TallyConfig } from '../config';
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
 import { provideEntityAddress } from "@lv/angular";
+import { provideEntityCompanyType } from "@lv/angular";
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
 		provideEffects([AuthEffects]),
 		provideEntityAccount(),
 		provideEntityRole(),
-        provideEntityAddress()
+        provideEntityAddress(),
+        provideEntityCompanyType()
     ],
 };

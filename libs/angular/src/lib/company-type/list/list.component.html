@@ -1,0 +1,11 @@
+<mat-list>
+	@for (value of values; track value._id) {
+	<lv-company-type-item
+		[value]="value"
+		(detail)="detail.next($event)"
+		(edit)="edit.next($event)"
+		(delete)="delete.next($event)"
+	></lv-company-type-item>
+	<mat-divider></mat-divider>
+	}
+</mat-list>
