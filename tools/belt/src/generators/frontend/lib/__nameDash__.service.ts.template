@@ -15,7 +15,7 @@ export class <%= clazz%>Service extends ApiService<<%= clazz%>> {
 
 	constructor(httpClient: HttpClient, config: ApiConfig) {
 		super(httpClient, config);
-		this.apiUrl = config.apiUrl + config.apiPath + '/<%= name %>';
+		this.apiUrl = config.apiUrl + config.apiPath + '/<%= nameDash %>';
 	}
 
 	getFields(): string {

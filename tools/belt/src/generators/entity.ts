@@ -7,6 +7,7 @@ import { select } from 'inquirer-select-pro';
 import * as path from 'path';
 import { Node, Project, SyntaxKind } from "ts-morph";
 import { makeAstUpdaterModuleImports } from '../manipulation/add-module-imports';
+import { dasherize } from '../manipulation/dasherize';
 import { FetchField, FormFieldCheckbox, FormFieldSelect, RelationField } from './field';
 import { promptForEntity } from './prompt';
 import { EntityGeneratorSchema } from './schema';
@@ -61,13 +62,13 @@ function makeAstUpdaterEntity(project: Project) {
 				namedImports: [{
 					name: viewComponent
 				}],
-				moduleSpecifier: `./${options.name}/view/view.component`
+				moduleSpecifier: `./${options.nameDash}/view/view.component`
 			});
 			const appRoutesVar = appRoutes.getVariableStatement('appRoutes');
 			const appRoutesArr = appRoutesVar.getDescendantsOfKind(SyntaxKind.ArrayLiteralExpression)[0];
 			appRoutesArr.addElement(`{
 				component: ${options.clazz}ViewComponent,
-				path: '${options.name}',
+				path: '${options.nameDash}',
 				canActivate: [authGuard]
 			}`);
 
@@ -82,7 +83,7 @@ function makeAstUpdaterEntity(project: Project) {
 				.getParent()
 				.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
 			appComponentMenu.addPropertyAssignment({
-				name: options.name,
+				name: `'${options.nameDash}'`,
 				initializer: (writer) => writer.write("'" + options.clazzPlural + "'")
 			});
 		}
@@ -102,6 +103,7 @@ async function entityGenerator(
 	const frontlib = 'angular';
 	const updaterExport = makeAstUpdaterExport(tree);
 	const updaterEntity = makeAstUpdaterEntity(project);
+	options.nameDash = dasherize(options.name);
 	options.clazz = options.name.charAt(0).toUpperCase() + options.name.slice(1);
 	options.namePlural = options.namePlural || options.name + 's';
 	options.clazzPlural = options.namePlural.charAt(0).toUpperCase() + options.namePlural.slice(1);
@@ -129,25 +131,25 @@ async function entityGenerator(
 	options.createFields = options.fields.filter((f) => f.create);
 	options.updateFields = options.fields.filter((f) => f.update);
 	// Backend lib
-	generateFiles(tree, path.join(__dirname, 'backend'), `libs/${backlib}/src/lib/${options.name}`, options);
-	updaterExport('libs/entity/src/index.ts', options.name, options.name, ['entity', 'module', 'resolver', 'service']);
+	generateFiles(tree, path.join(__dirname, 'backend'), `libs/${backlib}/src/lib/${options.nameDash}`, options);
+	updaterExport('libs/entity/src/index.ts', options.nameDash, options.nameDash, ['entity', 'module', 'resolver', 'service']);
 
 	// Backend app
 	updaterEntity.backendApp(backapp, options);
 
 	// Common
-	generateFiles(tree, path.join(__dirname, 'common'), `libs/common/src/lib/${options.name}`, options);
-	updaterExport('libs/common/src/index.ts', options.name, options.name, ['fields', 'type']);
+	generateFiles(tree, path.join(__dirname, 'common'), `libs/common/src/lib/${options.nameDash}`, options);
+	updaterExport('libs/common/src/index.ts', options.nameDash, options.nameDash, ['fields', 'type']);
 
 	// Frontend lib
-	generateFiles(tree, path.join(__dirname, 'frontend/lib'), `libs/${frontlib}/src/lib/${options.name}`, options);
-	updaterExport('libs/angular/src/index.ts', options.name, options.name, ['actions', 'config', 'effects', 'reducer', 'service']);
-	updaterExport('libs/angular/src/index.ts', options.name + '/form', 'form', ['component']);
-	updaterExport('libs/angular/src/index.ts', options.name + '/item', 'item', ['component']);
-	updaterExport('libs/angular/src/index.ts', options.name + '/list', 'list', ['component']);
+	generateFiles(tree, path.join(__dirname, 'frontend/lib'), `libs/${frontlib}/src/lib/${options.nameDash}`, options);
+	updaterExport('libs/angular/src/index.ts', options.nameDash, options.nameDash, ['actions', 'config', 'effects', 'reducer', 'service']);
+	updaterExport('libs/angular/src/index.ts', options.nameDash + '/form', 'form', ['component']);
+	updaterExport('libs/angular/src/index.ts', options.nameDash + '/item', 'item', ['component']);
+	updaterExport('libs/angular/src/index.ts', options.nameDash + '/list', 'list', ['component']);
 
 	// Frontend app
-	generateFiles(tree, path.join(__dirname, 'frontend/app'), `apps/${frontapp}/src/app/${options.name}`, options);
+	generateFiles(tree, path.join(__dirname, 'frontend/app'), `apps/${frontapp}/src/app/${options.nameDash}`, options);
 	updaterEntity.frontendApp(frontapp, options);
 	await formatFiles(tree);
 	if (process.env.NX_DRY_RUN === 'false') {

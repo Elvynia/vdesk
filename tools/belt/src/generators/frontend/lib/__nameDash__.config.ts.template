@@ -1,8 +1,8 @@
 import { EnvironmentProviders, Provider } from "@angular/core";
 import { provideEffects } from "@ngrx/effects";
 import { provideState } from "@ngrx/store";
-import { <%= clazz%>Effects } from "./<%= name %>.effects";
-import { <%= name %>Reducer } from "./<%= name %>.reducer";
+import { <%= clazz%>Effects } from "./<%= nameDash %>.effects";
+import { <%= name %>Reducer } from "./<%= nameDash %>.reducer";
 
 export function provideEntity<%= clazz%>(): Array<Provider | EnvironmentProviders> {
 	return [

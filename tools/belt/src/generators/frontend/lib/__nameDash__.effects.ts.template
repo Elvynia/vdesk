@@ -4,8 +4,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, map, mergeMap, reduce, switchMap, tap } from 'rxjs';
 import { notifyUserSuccess } from '../util/notify-user';
 import { catchBackendErrorAction } from '../util/operator/catch-backend-action';
-import { <%= name %>Actions } from './<%= name %>.actions';
-import { <%= clazz%>Service } from './<%= name %>.service';
+import { <%= name %>Actions } from './<%= nameDash %>.actions';
+import { <%= clazz%>Service } from './<%= nameDash %>.service';
 
 @Injectable()
 export class <%= clazz%>Effects {

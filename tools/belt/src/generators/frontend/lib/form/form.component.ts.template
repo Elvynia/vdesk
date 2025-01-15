@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { finalize, first, takeUntil } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
-import { <%= name %>Actions } from '../<%= name %>.actions';
+import { <%= name %>Actions } from '../<%= nameDash %>.actions';
 <% if (formFieldCheckboxes.length > 0) { %>
 import { MatCheckboxModule } from '@angular/material/checkbox';
 <% } %>
@@ -22,7 +22,7 @@ import { <%= field.relation.clazz %>, <%= field.relation.clazz %>State, <%= fiel
 <% } %>
 
 @Component({
-	selector: 'lv-<%= name %>-form',
+	selector: 'lv-<%= nameDash %>-form',
 	imports: [
 		MatButtonModule,
 		MatCardModule,
@@ -132,7 +132,11 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 			),
 			first(),
 			finalize(() => this.pending = false)
-		).subscribe();
+		).subscribe(({ success }) => {
+			if (success) {
+				this.reset();
+			}
+		});
 	}
 
 	private reset() {
