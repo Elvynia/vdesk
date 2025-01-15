@@ -117,10 +117,10 @@ async function entityGenerator(
 	options.fetchFields = options.fields.filter((f): f is FetchField => f.fetch);
 	options.relationFields = options.fields.filter((f): f is RelationField => !!f.relation);
 	options.relationFieldTyped = options.relationFields.reduce((typed, field) => {
-		if (!typed[field.type]) {
-			typed[field.type] = [];
+		if (!typed[field.relation.clazz]) {
+			typed[field.relation.clazz] = [];
 		}
-		typed[field.type].push(field);
+		typed[field.relation.clazz].push(field);
 		return typed;
 	}, {});
 
