@@ -10,7 +10,7 @@ export async function promptForComponent(field: Omit<EntityField, 'component'>):
 		default: false
 	}) ? await select({
 		message: 'Choose component:',
-		default: 'checkbox',
+		default: field.relation ? 'select' : 'checkbox',
 		choices: EntityComponentKeys
 	}) : 'input';
 	let component = {
