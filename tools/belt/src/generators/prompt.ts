@@ -1,4 +1,5 @@
 import { confirm, input, select } from '@inquirer/prompts';
+import { dasherize } from '../manipulation/dasherize';
 import { EntityComponent, EntityComponentAny, EntityComponentCheckbox, EntityComponentKeys, EntityComponentKeyType, EntityComponentSelect, EntityComponentSelectStore } from './component';
 import { EntityField } from './field';
 import { EntityRelation } from './relation';
@@ -39,8 +40,9 @@ export async function promptForRelation(type: string): Promise<EntityRelation> {
 	let relationName = undefined;
 	const regexEntity = type.match(/^([A-Z]+.*)Entity$/);
 	if (regexEntity) {
-		relationName = regexEntity[1].toLowerCase();
-		relationPath = `../${relationName}/${relationName}`
+		relationName = `${regexEntity[1].charAt(0).toLowerCase()}${regexEntity[1].slice(1)}`;
+		const relationNameDash = dasherize(relationName);
+		relationPath = `../${relationNameDash}/${relationNameDash}`;
 	}
 	const namePlural = await input({ message: 'Name plural ?', default: relationName + 's' });
 	return {
