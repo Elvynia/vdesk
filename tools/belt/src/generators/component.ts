@@ -17,6 +17,7 @@ export interface EntityComponentInput {
 export interface EntityComponentSelect extends EntityComponent {
 	type: 'select';
 	store: boolean;
+	displayExpr: string;
 }
 
 export interface EntityComponentSelectStore extends EntityComponentSelect {

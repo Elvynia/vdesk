@@ -23,12 +23,13 @@ export async function promptForComponent(field: Omit<EntityField, 'component'>):
 	} else if (type === 'select') {
 		component = {
 			type,
-			store: await confirm({ message: 'Populate select from store', default: true })
+			displayExpr: await input({ message: `Populate select from store (loop var ${field.name})`, default: `${field.name}.` }),
+			store: await confirm({ message: 'Populate select from store ?', default: true })
 		} as EntityComponentSelect
 		if (component.store) {
 			component = {
 				...component,
-				storeSelect: await input({ message: 'Store selector', default: 'select' + field.relation.clazzPlural }),
+				storeSelect: await input({ message: 'Store selector:', default: 'select' + field.relation.clazzPlural }),
 				// storeSelectImport: await input({ message: 'Populate select from store', default: '' })
 			} as EntityComponentSelectStore
 		}
@@ -45,21 +46,21 @@ export async function promptForRelation(type: string): Promise<EntityRelation> {
 		const relationNameDash = dasherize(relationName);
 		relationPath = `../${relationNameDash}/${relationNameDash}`;
 	}
-	const namePlural = await input({ message: 'Name plural ?', default: relationName + 's' });
+	const namePlural = await input({ message: 'Name plural:', default: relationName + 's' });
 	return {
 		clazz: `${relationName.charAt(0).toUpperCase()}${relationName.slice(1)}`,
 		clazzPlural: `${namePlural.charAt(0).toUpperCase()}${namePlural.slice(1)}`,
 		name: relationName,
 		nameDash: dasherize(relationName),
 		namePlural,
-		importPath: await input({ message: 'Import path for type ?', default: relationPath }),
+		importPath: await input({ message: 'Import path for type:', default: relationPath }),
 		resolver: await confirm({ message: 'Add resolver ?', default: true })
 	};
 }
 
 export async function promptForField(): Promise<EntityField> {
-	const name = await input({ message: 'Name ?' });
-	const type = await input({ message: 'Type ?', default: 'string' });
+	const name = await input({ message: 'Name:' });
+	const type = await input({ message: 'Type:', default: 'string' });
 	const relation = !!type.match(/^[A-Z]+.+$/);
 	const field = {
 		name,

@@ -21,7 +21,9 @@
 			<% } else if (field.component.type === 'select') { %>
 				<mat-select [compareWith]="compareId" formControlName="<%= field.name %>">
 					@for (<%= field.name %> of <%= field.relation.name %>List; track <%= field.name %>._id) {
-						<mat-option [value]="<%= field.name %>">{{ <%= field.name %>._id }}</mat-option>
+						<mat-option [value]="<%= field.name %>">
+							{{ <%= field.component.displayExpr %> }}
+						</mat-option>
 					}
 				</mat-select>
 			<% } %>
