@@ -1,6 +1,10 @@
 import { Resolver, Query, Mutation, Args, Parent, ResolveField } from '@nestjs/graphql';
 import { <%= clazz %>Service } from './<%= nameDash %>.service';
 import { <%= clazz %>Entity, <%= clazz %>Create, <%= clazz %>Update } from './<%= nameDash %>.entity';
+<% for (let [key, value] of Object.entries(relationFieldTyped)) { %>
+	import { <%= key %>Service } from '../<%= value[0].relation.nameDash %>/<%= value[0].relation.nameDash %>.service';
+	import { <%= key %>Entity } from '../<%= value[0].relation.nameDash %>/<%= value[0].relation.nameDash %>.entity';
+<% } %>
 
 @Resolver(() => <%= clazz %>Entity)
 export class <%= clazz %>Resolver {
@@ -44,7 +48,7 @@ export class <%= clazz %>Resolver {
 
 <% for (let field of relationFields) { %>
 	@ResolveField(() => <%= field.type %>)
-	async role(@Parent() parent: <%= clazz %>Entity) {
+	async <%= field.name %>(@Parent() parent: <%= clazz %>Entity) {
 		return await this.<%= field.relation.name %>Service.findOne(parent.<%= field.name %> as any);
 	}
 

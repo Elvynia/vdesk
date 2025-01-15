@@ -49,6 +49,7 @@ export async function promptForRelation(type: string): Promise<EntityRelation> {
 		clazz: `${relationName.charAt(0).toUpperCase()}${relationName.slice(1)}`,
 		clazzPlural: `${namePlural.charAt(0).toUpperCase()}${namePlural.slice(1)}`,
 		name: relationName,
+		nameDash: dasherize(relationName),
 		namePlural,
 		importPath: await input({ message: 'Import path for type ?', default: relationPath }),
 		resolver: await confirm({ message: 'Add resolver ?', default: true })
