@@ -6,18 +6,30 @@
 	</mat-card-header>
 	<mat-card-content class="!flex flex-col justify-center" [formGroup]="group"
 		*lvLoading="pending; color: 'accent'; diameter: 128">
-		<% for (let group of formFields) { %>
+<% for (let group of formFields) { %>
 		<div class="flex flex-col lg:flex-row lg:justify-around">
-			<% for (let field of group) { %>
+	<% for (let field of group) { %>
+		<% if (field.component === 'checkbox') { %>
+			<mat-checkbox formControlName="<%= field.name %>"><%= field.name %></mat-checkbox>
+		<% } else { %>
 			<mat-form-field [class.lv-accent]="group.get('<%= field.name %>')!.valid">
 				<mat-label>
 					<%= field.name %>
 				</mat-label>
+			<% if (field.component === 'input') { %>
 				<input matInput name="<%= field.name %>" formControlName="<%= field.name %>">
-			</mat-form-field>
+			<% } else if (field.component === 'select') { %>
+				<mat-select [compareWith]="compareId" formControlName="<%= field.name %>">
+					@for (<%= field.name %> of <%= field.name %>List; track <%= field.name %>._id) {
+						<mat-option [value]="<%= field.name %>">{{ <%= field.name %>._id }}</mat-option>
+					}
+				</mat-select>
 			<% } %>
-		</div>
+			</mat-form-field>
 		<% } %>
+	<% } %>
+		</div>
+<% } %>
 	</mat-card-content>
 	<mat-card-actions class="duo">
 		<button mat-stroked-button class="lv-error" [disabled]="pending" (click)="cancel()">Cancel</button>

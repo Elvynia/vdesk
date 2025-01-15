@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { <%= clazz %> } from '@lv/common';
+import { <%= clazz %>, <%= name %>Fields } from '@lv/common';
 import { ApiConfig } from '../config';
 import { ApiService } from '../util/api.service';
 
@@ -19,10 +19,6 @@ export class <%= clazz%>Service extends ApiService<<%= clazz%>> {
 	}
 
 	getFields(): string {
-		return [
-			<% for (let field of fetchFields) { %>
-				'<%= field %>',
-			<% } %>
-		].join('\n');
+		return <%= name %>Fields.join('\n');
 	}
 }

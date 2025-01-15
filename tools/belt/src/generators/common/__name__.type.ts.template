@@ -1,4 +1,7 @@
 import { IEntity } from "../entity/entity.type";
+<% for (let field of relationFields) { %>
+import { <%= field.type %> } from '<%= field.relation.importPath %>.type';
+<%  } %>
 
 export interface <%= clazz %> extends IEntity {
 <% for (let field of fields) { %>

@@ -7,10 +7,19 @@ import { MatInputModule } from '@angular/material/input';
 import { <%= clazz %>, <%= clazz %>State } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { finalize, first } from 'rxjs';
+import { finalize, first, takeUntil } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { <%= name %>Actions } from '../<%= name %>.actions';
+<% if (formFieldCheckboxes.length > 0) { %>
+import { MatCheckboxModule } from '@angular/material/checkbox';
+<% } %>
+<% if (formFieldSelects.length > 0) { %>
+import { MatSelectModule } from '@angular/material/select';
+<% } %>
+<% for (let field of formFieldSelects) { %>
+import { <%= field.relation.clazz %>, <%= field.relation.clazz %>State, <%= field.relation.storeSelect %> } from '@lv/common';
+<% } %>
 
 @Component({
 	selector: 'lv-<%= name %>-form',
@@ -19,6 +28,12 @@ import { <%= name %>Actions } from '../<%= name %>.actions';
 		MatCardModule,
 		MatFormFieldModule,
 		MatInputModule,
+<% if (formFieldCheckboxes.length > 0) { %>
+		MatCheckboxModule,
+<% } %>
+<% if (formFieldSelects.length > 0) { %>
+		MatSelectModule,
+<% } %>
 		ReactiveFormsModule,
 		LoadingDirective
 	],
@@ -31,18 +46,35 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<<%= clazz %>>;
 	pending: boolean;
+<% for (let field of formFieldSelects) { %>
+	<%= field.relation.name %>List: <%= field.relation.clazz %>[];
+<% } %>
 
 	constructor(private formBuilder: FormBuilder,
-		private store: Store<<%= clazz %>State>,
+		private store: Store<
+		<%= clazz %>State
+<% for (let field of formFieldSelects) { %>
+		& <%= field.relation.clazz %>State
+<% } %>
+		>,
 		private actions: Actions
 	) {
 		super();
 		this.back = new EventEmitter();
 		this.save = new EventEmitter();
+<% for (let field of formFieldSelects) { %>
+		this.<%= field.relation.name %>List = [];
+<% } %>
 		this.pending = false;
 	}
 
 	ngOnInit(): void {
+<% for (let field of formFieldSelects) { %>
+		this.store.select(<%= field.relation.storeSelect %>).pipe(
+			takeUntil(this.destroy$)
+		).subscribe((<%= field.relation.name %>List) => this.<%= field.relation.name %>List = Object.values(<%= field.relation.name %>List));
+		this.store.dispatch(<%= field.relation.name %>Actions.list());
+<% } %>
 		if (!this.group) {
 			this.reset();
 		}
@@ -59,11 +91,36 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 		this.back.next();
 	}
 
+<% if (formFieldSelects.length > 0) { %>
+	compareId(e1: any, e2: any) {
+		return e1?._id === e2?._id;
+	}
+<%  } %>
+
 	getEditValue() {
 		const value = this.group.getRawValue();
-		return {
-			...value
-		};
+		if (value._id) {
+			return {
+				_id: value._id,
+<% for (let field of updateFields) { %>
+	<% if (field.relation) { %>
+				<%= field.name %>: value.<%= field.name %>._id,
+	<% } else { %>
+				<%= field.name %>: value.<%= field.name %>,
+	<%  } %>
+<%  } %>
+			} as <%= clazz %>;
+		} else {
+			return {
+<% for (let field of createFields) { %>
+	<% if (field.relation) { %>
+				<%= field.name %>: value.<%= field.name %>._id,
+	<% } else { %>
+				<%= field.name %>: value.<%= field.name %>,
+	<%  } %>
+<%  } %>
+			} as <%= clazz %>;
+		}
 	}
 
 	submit() {

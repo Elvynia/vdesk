@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Account } from '@lv/common';
+import { Account, accountFields } from '@lv/common';
 import { ApiConfig } from '../config';
 import { ApiService } from '../util/api.service';
 
@@ -19,7 +19,7 @@ export class AccountService extends ApiService<Account> {
 	}
 
 	getFields(): string {
-		return ['_id', 'creationDate', 'email', 'enabled', 'username', 'role { _id name }'].join('\n');
+		return accountFields.join('\n');
 	}
 
 	search(keywords: string) {

@@ -1,0 +1,16 @@
+<% for (let field of relationFields) { %>
+	import { <%= field.relation.name %>Fields } from '<%= field.relation.importPath %>.fields';
+<% } %>
+
+export const <%= name %>Fields = [
+	'_id',
+<% for (let field of fetchFields) { %>
+	<% if (field.relation) { %>
+	`<%= field.name %> {
+		${<%= field.relation.name %>Fields.join('\n')}
+	}`,
+	<% } else { %>
+	'<%= field.name %>',
+	<% } %>
+<% } %>
+];
