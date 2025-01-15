@@ -1,0 +1,10 @@
+<lv-company-type-list
+	[values]="companyTypes"
+	(edit)="edit($event)"
+	(delete)="delete($event)"
+></lv-company-type-list>
+<lv-company-type-form
+	[value]="editCompanyType"
+	(back)="cancel()"
+	(save)="save($event)"
+></lv-company-type-form>

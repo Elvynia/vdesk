@@ -40,7 +40,8 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 		this.menu = {
 			account: 'Accounts',
 			role: 'Roles',
-            address: 'Addresses'
+            address: 'Addresses',
+            'company-type': 'CompanyTypes'
         };
 	}
 

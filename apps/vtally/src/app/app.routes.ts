@@ -5,6 +5,7 @@ import { AccountViewComponent } from './account/view/view.component';
 import { LoginComponent } from './login/login.component';
 import { ViewComponent } from './home/view/view.component';
 import { AddressViewComponent } from "./address/view/view.component";
+import { CompanyTypeViewComponent } from "./company-type/view/view.component";
 
 export const appRoutes: Route[] = [{
 	component: LoginComponent,
@@ -29,6 +30,11 @@ export const appRoutes: Route[] = [{
     {
     				component: AddressViewComponent,
     				path: 'address',
+    				canActivate: [authGuard]
+    			},
+    {
+    				component: CompanyTypeViewComponent,
+    				path: 'company-type',
     				canActivate: [authGuard]
     			}
 ];

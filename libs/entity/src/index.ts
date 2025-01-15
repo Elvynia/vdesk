@@ -20,3 +20,7 @@ export * from './lib/address/address.entity';
 export * from './lib/address/address.module';
 export * from './lib/address/address.resolver';
 export * from './lib/address/address.service';
+export * from './lib/company-type/company-type.entity';
+export * from './lib/company-type/company-type.module';
+export * from './lib/company-type/company-type.resolver';
+export * from './lib/company-type/company-type.service';
