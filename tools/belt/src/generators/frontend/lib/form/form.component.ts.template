@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { <%= clazz %>, <%= clazz %>State } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { finalize, first, takeUntil } from 'rxjs';
+import { filter, finalize, first, takeUntil } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { <%= name %>Actions } from '../<%= nameDash %>.actions';
@@ -52,12 +52,14 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 <% } %>
 
 	constructor(private formBuilder: FormBuilder,
+<% if (formFieldSelects.length > 0) { %>
 		private store: Store<
 		<%= clazz %>State
-<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
+	<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
 		& <%= key %>State
-<% } %>
+	<% } %>
 		>,
+<% } %>
 		private actions: Actions
 	) {
 		super();
@@ -132,8 +134,9 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 				<%= name %>Actions.updateSuccess, <%= name %>Actions.updateError
 			),
 			first(),
-			finalize(() => this.pending = false)
-		).subscribe();
+			filter(({ success }) => !!success),
+			finalize(() => (this.pending = false))
+		).subscribe(() => this.reset());
 	}
 
 	private reset() {
