@@ -1,3 +1,4 @@
+import { confirm, input } from '@inquirer/prompts';
 import {
 	formatFiles,
 	generateFiles,
@@ -56,39 +57,41 @@ function makeAstUpdaterEntity(project: Project) {
 			appConfig.organizeImports();
 
 			// App route with entity view component.
-			const appRoutes = project.getSourceFile(`./apps/${frontapp}/src/app/app.routes.ts`);
-			const viewComponent = `${options.clazz}ViewComponent`;
-			// Import provider.
-			appRoutes.addImportDeclaration({
-				namedImports: [{
-					name: viewComponent
-				}],
-				moduleSpecifier: `./${options.nameDash}/view/view.component`
-			});
-			const appRoutesVar = appRoutes.getVariableStatement('appRoutes');
-			const appRoutesArr = appRoutesVar.getDescendantsOfKind(SyntaxKind.ArrayLiteralExpression)[0];
-			appRoutesArr.addElement(`{
+			if (options.route) {
+				const appRoutes = project.getSourceFile(`./apps/${frontapp}/src/app/app.routes.ts`);
+				const viewComponent = `${options.clazz}ViewComponent`;
+				// Import provider.
+				appRoutes.addImportDeclaration({
+					namedImports: [{
+						name: viewComponent
+					}],
+					moduleSpecifier: `./${options.nameDash}/view/view.component`
+				});
+				const appRoutesVar = appRoutes.getVariableStatement('appRoutes');
+				const appRoutesArr = appRoutesVar.getDescendantsOfKind(SyntaxKind.ArrayLiteralExpression)[0];
+				appRoutesArr.addElement(`{
 				component: ${options.clazz}ViewComponent,
-				path: '${options.nameDash}',
+				path: '${options.route.path}',
 				canActivate: [authGuard]
 			}`);
-			appRoutes.organizeImports();
+				appRoutes.organizeImports();
 
-			// App component menu item.
-			const appComponent = project.getSourceFile(`./apps/${frontapp}/src/app/app.component.ts`);
-			// const appComponentMenu = appComponent.getClass('AppComponent').getConstructors()[0].getBody().getDescendantStatements().find((node) => node.getText().includes('.menu'));
-			const appComponentMenu = appComponent.getClass('AppComponent')
-				.getConstructors()[0]
-				.getBody()
-				.getDescendantsOfKind(SyntaxKind.PropertyAccessExpression)
-				.find((p) => p.getText().includes('.menu'))
-				.getParent()
-				.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
-			appComponentMenu.addPropertyAssignment({
-				name: `'${options.nameDash}'`,
-				initializer: (writer) => writer.write("'" + options.clazzPlural + "'")
-			});
-			appComponent.organizeImports();
+				// App component menu item.
+				const appComponent = project.getSourceFile(`./apps/${frontapp}/src/app/app.component.ts`);
+				// const appComponentMenu = appComponent.getClass('AppComponent').getConstructors()[0].getBody().getDescendantStatements().find((node) => node.getText().includes('.menu'));
+				const appComponentMenu = appComponent.getClass('AppComponent')
+					.getConstructors()[0]
+					.getBody()
+					.getDescendantsOfKind(SyntaxKind.PropertyAccessExpression)
+					.find((p) => p.getText().includes('.menu'))
+					.getParent()
+					.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
+				appComponentMenu.addPropertyAssignment({
+					name: `'${options.route.path}'`,
+					initializer: (writer) => writer.write("'" + options.route.label + "'")
+				});
+				appComponent.organizeImports();
+			}
 		}
 	}
 }
@@ -116,6 +119,12 @@ async function entityGenerator(
 		options: options.fields.map(({ name }) => ({ name, value: name })).concat([{ name: '_id', value: '_id' }]),
 		defaultValue: options.fields.map(({ name }) => name).concat(['_id'])
 	});
+	if (!options.skipRoute) {
+		options.route = {
+			path: await input({ message: 'Route path:', default: options.nameDash }),
+			label: await input({ message: 'Menu label:', default: options.clazzPlural })
+		}
+	}
 	options.fields.filter((f) => fetchList.includes(f.name)).forEach((f) => f.fetch = true);
 	options.fetchFields = options.fields.filter((f): f is FetchField => f.fetch);
 	options.relationFields = options.fields.filter((f): f is RelationField => !!f.relation);
@@ -159,7 +168,9 @@ async function entityGenerator(
 	updaterExport('libs/angular/src/index.ts', options.nameDash + '/list', 'list', ['component']);
 
 	// Frontend app
-	generateFiles(tree, path.join(__dirname, 'frontend/app'), `apps/${frontapp}/src/app/${options.nameDash}`, options);
+	if (options.route) {
+		generateFiles(tree, path.join(__dirname, 'frontend/app'), `apps/${frontapp}/src/app/${options.nameDash}`, options);
+	}
 	updaterEntity.frontendApp(frontapp, options);
 	if (process.env.NX_DRY_RUN === 'false') {
 		await project.save();

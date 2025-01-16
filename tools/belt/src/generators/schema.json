@@ -17,6 +17,12 @@
 			"type": "string",
 			"required": "false",
 			"description": "Plural name to use (camelCase)> Defaults to `${name}s`"
+		},
+		"skipRoute": {
+			"type": "boolean",
+			"required": "false",
+			"description": "Use to skip route and menu item changes",
+			"$default": false
 		}
 	},
 	"required": [

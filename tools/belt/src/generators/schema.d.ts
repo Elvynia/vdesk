@@ -16,4 +16,6 @@ export interface EntityGeneratorSchema {
 	fetchFields: FetchField[];
 	createFields: Field[];
 	updateFields: Field[];
+	skipRoute: boolean;
+	route?: EntityRoute;
 }
