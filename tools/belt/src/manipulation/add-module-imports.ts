@@ -12,5 +12,6 @@ export function makeAstUpdaterModuleImports(project: Project) {
 				moduleValues.addElements(declarations.map((d) => d.namedImports[0].name));
 			}
 		}
+		moduleFile.organizeImports();
 	}
 }
