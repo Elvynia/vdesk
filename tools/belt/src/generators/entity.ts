@@ -13,7 +13,7 @@ import { promptForEntity } from './prompt';
 import { EntityGeneratorSchema } from './schema';
 
 /**
- * FIXME: Rework with ts morph.
+ * FIXME: Rework with ts morph and organize imports.
  */
 function makeAstUpdaterExport(tree: Tree) {
 	return (target: string, folder: string, name: string, files: string[]) => {
@@ -53,6 +53,7 @@ function makeAstUpdaterEntity(project: Project) {
 					moduleValues.addElement(provider + '()');
 				}
 			}
+			appConfig.organizeImports();
 
 			// App route with entity view component.
 			const appRoutes = project.getSourceFile(`./apps/${frontapp}/src/app/app.routes.ts`);
@@ -71,6 +72,7 @@ function makeAstUpdaterEntity(project: Project) {
 				path: '${options.nameDash}',
 				canActivate: [authGuard]
 			}`);
+			appRoutes.organizeImports();
 
 			// App component menu item.
 			const appComponent = project.getSourceFile(`./apps/${frontapp}/src/app/app.component.ts`);
@@ -86,6 +88,7 @@ function makeAstUpdaterEntity(project: Project) {
 				name: `'${options.nameDash}'`,
 				initializer: (writer) => writer.write("'" + options.clazzPlural + "'")
 			});
+			appComponent.organizeImports();
 		}
 	}
 }
@@ -158,9 +161,9 @@ async function entityGenerator(
 	// Frontend app
 	generateFiles(tree, path.join(__dirname, 'frontend/app'), `apps/${frontapp}/src/app/${options.nameDash}`, options);
 	updaterEntity.frontendApp(frontapp, options);
-	await formatFiles(tree);
 	if (process.env.NX_DRY_RUN === 'false') {
 		await project.save();
+		await formatFiles(tree);
 	}
 }
 
