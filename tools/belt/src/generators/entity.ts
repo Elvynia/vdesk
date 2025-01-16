@@ -85,11 +85,8 @@ function makeAstUpdaterEntity(project: Project) {
 					.getDescendantsOfKind(SyntaxKind.PropertyAccessExpression)
 					.find((p) => p.getText().includes('.menu'))
 					.getParent()
-					.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
-				appComponentMenu.addPropertyAssignment({
-					name: `'${options.route.path}'`,
-					initializer: (writer) => writer.write("'" + options.route.label + "'")
-				});
+					.getFirstDescendantByKind(SyntaxKind.ArrayLiteralExpression);
+				appComponentMenu.addElement(JSON.stringify(options.route));
 				appComponent.organizeImports();
 			}
 		}
@@ -122,7 +119,8 @@ async function entityGenerator(
 	if (!options.skipRoute) {
 		options.route = {
 			path: await input({ message: 'Route path:', default: options.nameDash }),
-			label: await input({ message: 'Menu label:', default: options.clazzPlural })
+			label: await input({ message: 'Menu label:', default: options.clazzPlural }),
+			icon: await input({ message: 'Menu icon:', default: 'comic_bubble', required: false }),
 		}
 	}
 	options.fields.filter((f) => fetchList.includes(f.name)).forEach((f) => f.fetch = true);
