@@ -62,9 +62,12 @@ export async function promptForField(): Promise<EntityField> {
 	const name = await input({ message: 'Name:' });
 	const type = await input({ message: 'Type:', default: 'string' });
 	const relation = !!type.match(/^[A-Z]+.+$/);
+	const float = type === 'number' ? await confirm({ message: 'Use decimal formatting ?', default: false }) : false;
 	const field = {
 		name,
 		type,
+		float,
+		currency: float ? await confirm({ message: 'Use currency formatting ?', default: false }) : false,
 		relation: relation ? await promptForRelation(type) : undefined,
 		required: await confirm({ message: 'Required ?', default: true }),
 		create: await confirm({ message: 'Use at creation ?', default: true }),

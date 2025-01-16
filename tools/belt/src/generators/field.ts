@@ -16,6 +16,12 @@ export interface RelationField extends EntityField {
 	relation: EntityRelation;
 }
 
+export interface NumberField extends EntityField {
+	type: 'number';
+	float: true;
+	currency: boolean;
+}
+
 export interface FetchField extends EntityField {
 	fetch: true;
 }

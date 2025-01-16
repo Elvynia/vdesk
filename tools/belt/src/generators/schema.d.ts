@@ -1,4 +1,4 @@
-import { EntityField, FormFieldSelect, RelationField } from "./field";
+import { EntityField, FormFieldSelect, NumberField, RelationField } from "./field";
 
 export interface EntityGeneratorSchema {
 	name: string;
@@ -11,6 +11,9 @@ export interface EntityGeneratorSchema {
 	relationFieldTyped: Record<string, RelationField[]>;
 	formFields: EntityField[][];
 	formFieldDates: FormField[];
+	formFieldCurrencies: NumberField[];
+	formFieldFloats: NumberField[];
+	formFieldNumbers: NumberField[];
 	formFieldSelects: FormFieldSelect[];
 	formFieldSelectTyped: Record<string, FormFieldSelect[]>;
 	formFieldCheckboxes: EntityField[];

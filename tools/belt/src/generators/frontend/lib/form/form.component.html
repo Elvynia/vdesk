@@ -17,7 +17,17 @@
 					<%= field.name %>
 				</mat-label>
 			<% if (field.component.type === 'input') { %>
-				<input matInput name="<%= field.name %>" formControlName="<%= field.name %>">
+				<input matInput name="<%= field.name %>" formControlName="<%= field.name %>"
+				<% if (field.type === 'number') { %>
+					<% if (field.currency) { %>
+						lvCurrencyFormat
+					<% } else if (field.float) { %>
+						lvDecimalFormat
+					<% } else { %>
+						lvDigitsFormat
+					<% } %>
+				<% } %>
+				>
 			<% } else if (field.component.type === 'datepicker') { %>
 				<input matInput name="<%= field.name %>" formControlName="<%= field.name %>" [matDatepicker]="<%= field.name %>Picker">
 				<mat-datepicker-toggle matIconSuffix [for]="<%= field.name %>Picker"></mat-datepicker-toggle>

@@ -9,7 +9,7 @@ import * as path from 'path';
 import { Node, Project, SyntaxKind } from "ts-morph";
 import { makeAstUpdaterModuleImports } from '../manipulation/add-module-imports';
 import { dasherize } from '../manipulation/dasherize';
-import { FetchField, FormFieldCheckbox, FormFieldSelect, RelationField } from './field';
+import { FetchField, FormFieldCheckbox, FormFieldSelect, NumberField, RelationField } from './field';
 import { promptForEntity } from './prompt';
 import { EntityGeneratorSchema } from './schema';
 
@@ -139,6 +139,9 @@ async function entityGenerator(
 	options.formFields = options.fields.slice(options.fields.length / 2)
 		.map((_, i) => options.fields.slice(i *= 2, i + 2));
 	options.formFieldDates = options.fields.filter((f): f is FormFieldSelect => f.component.type === 'datepicker');
+	options.formFieldNumbers = options.fields.filter((f): f is NumberField => f.type === 'number');
+	options.formFieldFloats = options.formFieldNumbers.filter((f): f is NumberField => f.float && !f.currency);
+	options.formFieldCurrencies = options.formFieldNumbers.filter((f): f is NumberField => f.float && f.currency);
 	options.formFieldSelects = options.fields.filter((f): f is FormFieldSelect => f.component.type === 'select');
 	options.formFieldSelectTyped = options.formFieldSelects.reduce((typed, field) => {
 		if (!typed[field.relation.clazz]) {
