@@ -138,6 +138,7 @@ async function entityGenerator(
 
 	options.formFields = options.fields.slice(options.fields.length / 2)
 		.map((_, i) => options.fields.slice(i *= 2, i + 2));
+	options.formFieldDates = options.fields.filter((f): f is FormFieldSelect => f.component.type === 'datepicker');
 	options.formFieldSelects = options.fields.filter((f): f is FormFieldSelect => f.component.type === 'select');
 	options.formFieldSelectTyped = options.formFieldSelects.reduce((typed, field) => {
 		if (!typed[field.relation.clazz]) {

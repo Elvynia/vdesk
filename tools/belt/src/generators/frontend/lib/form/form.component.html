@@ -18,6 +18,10 @@
 				</mat-label>
 			<% if (field.component.type === 'input') { %>
 				<input matInput name="<%= field.name %>" formControlName="<%= field.name %>">
+			<% } else if (field.component.type === 'datepicker') { %>
+				<input matInput name="<%= field.name %>" formControlName="<%= field.name %>" [matDatepicker]="<%= field.name %>Picker">
+				<mat-datepicker-toggle matIconSuffix [for]="<%= field.name %>Picker"></mat-datepicker-toggle>
+				<mat-datepicker #<%= field.name %>Picker></mat-datepicker>
 			<% } else if (field.component.type === 'select') { %>
 				<mat-select [compareWith]="compareId" formControlName="<%= field.name %>">
 					@for (<%= field.name %> of <%= field.relation.name %>List; track <%= field.name %>._id) {

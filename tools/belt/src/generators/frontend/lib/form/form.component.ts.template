@@ -32,12 +32,32 @@ import { <%= value[0].relation.name %>Actions %> } from '../../<%= value[0].rela
 <% if (formFieldCheckboxes.length > 0) { %>
 		MatCheckboxModule,
 <% } %>
+<% if (formFieldDates.length > 0) { %>
+		MatDatepickerModule,
+		MatNativeDateModule,
+<% } %>
 <% if (formFieldSelects.length > 0) { %>
 		MatSelectModule,
 <% } %>
 		ReactiveFormsModule,
 		LoadingDirective
 	],
+<% if (formFieldDates.length > 0) { %>
+	providers: [
+		provideNativeDateAdapter({
+			parse: {
+				dateInput: 'DD/MM/YYYY',
+			},
+			display: {
+				dateInput: 'DD/MM/YYYY',
+				monthYearLabel: 'MMMM YYYY',
+				dateA11yLabel: 'LL',
+				monthYearA11yLabel: 'MMMM YYYY'
+			},
+		}),
+		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
+	],
+<% } %>
 	templateUrl: './form.component.html',
 	styleUrl: './form.component.scss'
 })
