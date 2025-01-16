@@ -1,4 +1,4 @@
-export const EntityComponentKeys = ['input', 'checkbox', 'select'] as const;
+export const EntityComponentKeys = ['input', 'checkbox', 'datepicker', 'select'] as const;
 export type EntityComponentKeyType = typeof EntityComponentKeys[number];
 
 export interface EntityComponent {

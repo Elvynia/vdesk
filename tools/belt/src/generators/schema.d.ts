@@ -10,6 +10,7 @@ export interface EntityGeneratorSchema {
 	relationFields: RelationField[];
 	relationFieldTyped: Record<string, RelationField[]>;
 	formFields: EntityField[][];
+	formFieldDates: FormField[];
 	formFieldSelects: FormFieldSelect[];
 	formFieldSelectTyped: Record<string, FormFieldSelect[]>;
 	formFieldCheckboxes: EntityField[];
