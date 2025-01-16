@@ -24,3 +24,7 @@ export * from './lib/company-type/company-type.entity';
 export * from './lib/company-type/company-type.module';
 export * from './lib/company-type/company-type.resolver';
 export * from './lib/company-type/company-type.service';
+export * from './lib/company/company.entity';
+export * from './lib/company/company.module';
+export * from './lib/company/company.resolver';
+export * from './lib/company/company.service';

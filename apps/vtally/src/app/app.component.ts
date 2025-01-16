@@ -41,7 +41,8 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 			account: 'Accounts',
 			role: 'Roles',
             address: 'Addresses',
-            'company-type': 'CompanyTypes'
+            'company-type': 'CompanyTypes',
+            'company': 'Companies'
         };
 	}
 

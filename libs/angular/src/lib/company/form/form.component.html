@@ -1,0 +1,72 @@
+<mat-card>
+	<mat-card-header class="mb-4">
+		<h1 mat-card-title>{{ value?._id ? 'Edit' : 'New' }} company</h1>
+	</mat-card-header>
+	<mat-card-content
+		class="!flex flex-col justify-center"
+		[formGroup]="group"
+		*lvLoading="pending; color: 'accent'; diameter: 128"
+	>
+		<div class="flex flex-col lg:flex-row lg:justify-around">
+			<mat-form-field [class.lv-accent]="group.get('name')!.valid">
+				<mat-label> name </mat-label>
+
+				<input matInput name="name" formControlName="name" />
+			</mat-form-field>
+
+			<mat-form-field [class.lv-accent]="group.get('identifier')!.valid">
+				<mat-label> identifier </mat-label>
+
+				<input
+					matInput
+					name="identifier"
+					formControlName="identifier"
+				/>
+			</mat-form-field>
+		</div>
+
+		<div class="flex flex-col lg:flex-row lg:justify-around">
+			<mat-form-field [class.lv-accent]="group.get('type')!.valid">
+				<mat-label> type </mat-label>
+
+				<mat-select [compareWith]="compareId" formControlName="type">
+					@for (type of companyTypeList; track type._id) {
+					<mat-option [value]="type">
+						{{ type.name }}
+					</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field [class.lv-accent]="group.get('address')!.valid">
+				<mat-label> address </mat-label>
+
+				<mat-select [compareWith]="compareId" formControlName="address">
+					@for (address of addressList; track address._id) {
+					<mat-option [value]="address">
+						{{ address.line1 + ', ' + (address.line2 ? address.line2 + ', ' : '') + address.city + ' ' + address.zip }}
+					</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+		</div>
+	</mat-card-content>
+	<mat-card-actions class="duo">
+		<button
+			mat-stroked-button
+			class="lv-error"
+			[disabled]="pending"
+			(click)="cancel()"
+		>
+			Cancel
+		</button>
+		<button
+			mat-raised-button
+			class="lv-accent"
+			[disabled]="pending || group.invalid || group.pending"
+			(click)="submit()"
+		>
+			Submit
+		</button>
+	</mat-card-actions>
+</mat-card>
