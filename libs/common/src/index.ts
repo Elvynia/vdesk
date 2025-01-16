@@ -8,3 +8,5 @@ export * from './lib/role/role.fields';
 export * from './lib/role/role.type';
 export * from './lib/company-type/company-type.fields';
 export * from './lib/company-type/company-type.type';
+export * from './lib/company/company.fields';
+export * from './lib/company/company.type';

@@ -1,14 +1,13 @@
-import { AuthModule, EntityModule } from '@lv/entity';
+import { AddressModule, AuthModule, CompanyModule, CompanyTypeModule, EntityModule } from '@lv/entity';
 import { Module } from '@nestjs/common';
-import { AddressModule } from "@lv/entity";
-import { CompanyTypeModule } from "@lv/entity";
 
 @Module({
 	imports: [
 		EntityModule,
 		AuthModule,
         AddressModule,
-        CompanyTypeModule
+        CompanyTypeModule,
+        CompanyModule
     ],
 })
 export class AppModule { }
