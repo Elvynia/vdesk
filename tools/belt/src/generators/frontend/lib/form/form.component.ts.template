@@ -117,7 +117,7 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 			return {
 <% for (let field of createFields) { %>
 	<% if (field.relation) { %>
-				<%= field.name %>: value.<%= field.name %>._id,
+				<%= field.name %>: value.<%= field.name %><%= field.required ? '' : '?' %>._id,
 	<% } else { %>
 				<%= field.name %>: value.<%= field.name %>,
 	<%  } %>
