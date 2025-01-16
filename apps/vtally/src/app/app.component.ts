@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { AuthEntity, AuthService, isAuthenticated, ObserverCompomix, selectAuth } from '@lv/angular';
+import { MenuItem } from '@lv/common';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs';
 import { TallyState } from './app.type';
@@ -26,7 +27,7 @@ import { TallyState } from './app.type';
 	styleUrl: './app.component.scss',
 })
 export class AppComponent extends ObserverCompomix() implements OnInit {
-	menu: Record<string, string>;
+	menu: MenuItem[];
 	auth!: AuthEntity;
 
 	get authenticated() {
@@ -37,13 +38,27 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 		private store: Store<TallyState>
 	) {
 		super();
-		this.menu = {
-			account: 'Accounts',
-			role: 'Roles',
-            address: 'Addresses',
-            'company-type': 'CompanyTypes',
-            'company': 'Companies'
-        };
+		this.menu = [{
+			label: 'Accounts',
+			icon: 'contacts',
+			path: 'account'
+		}, {
+			label: 'Addresses',
+			icon: 'home',
+			path: 'address'
+		}, {
+			label: 'Companies',
+			icon: 'store',
+			path: 'company'
+		}, {
+			label: 'Company Types',
+			icon: 'contact_mail',
+			path: 'company-type'
+		}, {
+			label: 'Roles',
+			icon: 'license',
+			path: 'role'
+		}];
 	}
 
 	ngOnInit(): void {

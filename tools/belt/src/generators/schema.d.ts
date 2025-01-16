@@ -1,3 +1,4 @@
+import { MenuItem } from '@lv/common';
 import { EntityField, FormFieldSelect, NumberField, RelationField } from "./field";
 
 export interface EntityGeneratorSchema {
@@ -21,5 +22,5 @@ export interface EntityGeneratorSchema {
 	createFields: Field[];
 	updateFields: Field[];
 	skipRoute: boolean;
-	route?: EntityRoute;
+	route?: MenuItem;
 }

@@ -10,4 +10,5 @@ export * from './lib/company/company.type';
 export * from './lib/entity/entity.type';
 export * from './lib/role/role.fields';
 export * from './lib/role/role.type';
+export * from './lib/util/menu/menu.type';
 export * from './lib/util/navigation-keys';
