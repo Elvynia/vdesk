@@ -44,15 +44,14 @@ import { addressActions } from '../../address/address.actions';
 		MatSelectModule,
 
 		ReactiveFormsModule,
-		LoadingDirective,
+		LoadingDirective
 	],
 	templateUrl: './form.component.html',
 	styleUrl: './form.component.scss',
 })
 export class CompanyFormComponent
 	extends ObserverCompomix()
-	implements OnInit, OnChanges
-{
+	implements OnInit, OnChanges {
 	@Input() group!: FormGroup;
 	@Input() value?: Company;
 	@Output() back: EventEmitter<void>;

@@ -1,3 +1,6 @@
+<% if (formFieldCurrencies.length > 0) { %>
+import { CurrencyPipe } from '@angular/common';
+<% } %>
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,6 +24,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { <%= key %>, <%= key %>State, <%= value[0].component.storeSelect %> } from '@lv/common';
 import { <%= value[0].relation.name %>Actions %> } from '../../<%= value[0].relation.nameDash %>/<%= value[0].relation.nameDash %>.actions';
 <% } %>
+<% if (formFieldCurrencies.length > 0) { %>
+import { CurrencyFormatDirective } from '../../util/format/currency-format.directive';
+<% } %>
+<% if (formFieldFloats.length > 0) { %>
+import { DecimalFormatDirective } from '../../util/format/decimal-format.directive';
+<% } %>
+<% if (formFieldNumbers.length > 0) { %>
+import { DigitsFormatDirective } from '../../util/format/digits-format.directive';
+<% } %>
 
 @Component({
 	selector: 'lv-<%= nameDash %>-form',
@@ -40,10 +52,20 @@ import { <%= value[0].relation.name %>Actions %> } from '../../<%= value[0].rela
 		MatSelectModule,
 <% } %>
 		ReactiveFormsModule,
-		LoadingDirective
+		LoadingDirective,
+<% if (formFieldCurrencies.length > 0) { %>
+		CurrencyFormatDirective,
+<% } %>
+<% if (formFieldNumbers.length > 0) { %>
+		DigitsFormatDirective,
+<% } %>
+<% if (formFieldFloats.length > 0) { %>
+		DecimalFormatDirective,
+<% } %>
 	],
-<% if (formFieldDates.length > 0) { %>
+<% if (formFieldDates.length > 0 || formFieldCurrencies.length > 0) { %>
 	providers: [
+	<% if (formFieldDates.length > 0) { %>
 		provideNativeDateAdapter({
 			parse: {
 				dateInput: 'DD/MM/YYYY',
@@ -55,7 +77,11 @@ import { <%= value[0].relation.name %>Actions %> } from '../../<%= value[0].rela
 				monthYearA11yLabel: 'MMMM YYYY'
 			},
 		}),
-		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
+		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
+	<% } %>
+	<% if (formFieldCurrencies.length > 0) { %>
+		CurrencyPipe,
+	<% } %>
 	],
 <% } %>
 	templateUrl: './form.component.html',
@@ -127,7 +153,17 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 				_id: value._id,
 <% for (let field of updateFields) { %>
 	<% if (field.relation) { %>
-				<%= field.name %>: value.<%= field.name %>._id,
+				<%= field.name %>: value.<%= field.name %><%= field.required ? '' : '?' %>._id,
+	<% } else if (field.type === 'number') { %>
+		<% if (field.currency) { %>
+				<%= field.name %>: parseFloat(value.<%= field.name %>.replace(/[$€]/g, '')),
+		<% } else if (field.float) { %>
+				<%= field.name %>: parseFloat(value.<%= field.name %>),
+		<% } else { %>
+				<%= field.name %>: parseInt(value.<%= field.name %>),
+		<% } %>
+	<% } else if (field.type === 'float') { %>
+				<%= field.name %>: parseFloat(value.<%= field.name %>),
 	<% } else { %>
 				<%= field.name %>: value.<%= field.name %>,
 	<%  } %>
@@ -138,6 +174,14 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 <% for (let field of createFields) { %>
 	<% if (field.relation) { %>
 				<%= field.name %>: value.<%= field.name %><%= field.required ? '' : '?' %>._id,
+	<% } else if (field.type === 'number') { %>
+		<% if (field.currency) { %>
+				<%= field.name %>: parseFloat(value.<%= field.name %>.replace(/[$€]/g, '')),
+		<% } else if (field.float) { %>
+				<%= field.name %>: parseFloat(value.<%= field.name %>),
+		<% } else { %>
+				<%= field.name %>: parseInt(value.<%= field.name %>),
+		<% } %>
 	<% } else { %>
 				<%= field.name %>: value.<%= field.name %>,
 	<%  } %>
