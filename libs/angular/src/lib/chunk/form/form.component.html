@@ -1,0 +1,48 @@
+<div class="pt-3" [formGroup]="group">
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('count')!.valid">
+			<mat-label> count </mat-label>
+
+			<input
+				matInput
+				name="count"
+				formControlName="count"
+				lvDigitsFormat
+			/>
+		</mat-form-field>
+
+		<mat-form-field [class.lv-accent]="group.get('date')!.valid">
+			<mat-label> date </mat-label>
+
+			<input
+				matInput
+				name="date"
+				formControlName="date"
+				[matDatepicker]="datePicker"
+			/>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="datePicker"
+			></mat-datepicker-toggle>
+			<mat-datepicker #datePicker></mat-datepicker>
+		</mat-form-field>
+	</div>
+
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('desc')!.valid">
+			<mat-label> desc </mat-label>
+
+			<input matInput name="desc" formControlName="desc" />
+		</mat-form-field>
+
+		<mat-form-field [class.lv-accent]="group.get('invoiced')!.valid">
+			<mat-label> invoiced </mat-label>
+		</mat-form-field>
+	</div>
+
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('paid')!.valid">
+			<mat-label> paid </mat-label>
+		</mat-form-field>
+	</div>
+</div>
