@@ -80,7 +80,11 @@ import { DigitsFormatDirective } from '../../util/format/digits-format.directive
 	templateUrl: './form.component.html',
 	styleUrl: './form.component.scss'
 })
-export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnInit {
+export class <%= clazz %>FormComponent extends ObserverCompomix()
+<% if (formFieldSelects.length > 0) { %>
+implements OnInit
+<% } %>
+ {
 	@Input() group!: FormGroup;
 	@Input() value?: <%= clazz %>;
 <% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
@@ -103,14 +107,14 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 <% } %>
 	}
 
-	ngOnInit(): void {
 <% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
+	ngOnInit(): void {
 		this.store.select(<%= value[0].component.storeSelect %>).pipe(
 			takeUntil(this.destroy$)
 		).subscribe((<%= value[0].relation.name %>List) => this.<%= value[0].relation.name %>List = Object.values(<%= value[0].relation.name %>List));
 		this.store.dispatch(<%= value[0].relation.name %>Actions.list());
-<% } %>
 	}
+<% } %>
 
 <% if (formFieldSelects.length > 0) { %>
 	compareId(e1: any, e2: any) {
