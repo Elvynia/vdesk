@@ -1,15 +1,17 @@
 import {
-    Args,
-    Mutation,
-    Query,
-    Resolver
+	Resolver,
+	Query,
+	Mutation,
+	Args,
+	Parent,
+	ResolveField,
 } from '@nestjs/graphql';
-import {
-    CompanyTypeCreate,
-    CompanyTypeEntity,
-    CompanyTypeUpdate,
-} from './company-type.entity';
 import { CompanyTypeService } from './company-type.service';
+import {
+	CompanyTypeEntity,
+	CompanyTypeCreate,
+	CompanyTypeUpdate,
+} from './company-type.entity';
 
 @Resolver(() => CompanyTypeEntity)
 export class CompanyTypeResolver {

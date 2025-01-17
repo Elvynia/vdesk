@@ -182,7 +182,6 @@ async function entityGenerator(
 		updaterEntity.frontendApp(frontapp, options);
 	}
 	if (process.env.NX_DRY_RUN === 'false') {
-		organize(project, `./libs/common/src/lib/${options.nameDash}/${options.nameDash}.type.ts`);
 		await project.save();
 		await formatFiles(tree);
 	}
