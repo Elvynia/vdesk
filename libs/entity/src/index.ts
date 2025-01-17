@@ -28,3 +28,7 @@ export * from './lib/role/role.module';
 export * from './lib/role/role.resolver';
 export * from './lib/role/role.service';
 export * from './lib/util/request.type';
+export * from './lib/chunk/chunk.entity';
+export * from './lib/chunk/chunk.module';
+export * from './lib/chunk/chunk.resolver';
+export * from './lib/chunk/chunk.service';

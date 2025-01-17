@@ -12,3 +12,5 @@ export * from './lib/role/role.type';
 export * from './lib/util/entity.type';
 export * from './lib/util/menu/menu.type';
 export * from './lib/util/navigation-keys';
+export * from './lib/chunk/chunk.fields';
+export * from './lib/chunk/chunk.type';
