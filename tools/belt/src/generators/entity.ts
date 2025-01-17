@@ -177,6 +177,22 @@ async function entityGenerator(
 	}
 	updaterEntity.frontendApp(frontapp, options);
 	if (process.env.NX_DRY_RUN === 'false') {
+		// Organize imports for new files.
+		project.getSourceFile(`./libs/common/src/lib/${options.nameDash}/${options.nameDash}.type.ts`).organizeImports();
+		project.getSourceFile(`./libs/${backlib}/src/lib/${options.nameDash}/${options.nameDash}.entity.ts`).organizeImports();
+		project.getSourceFile(`./libs/${backlib}/src/lib/${options.nameDash}/${options.nameDash}.module.ts`).organizeImports();
+		project.getSourceFile(`./libs/${backlib}/src/lib/${options.nameDash}/${options.nameDash}.resolver.ts`).organizeImports();
+		project.getSourceFile(`./libs/${backlib}/src/lib/${options.nameDash}/${options.nameDash}.service.ts`).organizeImports();
+		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/form/form.ts`).organizeImports();
+		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/form-card/form-card.ts`).organizeImports();
+		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/item/item.ts`).organizeImports();
+		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/list/list.ts`).organizeImports();
+		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.actions.ts`).organizeImports();
+		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.config.ts`).organizeImports();
+		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.effects.ts`).organizeImports();
+		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.reducer.ts`).organizeImports();
+		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.service.ts`).organizeImports();
+		project.getSourceFile(`./apps/${frontapp}/src/app/${options.nameDash}/view/view.ts`).organizeImports();
 		await project.save();
 		await formatFiles(tree);
 	}
