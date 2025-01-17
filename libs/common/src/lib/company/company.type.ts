@@ -1,4 +1,4 @@
-import { IEntity } from '../entity/entity.type';
+import { IEntity } from '../util/entity.type';
 
 import { CompanyType } from '../company-type/company-type.type';
 

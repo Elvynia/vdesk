@@ -1,4 +1,4 @@
-import { IEntity } from "../entity/entity.type";
+import { IEntity } from "../util/entity.type";
 <% for (let field of relationFields) { %>
 import { <%= field.relation.clazz %> } from '<%= field.relation.importPath %>.type';
 <%  } %>
