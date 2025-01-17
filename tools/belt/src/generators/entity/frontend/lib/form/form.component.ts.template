@@ -107,12 +107,14 @@ implements OnInit
 <% } %>
 	}
 
-<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
+<% if (formFieldSelects.length > 0) { %>
 	ngOnInit(): void {
+	<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
 		this.store.select(<%= value[0].component.storeSelect %>).pipe(
 			takeUntil(this.destroy$)
 		).subscribe((<%= value[0].relation.name %>List) => this.<%= value[0].relation.name %>List = Object.values(<%= value[0].relation.name %>List));
 		this.store.dispatch(<%= value[0].relation.name %>Actions.list());
+	<% } %>
 	}
 <% } %>
 

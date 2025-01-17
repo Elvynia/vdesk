@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    ApiAction,
-    companyActions,
-    CompanyFormComponent,
-    CompanyListComponent,
-    ObserverCompomix,
+	companyActions,
+	CompanyFormCardComponent,
+	CompanyListComponent,
+	ApiAction,
+	ObserverCompomix,
 } from '@lv/angular';
 import { Company, selectCompanies } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
@@ -13,7 +13,7 @@ import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'lv-company-view',
-	imports: [CompanyListComponent, CompanyFormComponent],
+	imports: [CompanyListComponent, CompanyFormCardComponent],
 	templateUrl: './view.component.html',
 	styleUrl: './view.component.scss',
 })
