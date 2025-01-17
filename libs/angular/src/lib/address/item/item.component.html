@@ -1,19 +1,7 @@
 <mat-list-item class="mb-2">
 	<h3 matListItemTitle class="font-2rem">
-		@if (value.firstname) {
-		<span class="me-1">{{ value.firstname}}</span>
-		}
-		<span>{{ value.lastname}}</span>
+		{{ value.city }}
 	</h3>
-	<div matListItemLine>
-		<span>{{ value.line1 }}</span>
-		@if (value.line2) {
-			<span>, {{ value.line2 }}</span>
-		}
-	</div>
-	<div matListItemLine>
-		{{ value.city }}, {{ value.zip }}
-	</div>
 	@if (hovering) {
 	<div matListItemMeta>
 		<button

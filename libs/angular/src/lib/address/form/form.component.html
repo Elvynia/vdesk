@@ -1,64 +1,43 @@
-<mat-card>
-	<mat-card-header class="mb-4">
-		<h1 mat-card-title>{{ value?._id ? 'Edit' : 'New' }} address</h1>
-	</mat-card-header>
-	<mat-card-content
-		class="!flex flex-col justify-center"
-		[formGroup]="group"
-		*lvLoading="pending; color: 'accent'; diameter: 128"
-	>
-		<div class="flex flex-col lg:flex-row lg:justify-around">
-			<mat-form-field [class.lv-accent]="group.get('city')!.valid">
-				<mat-label> city </mat-label>
-				<input matInput name="city" formControlName="city" />
-			</mat-form-field>
+<div class="pt-3" [formGroup]="group">
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('city')!.valid">
+			<mat-label> city </mat-label>
 
-			<mat-form-field [class.lv-accent]="group.get('firstname')!.valid">
-				<mat-label> firstname </mat-label>
-				<input matInput name="firstname" formControlName="firstname" />
-			</mat-form-field>
-		</div>
+			<input matInput name="city" formControlName="city" />
+		</mat-form-field>
 
-		<div class="flex flex-col lg:flex-row lg:justify-around">
-			<mat-form-field [class.lv-accent]="group.get('lastname')!.valid">
-				<mat-label> lastname </mat-label>
-				<input matInput name="lastname" formControlName="lastname" />
-			</mat-form-field>
+		<mat-form-field [class.lv-accent]="group.get('firstname')!.valid">
+			<mat-label> firstname </mat-label>
 
-			<mat-form-field [class.lv-accent]="group.get('line1')!.valid">
-				<mat-label> line1 </mat-label>
-				<input matInput name="line1" formControlName="line1" />
-			</mat-form-field>
-		</div>
+			<input matInput name="firstname" formControlName="firstname" />
+		</mat-form-field>
+	</div>
 
-		<div class="flex flex-col lg:flex-row lg:justify-around">
-			<mat-form-field [class.lv-accent]="group.get('line2')!.valid">
-				<mat-label> line2 </mat-label>
-				<input matInput name="line2" formControlName="line2" />
-			</mat-form-field>
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('lastname')!.valid">
+			<mat-label> lastname </mat-label>
 
-			<mat-form-field [class.lv-accent]="group.get('zip')!.valid">
-				<mat-label> zip </mat-label>
-				<input matInput name="zip" formControlName="zip" />
-			</mat-form-field>
-		</div>
-	</mat-card-content>
-	<mat-card-actions class="duo">
-		<button
-			mat-stroked-button
-			class="lv-error"
-			[disabled]="pending"
-			(click)="cancel()"
-		>
-			Cancel
-		</button>
-		<button
-			mat-raised-button
-			class="lv-accent"
-			[disabled]="pending || group.invalid || group.pending"
-			(click)="submit()"
-		>
-			Submit
-		</button>
-	</mat-card-actions>
-</mat-card>
+			<input matInput name="lastname" formControlName="lastname" />
+		</mat-form-field>
+
+		<mat-form-field [class.lv-accent]="group.get('line1')!.valid">
+			<mat-label> line1 </mat-label>
+
+			<input matInput name="line1" formControlName="line1" />
+		</mat-form-field>
+	</div>
+
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('line2')!.valid">
+			<mat-label> line2 </mat-label>
+
+			<input matInput name="line2" formControlName="line2" />
+		</mat-form-field>
+
+		<mat-form-field [class.lv-accent]="group.get('zip')!.valid">
+			<mat-label> zip </mat-label>
+
+			<input matInput name="zip" formControlName="zip" />
+		</mat-form-field>
+	</div>
+</div>

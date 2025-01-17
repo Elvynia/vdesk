@@ -58,7 +58,9 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 			label: 'Roles',
 			icon: 'license',
 			path: 'role'
-		}];
+		},
+            {"path":"address","label":"Addresses","icon":"home"}
+        ];
 	}
 
 	ngOnInit(): void {

@@ -51,5 +51,10 @@ export const appRoutes: Route[] = [{
 	component: RoleViewComponent,
 	path: 'role',
 	canActivate: [authGuard]
-}
+},
+    {
+    				component: AddressViewComponent,
+    				path: 'address',
+    				canActivate: [authGuard]
+    			}
 ];

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    addressActions,
-    AddressFormComponent,
-    AddressListComponent,
-    ApiAction,
-    ObserverCompomix,
+	addressActions,
+	AddressFormCardComponent,
+	AddressListComponent,
+	ApiAction,
+	ObserverCompomix,
 } from '@lv/angular';
 import { Address, selectAddresses } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
@@ -13,7 +13,7 @@ import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'lv-address-view',
-	imports: [AddressListComponent, AddressFormComponent],
+	imports: [AddressListComponent, AddressFormCardComponent],
 	templateUrl: './view.component.html',
 	styleUrl: './view.component.scss',
 })

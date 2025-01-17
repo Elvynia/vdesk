@@ -25,6 +25,7 @@ export const appConfig: ApplicationConfig = {
         provideEntityAddress(),
         provideEntityCompanyType(),
         provideEntityCompany(),
-        provideEntityRole()
+        provideEntityRole(),
+        provideEntityAddress()
     ],
 };
