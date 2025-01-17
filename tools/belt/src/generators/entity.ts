@@ -166,6 +166,7 @@ async function entityGenerator(
 	generateFiles(tree, path.join(__dirname, 'frontend/lib'), `libs/${frontlib}/src/lib/${options.nameDash}`, options);
 	updaterExport('libs/angular/src/index.ts', options.nameDash, options.nameDash, ['actions', 'config', 'effects', 'reducer', 'service']);
 	updaterExport('libs/angular/src/index.ts', options.nameDash + '/form', 'form', ['component']);
+	updaterExport('libs/angular/src/index.ts', options.nameDash + '/form-card', 'form-card', ['component']);
 	updaterExport('libs/angular/src/index.ts', options.nameDash + '/item', 'item', ['component']);
 	updaterExport('libs/angular/src/index.ts', options.nameDash + '/list', 'list', ['component']);
 
