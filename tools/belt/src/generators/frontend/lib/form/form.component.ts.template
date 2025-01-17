@@ -1,19 +1,15 @@
 <% if (formFieldCurrencies.length > 0) { %>
 import { CurrencyPipe } from '@angular/common';
 <% } %>
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { <%= clazz %>, <%= clazz %>State } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { filter, finalize, first, takeUntil } from 'rxjs';
-import { LoadingDirective } from '../../loading/loading.directive';
+import { takeUntil } from 'rxjs';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
-import { <%= name %>Actions } from '../<%= nameDash %>.actions';
 <% if (formFieldCheckboxes.length > 0) { %>
 import { MatCheckboxModule } from '@angular/material/checkbox';
 <% } %>
@@ -37,8 +33,6 @@ import { DigitsFormatDirective } from '../../util/format/digits-format.directive
 @Component({
 	selector: 'lv-<%= nameDash %>-form',
 	imports: [
-		MatButtonModule,
-		MatCardModule,
 		MatFormFieldModule,
 		MatInputModule,
 <% if (formFieldCheckboxes.length > 0) { %>
@@ -52,7 +46,6 @@ import { DigitsFormatDirective } from '../../util/format/digits-format.directive
 		MatSelectModule,
 <% } %>
 		ReactiveFormsModule,
-		LoadingDirective,
 <% if (formFieldCurrencies.length > 0) { %>
 		CurrencyFormatDirective,
 <% } %>
@@ -87,34 +80,27 @@ import { DigitsFormatDirective } from '../../util/format/digits-format.directive
 	templateUrl: './form.component.html',
 	styleUrl: './form.component.scss'
 })
-export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnInit, OnChanges {
+export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnInit {
 	@Input() group!: FormGroup;
 	@Input() value?: <%= clazz %>;
-	@Output() back: EventEmitter<void>;
-	@Output() save: EventEmitter<<%= clazz %>>;
-	pending: boolean;
 <% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
 	<%= value[0].relation.name %>List: <%= key %>[];
 <% } %>
 
-	constructor(private formBuilder: FormBuilder,
+	constructor(
 <% if (formFieldSelects.length > 0) { %>
 		private store: Store<
 		<%= clazz %>State
 	<% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
 		& <%= key %>State
 	<% } %>
-		>,
+		>
 <% } %>
-		private actions: Actions
 	) {
 		super();
-		this.back = new EventEmitter();
-		this.save = new EventEmitter();
 <% for (let [key, value] of Object.entries(formFieldSelectTyped)) { %>
 		this.<%= value[0].relation.name %>List = [];
 <% } %>
-		this.pending = false;
 	}
 
 	ngOnInit(): void {
@@ -124,20 +110,6 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 		).subscribe((<%= value[0].relation.name %>List) => this.<%= value[0].relation.name %>List = Object.values(<%= value[0].relation.name %>List));
 		this.store.dispatch(<%= value[0].relation.name %>Actions.list());
 <% } %>
-		if (!this.group) {
-			this.reset();
-		}
-	}
-
-	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['value']) {
-			this.reset();
-		}
-	}
-
-	cancel() {
-		this.reset();
-		this.back.next();
 	}
 
 <% if (formFieldSelects.length > 0) { %>
@@ -145,73 +117,4 @@ export class <%= clazz %>FormComponent extends ObserverCompomix() implements OnI
 		return e1?._id === e2?._id;
 	}
 <%  } %>
-
-	getEditValue() {
-		const value = this.group.getRawValue();
-		if (value._id) {
-			return {
-				_id: value._id,
-<% for (let field of updateFields) { %>
-	<% if (field.relation) { %>
-				<%= field.name %>: value.<%= field.name %><%= field.required ? '' : '?' %>._id,
-	<% } else if (field.type === 'number') { %>
-		<% if (field.currency) { %>
-				<%= field.name %>: parseFloat(value.<%= field.name %>.replace(/[$€]/g, '')),
-		<% } else if (field.float) { %>
-				<%= field.name %>: parseFloat(value.<%= field.name %>),
-		<% } else { %>
-				<%= field.name %>: parseInt(value.<%= field.name %>),
-		<% } %>
-	<% } else if (field.type === 'float') { %>
-				<%= field.name %>: parseFloat(value.<%= field.name %>),
-	<% } else { %>
-				<%= field.name %>: value.<%= field.name %>,
-	<%  } %>
-<%  } %>
-			} as <%= clazz %>;
-		} else {
-			return {
-<% for (let field of createFields) { %>
-	<% if (field.relation) { %>
-				<%= field.name %>: value.<%= field.name %><%= field.required ? '' : '?' %>._id,
-	<% } else if (field.type === 'number') { %>
-		<% if (field.currency) { %>
-				<%= field.name %>: parseFloat(value.<%= field.name %>.replace(/[$€]/g, '')),
-		<% } else if (field.float) { %>
-				<%= field.name %>: parseFloat(value.<%= field.name %>),
-		<% } else { %>
-				<%= field.name %>: parseInt(value.<%= field.name %>),
-		<% } %>
-	<% } else { %>
-				<%= field.name %>: value.<%= field.name %>,
-	<%  } %>
-<%  } %>
-			} as <%= clazz %>;
-		}
-	}
-
-	submit() {
-		this.pending = true;
-		this.save.next(this.getEditValue());
-		this.actions.pipe(
-			ofType(<%= name %>Actions.createSuccess, <%= name %>Actions.createError,
-				<%= name %>Actions.updateSuccess, <%= name %>Actions.updateError
-			),
-			first(),
-			filter(({ success }) => !!success),
-			finalize(() => (this.pending = false))
-		).subscribe(() => this.reset());
-	}
-
-	private reset() {
-		this.group = this.formBuilder.group({
-			_id: [{
-				value: this.value?._id,
-				disabled: true
-			}],
-<% for (let field of fields) { %>
-			<%= field.name %>: [this.value?.<%= field.name %>, <% if (field.required) { %> [Validators.required] <% } else { %> [] <% } %>],
-<%  } %>
-		})
-	}
 }

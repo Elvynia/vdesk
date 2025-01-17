@@ -3,6 +3,7 @@ export * from './lib/account/account.config';
 export * from './lib/account/account.effects';
 export * from './lib/account/account.reducer';
 export * from './lib/account/account.service';
+export * from './lib/account/form-card/form-card.component';
 export * from './lib/account/form/form.component';
 export * from './lib/account/list/list.component';
 export * from './lib/account/validator/password-confirm.validator';

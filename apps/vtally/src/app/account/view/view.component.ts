@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { accountActions, AccountFormComponent, AccountListComponent, ApiAction, ObserverCompomix } from '@lv/angular';
+import { accountActions, AccountFormCardComponent, AccountListComponent, ApiAction, ObserverCompomix } from '@lv/angular';
 import { Account, selectAccounts } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { filter, first, takeUntil, tap } from 'rxjs';
+import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'lv-account-view',
 	imports: [
 		AccountListComponent,
-		AccountFormComponent
+		AccountFormCardComponent,
 	],
 	templateUrl: './view.component.html',
 	styleUrl: './view.component.scss'

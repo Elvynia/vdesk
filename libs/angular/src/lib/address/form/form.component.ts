@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Address, AddressState } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { finalize, first } from 'rxjs';
+import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { addressActions } from '../address.actions';
@@ -40,8 +40,7 @@ import { addressActions } from '../address.actions';
 })
 export class AddressFormComponent
 	extends ObserverCompomix()
-	implements OnInit, OnChanges
-{
+	implements OnInit, OnChanges {
 	@Input() group!: FormGroup;
 	@Input() value?: Address;
 	@Output() back: EventEmitter<void>;
@@ -95,9 +94,10 @@ export class AddressFormComponent
 					addressActions.updateError
 				),
 				first(),
+				filter(({ success }) => !!success),
 				finalize(() => (this.pending = false))
 			)
-			.subscribe();
+			.subscribe(() => this.reset());
 	}
 
 	private reset() {
