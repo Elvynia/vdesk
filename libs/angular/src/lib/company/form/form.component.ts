@@ -3,7 +3,6 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Company, CompanyState } from '@lv/common';
-import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
