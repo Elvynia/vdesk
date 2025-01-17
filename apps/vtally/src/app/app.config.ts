@@ -22,10 +22,9 @@ export const appConfig: ApplicationConfig = {
 		provideEffects([AuthEffects]),
 		provideEntityAccount(),
 		provideEntityRole(),
-        provideEntityAddress(),
-        provideEntityCompanyType(),
-        provideEntityCompany(),
-        provideEntityRole(),
-        provideEntityAddress()
-    ],
+		provideEntityAddress(),
+		provideEntityCompanyType(),
+		provideEntityCompany(),
+		provideEntityRole()
+	],
 };

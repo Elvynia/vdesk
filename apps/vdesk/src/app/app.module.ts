@@ -9,7 +9,8 @@ import { Module } from '@nestjs/common';
         CompanyTypeModule,
         CompanyModule,
         RoleModule,
-        AddressModule
+        AddressModule,
+        CompanyModule
     ],
 })
 export class AppModule { }
