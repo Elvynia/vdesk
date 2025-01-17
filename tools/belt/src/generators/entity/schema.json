@@ -18,6 +18,12 @@
 			"required": "false",
 			"description": "Plural name to use (camelCase)> Defaults to `${name}s`"
 		},
+		"skipFrontApp": {
+			"type": "boolean",
+			"required": "false",
+			"description": "Use to skip front app changes",
+			"$default": false
+		},
 		"skipRoute": {
 			"type": "boolean",
 			"required": "false",

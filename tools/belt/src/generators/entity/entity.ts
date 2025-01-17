@@ -9,10 +9,10 @@ import * as path from 'path';
 import { Node, Project, SyntaxKind } from "ts-morph";
 import { makeAstUpdaterModuleImports } from '../../manipulation/add-module-imports';
 import { dasherize } from '../../manipulation/dasherize';
+import { organize } from '../../manipulation/organize';
 import { FetchField, FormFieldCheckbox, FormFieldSelect, NumberField, RelationField } from './field';
 import { promptForEntity } from './prompt';
 import { EntityGeneratorSchema } from './schema';
-import { organize } from '../../manipulation/organize';
 
 /**
  * FIXME: Rework with ts morph and organize imports.
@@ -107,7 +107,7 @@ async function entityGenerator(
 	const frontapp = 'vtally';
 	const frontlib = 'angular';
 	const updaterExport = makeAstUpdaterExport(tree);
-	const updaterEntity = makeAstUpdaterEntity(project);
+	const updaterEntity = options.skipFrontApp ? undefined : makeAstUpdaterEntity(project);
 	options.nameDash = dasherize(options.name);
 	options.clazz = options.name.charAt(0).toUpperCase() + options.name.slice(1);
 	options.namePlural = options.namePlural || options.name + 's';
@@ -158,7 +158,9 @@ async function entityGenerator(
 	updaterExport('libs/entity/src/index.ts', options.nameDash, options.nameDash, ['entity', 'module', 'resolver', 'service']);
 
 	// Backend app
-	updaterEntity.backendApp(backapp, options);
+	if (updaterEntity) {
+		updaterEntity.backendApp(backapp, options);
+	}
 
 	// Common
 	generateFiles(tree, path.join(__dirname, 'common'), `libs/common/src/lib/${options.nameDash}`, options);
@@ -176,7 +178,9 @@ async function entityGenerator(
 	if (options.route) {
 		generateFiles(tree, path.join(__dirname, 'frontend/app'), `apps/${frontapp}/src/app/${options.nameDash}`, options);
 	}
-	updaterEntity.frontendApp(frontapp, options);
+	if (updaterEntity) {
+		updaterEntity.frontendApp(frontapp, options);
+	}
 	if (process.env.NX_DRY_RUN === 'false') {
 		organize(project, `./libs/common/src/lib/${options.nameDash}/${options.nameDash}.type.ts`);
 		await project.save();
