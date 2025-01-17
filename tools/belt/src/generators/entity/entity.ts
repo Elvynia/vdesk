@@ -118,7 +118,7 @@ async function entityGenerator(
 		options: options.fields.map(({ name }) => ({ name, value: name })).concat([{ name: '_id', value: '_id' }]),
 		defaultValue: options.fields.map(({ name }) => name).concat(['_id'])
 	});
-	if (!options.skipRoute) {
+	if (!options.skipRoute && !options.skipAppChanges) {
 		options.route = {
 			path: await input({ message: 'Route path:', default: options.nameDash }),
 			label: await input({ message: 'Menu label:', default: options.clazzPlural }),
