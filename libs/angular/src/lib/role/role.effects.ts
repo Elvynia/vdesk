@@ -11,7 +11,7 @@ import { RoleService } from './role.service';
 export class RoleEffects {
 	private actions$ = inject(Actions);
 
-	constructor(private service: RoleService, private snackbar: MatSnackBar) {}
+	constructor(private service: RoleService, private snackbar: MatSnackBar) { }
 
 	create$ = createEffect(() =>
 		this.actions$.pipe(

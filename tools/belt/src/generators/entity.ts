@@ -86,6 +86,7 @@ function makeAstUpdaterEntity(project: Project) {
 					.find((p) => p.getText().includes('.menu'))
 					.getParent()
 					.getFirstDescendantByKind(SyntaxKind.ArrayLiteralExpression);
+				// FIXME: Use proper functions to insert object value.
 				appComponentMenu.addElement(JSON.stringify(options.route));
 				appComponent.organizeImports();
 			}

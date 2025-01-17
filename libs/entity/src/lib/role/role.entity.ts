@@ -14,8 +14,18 @@ export class RoleEntity implements Role {
 	name: string;
 }
 
-@InputType('RoleCreate')
+@InputType()
 export class RoleCreate {
+	@Field()
+	@Prop()
+	name: string;
+}
+
+@InputType()
+export class RoleUpdate {
+	@Field()
+	_id: string;
+
 	@Field()
 	@Prop()
 	name: string;

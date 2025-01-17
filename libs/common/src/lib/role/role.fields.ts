@@ -1,4 +1,1 @@
-export const roleFields = [
-	'_id',
-	'name'
-]
+export const roleFields = ['_id', 'name'];
