@@ -1,16 +1,16 @@
 import {
-	Component,
-	EventEmitter,
-	Input,
-	OnChanges,
-	OnInit,
-	Output,
-	SimpleChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { CompanyType, CompanyTypeState } from '@lv/common';
+import { CompanyType } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';

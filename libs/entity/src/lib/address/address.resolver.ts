@@ -1,13 +1,11 @@
 import {
-	Resolver,
-	Query,
-	Mutation,
-	Args,
-	Parent,
-	ResolveField,
+    Args,
+    Mutation,
+    Query,
+    Resolver
 } from '@nestjs/graphql';
+import { AddressCreate, AddressEntity, AddressUpdate } from './address.entity';
 import { AddressService } from './address.service';
-import { AddressEntity, AddressCreate, AddressUpdate } from './address.entity';
 
 @Resolver(() => AddressEntity)
 export class AddressResolver {
