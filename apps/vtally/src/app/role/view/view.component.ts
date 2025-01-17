@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-	ApiAction,
-	ObserverCompomix,
-	roleActions,
-	RoleFormCardComponent,
-	RoleListComponent,
+    ApiAction,
+    ObserverCompomix,
+    roleActions,
+    RoleFormCardComponent,
+    RoleListComponent,
 } from '@lv/angular';
 import { Role, selectRoles } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';

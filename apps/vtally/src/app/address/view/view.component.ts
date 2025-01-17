@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-	addressActions,
-	AddressFormComponent,
-	AddressListComponent,
-	ApiAction,
-	ObserverCompomix,
+    addressActions,
+    AddressFormComponent,
+    AddressListComponent,
+    ApiAction,
+    ObserverCompomix,
 } from '@lv/angular';
 import { Address, selectAddresses } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';

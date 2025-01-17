@@ -1,17 +1,17 @@
 import {
-	Component,
-	EventEmitter,
-	Input,
-	OnChanges,
-	OnInit,
-	Output,
-	SimpleChanges,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges,
 } from '@angular/core';
 import {
-	FormBuilder,
-	FormGroup,
-	ReactiveFormsModule,
-	Validators,
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CompanyType, CompanyTypeState } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { finalize, first, takeUntil } from 'rxjs';
+import { finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { companyTypeActions } from '../company-type.actions';

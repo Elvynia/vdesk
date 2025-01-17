@@ -1,6 +1,6 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { AddressCreate, AddressEntity, AddressUpdate } from './address.entity';
 import { AddressService } from './address.service';
-import { AddressEntity, AddressCreate, AddressUpdate } from './address.entity';
 
 @Resolver(() => AddressEntity)
 export class AddressResolver {
