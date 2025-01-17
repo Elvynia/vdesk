@@ -3,9 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EntityService } from '../entity.service';
 import {
-    CompanyTypeCreate,
-    CompanyTypeEntity,
-    CompanyTypeUpdate,
+	CompanyTypeCreate,
+	CompanyTypeEntity,
+	CompanyTypeUpdate,
 } from './company-type.entity';
 
 @Injectable()
