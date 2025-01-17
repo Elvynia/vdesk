@@ -1,5 +1,5 @@
-import { IEntity } from "../entity/entity.type";
 import { Role } from "../role/role.type";
+import { IEntity } from "../util/entity.type";
 
 export interface Account extends IEntity {
 	creationDate: string;
