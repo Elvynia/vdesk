@@ -21,6 +21,7 @@ export interface EntityGeneratorSchema {
 	fetchFields: FetchField[];
 	createFields: Field[];
 	updateFields: Field[];
+	skipFrontApp: boolean;
 	skipRoute: boolean;
 	route?: MenuItem;
 }
