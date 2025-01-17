@@ -1,19 +1,19 @@
 import {
-	Resolver,
-	Query,
-	Mutation,
-	Args,
-	Parent,
-	ResolveField,
+    Args,
+    Mutation,
+    Parent,
+    Query,
+    ResolveField,
+    Resolver,
 } from '@nestjs/graphql';
+import { CompanyCreate, CompanyEntity, CompanyUpdate } from './company.entity';
 import { CompanyService } from './company.service';
-import { CompanyEntity, CompanyCreate, CompanyUpdate } from './company.entity';
 
-import { CompanyTypeService } from '../company-type/company-type.service';
 import { CompanyTypeEntity } from '../company-type/company-type.entity';
+import { CompanyTypeService } from '../company-type/company-type.service';
 
-import { AddressService } from '../address/address.service';
 import { AddressEntity } from '../address/address.entity';
+import { AddressService } from '../address/address.service';
 
 @Resolver(() => CompanyEntity)
 export class CompanyResolver {

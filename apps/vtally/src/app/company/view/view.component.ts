@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-	companyActions,
-	CompanyFormComponent,
-	CompanyListComponent,
-	ApiAction,
-	ObserverCompomix,
+    ApiAction,
+    companyActions,
+    CompanyFormComponent,
+    CompanyListComponent,
+    ObserverCompomix,
 } from '@lv/angular';
 import { Company, selectCompanies } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';

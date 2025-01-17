@@ -1,11 +1,11 @@
 import { Role } from '@lv/common';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import {
-	ApiActionError,
-	ApiActionId,
-	ApiActionListSuccess,
-	ApiActionSave,
-	ApiActionSuccess,
+    ApiActionError,
+    ApiActionId,
+    ApiActionListSuccess,
+    ApiActionSave,
+    ApiActionSuccess,
 } from '../util/api.action';
 
 export const roleActions = createActionGroup({

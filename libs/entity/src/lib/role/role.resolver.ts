@@ -1,8 +1,8 @@
 import {
-	Args,
-	Mutation,
-	Query,
-	Resolver
+    Args,
+    Mutation,
+    Query,
+    Resolver
 } from '@nestjs/graphql';
 import { RoleCreate, RoleEntity, RoleUpdate } from './role.entity';
 import { RoleService } from './role.service';
