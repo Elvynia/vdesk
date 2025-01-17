@@ -1,5 +1,5 @@
 import { confirm, input, select } from '@inquirer/prompts';
-import { dasherize } from '../manipulation/dasherize';
+import { dasherize } from '../../manipulation/dasherize';
 import { EntityComponent, EntityComponentAny, EntityComponentCheckbox, EntityComponentKeys, EntityComponentKeyType, EntityComponentSelect, EntityComponentSelectStore } from './component';
 import { EntityField } from './field';
 import { EntityRelation } from './relation';
