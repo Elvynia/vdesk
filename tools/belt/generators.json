@@ -1,9 +1,14 @@
 {
 	"generators": {
 		"entity": {
-			"factory": "./src/generators/entity",
-			"schema": "./src/generators/schema.json",
+			"factory": "./src/generators/entity/entity",
+			"schema": "./src/generators/entity/schema.json",
 			"description": "Entity scafolding generator"
+		},
+		"organize": {
+			"factory": "./src/generators/organize/organize",
+			"schema": "./src/generators/organize/schema.json",
+			"description": "Organize imports for entity generator"
 		}
 	}
 }

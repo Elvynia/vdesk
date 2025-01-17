@@ -1,4 +1,4 @@
-import { confirm, input } from '@inquirer/prompts';
+import { input } from '@inquirer/prompts';
 import {
 	formatFiles,
 	generateFiles,
@@ -7,11 +7,12 @@ import {
 import { select } from 'inquirer-select-pro';
 import * as path from 'path';
 import { Node, Project, SyntaxKind } from "ts-morph";
-import { makeAstUpdaterModuleImports } from '../manipulation/add-module-imports';
-import { dasherize } from '../manipulation/dasherize';
+import { makeAstUpdaterModuleImports } from '../../manipulation/add-module-imports';
+import { dasherize } from '../../manipulation/dasherize';
 import { FetchField, FormFieldCheckbox, FormFieldSelect, NumberField, RelationField } from './field';
 import { promptForEntity } from './prompt';
 import { EntityGeneratorSchema } from './schema';
+import { organize } from '../../manipulation/organize';
 
 /**
  * FIXME: Rework with ts morph and organize imports.
@@ -177,22 +178,7 @@ async function entityGenerator(
 	}
 	updaterEntity.frontendApp(frontapp, options);
 	if (process.env.NX_DRY_RUN === 'false') {
-		// Organize imports for new files.
-		project.getSourceFile(`./libs/common/src/lib/${options.nameDash}/${options.nameDash}.type.ts`).organizeImports();
-		project.getSourceFile(`./libs/${backlib}/src/lib/${options.nameDash}/${options.nameDash}.entity.ts`).organizeImports();
-		project.getSourceFile(`./libs/${backlib}/src/lib/${options.nameDash}/${options.nameDash}.module.ts`).organizeImports();
-		project.getSourceFile(`./libs/${backlib}/src/lib/${options.nameDash}/${options.nameDash}.resolver.ts`).organizeImports();
-		project.getSourceFile(`./libs/${backlib}/src/lib/${options.nameDash}/${options.nameDash}.service.ts`).organizeImports();
-		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/form/form.ts`).organizeImports();
-		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/form-card/form-card.ts`).organizeImports();
-		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/item/item.ts`).organizeImports();
-		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/list/list.ts`).organizeImports();
-		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.actions.ts`).organizeImports();
-		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.config.ts`).organizeImports();
-		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.effects.ts`).organizeImports();
-		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.reducer.ts`).organizeImports();
-		project.getSourceFile(`./libs/${frontlib}/src/lib/${options.nameDash}/${options.nameDash}.service.ts`).organizeImports();
-		project.getSourceFile(`./apps/${frontapp}/src/app/${options.nameDash}/view/view.ts`).organizeImports();
+		organize(project, `./libs/common/src/lib/${options.nameDash}/${options.nameDash}.type.ts`);
 		await project.save();
 		await formatFiles(tree);
 	}
