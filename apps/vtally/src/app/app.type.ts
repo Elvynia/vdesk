@@ -1,6 +1,6 @@
 import { AuthState } from "@lv/angular";
-import { AccountState, RoleState } from "@lv/common";
+import { AccountState } from "@lv/common";
 
-export interface TallyState extends AuthState, AccountState, RoleState {
+export interface TallyState extends AuthState, AccountState {
 
 }

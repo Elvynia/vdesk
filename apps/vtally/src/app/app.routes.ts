@@ -11,36 +11,45 @@ import { LoginComponent } from './login/login.component';
 export const appRoutes: Route[] = [{
 	component: LoginComponent,
 	path: 'login'
-}, {
-	component: AccountViewComponent,
-	path: 'account',
-	canActivate: [authGuard]
-}, {
-	component: RoleViewComponent,
-	path: 'role',
-	canActivate: [authGuard]
-}, {
-	component: ViewComponent,
-	path: 'home',
-	canActivate: [authGuard]
-}, {
+},
+{
 	path: '',
 	pathMatch: 'full',
 	redirectTo: '/home',
 },
-    {
-    				component: AddressViewComponent,
-    				path: 'address',
-    				canActivate: [authGuard]
-    			},
-    {
-    				component: CompanyTypeViewComponent,
-    				path: 'company-type',
-    				canActivate: [authGuard]
-    			},
-    {
-    				component: CompanyViewComponent,
-    				path: 'company',
-    				canActivate: [authGuard]
-    			}
+{
+	component: AccountViewComponent,
+	path: 'account',
+	canActivate: [authGuard]
+},
+{
+	component: RoleViewComponent,
+	path: 'role',
+	canActivate: [authGuard]
+},
+{
+	component: ViewComponent,
+	path: 'home',
+	canActivate: [authGuard]
+},
+{
+	component: AddressViewComponent,
+	path: 'address',
+	canActivate: [authGuard]
+},
+{
+	component: CompanyTypeViewComponent,
+	path: 'company-type',
+	canActivate: [authGuard]
+},
+{
+	component: CompanyViewComponent,
+	path: 'company',
+	canActivate: [authGuard]
+},
+{
+	component: RoleViewComponent,
+	path: 'role',
+	canActivate: [authGuard]
+}
 ];

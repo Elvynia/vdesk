@@ -3,7 +3,7 @@ import {
 	ApiAction,
 	ObserverCompomix,
 	roleActions,
-	RoleFormComponent,
+	RoleFormCardComponent,
 	RoleListComponent,
 } from '@lv/angular';
 import { Role, selectRoles } from '@lv/common';
@@ -13,7 +13,7 @@ import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'lv-role-view',
-	imports: [RoleListComponent, RoleFormComponent],
+	imports: [RoleListComponent, RoleFormCardComponent],
 	templateUrl: './view.component.html',
 	styleUrl: './view.component.scss',
 })

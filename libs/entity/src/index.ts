@@ -28,3 +28,7 @@ export * from './lib/company/company.entity';
 export * from './lib/company/company.module';
 export * from './lib/company/company.resolver';
 export * from './lib/company/company.service';
+export * from './lib/role/role.entity';
+export * from './lib/role/role.module';
+export * from './lib/role/role.resolver';
+export * from './lib/role/role.service';

@@ -1,10 +1,15 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+	Args,
+	Mutation,
+	Query,
+	Resolver
+} from '@nestjs/graphql';
+import { RoleCreate, RoleEntity, RoleUpdate } from './role.entity';
 import { RoleService } from './role.service';
-import { RoleEntity, RoleCreate } from './role.entity';
 
 @Resolver(() => RoleEntity)
 export class RoleResolver {
-	constructor(private readonly roleService: RoleService) {}
+	constructor(private readonly roleService: RoleService) { }
 
 	@Mutation(() => RoleEntity)
 	createRole(@Args('createRoleInput') createRoleInput: RoleCreate) {
@@ -22,7 +27,7 @@ export class RoleResolver {
 	}
 
 	@Mutation(() => RoleEntity)
-	updateRole(@Args('updateRoleInput') updateRoleInput: RoleEntity) {
+	updateRole(@Args('updateRoleInput') updateRoleInput: RoleUpdate) {
 		return this.roleService.update(updateRoleInput._id, updateRoleInput);
 	}
 
