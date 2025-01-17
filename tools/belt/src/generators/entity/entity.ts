@@ -107,7 +107,7 @@ async function entityGenerator(
 	const frontapp = 'vtally';
 	const frontlib = 'angular';
 	const updaterExport = makeAstUpdaterExport(tree);
-	const updaterEntity = options.skipFrontApp ? undefined : makeAstUpdaterEntity(project);
+	const updaterEntity = options.skipAppChanges ? undefined : makeAstUpdaterEntity(project);
 	options.nameDash = dasherize(options.name);
 	options.clazz = options.name.charAt(0).toUpperCase() + options.name.slice(1);
 	options.namePlural = options.namePlural || options.name + 's';

@@ -18,7 +18,7 @@
 			"required": "false",
 			"description": "Plural name to use (camelCase)> Defaults to `${name}s`"
 		},
-		"skipFrontApp": {
+		"skipAppChanges": {
 			"type": "boolean",
 			"required": "false",
 			"description": "Use to skip front app changes",
