@@ -29,6 +29,10 @@ import { DecimalFormatDirective } from '../../util/format/decimal-format.directi
 <% if (formFieldNumbers.length > 0) { %>
 import { DigitsFormatDirective } from '../../util/format/digits-format.directive';
 <% } %>
+<% if (formFieldDates.length > 0) { %>
+import { MAT_DATE_LOCALE, MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+<% } %>
 
 @Component({
 	selector: 'lv-<%= nameDash %>-form',
