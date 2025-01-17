@@ -29,8 +29,7 @@ export async function promptForComponent(field: Omit<EntityField, 'component'>):
 		if (component.store) {
 			component = {
 				...component,
-				storeSelect: await input({ message: 'Store selector:', default: 'select' + field.relation.clazzPlural }),
-				// storeSelectImport: await input({ message: 'Populate select from store', default: '' })
+				storeSelect: await input({ message: 'Store selector:', default: 'select' + field.relation.clazzPlural })
 			} as EntityComponentSelectStore
 		}
 	}
@@ -40,7 +39,7 @@ export async function promptForComponent(field: Omit<EntityField, 'component'>):
 export async function promptForRelation(type: string): Promise<EntityRelation> {
 	let relationPath = undefined;
 	let relationName = undefined;
-	const regexEntity = type.match(/^([A-Z]+.*)Entity$/);
+	const regexEntity = type.match(/^([A-Z]+.+)Entity$/);
 	if (regexEntity) {
 		relationName = `${regexEntity[1].charAt(0).toLowerCase()}${regexEntity[1].slice(1)}`;
 		const relationNameDash = dasherize(relationName);
@@ -61,7 +60,7 @@ export async function promptForRelation(type: string): Promise<EntityRelation> {
 export async function promptForField(): Promise<EntityField> {
 	const name = await input({ message: 'Name:' });
 	const type = await input({ message: 'Type:', default: 'string' });
-	const relation = !!type.match(/^[A-Z]+.+$/);
+	const relation = !!type.match(/^[A-Z]+.+Entity$/);
 	const float = type === 'number' ? await confirm({ message: 'Use decimal formatting ?', default: false }) : false;
 	const field = {
 		name,

@@ -5,6 +5,5 @@ export interface EntityRelation {
 	nameDash: string;
 	namePlural: string;
 	importPath?: string;
-	// relativePath: boolean;
 	resolver: boolean;
 }
