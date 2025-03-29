@@ -2,6 +2,8 @@
 	display: block;
 }
 
-.form-field-spacer {
-	width: 212px;
+.form-field-spacer,
+mat-form-field,
+mat-checkbox {
+	width: 240px;
 }
