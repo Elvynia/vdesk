@@ -23,12 +23,10 @@ export class CompanyEntity implements Company {
 
 	@Field(() => CompanyTypeEntity)
 	@Prop({ type: String, ref: CompanyTypeEntity.name })
-	@Prop()
 	type: CompanyTypeEntity;
 
 	@Field(() => AddressEntity, { nullable: true })
 	@Prop({ type: String, ref: AddressEntity.name })
-	@Prop()
 	address?: AddressEntity;
 }
 

@@ -16,12 +16,15 @@ export class <%= clazz %>Entity implements <%= clazz %> {
 	<% if (field.relation) { %>
 	@Field(() => <%= field.type %><%= field.required ? '' : ', { nullable: true }' %>)
 	@Prop({ type: String, ref: <%= field.type %>.name })
-	<% } else if (field.required) { %>
-	@Field()
 	<% } else { %>
-	@Field({ nullable: true })
-	<% } %>
+		<% if (field.required) { %>
+	@Field()
 	@Prop()
+		<% } else { %>
+	@Field({ nullable: true })
+	@Prop()
+		<% } %>
+	<% } %>
 	<%= field.name + (field.required ? '' : '?') %>: <%= field.type %>;
 
 <%  } %>

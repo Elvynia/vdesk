@@ -7,7 +7,7 @@ import { EntityRelation } from './relation';
 export async function promptForComponent(field: Omit<EntityField, 'component'>): Promise<EntityComponent> {
 	const type: EntityComponentKeyType = await confirm({
 		message: 'Custom component ?',
-		default: false
+		default: field.type === 'boolean' || !!field.type.match(/^[[A-Z]/)
 	}) ? await select({
 		message: 'Choose component:',
 		default: field.relation ? 'select' : (field.type === 'Date' ? 'datepicker' : 'checkbox'),
@@ -18,11 +18,12 @@ export async function promptForComponent(field: Omit<EntityField, 'component'>):
 	} as EntityComponentAny;
 	if (type === 'checkbox') {
 		component = {
+			...component,
 			label: await input({ message: 'Checkbox label:' })
 		} as EntityComponentCheckbox;
 	} else if (type === 'select') {
 		component = {
-			type,
+			...component,
 			displayExpr: await input({ message: `Populate select from store (loop var ${field.name})`, default: `${field.name}.` }),
 			store: await confirm({ message: 'Populate select from store ?', default: true })
 		} as EntityComponentSelect
@@ -68,7 +69,7 @@ export async function promptForField(): Promise<EntityField> {
 		float,
 		currency: float ? await confirm({ message: 'Use currency formatting ?', default: false }) : false,
 		relation: relation ? await promptForRelation(type) : undefined,
-		required: await confirm({ message: 'Required ?', default: true }),
+		required: await confirm({ message: 'Required ?', default: type !== 'boolean' }),
 		create: await confirm({ message: 'Use at creation ?', default: true }),
 		update: await confirm({ message: 'Use at update ?', default: true }),
 	} as Omit<EntityField, 'component'>;

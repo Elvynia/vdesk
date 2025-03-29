@@ -3,7 +3,7 @@
 		<div class="flex flex-col lg:flex-row lg:justify-around">
 	<% for (let field of group) { %>
 		<% if (field.component.type === 'checkbox') { %>
-			<mat-checkbox formControlName="<%= field.name %>"><%= field.name %></mat-checkbox>
+			<mat-checkbox formControlName="<%= field.name %>"><%= field.component.label %></mat-checkbox>
 		<% } else { %>
 			<mat-form-field [class.lv-accent]="group.get('<%= field.name %>')!.valid">
 				<mat-label>
