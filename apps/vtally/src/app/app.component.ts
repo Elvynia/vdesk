@@ -58,7 +58,8 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 			label: 'Roles',
 			icon: 'license',
 			path: 'role'
-		}
+		},
+            {"path":"mission","label":"Missions","icon":"badge"}
         ];
 	}
 

@@ -14,3 +14,5 @@ export * from './lib/util/menu/menu.type';
 export * from './lib/util/navigation-keys';
 export * from './lib/chunk/chunk.fields';
 export * from './lib/chunk/chunk.type';
+export * from './lib/mission/mission.fields';
+export * from './lib/mission/mission.type';

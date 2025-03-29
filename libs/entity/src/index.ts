@@ -32,3 +32,7 @@ export * from './lib/chunk/chunk.entity';
 export * from './lib/chunk/chunk.module';
 export * from './lib/chunk/chunk.resolver';
 export * from './lib/chunk/chunk.service';
+export * from './lib/mission/mission.entity';
+export * from './lib/mission/mission.module';
+export * from './lib/mission/mission.resolver';
+export * from './lib/mission/mission.service';

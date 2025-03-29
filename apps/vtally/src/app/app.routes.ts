@@ -7,6 +7,7 @@ import { CompanyTypeViewComponent } from "./company-type/view/view.component";
 import { CompanyViewComponent } from "./company/view/view.component";
 import { ViewComponent } from './home/view/view.component';
 import { LoginComponent } from './login/login.component';
+import { MissionViewComponent } from "./mission/view/view.component";
 
 export const appRoutes: Route[] = [{
 	component: LoginComponent,
@@ -51,5 +52,10 @@ export const appRoutes: Route[] = [{
 	component: RoleViewComponent,
 	path: 'role',
 	canActivate: [authGuard]
-}
+},
+    {
+    				component: MissionViewComponent,
+    				path: 'mission',
+    				canActivate: [authGuard]
+    			}
 ];

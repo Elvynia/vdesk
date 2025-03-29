@@ -1,0 +1,10 @@
+<lv-mission-list
+	[values]="missions"
+	(edit)="edit($event)"
+	(delete)="delete($event)"
+></lv-mission-list>
+<lv-mission-form-card
+	[value]="editMission"
+	(back)="cancel()"
+	(save)="save($event)"
+></lv-mission-form-card>

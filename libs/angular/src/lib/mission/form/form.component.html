@@ -1,0 +1,43 @@
+<div class="pt-3" [formGroup]="group">
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('name')!.valid">
+			<mat-label> name </mat-label>
+			<input matInput name="name" formControlName="name" />
+		</mat-form-field>
+
+		<mat-form-field [class.lv-accent]="group.get('rate')!.valid">
+			<mat-label> rate </mat-label>
+			<input matInput name="rate" formControlName="rate" lvCurrencyFormat />
+		</mat-form-field>
+	</div>
+
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-checkbox formControlName="byDay">Rate by day</mat-checkbox>
+
+		<mat-form-field [class.lv-accent]="group.get('dayLength')!.valid">
+			<mat-label> dayLength </mat-label>
+			<input matInput name="dayLength" formControlName="dayLength" lvDigitsFormat />
+		</mat-form-field>
+	</div>
+
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('start')!.valid">
+			<mat-label> start </mat-label>
+			<input matInput name="start" formControlName="start" [matDatepicker]="startPicker" />
+			<mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+			<mat-datepicker #startPicker></mat-datepicker>
+		</mat-form-field>
+
+		<mat-form-field [class.lv-accent]="group.get('end')!.valid">
+			<mat-label> end </mat-label>
+			<input matInput name="end" formControlName="end" [matDatepicker]="endPicker" />
+			<mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+			<mat-datepicker #endPicker></mat-datepicker>
+		</mat-form-field>
+	</div>
+
+	<mat-form-field class="area" [class.lv-accent]="group.get('desc')!.valid">
+		<mat-label> desc </mat-label>
+		<textarea matInput name="desc" formControlName="desc"></textarea>
+	</mat-form-field>
+</div>
