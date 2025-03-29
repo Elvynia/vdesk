@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { MissionService } from './mission.service';
-import { MissionResolver } from './mission.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MissionEntity, MissionSchema } from './mission.entity';
+import { MissionResolver } from './mission.resolver';
+import { MissionService } from './mission.service';
 
 @Module({
 	imports: [

@@ -1,13 +1,10 @@
 import { CurrencyPipe } from '@angular/common';
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Mission, MissionState } from '@lv/common';
-import { Actions, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { takeUntil } from 'rxjs';
+import { Mission } from '@lv/common';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -17,9 +14,9 @@ import { CurrencyFormatDirective } from '../../util/format/currency-format.direc
 import { DigitsFormatDirective } from '../../util/format/digits-format.directive';
 
 import {
-	MAT_DATE_LOCALE,
-	MatNativeDateModule,
-	provideNativeDateAdapter,
+    MAT_DATE_LOCALE,
+    MatNativeDateModule,
+    provideNativeDateAdapter,
 } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
