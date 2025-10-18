@@ -1,15 +1,15 @@
 import {
-    Args,
-    Mutation,
-    Query,
-    Resolver
+	Args,
+	Mutation,
+	Query,
+	Resolver
 } from '@nestjs/graphql';
 import { MissionCreate, MissionEntity, MissionUpdate } from './mission.entity';
 import { MissionService } from './mission.service';
 
 @Resolver(() => MissionEntity)
 export class MissionResolver {
-	constructor(private readonly missionService: MissionService) {}
+	constructor(private readonly missionService: MissionService) { }
 
 	@Mutation(() => MissionEntity)
 	createMission(

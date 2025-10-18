@@ -1,3 +1,4 @@
+import { Chunk } from '../chunk/chunk.type';
 import { IEntity } from '../util/entity.type';
 
 export interface Mission extends IEntity {
@@ -14,6 +15,8 @@ export interface Mission extends IEntity {
 	end?: Date;
 
 	desc?: string;
+
+	chunks: Chunk[];
 }
 
 export interface MissionState {

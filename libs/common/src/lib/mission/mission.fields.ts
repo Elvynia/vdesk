@@ -1,3 +1,5 @@
+import { chunkFields } from "../chunk/chunk.fields";
+
 export const missionFields = [
 	'_id',
 
@@ -14,4 +16,8 @@ export const missionFields = [
 	'end',
 
 	'desc',
+
+	`chunks {
+		${chunkFields.join('\n')}
+	}`
 ];

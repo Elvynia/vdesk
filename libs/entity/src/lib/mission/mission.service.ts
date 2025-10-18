@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EntityService } from '../entity.service';
 import { MissionCreate, MissionEntity, MissionUpdate } from './mission.entity';
+import { ChunkEntity } from '../chunk/chunk.entity';
 
 @Injectable()
 export class MissionService extends EntityService<
@@ -16,4 +17,8 @@ export class MissionService extends EntityService<
 	) {
 		super();
 	}
+
+	// override findAll(): Promise<MissionEntity[]> {
+	// 	return this.model.find().populate('chunks', null, ChunkEntity.name).exec().then((c) => { console.log(c); return c });
+	// }
 }

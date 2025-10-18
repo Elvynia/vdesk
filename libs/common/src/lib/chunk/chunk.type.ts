@@ -1,3 +1,4 @@
+import { Mission } from '../mission/mission.type';
 import { IEntity } from '../util/entity.type';
 
 export interface Chunk extends IEntity {
@@ -10,6 +11,10 @@ export interface Chunk extends IEntity {
 	invoiced: boolean;
 
 	paid: boolean;
+
+	mission?: Mission;
+
+	missionId: string;
 }
 
 export interface ChunkState {

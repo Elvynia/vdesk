@@ -1,10 +1,19 @@
 import { Mission } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
+import { ChunkEntity } from '../chunk/chunk.entity';
+import { CompanyTypeEntity } from '../company-type/company-type.entity';
 
 @InputType('MissionInput')
 @ObjectType()
-@Schema()
+@Schema({
+	toJSON: {
+		virtuals: true,
+	},
+	toObject: {
+		virtuals: true
+	}
+})
 export class MissionEntity implements Mission {
 	@Field()
 	_id: string;
@@ -22,7 +31,7 @@ export class MissionEntity implements Mission {
 	byDay?: boolean;
 
 	@Field({ nullable: true })
-	@Prop()
+	@Prop({ default: 7 })
 	dayLength?: number;
 
 	@Field({ nullable: true })
@@ -36,6 +45,10 @@ export class MissionEntity implements Mission {
 	@Field({ nullable: true })
 	@Prop()
 	desc?: string;
+
+	@Field(() => [ChunkEntity], { defaultValue: [] })
+	@Virtual()
+	chunks: ChunkEntity[];
 }
 
 @InputType()

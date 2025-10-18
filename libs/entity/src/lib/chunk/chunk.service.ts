@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EntityService } from '../entity.service';
+import { MissionEntity } from '../mission/mission.entity';
 import { ChunkCreate, ChunkEntity, ChunkUpdate } from './chunk.entity';
 
 @Injectable()
@@ -15,5 +16,9 @@ export class ChunkService extends EntityService<
 		protected readonly model: Model<ChunkEntity>
 	) {
 		super();
+	}
+
+	findByMission(missionId: string) {
+		return this.model.find({ missionId });
 	}
 }

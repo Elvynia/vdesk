@@ -12,6 +12,12 @@ export abstract class EntityService<Entity, CreateEntity = Entity, UpdateEntity 
 		return this.model.find<Entity>().exec();
 	}
 
+	findAllByIds(ids: string[]) {
+		return this.model.find<Entity>({
+			_id: { $in: ids }
+		}).exec();
+	}
+
 	findOne(_id: string) {
 		return this.model.findOne<Entity>({ _id }).exec();
 	}
