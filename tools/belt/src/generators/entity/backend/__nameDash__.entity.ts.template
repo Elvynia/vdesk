@@ -13,9 +13,12 @@ export class <%= clazz %>Entity implements <%= clazz %> {
 	_id: string;
 
 <% for (let field of fields) { %>
-	<% if (field.relation) { %>
+	<% if (field.relation && field.relationMany) { %>
+	@Field(() => [<%= field.type %>]<%= field.required ? '' : ', { nullable: true }' %>)
+	@Prop({ type: () => [String], ref: () => [<%= field.type %>] })
+	<% } else if (field.relation) { %>
 	@Field(() => <%= field.type %><%= field.required ? '' : ', { nullable: true }' %>)
-	@Prop({ type: String, ref: <%= field.type %>.name })
+	@Prop({ type: () => String, ref: () => <%= field.type %> })
 	<% } else { %>
 		<% if (field.required) { %>
 	@Field()
@@ -25,7 +28,7 @@ export class <%= clazz %>Entity implements <%= clazz %> {
 	@Prop()
 		<% } %>
 	<% } %>
-	<%= field.name + (field.required ? '' : '?') %>: <%= field.type %>;
+	<%= field.name + (field.required ? '' : '?') %>: <%= field.type %><%= field.relationMany ? '[]' : '' %>;
 
 <%  } %>
 }

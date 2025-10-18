@@ -9,6 +9,7 @@ export interface EntityField {
 	update: boolean;
 	component: EntityComponent;
 	relation?: EntityRelation;
+	relationMany?: boolean;
 	fetch?: boolean;
 }
 
