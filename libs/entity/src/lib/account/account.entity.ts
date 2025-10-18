@@ -39,7 +39,7 @@ export class AccountEntity implements Account {
 	verified: boolean;
 
 	@Field(() => RoleEntity)
-	@Prop({ type: String, ref: RoleEntity.name })
+	@Prop({ type: () => String, ref: () => RoleEntity })
 	role: RoleEntity;
 }
 

@@ -22,11 +22,11 @@ export class CompanyEntity implements Company {
 	identifier: string;
 
 	@Field(() => CompanyTypeEntity)
-	@Prop({ type: String, ref: CompanyTypeEntity.name })
+	@Prop({ type: () => String, ref: () => CompanyTypeEntity })
 	type: CompanyTypeEntity;
 
 	@Field(() => AddressEntity, { nullable: true })
-	@Prop({ type: String, ref: AddressEntity.name })
+	@Prop({ type: () => String, ref: () => AddressEntity })
 	address?: AddressEntity;
 }
 
