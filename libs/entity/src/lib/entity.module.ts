@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommonConfig } from './config/config.type';
+import { isEnvDev } from './config/is-env-dev';
 
 @Module({
 	controllers: [],
@@ -29,7 +30,7 @@ import { CommonConfig } from './config/config.type';
 			driver: MercuriusDriver,
 			autoSchemaFile: true,
 			subscription: true,
-			graphiql: true,
+			graphiql: isEnvDev(),
 			path: 'api',
 			fieldResolverEnhancers: ['guards']
 		}),

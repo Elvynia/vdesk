@@ -24,6 +24,7 @@ export * from './lib/company/company.module';
 export * from './lib/company/company.resolver';
 export * from './lib/company/company.service';
 export * from './lib/config/config.type';
+export * from './lib/config/is-env-dev';
 export * from './lib/decorator/mapping-public';
 export * from './lib/entity.module';
 export * from './lib/entity.service';

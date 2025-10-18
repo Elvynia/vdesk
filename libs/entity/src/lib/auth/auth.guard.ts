@@ -9,6 +9,7 @@ import { ErrorWithProps } from 'mercurius';
 import { MappingPublicKey } from '../decorator/mapping-public';
 import { EntityRequest } from '../util/request.type';
 import { AuthResolver } from './auth.resolver';
+import { isEnvDev } from '../config/is-env-dev';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -48,6 +49,10 @@ export class AuthGuard implements CanActivate {
 		isPublic: boolean,
 	): Promise<boolean> {
 		if (isPublic) {
+			return true;
+		}
+		// FIXME: Remove and configure graphiql to use auth ?
+		if (isEnvDev() && req.headers.referer === 'http://localhost:3000/graphiql') {
 			return true;
 		}
 		const auth = req.headers?.authorization;
