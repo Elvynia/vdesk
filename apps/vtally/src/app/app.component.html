@@ -2,7 +2,7 @@
 	<button mat-icon-button [disabled]="!authenticated" (click)="drawer.toggle()">
 		<mat-icon>menu</mat-icon>
 	</button>
-	<span class="cursor-pointer ms-6" [routerLink]="['/']">Tally</span>
+	<span class="cursor-pointer ms-6" [routerLink]="['/']" (click)="drawer.close()">Tally</span>
 	@if (authenticated) {
 	<div class="flex gap-2 ms-auto">
 		<button mat-stroked-button class="lv-accent">

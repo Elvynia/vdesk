@@ -38,29 +38,15 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 		private store: Store<TallyState>
 	) {
 		super();
-		this.menu = [{
-			label: 'Accounts',
-			icon: 'contacts',
-			path: 'account'
-		}, {
-			label: 'Addresses',
-			icon: 'home',
-			path: 'address'
-		}, {
-			label: 'Companies',
-			icon: 'store',
-			path: 'company'
-		}, {
-			label: 'Company Types',
-			icon: 'contact_mail',
-			path: 'company-type'
-		}, {
-			label: 'Roles',
-			icon: 'license',
-			path: 'role'
-		},
-            {"path":"mission","label":"Missions","icon":"badge"}
-        ];
+		this.menu = [
+			{ "path": "home", "label": "Home", "icon": "dashboard" },
+			{ "path": "account", "label": "Accounts", "icon": "contacts" },
+			{ "path": "address", "label": "Addresses", "icon": "home" },
+			{ "path": "company", "label": "Companies", "icon": "store" },
+			{ "path": "company-type", "label": "Company Types", "icon": "contact_mail" },
+			{ "path": "role", "label": "Roles", "icon": "license" },
+			{ "path": "mission", "label": "Missions", "icon": "badge" }
+		];
 	}
 
 	ngOnInit(): void {
