@@ -1,30 +1,16 @@
-<mat-card>
+<mat-card (keyup.enter)="submit()">
 	<mat-card-header class="mb-4">
-		<h1 mat-card-title>{{ value?._id ? 'Edit' : 'New' }} chunk</h1>
+		<h1 mat-card-title>Add time</h1>
 	</mat-card-header>
 	<mat-card-content class="!flex flex-col justify-center">
-		<lv-chunk-form
-			[value]="value"
-			[group]="group"
-			*lvLoading="pending; color: 'accent'; diameter: 128"
-		></lv-chunk-form>
+		<lv-chunk-form [value]="value" [group]="group" [missions]="missions"
+			*lvLoading="pending; color: 'accent'; diameter: 128"></lv-chunk-form>
 	</mat-card-content>
-	<mat-card-actions class="duo">
-		<button
-			mat-stroked-button
-			class="lv-error"
-			[disabled]="pending"
-			(click)="cancel()"
-		>
+	<mat-card-actions class="flex">
+		<!-- <button mat-stroked-button class="lv-error" [disabled]="pending" (click)="cancel()">
 			Cancel
-		</button>
-		<button
-			mat-raised-button
-			class="lv-accent"
-			[disabled]="pending || group.invalid || group.pending"
-			(click)="submit()"
-		>
-			Submit
-		</button>
+		</button> -->
+		<button mat-raised-button color="accent" class="flex-grow"
+			[disabled]="pending || group.invalid || group.pending" (click)="submit()">Save</button>
 	</mat-card-actions>
 </mat-card>

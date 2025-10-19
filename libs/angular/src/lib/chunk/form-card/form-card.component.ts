@@ -10,12 +10,15 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Chunk, ChunkState } from '@lv/common';
+import { Chunk, ChunkState, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { chunkActions } from '../chunk.actions';
 import { ChunkFormComponent } from '../form/form.component';
+import { formParseInt } from '../../util/form/form-parse-number';
+import { MissionService } from '../../mission/mission.service';
+import { Store } from '@ngrx/store';
 
 @Component({
 	selector: 'lv-chunk-form-card',
@@ -33,18 +36,37 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<Chunk>;
 	group!: FormGroup;
+	missions: Mission[];
 	pending: boolean;
 
-	constructor(private formBuilder: FormBuilder, private actions: Actions) {
+	constructor(
+		private missionService: MissionService,
+		private formBuilder: FormBuilder,
+		private store: Store<any>,
+		private actions: Actions
+	) {
 		this.back = new EventEmitter();
 		this.save = new EventEmitter();
-		this.pending = false;
+		this.missions = [];
+		this.pending = true;
 	}
 
-	ngOnInit(): void {
-		if (!this.group) {
-			this.reset();
+	ngOnInit() {
+		this.missionService.sendListActive().pipe(
+			finalize(() => this.pending = false)
+		).subscribe((missions) => {
+			this.missions = missions;
+			if (!this.group) {
+				this.reset();
+			}
+		});
+	}
+
+	private findMission(missionId: string | undefined): any {
+		if (missionId) {
+			return this.missions.find((m) => m._id === missionId);
 		}
+		return undefined;
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -58,40 +80,23 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 		this.back.next();
 	}
 
+
 	getEditValue() {
 		const value = this.group.getRawValue();
-		if (value._id) {
-			return {
-				_id: value._id,
-
-				count: parseInt(value.count),
-
-				date: value.date,
-
-				desc: value.desc,
-
-				invoiced: value.invoiced,
-
-				paid: value.paid,
-			} as Chunk;
-		} else {
-			return {
-				count: parseInt(value.count),
-
-				date: value.date,
-
-				desc: value.desc,
-
-				invoiced: value.invoiced,
-
-				paid: value.paid,
-			} as Chunk;
+		return {
+			...value,
+			count: formParseInt(value.count),
+			mission: undefined,
+			missionId: value.mission._id
 		}
 	}
 
 	submit() {
+		if (this.group.invalid || this.group.pending || this.pending) {
+			return;
+		}
 		this.pending = true;
-		this.save.next(this.getEditValue());
+		this.store.next(chunkActions.create({ value: this.getEditValue() }));
 		this.actions
 			.pipe(
 				ofType(
@@ -115,16 +120,10 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 					disabled: true,
 				},
 			],
-
 			count: [this.value?.count, [Validators.required]],
-
-			date: [this.value?.date, [Validators.required]],
-
-			desc: [this.value?.desc, [Validators.required]],
-
-			invoiced: [this.value?.invoiced, [Validators.required]],
-
-			paid: [this.value?.paid, [Validators.required]],
+			date: [this.value?.date || new Date(), [Validators.required]],
+			desc: [this.value?.desc],
+			mission: [this.findMission(this.value?.missionId), [Validators.required]],
 		});
 	}
 }

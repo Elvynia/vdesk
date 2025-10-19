@@ -14,7 +14,7 @@ export class MissionEffects {
 	constructor(
 		private service: MissionService,
 		private snackbar: MatSnackBar
-	) {}
+	) { }
 
 	create$ = createEffect(() =>
 		this.actions$.pipe(

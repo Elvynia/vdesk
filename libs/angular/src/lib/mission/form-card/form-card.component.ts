@@ -1,11 +1,11 @@
 import {
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    SimpleChanges,
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	OnInit,
+	Output,
+	SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,6 +14,7 @@ import { Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
+import { formParseFloat } from '../../util/form/form-parse-number';
 import { MissionFormComponent } from '../form/form.component';
 import { missionActions } from '../mission.actions';
 
@@ -21,8 +22,10 @@ import { missionActions } from '../mission.actions';
 	selector: 'lv-mission-form-card',
 	imports: [
 		MissionFormComponent,
+
 		MatButtonModule,
 		MatCardModule,
+
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
@@ -63,35 +66,22 @@ export class MissionFormCardComponent implements OnInit, OnChanges {
 		if (value._id) {
 			return {
 				_id: value._id,
-
 				name: value.name,
-
-				rate: parseFloat(value.rate.replace(/[$€]/g, '')),
-
+				rate: formParseFloat(value.rate),
 				byDay: value.byDay,
-
 				dayLength: parseInt(value.dayLength),
-
 				start: value.start,
-
 				end: value.end,
-
 				desc: value.desc,
 			} as Mission;
 		} else {
 			return {
 				name: value.name,
-
 				rate: parseFloat(value.rate.replace(/[$€]/g, '')),
-
 				byDay: value.byDay,
-
 				dayLength: parseInt(value.dayLength),
-
 				start: value.start,
-
 				end: value.end,
-
 				desc: value.desc,
 			} as Mission;
 		}
@@ -123,19 +113,12 @@ export class MissionFormCardComponent implements OnInit, OnChanges {
 					disabled: true,
 				},
 			],
-
 			name: [this.value?.name, [Validators.required]],
-
 			rate: [this.value?.rate, [Validators.required]],
-
 			byDay: [this.value?.byDay, []],
-
 			dayLength: [this.value?.dayLength, []],
-
 			start: [this.value?.start, []],
-
 			end: [this.value?.end, []],
-
 			desc: [this.value?.desc, []],
 		});
 	}

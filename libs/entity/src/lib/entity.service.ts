@@ -1,4 +1,4 @@
-import { Model, UpdateQuery } from "mongoose";
+import { Model, RootFilterQuery, UpdateQuery } from "mongoose";
 
 export abstract class EntityService<Entity, CreateEntity = Entity, UpdateEntity extends UpdateQuery<Entity> = UpdateQuery<Entity>> {
 
@@ -8,7 +8,10 @@ export abstract class EntityService<Entity, CreateEntity = Entity, UpdateEntity 
 		return this.model.create(editEntity);
 	}
 
-	findAll() {
+	findAll(filter?: RootFilterQuery<Entity>) {
+		if (filter) {
+			return this.model.find<Entity>(filter).exec();
+		}
 		return this.model.find<Entity>().exec();
 	}
 

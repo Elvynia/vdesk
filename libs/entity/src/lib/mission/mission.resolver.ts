@@ -23,6 +23,23 @@ export class MissionResolver {
 		return this.missionService.findAll();
 	}
 
+	@Query(() => [MissionEntity], { name: 'missionActive' })
+	findAllActive() {
+		const now = new Date();
+		return this.missionService.findAll({
+			start: { $lt: now },
+			$or: [{
+				end: {
+					$eq: null
+				}
+			}, {
+				end: {
+					$gt: now
+				}
+			}]
+		});
+	}
+
 	@Query(() => MissionEntity, { name: 'missionId' })
 	findOne(@Args('id', { type: () => String }) id: string) {
 		return this.missionService.findOne(id);

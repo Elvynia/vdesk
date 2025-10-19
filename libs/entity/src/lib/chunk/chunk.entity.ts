@@ -25,7 +25,7 @@ export class ChunkEntity implements Chunk {
 	@Prop()
 	date: Date;
 
-	@Field()
+	@Field({ nullable: true })
 	@Prop()
 	desc: string;
 
@@ -56,7 +56,7 @@ export class ChunkCreate {
 	@Prop()
 	date: Date;
 
-	@Field()
+	@Field({ nullable: true })
 	@Prop()
 	desc: string;
 

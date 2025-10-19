@@ -1,36 +1,37 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { Chunk, ChunkState } from '@lv/common';
-import { Actions, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { takeUntil } from 'rxjs';
-import { ObserverCompomix } from '../../util/mixins/observer.compomix';
-
-import { DigitsFormatDirective } from '../../util/format/digits-format.directive';
-
+import { DatePipe } from '@angular/common';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
 	MAT_DATE_LOCALE,
 	MatNativeDateModule,
 	provideNativeDateAdapter,
 } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { Chunk, Mission } from '@lv/common';
+import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { distinctUntilChanged, filter, finalize, first } from 'rxjs';
+import { LoadingDirective } from "../../loading/loading.directive";
+import { MissionService } from '../../mission/mission.service';
+import { formParseInt } from '../../util/form/form-parse-number';
+import { DecimalFormatDirective } from "../../util/format/decimal-format.directive";
+import { chunkActions } from '../chunk.actions';
 
 @Component({
 	selector: 'lv-chunk-form',
 	imports: [
 		MatFormFieldModule,
 		MatInputModule,
-
 		MatDatepickerModule,
 		MatNativeDateModule,
-
+		MatRadioModule,
 		ReactiveFormsModule,
-
-		DigitsFormatDirective,
+		DecimalFormatDirective,
+		DatePipe,
 	],
-
 	providers: [
 		provideNativeDateAdapter({
 			parse: {
@@ -43,17 +44,27 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 				monthYearA11yLabel: 'MMMM YYYY',
 			},
 		}),
-		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
+		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
 	],
-
 	templateUrl: './form.component.html',
 	styleUrl: './form.component.scss',
 })
-export class ChunkFormComponent extends ObserverCompomix() {
+export class ChunkFormComponent implements OnChanges {
 	@Input() group!: FormGroup;
 	@Input() value?: Chunk;
+	@Input() missions: Mission[];
+	countLabel: string;
 
 	constructor() {
-		super();
+		this.missions = [];
+		this.countLabel = 'Hours';
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes.group && this.group) {
+			this.group.get('mission')!.valueChanges.pipe(
+				distinctUntilChanged()
+			).subscribe((m) => this.countLabel = m?.byDay ? 'Days' : 'Hours');
+		}
 	}
 }

@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
+import { MatCardModule } from "@angular/material/card";
+import { ChunkFormCardComponent, ObserverCompomix } from '@lv/angular';
 
 @Component({
-  selector: 'lv-view',
-  imports: [],
-  templateUrl: './view.component.html',
-  styleUrl: './view.component.css'
+	selector: 'lv-home-view',
+	imports: [
+		ChunkFormCardComponent,
+		MatCardModule
+	],
+	templateUrl: './view.component.html',
+	styleUrl: './view.component.scss',
 })
-export class ViewComponent {
+export class ViewComponent extends ObserverCompomix() {
 
+	constructor() {
+		super();
+	}
 }
