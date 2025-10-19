@@ -15,6 +15,7 @@ export interface EntityGeneratorSchema {
 	formFieldCurrencies: NumberField[];
 	formFieldFloats: NumberField[];
 	formFieldNumbers: NumberField[];
+	formFieldInts: NumberField[];
 	formFieldSelects: FormFieldSelect[];
 	formFieldSelectTyped: Record<string, FormFieldSelect[]>;
 	formFieldCheckboxes: EntityField[];

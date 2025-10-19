@@ -53,11 +53,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 <% if (formFieldCurrencies.length > 0) { %>
 		CurrencyFormatDirective,
 <% } %>
-<% if (formFieldNumbers.length > 0) { %>
-		DigitsFormatDirective,
-<% } %>
 <% if (formFieldFloats.length > 0) { %>
 		DecimalFormatDirective,
+<% } %>
+<% if (formFieldInts.length > 0) { %>
+		DigitsFormatDirective,
 <% } %>
 	],
 <% if (formFieldDates.length > 0 || formFieldCurrencies.length > 0) { %>

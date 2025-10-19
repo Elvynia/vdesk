@@ -114,7 +114,7 @@ async function entityGenerator(
 	options.clazzPlural = options.namePlural.charAt(0).toUpperCase() + options.namePlural.slice(1);
 	options.fields = await promptForEntity();
 	const fetchList = await select({
-		message: 'select',
+		message: 'select fetch fields',
 		options: options.fields.map(({ name }) => ({ name, value: name })).concat([{ name: '_id', value: '_id' }]),
 		defaultValue: options.fields.map(({ name }) => name).concat(['_id'])
 	});
@@ -140,8 +140,9 @@ async function entityGenerator(
 		.map((_, i) => options.fields.slice(i *= 2, i + 2));
 	options.formFieldDates = options.fields.filter((f): f is FormFieldSelect => f.component.type === 'datepicker');
 	options.formFieldNumbers = options.fields.filter((f): f is NumberField => f.type === 'number');
-	options.formFieldFloats = options.formFieldNumbers.filter((f): f is NumberField => f.float && !f.currency);
-	options.formFieldCurrencies = options.formFieldNumbers.filter((f): f is NumberField => f.float && f.currency);
+	options.formFieldInts = options.formFieldNumbers.filter((f) => !f.float && !f.currency);
+	options.formFieldFloats = options.formFieldNumbers.filter((f) => f.float && !f.currency);
+	options.formFieldCurrencies = options.formFieldNumbers.filter((f) => f.float && f.currency);
 	options.formFieldSelects = options.fields.filter((f): f is FormFieldSelect => f.component.type === 'select');
 	options.formFieldSelectTyped = options.formFieldSelects.reduce((typed, field) => {
 		if (!typed[field.relation.clazz]) {
@@ -155,7 +156,7 @@ async function entityGenerator(
 	options.updateFields = options.fields.filter((f) => f.update);
 	// Backend lib
 	generateFiles(tree, path.join(__dirname, 'backend'), `libs/${backlib}/src/lib/${options.nameDash}`, options);
-	updaterExport('libs/entity/src/index.ts', options.nameDash, options.nameDash, ['entity', 'module', 'resolver', 'service']);
+	updaterExport('libs/entity/src/index.ts', options.nameDash, options.nameDash, ['entity', 'module', 'resolver', 'repository']);
 
 	// Backend app
 	if (updaterEntity) {
