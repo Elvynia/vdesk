@@ -6,49 +6,49 @@ import {
 	Query,
 	Resolver
 } from '@nestjs/graphql';
-import { MissionService } from '../mission/mission.service';
+import { MissionRepository } from '../mission/mission.repository';
 import { ChunkCreate, ChunkEntity, ChunkUpdate } from './chunk.entity';
-import { ChunkService } from './chunk.service';
+import { ChunkRepository } from './chunk.repository';
 
 @Resolver(() => ChunkEntity)
 export class ChunkResolver implements OnModuleInit {
-	private missionService: MissionService;
+	private missionRepository: MissionRepository;
 
-	constructor(private readonly chunkService: ChunkService,
+	constructor(private readonly chunkRepository: ChunkRepository,
 		private readonly moduleRef: ModuleRef
 	) { }
 
 	onModuleInit() {
-		this.missionService = this.moduleRef.get(MissionService, { strict: false });
+		this.missionRepository = this.moduleRef.get(MissionRepository, { strict: false });
 	}
 
 	@Mutation(() => ChunkEntity)
 	createChunk(@Args('createChunkInput') createChunkInput: ChunkCreate) {
-		return this.chunkService.create(createChunkInput);
+		return this.chunkRepository.create(createChunkInput);
 	}
 
 	@Query(() => [ChunkEntity], { name: 'chunk' })
 	findAll() {
-		return this.chunkService.findAll();
+		return this.chunkRepository.findAll();
 	}
 
 	@Query(() => ChunkEntity, { name: 'chunkId' })
 	findOne(@Args('id', { type: () => String }) id: string) {
-		return this.chunkService.findOne(id);
+		return this.chunkRepository.findOne(id);
 	}
 
 	@Mutation(() => ChunkEntity)
 	updateChunk(@Args('updateChunkInput') updateChunkInput: ChunkUpdate) {
-		return this.chunkService.update(updateChunkInput._id, updateChunkInput);
+		return this.chunkRepository.update(updateChunkInput._id, updateChunkInput);
 	}
 
 	@Mutation(() => ChunkEntity)
 	removeChunk(@Args('id', { type: () => String }) id: string) {
-		return this.chunkService.remove(id);
+		return this.chunkRepository.remove(id);
 	}
 
 	// @ResolveField(() => MissionEntity)
 	// mission(@Parent() chunk: ChunkEntity) {
-	// 	return this.missionService.findOne(chunk.missionId);
+	// 	return this.missionRepository.findOne(chunk.missionId);
 	// }
 }

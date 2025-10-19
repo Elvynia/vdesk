@@ -7,46 +7,46 @@ import {
     Resolver,
 } from '@nestjs/graphql';
 import { CompanyCreate, CompanyEntity, CompanyUpdate } from './company.entity';
-import { CompanyService } from './company.service';
+import { CompanyRepository } from './company.repository';
 
 import { CompanyTypeEntity } from '../company-type/company-type.entity';
-import { CompanyTypeService } from '../company-type/company-type.service';
+import { CompanyTypeRepository } from '../company-type/company-type.repository';
 
 import { AddressEntity } from '../address/address.entity';
-import { AddressService } from '../address/address.service';
+import { AddressRepository } from '../address/address.repository';
 
 @Resolver(() => CompanyEntity)
 export class CompanyResolver {
 	constructor(
-		private readonly companyService: CompanyService,
+		private readonly companyRepository: CompanyRepository,
 
-		private companyTypeService: CompanyTypeService,
+		private companyTypeRepository: CompanyTypeRepository,
 
-		private addressService: AddressService
+		private addressRepository: AddressRepository
 	) {}
 
 	@Mutation(() => CompanyEntity)
 	createCompany(
 		@Args('createCompanyInput') createCompanyInput: CompanyCreate
 	) {
-		return this.companyService.create(createCompanyInput);
+		return this.companyRepository.create(createCompanyInput);
 	}
 
 	@Query(() => [CompanyEntity], { name: 'company' })
 	findAll() {
-		return this.companyService.findAll();
+		return this.companyRepository.findAll();
 	}
 
 	@Query(() => CompanyEntity, { name: 'companyId' })
 	findOne(@Args('id', { type: () => String }) id: string) {
-		return this.companyService.findOne(id);
+		return this.companyRepository.findOne(id);
 	}
 
 	@Mutation(() => CompanyEntity)
 	updateCompany(
 		@Args('updateCompanyInput') updateCompanyInput: CompanyUpdate
 	) {
-		return this.companyService.update(
+		return this.companyRepository.update(
 			updateCompanyInput._id,
 			updateCompanyInput
 		);
@@ -54,16 +54,16 @@ export class CompanyResolver {
 
 	@Mutation(() => CompanyEntity)
 	removeCompany(@Args('id', { type: () => String }) id: string) {
-		return this.companyService.remove(id);
+		return this.companyRepository.remove(id);
 	}
 
 	@ResolveField(() => CompanyTypeEntity)
 	async type(@Parent() parent: CompanyEntity) {
-		return await this.companyTypeService.findOne(parent.type as any);
+		return await this.companyTypeRepository.findOne(parent.type as any);
 	}
 
 	@ResolveField(() => AddressEntity)
 	async address(@Parent() parent: CompanyEntity) {
-		return await this.addressService.findOne(parent.address as any);
+		return await this.addressRepository.findOne(parent.address as any);
 	}
 }

@@ -1,16 +1,16 @@
 import { Resolver, Query, Mutation, Args, Parent, ResolveField } from '@nestjs/graphql';
-import { <%= clazz %>Service } from './<%= nameDash %>.service';
+import { <%= clazz %>Repository } from './<%= nameDash %>.repository';
 import { <%= clazz %>Entity, <%= clazz %>Create, <%= clazz %>Update } from './<%= nameDash %>.entity';
 <% for (let [key, value] of Object.entries(relationFieldTyped)) { %>
-	import { <%= key %>Service } from '../<%= value[0].relation.nameDash %>/<%= value[0].relation.nameDash %>.service';
+	import { <%= key %>Repository } from '../<%= value[0].relation.nameDash %>/<%= value[0].relation.nameDash %>.repository';
 	import { <%= key %>Entity } from '../<%= value[0].relation.nameDash %>/<%= value[0].relation.nameDash %>.entity';
 <% } %>
 
 @Resolver(() => <%= clazz %>Entity)
 export class <%= clazz %>Resolver {
-	constructor(private readonly <%= name %>Service: <%= clazz %>Service
+	constructor(private readonly <%= name %>Repository: <%= clazz %>Repository
 <% for (let [key, value] of Object.entries(relationFieldTyped)) { %>
-	, private <%= value[0].relation.name %>Service: <%= key %>Service
+	, private <%= value[0].relation.name %>Repository: <%= key %>Repository
 <% } %>
 	) { }
 
@@ -18,24 +18,24 @@ export class <%= clazz %>Resolver {
 	create<%= clazz %>(
 		@Args('create<%= clazz %>Input') create<%= clazz %>Input: <%= clazz %>Create
 	) {
-		return this.<%= name %>Service.create(create<%= clazz %>Input);
+		return this.<%= name %>Repository.create(create<%= clazz %>Input);
 	}
 
 	@Query(() => [<%= clazz %>Entity], { name: '<%= name %>' })
 	findAll() {
-		return this.<%= name %>Service.findAll();
+		return this.<%= name %>Repository.findAll();
 	}
 
 	@Query(() => <%= clazz %>Entity, { name: '<%= name %>Id' })
 	findOne(@Args('id', { type: () => String }) id: string) {
-		return this.<%= name %>Service.findOne(id);
+		return this.<%= name %>Repository.findOne(id);
 	}
 
 	@Mutation(() => <%= clazz %>Entity)
 	update<%= clazz %>(
 		@Args('update<%= clazz %>Input') update<%= clazz %>Input: <%= clazz %>Update
 	) {
-		return this.<%= name %>Service.update(
+		return this.<%= name %>Repository.update(
 			update<%= clazz %>Input._id,
 			update<%= clazz %>Input
 		);
@@ -43,13 +43,13 @@ export class <%= clazz %>Resolver {
 
 	@Mutation(() => <%= clazz %>Entity)
 	remove<%= clazz %>(@Args('id', { type: () => String }) id: string) {
-		return this.<%= name %>Service.remove(id);
+		return this.<%= name %>Repository.remove(id);
 	}
 
 <% for (let field of relationFields) { %>
 	@ResolveField(() => <%= field.type %>)
 	async <%= field.name %>(@Parent() parent: <%= clazz %>Entity) {
-		return await this.<%= field.relation.name %>Service.findOne(parent.<%= field.name %> as any);
+		return await this.<%= field.relation.name %>Repository.findOne(parent.<%= field.name %> as any);
 	}
 
 <% } %>

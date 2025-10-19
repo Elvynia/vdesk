@@ -5,12 +5,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AccountEntity, AccountSchema } from '../account/account.entity';
 import { AccountResolver } from '../account/account.resolver';
-import { AccountService } from '../account/account.service';
+import { AccountRepository } from '../account/account.repository';
 import { AuthConfig } from './auth.config';
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
 import { AuthResolver } from './auth.resolver';
-import { AuthService } from './auth.service';
+import { AuthRepository } from './auth.repository';
 import { RoleModule } from '../role/role.module';
 
 @Module({
@@ -34,9 +34,9 @@ import { RoleModule } from '../role/role.module';
 	providers: [
 		AuthConfig,
 		AuthResolver,
-		AuthService,
+		AuthRepository,
 		AccountResolver,
-		AccountService,
+		AccountRepository,
 		{
 			provide: APP_GUARD,
 			useClass: AuthGuard,
@@ -44,9 +44,9 @@ import { RoleModule } from '../role/role.module';
 	],
 	exports: [
 		AuthResolver,
-		AuthService,
+		AuthRepository,
 		AccountResolver,
-		AccountService,
+		AccountRepository,
 		JwtModule,
 		RoleModule,
 	],

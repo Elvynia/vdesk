@@ -1,16 +1,16 @@
 import { AuthToken } from "@lv/common";
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
-import { AccountService } from "../account/account.service";
+import { AccountRepository } from "../account/account.repository";
 import { AuthResolver } from "./auth.resolver";
 
 // Sign, verify & refresh
 @Injectable()
-export class AuthService {
+export class AuthRepository {
 
-	constructor(private accountService: AccountService, private authResolver: AuthResolver) { }
+	constructor(private accountRepository: AccountRepository, private authResolver: AuthResolver) { }
 
 	async signIn(username: string, pass: string): Promise<AuthToken> {
-		const account = await this.accountService.findByUsername(username);
+		const account = await this.accountRepository.findByUsername(username);
 		if (!account || account?.password !== pass) {
 			throw new BadRequestException('Incorrect username or password. Try again');
 		}
@@ -25,7 +25,7 @@ export class AuthService {
 			throw new BadRequestException('Token still valid');
 		}
 		const jwt = await this.authResolver.verify(req.refreshToken);
-		const account = await this.accountService.findOne(jwt.acc);
+		const account = await this.accountRepository.findOne(jwt.acc);
 		if (account && account.enabled) {
 			return this.authResolver.generate(account);
 		}

@@ -5,34 +5,34 @@ import {
     Resolver
 } from '@nestjs/graphql';
 import { AddressCreate, AddressEntity, AddressUpdate } from './address.entity';
-import { AddressService } from './address.service';
+import { AddressRepository } from './address.repository';
 
 @Resolver(() => AddressEntity)
 export class AddressResolver {
-	constructor(private readonly addressService: AddressService) {}
+	constructor(private readonly addressRepository: AddressRepository) {}
 
 	@Mutation(() => AddressEntity)
 	createAddress(
 		@Args('createAddressInput') createAddressInput: AddressCreate
 	) {
-		return this.addressService.create(createAddressInput);
+		return this.addressRepository.create(createAddressInput);
 	}
 
 	@Query(() => [AddressEntity], { name: 'address' })
 	findAll() {
-		return this.addressService.findAll();
+		return this.addressRepository.findAll();
 	}
 
 	@Query(() => AddressEntity, { name: 'addressId' })
 	findOne(@Args('id', { type: () => String }) id: string) {
-		return this.addressService.findOne(id);
+		return this.addressRepository.findOne(id);
 	}
 
 	@Mutation(() => AddressEntity)
 	updateAddress(
 		@Args('updateAddressInput') updateAddressInput: AddressUpdate
 	) {
-		return this.addressService.update(
+		return this.addressRepository.update(
 			updateAddressInput._id,
 			updateAddressInput
 		);
@@ -40,6 +40,6 @@ export class AddressResolver {
 
 	@Mutation(() => AddressEntity)
 	removeAddress(@Args('id', { type: () => String }) id: string) {
-		return this.addressService.remove(id);
+		return this.addressRepository.remove(id);
 	}
 }

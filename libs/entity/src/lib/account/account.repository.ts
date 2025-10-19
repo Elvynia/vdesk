@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { EntityService } from '../entity.service';
+import { EntityRepository } from '../entity.repository';
 import { AccountCreate, AccountEntity, AccountUpdate } from './account.entity';
 
 @Injectable()
-export class AccountService extends EntityService<AccountEntity, AccountCreate, AccountUpdate> {
+export class AccountRepository extends EntityRepository<AccountEntity, AccountCreate, AccountUpdate> {
 	constructor(
 		@InjectModel(AccountEntity.name) protected readonly model: Model<AccountEntity>
 	) {

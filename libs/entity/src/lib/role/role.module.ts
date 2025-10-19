@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RoleEntity, RoleSchema } from './role.entity';
 import { RoleResolver } from './role.resolver';
-import { RoleService } from './role.service';
+import { RoleRepository } from './role.repository';
 
 @Module({
 	imports: [
@@ -14,7 +14,7 @@ import { RoleService } from './role.service';
 			},
 		]),
 	],
-	providers: [RoleResolver, RoleService],
-	exports: [RoleResolver, RoleService],
+	providers: [RoleResolver, RoleRepository],
+	exports: [RoleResolver, RoleRepository],
 })
 export class RoleModule { }

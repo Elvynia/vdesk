@@ -5,28 +5,28 @@ import {
 	Resolver
 } from '@nestjs/graphql';
 import { MissionCreate, MissionEntity, MissionUpdate } from './mission.entity';
-import { MissionService } from './mission.service';
+import { MissionRepository } from './mission.repository';
 
 @Resolver(() => MissionEntity)
 export class MissionResolver {
-	constructor(private readonly missionService: MissionService) { }
+	constructor(private readonly missionRepository: MissionRepository) { }
 
 	@Mutation(() => MissionEntity)
 	createMission(
 		@Args('createMissionInput') createMissionInput: MissionCreate
 	) {
-		return this.missionService.create(createMissionInput);
+		return this.missionRepository.create(createMissionInput);
 	}
 
 	@Query(() => [MissionEntity], { name: 'mission' })
 	findAll() {
-		return this.missionService.findAll();
+		return this.missionRepository.findAll();
 	}
 
 	@Query(() => [MissionEntity], { name: 'missionActive' })
 	findAllActive() {
 		const now = new Date();
-		return this.missionService.findAll({
+		return this.missionRepository.findAll({
 			start: { $lt: now },
 			$or: [{
 				end: {
@@ -42,14 +42,14 @@ export class MissionResolver {
 
 	@Query(() => MissionEntity, { name: 'missionId' })
 	findOne(@Args('id', { type: () => String }) id: string) {
-		return this.missionService.findOne(id);
+		return this.missionRepository.findOne(id);
 	}
 
 	@Mutation(() => MissionEntity)
 	updateMission(
 		@Args('updateMissionInput') updateMissionInput: MissionUpdate
 	) {
-		return this.missionService.update(
+		return this.missionRepository.update(
 			updateMissionInput._id,
 			updateMissionInput
 		);
@@ -57,6 +57,6 @@ export class MissionResolver {
 
 	@Mutation(() => MissionEntity)
 	removeMission(@Args('id', { type: () => String }) id: string) {
-		return this.missionService.remove(id);
+		return this.missionRepository.remove(id);
 	}
 }

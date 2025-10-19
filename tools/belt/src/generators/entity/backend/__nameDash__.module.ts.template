@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { <%= clazz %>Service } from './<%= nameDash %>.service';
+import { <%= clazz %>Repository } from './<%= nameDash %>.repository';
 import { <%= clazz %>Resolver } from './<%= nameDash %>.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { <%= clazz %>Entity, <%= clazz %>Schema } from './<%= nameDash %>.entity';
@@ -19,7 +19,7 @@ import { <%= clazz %>Entity, <%= clazz %>Schema } from './<%= nameDash %>.entity
 		<%= key %>Module,
 <% } %>
 	],
-	providers: [<%= clazz %>Resolver, <%= clazz %>Service],
-	exports: [<%= clazz %>Resolver, <%= clazz %>Service],
+	providers: [<%= clazz %>Resolver, <%= clazz %>Repository],
+	exports: [<%= clazz %>Resolver, <%= clazz %>Repository],
 })
 export class <%= clazz %>Module {}

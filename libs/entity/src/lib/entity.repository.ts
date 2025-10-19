@@ -1,6 +1,6 @@
 import { Model, RootFilterQuery, UpdateQuery } from "mongoose";
 
-export abstract class EntityService<Entity, CreateEntity = Entity, UpdateEntity extends UpdateQuery<Entity> = UpdateQuery<Entity>> {
+export abstract class EntityRepository<Entity, CreateEntity = Entity, UpdateEntity extends UpdateQuery<Entity> = UpdateQuery<Entity>> {
 
 	protected abstract model: Model<Entity>;
 

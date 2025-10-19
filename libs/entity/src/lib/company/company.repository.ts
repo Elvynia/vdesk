@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { EntityService } from '../entity.service';
+import { EntityRepository } from '../entity.repository';
 import { CompanyCreate, CompanyEntity, CompanyUpdate } from './company.entity';
 
 @Injectable()
-export class CompanyService extends EntityService<
+export class CompanyRepository extends EntityRepository<
 	CompanyEntity,
 	CompanyCreate,
 	CompanyUpdate

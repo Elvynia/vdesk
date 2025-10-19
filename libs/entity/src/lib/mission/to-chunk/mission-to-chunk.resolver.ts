@@ -6,24 +6,24 @@ import {
 	Resolver
 } from '@nestjs/graphql';
 import { ChunkEntity } from '../../chunk/chunk.entity';
-import { ChunkService } from '../../chunk/chunk.service';
+import { ChunkRepository } from '../../chunk/chunk.repository';
 import { MissionEntity } from '../../mission/mission.entity';
 
 @Resolver(() => MissionEntity)
 export class MissionToChunkResolver implements OnModuleInit {
-	private chunkService: ChunkService;
+	private chunkRepository: ChunkRepository;
 
 	constructor(
 		private readonly moduleRef: ModuleRef
 	) { }
 
 	onModuleInit() {
-		this.chunkService = this.moduleRef.get(ChunkService, { strict: false });
+		this.chunkRepository = this.moduleRef.get(ChunkRepository, { strict: false });
 	}
 
 	@ResolveField(() => [ChunkEntity])
 	async chunks(@Parent() parent: MissionEntity) {
-		return await this.chunkService.findByMission(parent._id.toString());
+		return await this.chunkRepository.findByMission(parent._id.toString());
 	}
 
 }
