@@ -10,11 +10,14 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Mission } from '@lv/common';
+import { Company, CompanyState, Mission, selectCompanies } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { filter, finalize, first } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { filter, finalize, first, takeUntil } from 'rxjs';
+import { companyActions } from '../../company/company.actions';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { formParseFloat } from '../../util/form/form-parse-number';
+import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { MissionFormComponent } from '../form/form.component';
 import { missionActions } from '../mission.actions';
 
@@ -31,23 +34,43 @@ import { missionActions } from '../mission.actions';
 	templateUrl: './form-card.component.html',
 	styleUrl: './form-card.component.scss',
 })
-export class MissionFormCardComponent implements OnInit, OnChanges {
+export class MissionFormCardComponent extends ObserverCompomix() implements OnInit, OnChanges {
 	@Input() value?: Mission;
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<Mission>;
+	companyList: Company[];
 	group!: FormGroup;
 	pending: boolean;
 
-	constructor(private formBuilder: FormBuilder, private actions: Actions) {
+	constructor(
+		private formBuilder: FormBuilder,
+		private store: Store<CompanyState>,
+		private actions: Actions
+	) {
+		super();
 		this.back = new EventEmitter();
 		this.save = new EventEmitter();
-		this.pending = false;
+		this.companyList = [];
+		this.pending = true;
 	}
 
 	ngOnInit(): void {
-		if (!this.group) {
-			this.reset();
-		}
+		this.store
+			.select(selectCompanies)
+			.pipe(
+				takeUntil(this.destroy$)
+			).subscribe((companyList) => {
+				this.companyList = Object.values(companyList);
+				if (!this.group) {
+					this.reset();
+				}
+			});
+		this.actions.pipe(
+			ofType(companyActions.listSuccess, companyActions.listError),
+			first(),
+			finalize(() => this.pending = false)
+		).subscribe();
+		this.store.dispatch(companyActions.list());
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -59,6 +82,13 @@ export class MissionFormCardComponent implements OnInit, OnChanges {
 	cancel() {
 		this.reset();
 		this.back.next();
+	}
+
+	private findCompany(companyId: string | undefined): any {
+		if (companyId) {
+			return this.companyList.find((c) => c._id === companyId);
+		}
+		return undefined;
 	}
 
 	getEditValue() {
@@ -73,6 +103,7 @@ export class MissionFormCardComponent implements OnInit, OnChanges {
 				start: value.start,
 				end: value.end,
 				desc: value.desc,
+				companyId: value.company._id
 			} as Mission;
 		} else {
 			return {
@@ -83,6 +114,7 @@ export class MissionFormCardComponent implements OnInit, OnChanges {
 				start: value.start,
 				end: value.end,
 				desc: value.desc,
+				companyId: value.company._id
 			} as Mission;
 		}
 	}
@@ -120,6 +152,7 @@ export class MissionFormCardComponent implements OnInit, OnChanges {
 			start: [this.value?.start, []],
 			end: [this.value?.end, []],
 			desc: [this.value?.desc, []],
+			company: [this.findCompany(this.value?.companyId), []],
 		});
 	}
 }

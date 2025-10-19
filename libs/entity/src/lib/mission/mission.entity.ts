@@ -2,7 +2,7 @@ import { Mission } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
 import { ChunkEntity } from '../chunk/chunk.entity';
-import { CompanyTypeEntity } from '../company-type/company-type.entity';
+import { CompanyEntity } from '../company/company.entity';
 
 @InputType('MissionInput')
 @ObjectType()
@@ -49,6 +49,14 @@ export class MissionEntity implements Mission {
 	@Field(() => [ChunkEntity], { defaultValue: [] })
 	@Virtual()
 	chunks: ChunkEntity[];
+
+	@Field(() => CompanyEntity)
+	@Virtual()
+	company?: CompanyEntity;
+
+	@Field()
+	@Prop({ type: () => String, ref: () => CompanyEntity })
+	companyId: string;
 }
 
 @InputType()
@@ -80,6 +88,10 @@ export class MissionCreate {
 	@Field({ nullable: true })
 	@Prop()
 	desc?: string;
+
+	@Field()
+	@Prop({ type: () => String, ref: () => CompanyEntity })
+	companyId: string;
 }
 
 @InputType()
@@ -114,6 +126,10 @@ export class MissionUpdate {
 	@Field({ nullable: true })
 	@Prop()
 	desc?: string;
+
+	@Field()
+	@Prop({ type: () => String, ref: () => CompanyEntity })
+	companyId: string;
 }
 
 export const MissionSchema = SchemaFactory.createForClass(MissionEntity);

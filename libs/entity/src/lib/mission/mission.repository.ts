@@ -16,4 +16,8 @@ export class MissionRepository extends EntityRepository<
 	) {
 		super();
 	}
+
+	findByCompany(companyId: string) {
+		return this.model.find({ companyId });
+	}
 }

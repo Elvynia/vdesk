@@ -32,7 +32,7 @@
 			<mat-select [compareWith]="compareId" formControlName="address">
 				@for (address of addressList; track address._id) {
 				<mat-option [value]="address">
-					{{ address.line1 + &#39;, &#39; + (address.line2 ? address.line2 + &#39;, &#39; : &#39;&#39;) + address.city + &#39; &#39; + address.zip }}
+					{{ address.line1 + ', ' + (address.line2 ? address.line2 + ', ' : '') + address.city + ' ' + address.zip }}
 				</mat-option>
 				}
 			</mat-select>

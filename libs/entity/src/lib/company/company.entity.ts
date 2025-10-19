@@ -1,10 +1,11 @@
 import { Company } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
 
 import { CompanyTypeEntity } from '../company-type/company-type.entity';
 
 import { AddressEntity } from '../address/address.entity';
+import { MissionEntity } from '../mission/mission.entity';
 
 @InputType('CompanyInput')
 @ObjectType()
@@ -28,6 +29,10 @@ export class CompanyEntity implements Company {
 	@Field(() => AddressEntity, { nullable: true })
 	@Prop({ type: () => String, ref: () => AddressEntity })
 	address?: AddressEntity;
+
+	@Field(() => [MissionEntity], { defaultValue: [] })
+	@Virtual()
+	missions: MissionEntity[];
 }
 
 @InputType()

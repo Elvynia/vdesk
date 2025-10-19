@@ -17,6 +17,8 @@ export interface Mission extends IEntity {
 	desc?: string;
 
 	chunks: Chunk[];
+
+	companyId: string;
 }
 
 export interface MissionState {
