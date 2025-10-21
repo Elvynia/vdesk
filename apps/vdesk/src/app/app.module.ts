@@ -1,4 +1,4 @@
-import { AddressModule, AuthModule, ChunkModule, ChunkToMissionModule, CompanyModule, CompanyTypeModule, EntityModule, MissionModule, MissionToChunkModule, RoleModule } from '@lv/entity';
+import { AddressModule, AuthModule, ChunkModule, ChunkToMissionModule, CompanyModule, CompanyTypeModule, EntityModule, InvoiceModule, MissionModule, MissionToChunkModule, MissionToCompanyModule, RoleModule } from '@lv/entity';
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -14,7 +14,9 @@ import { Module } from '@nestjs/common';
 		MissionModule,
 		ChunkModule,
 		ChunkToMissionModule,
-		MissionToChunkModule
+		MissionToChunkModule,
+		MissionToCompanyModule,
+		InvoiceModule
 	],
 })
 export class AppModule { }

@@ -22,7 +22,7 @@ export class MissionToCompanyResolver implements OnModuleInit {
 	}
 
 	@ResolveField(() => CompanyEntity)
-	mission(@Parent() mission: MissionEntity) {
+	company(@Parent() mission: MissionEntity) {
 		return this.companyRepository.findOne(mission.companyId);
 	}
 }
