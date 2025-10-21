@@ -1,0 +1,85 @@
+<div class="pt-3" [formGroup]="group">
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('name')!.valid">
+			<mat-label> name </mat-label>
+			<input matInput name="name" formControlName="name" />
+		</mat-form-field>
+
+		<mat-form-field [class.lv-accent]="group.get('date')!.valid">
+			<mat-label> date </mat-label>
+
+			<input
+				matInput
+				name="date"
+				formControlName="date"
+				[matDatepicker]="datePicker"
+			/>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="datePicker"
+			></mat-datepicker-toggle>
+			<mat-datepicker #datePicker></mat-datepicker>
+		</mat-form-field>
+	</div>
+
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-checkbox formControlName="estimate">Estimate</mat-checkbox>
+
+		<mat-form-field [class.lv-accent]="group.get('amount')!.valid">
+			<mat-label> amount </mat-label>
+			<input
+				matInput
+				name="amount"
+				formControlName="amount"
+				lvCurrencyFormat
+			/>
+		</mat-form-field>
+	</div>
+
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('currency')!.valid">
+			<mat-label> currency </mat-label>
+			<input matInput name="currency" formControlName="currency" />
+		</mat-form-field>
+
+		<mat-form-field [class.lv-accent]="group.get('execStart')!.valid">
+			<mat-label> execStart </mat-label>
+
+			<input
+				matInput
+				name="execStart"
+				formControlName="execStart"
+				[matDatepicker]="execStartPicker"
+			/>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="execStartPicker"
+			></mat-datepicker-toggle>
+			<mat-datepicker #execStartPicker></mat-datepicker>
+		</mat-form-field>
+	</div>
+
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-form-field [class.lv-accent]="group.get('execEnd')!.valid">
+			<mat-label> execEnd </mat-label>
+
+			<input
+				matInput
+				name="execEnd"
+				formControlName="execEnd"
+				[matDatepicker]="execEndPicker"
+			/>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="execEndPicker"
+			></mat-datepicker-toggle>
+			<mat-datepicker #execEndPicker></mat-datepicker>
+		</mat-form-field>
+
+		<mat-checkbox formControlName="sent">Sent</mat-checkbox>
+	</div>
+
+	<div class="flex flex-col lg:flex-row lg:justify-around">
+		<mat-checkbox formControlName="paid">Paid</mat-checkbox>
+	</div>
+</div>

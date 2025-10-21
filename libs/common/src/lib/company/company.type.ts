@@ -10,6 +10,10 @@ export interface Company extends IEntity {
 
 	identifier: string;
 
+	taxNumber?: string;
+
+	trigram: string;
+
 	type: CompanyType;
 
 	address?: Address;

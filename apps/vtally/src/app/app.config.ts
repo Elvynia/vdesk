@@ -2,7 +2,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
-import { ApiConfig, AuthEffects, authHttpInterceptor, authReducer, ChunkEffects, CommonConfig, provideConfigs, provideEntityAccount, provideEntityAddress, provideEntityCompany, provideEntityCompanyType, provideEntityMission, provideEntityRole } from '@lv/angular';
+import { ApiConfig, AuthEffects, authHttpInterceptor, authReducer, ChunkEffects, CommonConfig, provideConfigs, provideEntityAccount, provideEntityAddress, provideEntityCompany, provideEntityCompanyType, provideEntityInvoice, provideEntityMission, provideEntityRole } from '@lv/angular';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { TallyConfig } from '../config';
@@ -26,6 +26,7 @@ export const appConfig: ApplicationConfig = {
 		provideEntityCompanyType(),
 		provideEntityCompany(),
 		provideEntityRole(),
-        provideEntityMission()
+        provideEntityMission(),
+        provideEntityInvoice()
     ],
 };

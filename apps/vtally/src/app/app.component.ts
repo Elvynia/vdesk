@@ -45,8 +45,9 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 			{ "path": "company", "label": "Companies", "icon": "store" },
 			{ "path": "company-type", "label": "Company Types", "icon": "contact_mail" },
 			{ "path": "role", "label": "Roles", "icon": "license" },
-			{ "path": "mission", "label": "Missions", "icon": "badge" }
-		];
+			{ "path": "mission", "label": "Missions", "icon": "badge" },
+            {"path":"invoice","label":"Invoices","icon":"point_of_sale"}
+        ];
 	}
 
 	ngOnInit(): void {

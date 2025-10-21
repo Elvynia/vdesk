@@ -22,6 +22,14 @@ export class CompanyEntity implements Company {
 	@Prop()
 	identifier: string;
 
+	@Field({ nullable: true })
+	@Prop()
+	taxNumber?: string;
+
+	@Field()
+	@Prop()
+	trigram: string;
+
 	@Field(() => CompanyTypeEntity)
 	@Prop({ type: () => String, ref: () => CompanyTypeEntity })
 	type: CompanyTypeEntity;
@@ -45,6 +53,14 @@ export class CompanyCreate {
 	@Prop()
 	identifier: string;
 
+	@Field({ nullable: true })
+	@Prop()
+	taxNumber?: string;
+
+	@Field()
+	@Prop()
+	trigram: string;
+
 	@Field()
 	@Prop()
 	type: string;
@@ -66,6 +82,14 @@ export class CompanyUpdate {
 	@Field()
 	@Prop()
 	identifier: string;
+
+	@Field({ nullable: true })
+	@Prop()
+	taxNumber?: string;
+
+	@Field()
+	@Prop()
+	trigram: string;
 
 	@Field()
 	@Prop()

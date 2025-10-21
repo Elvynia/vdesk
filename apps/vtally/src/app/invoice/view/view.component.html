@@ -1,0 +1,10 @@
+<lv-invoice-list
+	[values]="invoices"
+	(edit)="edit($event)"
+	(delete)="delete($event)"
+></lv-invoice-list>
+<lv-invoice-form-card
+	[value]="editInvoice"
+	(back)="cancel()"
+	(save)="save($event)"
+></lv-invoice-form-card>

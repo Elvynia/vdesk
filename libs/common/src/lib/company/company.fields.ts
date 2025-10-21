@@ -6,6 +6,8 @@ export const companyFields = [
 	'_id',
 	'name',
 	'identifier',
+	'taxNumber',
+	'trigram',
 	`type {
 		${companyTypeFields.join('\n')}
 	}`,

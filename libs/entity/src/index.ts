@@ -45,3 +45,7 @@ export * from './lib/role/role.module';
 export * from './lib/role/role.repository';
 export * from './lib/role/role.resolver';
 export * from './lib/util/request.type';
+export * from './lib/invoice/invoice.entity';
+export * from './lib/invoice/invoice.module';
+export * from './lib/invoice/invoice.resolver';
+export * from './lib/invoice/invoice.repository';
