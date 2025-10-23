@@ -19,4 +19,5 @@ export * from './lib/role/role.fields';
 export * from './lib/role/role.type';
 export * from './lib/util/entity.type';
 export * from './lib/util/menu/menu.type';
+export * from './lib/util/operator/distinct-until-any-key-changed';
 export * from './lib/util/navigation-keys';
