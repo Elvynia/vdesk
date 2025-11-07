@@ -1,14 +1,16 @@
 export type FormParseNumber = string | number | undefined;
 
-export function formParseNumber(
-	value: FormParseNumber,
-	parseFn: (s: string) => number
+export function formParseNumber<T extends FormParseNumber>(
+	value: T,
+	parseFn: (s: string) => number,
+	unwrap: (s: string) => string = (s) => s.replace(/[$€,]/g, '')
 ) {
-	if (value) {
-		return typeof value === 'string' ? parseFn(value.replace(/[$€]/g, '')) : value;
+	if (value && typeof value === 'string') {
+		let parseVal = unwrap ? unwrap(value) : value;
+		return parseFn(parseVal);
 	}
-	return value;
+	return value as number | undefined;
 }
 
-export const formParseFloat = (value: FormParseNumber) => formParseNumber(value, parseFloat);
-export const formParseInt = (value: FormParseNumber) => formParseNumber(value, parseInt);
+export const formParseFloat = (value: FormParseNumber, unwrap?: (s: string) => string) => formParseNumber(value, parseFloat, unwrap);
+export const formParseInt = (value: FormParseNumber, unwrap?: (s: string) => string) => formParseNumber(value, parseInt, unwrap);
