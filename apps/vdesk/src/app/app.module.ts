@@ -1,4 +1,4 @@
-import { AddressModule, AuthModule, ChunkModule, ChunkToMissionModule, CompanyModule, CompanyTypeModule, EntityModule, InvoiceModule, MissionModule, MissionToChunkModule, MissionToCompanyModule, RoleModule } from '@lv/entity';
+import { AddressModule, AuthModule, ChunkModule, ChunkToMissionModule, CompanyModule, CompanyToInvoiceModule, CompanyTypeModule, EntityModule, InvoiceModule, MissionModule, MissionToChunkModule, MissionToCompanyModule, RoleModule } from '@lv/entity';
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -8,6 +8,7 @@ import { Module } from '@nestjs/common';
 		AddressModule,
 		CompanyTypeModule,
 		CompanyModule,
+		CompanyToInvoiceModule,
 		RoleModule,
 		AddressModule,
 		CompanyModule,

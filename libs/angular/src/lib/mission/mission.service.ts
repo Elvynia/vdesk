@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Mission, missionFields } from '@lv/common';
+import { companyTypeFields, makeMissionFields, Mission, MissionFieldArgs } from '@lv/common';
+import { map } from 'rxjs';
 import { ApiConfig } from '../config';
 import { ApiService } from '../util/api.service';
-import { map } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,15 +18,24 @@ export class MissionService extends ApiService<Mission> {
 		this.apiUrl = config.apiUrl + config.apiPath + '/mission';
 	}
 
-	getFields(): string {
-		return missionFields.join('\n');
+	getFields(args?: MissionFieldArgs): string {
+		return makeMissionFields(args).join('\n');
 	}
 
 	sendListActive() {
 		return this.httpClient.post(this.graphUrl, {
 			"query": `{
 					missionActive {
-						${this.getFields()}
+						${this.getFields({ chunkActive: true })}
+						company {
+							_id
+							name
+							invoiceCount
+							trigram
+							type {
+								${companyTypeFields.join('\n')}
+							}
+						}
 					}
 				}`
 		}).pipe(

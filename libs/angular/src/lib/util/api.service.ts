@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { IEntity } from "@lv/common";
-import { map, tap } from "rxjs";
+import { map } from "rxjs";
 import { ApiConfig } from "../config";
 
 @Injectable({
@@ -21,14 +21,14 @@ export abstract class ApiService<T extends IEntity> {
 		this.graphUrl = config.apiUrl + config.apiPath;
 	}
 
-	abstract getFields(apiAction: string): string;
+	abstract getFields(args?: any): string;
 
 	sendCreate(data: T) {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
 				mutation($input: ${this.clazz}Create!) {
 					create${this.clazz}(create${this.clazz}Input: $input) {
-						${this.getFields('create')}
+						${this.getFields()}
 					}
 				}
 			`,
@@ -45,7 +45,7 @@ export abstract class ApiService<T extends IEntity> {
 			query: `
 				mutation($input: ${this.clazz}Update!) {
 					update${this.clazz}(update${this.clazz}Input: $input) {
-						${this.getFields('update')}
+						${this.getFields()}
 					}
 				}
 			`,
@@ -62,7 +62,7 @@ export abstract class ApiService<T extends IEntity> {
 			query: `
                 mutation($input: String!) {
 					remove${this.clazz}(id: $input) {
-						${this.getFields('delete')}
+						${this.getFields()}
 					}
 				}
             `,
@@ -77,7 +77,7 @@ export abstract class ApiService<T extends IEntity> {
 			query: `
 				query Get${this.clazz}($id: String!) {
 					${this.entity}Id(id: $id) {
-						${this.getFields('get')}
+						${this.getFields()}
 					}
 				}
 			`,
@@ -93,7 +93,7 @@ export abstract class ApiService<T extends IEntity> {
 		return this.httpClient.post(this.graphUrl, {
 			"query": `{
 				${this.entity} {
-					${this.getFields('list')}
+					${this.getFields()}
 				}
 			}`
 		}).pipe(

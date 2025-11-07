@@ -10,6 +10,8 @@ export interface Company extends IEntity {
 
 	identifier: string;
 
+	invoiceCount?: number;
+
 	taxNumber?: string;
 
 	trigram: string;

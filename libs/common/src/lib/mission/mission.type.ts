@@ -1,4 +1,5 @@
 import { Chunk } from '../chunk/chunk.type';
+import { Company } from '../company/company.type';
 import { IEntity } from '../util/entity.type';
 
 export interface Mission extends IEntity {
@@ -17,6 +18,8 @@ export interface Mission extends IEntity {
 	desc?: string;
 
 	chunks: Chunk[];
+
+	company?: Company;
 
 	companyId: string;
 }

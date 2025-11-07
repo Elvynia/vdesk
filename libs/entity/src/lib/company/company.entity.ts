@@ -1,5 +1,5 @@
 import { Company } from '@lv/common';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
 
 import { CompanyTypeEntity } from '../company-type/company-type.entity';
@@ -21,6 +21,10 @@ export class CompanyEntity implements Company {
 	@Field()
 	@Prop()
 	identifier: string;
+
+	@Field(() => Int, { nullable: true })
+	@Virtual()
+	invoiceCount?: number;
 
 	@Field({ nullable: true })
 	@Prop()

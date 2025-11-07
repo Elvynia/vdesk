@@ -152,7 +152,7 @@ export class MissionFormCardComponent extends ObserverCompomix() implements OnIn
 			start: [this.value?.start, []],
 			end: [this.value?.end, []],
 			desc: [this.value?.desc, []],
-			company: [this.findCompany(this.value?.companyId), []],
+			company: [this.findCompany(this.value?.companyId), [Validators.required]],
 		});
 	}
 }
