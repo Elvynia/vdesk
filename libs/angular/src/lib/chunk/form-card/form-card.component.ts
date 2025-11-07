@@ -10,15 +10,17 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Chunk, ChunkState, Mission } from '@lv/common';
+import { Chunk, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { filter, finalize, first } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
+import { MissionService } from '../../mission/mission.service';
+import { ApiActionSave } from '../../util/api.action';
+import { formParseFromDate } from '../../util/form/form-parse-date';
+import { formParseInt } from '../../util/form/form-parse-number';
 import { chunkActions } from '../chunk.actions';
 import { ChunkFormComponent } from '../form/form.component';
-import { formParseInt } from '../../util/form/form-parse-number';
-import { MissionService } from '../../mission/mission.service';
-import { Store } from '@ngrx/store';
 
 @Component({
 	selector: 'lv-chunk-form-card',
@@ -82,12 +84,13 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 
 
 	getEditValue() {
-		const value = this.group.getRawValue();
+		const value = this.group.getRawValue() as Chunk;
 		return {
 			...value,
-			count: formParseInt(value.count),
+			count: formParseInt(value.count)!,
+			date: formParseFromDate(value.date as Date),
 			mission: undefined,
-			missionId: value.mission._id
+			missionId: value.mission!._id,
 		}
 	}
 
@@ -106,24 +109,25 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 					chunkActions.updateError
 				),
 				first(),
-				filter(({ success }) => !!success),
+				// filter(isApiActionSuccess),
 				finalize(() => (this.pending = false))
 			)
-			.subscribe(() => this.reset());
+			.subscribe((a) => this.reset({ missionId: (a as ApiActionSave<Chunk>).value.missionId }));
 	}
 
-	private reset() {
+	private reset(value?: Partial<Chunk>) {
+		value = value || this.value;
 		this.group = this.formBuilder.group({
 			_id: [
 				{
-					value: this.value?._id,
+					value: value?._id,
 					disabled: true,
 				},
 			],
-			count: [this.value?.count, [Validators.required]],
-			date: [this.value?.date || new Date(), [Validators.required]],
-			desc: [this.value?.desc],
-			mission: [this.findMission(this.value?.missionId), [Validators.required]],
+			count: [value?.count, [Validators.required]],
+			date: [value?.date || new Date(), [Validators.required]],
+			desc: [value?.desc],
+			mission: [this.findMission(value?.missionId), [Validators.required]],
 		});
 	}
 }

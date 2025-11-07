@@ -4,7 +4,7 @@ import { IEntity } from '../util/entity.type';
 export interface Chunk extends IEntity {
 	count: number;
 
-	date: Date;
+	date: Date | string;
 
 	desc: string;
 

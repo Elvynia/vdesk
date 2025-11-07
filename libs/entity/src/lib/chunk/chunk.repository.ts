@@ -1,8 +1,8 @@
+import { Chunk } from '@lv/common';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EntityRepository } from '../entity.repository';
-import { MissionEntity } from '../mission/mission.entity';
 import { ChunkCreate, ChunkEntity, ChunkUpdate } from './chunk.entity';
 
 @Injectable()
@@ -18,7 +18,11 @@ export class ChunkRepository extends EntityRepository<
 		super();
 	}
 
-	findByMission(missionId: string) {
-		return this.model.find({ missionId });
+	findByMission(missionId: string, active?: boolean) {
+		const args = { missionId } as Chunk;
+		if (active) {
+			args.invoiced = !active;
+		}
+		return this.model.find(args);
 	}
 }

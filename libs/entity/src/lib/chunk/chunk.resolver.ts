@@ -1,26 +1,18 @@
-import { OnModuleInit } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
 import {
 	Args,
 	Mutation,
 	Query,
 	Resolver
 } from '@nestjs/graphql';
-import { MissionRepository } from '../mission/mission.repository';
 import { ChunkCreate, ChunkEntity, ChunkUpdate } from './chunk.entity';
 import { ChunkRepository } from './chunk.repository';
 
 @Resolver(() => ChunkEntity)
-export class ChunkResolver implements OnModuleInit {
-	private missionRepository: MissionRepository;
+export class ChunkResolver {
 
-	constructor(private readonly chunkRepository: ChunkRepository,
-		private readonly moduleRef: ModuleRef
+	constructor(
+		private readonly chunkRepository: ChunkRepository
 	) { }
-
-	onModuleInit() {
-		this.missionRepository = this.moduleRef.get(MissionRepository, { strict: false });
-	}
 
 	@Mutation(() => ChunkEntity)
 	createChunk(@Args('createChunkInput') createChunkInput: ChunkCreate) {
@@ -46,9 +38,4 @@ export class ChunkResolver implements OnModuleInit {
 	removeChunk(@Args('id', { type: () => String }) id: string) {
 		return this.chunkRepository.remove(id);
 	}
-
-	// @ResolveField(() => MissionEntity)
-	// mission(@Parent() chunk: ChunkEntity) {
-	// 	return this.missionRepository.findOne(chunk.missionId);
-	// }
 }
