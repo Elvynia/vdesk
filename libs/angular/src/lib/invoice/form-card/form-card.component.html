@@ -1,29 +1,49 @@
-<mat-card>
-	<mat-card-header class="mb-4">
+<mat-card [formGroup]="group">
+	<mat-card-header class="flex justify-between mb-4">
 		<h1 mat-card-title>{{ value?._id ? 'Edit' : 'New' }} invoice</h1>
+		<mat-checkbox class="ms-auto" labelPosition="before" formControlName="estimate">Estimate</mat-checkbox>
 	</mat-card-header>
-	<mat-card-content class="!flex flex-col justify-center">
-		<lv-invoice-form
-			[value]="value"
-			[group]="group"
-			*lvLoading="pending; color: 'accent'; diameter: 128"
-		></lv-invoice-form>
+	<mat-card-content class="!flex flex-col mb-4">
+		<mat-accordion [multi]="false">
+			<mat-expansion-panel [disabled]="!groupMissions.length" #panel>
+				<mat-expansion-panel-header>
+					<h3 [hidden]="!panel.expanded">{{ missionLabel }}</h3>
+					<mat-selection-list multiple class="missions flex-wrap mb-2" formControlName="missions"
+						[hidden]="panel.expanded">
+						@for (mission of missionList; track mission._id) {
+						<mat-list-option class="!w-min" [value]="mission" [disabled]="mission.disabled"
+							(click)="$event.stopPropagation()">
+							{{ mission.name }}
+						</mat-list-option>
+						}
+					</mat-selection-list>
+				</mat-expansion-panel-header>
+				<ng-template matExpansionPanelContent>
+					<lv-invoice-form [value]="value" [group]="group" (addLine)="lineAdd()"
+						(removeLine)="lineRemove($event)"
+						*lvLoading="pending; color: 'accent'; diameter: 128"></lv-invoice-form>
+				</ng-template>
+			</mat-expansion-panel>
+			<mat-expansion-panel hideToggle [expanded]="generatorExpanded" [disabled]="!groupGenerate"
+				[hidden]="!groupMissions.length" #genPanel>
+				<mat-expansion-panel-header>
+					<mat-panel-title>Generate</mat-panel-title>
+					<mat-panel-description>
+						<mat-checkbox formControlName="generate" (change)="updateGeneratePanel($event, genPanel)"
+							(click)="$event.stopPropagation()">Enabled</mat-checkbox>
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+				<lv-invoice-generator [group]="group" (lineAdded)="lineAdd($event)"
+					(lineRemoved)="lineRemove($event)"></lv-invoice-generator>
+			</mat-expansion-panel>
+		</mat-accordion>
 	</mat-card-content>
 	<mat-card-actions class="duo">
-		<button
-			mat-stroked-button
-			class="lv-error"
-			[disabled]="pending"
-			(click)="cancel()"
-		>
+		<button mat-stroked-button class="lv-error" [disabled]="pending" (click)="cancel()">
 			Cancel
 		</button>
-		<button
-			mat-raised-button
-			class="lv-accent"
-			[disabled]="pending || group.invalid || group.pending"
-			(click)="submit()"
-		>
+		<button mat-raised-button class="lv-accent" [disabled]="pending || group.invalid || group.pending"
+			(click)="submit()">
 			Submit
 		</button>
 	</mat-card-actions>

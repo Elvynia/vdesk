@@ -1,3 +1,10 @@
-mat-card-content {
-	min-height: 170px;
+@use '@angular/material' as mat;
+
+:host {
+	@include mat.expansion-overrides((header-collapsed-state-height: min-content));
+	@apply max-w-xl
+}
+
+mat-selection-list.missions {
+	@apply flex;
 }

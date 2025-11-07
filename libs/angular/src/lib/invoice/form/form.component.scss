@@ -2,8 +2,6 @@
 	display: block;
 }
 
-.form-field-spacer,
-mat-form-field,
-mat-checkbox {
-	width: 240px;
+mat-form-field:not([class*='basis-']) {
+	@apply flex-grow
 }

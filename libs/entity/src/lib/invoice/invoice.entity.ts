@@ -1,8 +1,9 @@
 import { Invoice } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
 import { InvoiceLineEntity } from '../invoice-line/invoice-line.entity';
 import { MissionEntity } from '../mission/mission.entity';
+import { CompanyEntity } from '../company/company.entity';
 
 @InputType('InvoiceInput')
 @ObjectType()
@@ -26,6 +27,10 @@ export class InvoiceEntity implements Invoice {
 	@Field()
 	@Prop()
 	amount: number;
+
+	@Field(() => String)
+	@Prop({ type: () => String, ref: () => CompanyEntity })
+	companyId: number;
 
 	@Field()
 	@Prop()
@@ -55,9 +60,13 @@ export class InvoiceEntity implements Invoice {
 	@Prop()
 	taxMultiplier?: number;
 
-	@Field()
-	@Prop({ type: () => String, ref: () => MissionEntity })
-	missionId: string;
+	@Field(() => [MissionEntity], { defaultValue: [] })
+	@Virtual()
+	missions?: MissionEntity[];
+
+	@Field(() => [String])
+	@Prop({ type: () => [String], ref: () => [MissionEntity] })
+	missionIds: string[];
 
 	@Field(() => [InvoiceLineEntity])
 	@Prop({ type: () => String, ref: () => [InvoiceLineEntity] })
@@ -81,6 +90,10 @@ export class InvoiceCreate {
 	@Field()
 	@Prop()
 	amount: number;
+
+	@Field(() => String)
+	@Prop({ type: () => String, ref: () => CompanyEntity })
+	companyId: number;
 
 	@Field()
 	@Prop()
@@ -110,9 +123,9 @@ export class InvoiceCreate {
 	@Prop()
 	taxMultiplier?: number;
 
-	@Field()
-	@Prop({ type: () => String, ref: () => MissionEntity })
-	missionId: string;
+	@Field(() => [String])
+	@Prop({ type: () => [String], ref: () => [MissionEntity] })
+	missionIds: string[];
 
 	@Field(() => [InvoiceLineEntity])
 	@Prop({ type: () => String, ref: () => [InvoiceLineEntity] })

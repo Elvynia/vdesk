@@ -1,5 +1,6 @@
 import { Field, InputType, ObjectType } from "@nestjs/graphql";
-import { Prop, Schema } from "@nestjs/mongoose";
+import { Prop, Schema, Virtual } from "@nestjs/mongoose";
+import { ChunkEntity } from "../chunk/chunk.entity";
 
 @InputType('InvoiceLineInput')
 @ObjectType()
@@ -17,4 +18,12 @@ export class InvoiceLineEntity {
 	@Field()
 	@Prop()
 	price: number;
+
+	@Field(() => [ChunkEntity], { defaultValue: [] })
+	@Virtual()
+	chunks?: ChunkEntity[];
+
+	@Field(() => [String])
+	@Prop({ type: () => [String], ref: () => [ChunkEntity] })
+	chunkIds: string[];
 }

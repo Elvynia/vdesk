@@ -1,4 +1,5 @@
 import { InvoiceLine } from '../invoice-line/invoice-line.type';
+import { Mission } from '../mission/mission.type';
 import { IEntity } from '../util/entity.type';
 
 export interface Invoice extends IEntity {
@@ -9,6 +10,8 @@ export interface Invoice extends IEntity {
 	estimate: boolean;
 
 	amount: number;
+
+	companyId: number;
 
 	currency: string;
 
@@ -24,7 +27,9 @@ export interface Invoice extends IEntity {
 
 	taxMultiplier?: number;
 
-	missionId: string;
+	missions?: Mission[];
+
+	missionIds: string[];
 
 	lines: InvoiceLine[];
 }

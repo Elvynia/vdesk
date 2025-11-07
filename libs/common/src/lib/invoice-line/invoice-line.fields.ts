@@ -1,5 +1,6 @@
 export const invoiceLineFields = [
 	'count',
 	'desc',
-	'price'
+	'price',
+	'chunkIds'
 ];

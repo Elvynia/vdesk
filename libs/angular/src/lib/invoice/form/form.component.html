@@ -1,85 +1,73 @@
 <div class="pt-3" [formGroup]="group">
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('name')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label> name </mat-label>
 			<input matInput name="name" formControlName="name" />
 		</mat-form-field>
 
-		<mat-form-field [class.lv-accent]="group.get('date')!.valid">
+		<mat-form-field class="basis-auto lg:basis-40 flex-shrink-0">
 			<mat-label> date </mat-label>
-
-			<input
-				matInput
-				name="date"
-				formControlName="date"
-				[matDatepicker]="datePicker"
-			/>
-			<mat-datepicker-toggle
-				matIconSuffix
-				[for]="datePicker"
-			></mat-datepicker-toggle>
+			<input matInput name="date" formControlName="date" [matDatepicker]="datePicker" />
+			<mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
 			<mat-datepicker #datePicker></mat-datepicker>
 		</mat-form-field>
 	</div>
 
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-checkbox formControlName="estimate">Estimate</mat-checkbox>
-
-		<mat-form-field [class.lv-accent]="group.get('amount')!.valid">
-			<mat-label> amount </mat-label>
-			<input
-				matInput
-				name="amount"
-				formControlName="amount"
-				lvCurrencyFormat
-			/>
-		</mat-form-field>
-	</div>
-
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('currency')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label> currency </mat-label>
 			<input matInput name="currency" formControlName="currency" />
 		</mat-form-field>
 
-		<mat-form-field [class.lv-accent]="group.get('execStart')!.valid">
-			<mat-label> execStart </mat-label>
+		<mat-form-field>
+			<mat-label> amount </mat-label>
+			<input matInput name="amount" formControlName="amount" lvCurrencyFormat />
+		</mat-form-field>
+	</div>
 
-			<input
-				matInput
-				name="execStart"
-				formControlName="execStart"
-				[matDatepicker]="execStartPicker"
-			/>
-			<mat-datepicker-toggle
-				matIconSuffix
-				[for]="execStartPicker"
-			></mat-datepicker-toggle>
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
+			<mat-label> execStart </mat-label>
+			<input matInput name="execStart" formControlName="execStart" [matDatepicker]="execStartPicker" />
+			<mat-datepicker-toggle matIconSuffix [for]="execStartPicker"></mat-datepicker-toggle>
 			<mat-datepicker #execStartPicker></mat-datepicker>
 		</mat-form-field>
-	</div>
 
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('execEnd')!.valid">
+		<mat-form-field>
 			<mat-label> execEnd </mat-label>
-
-			<input
-				matInput
-				name="execEnd"
-				formControlName="execEnd"
-				[matDatepicker]="execEndPicker"
-			/>
-			<mat-datepicker-toggle
-				matIconSuffix
-				[for]="execEndPicker"
-			></mat-datepicker-toggle>
+			<input matInput name="execEnd" formControlName="execEnd" [matDatepicker]="execEndPicker" />
+			<mat-datepicker-toggle matIconSuffix [for]="execEndPicker"></mat-datepicker-toggle>
 			<mat-datepicker #execEndPicker></mat-datepicker>
 		</mat-form-field>
-
-		<mat-checkbox formControlName="sent">Sent</mat-checkbox>
 	</div>
 
-	<div class="flex flex-col lg:flex-row lg:justify-around">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-checkbox formControlName="sent">Sent</mat-checkbox>
 		<mat-checkbox formControlName="paid">Paid</mat-checkbox>
+	</div>
+
+	<div class="flex flex-col" formArrayName="lines">
+		@for (line of lineArray.controls; track $index; let i = $index) {
+		<div class="flex flex-col lg:flex-row lg:justify-around gap-1" [formGroup]="line">
+			<mat-form-field class="flex-grow" [class.lv-accent]="line.get('desc')!.valid">
+				<mat-label>Description</mat-label>
+				<input matInput name="desc" formControlName="desc" />
+			</mat-form-field>
+			<mat-form-field class="basis-20" [class.lv-accent]="line.get('count')!.valid">
+				<mat-label>Count</mat-label>
+				<input matInput name="count" formControlName="count" lvDecimalFormat />
+			</mat-form-field>
+			<mat-form-field class="basis-20" [class.lv-accent]="line.get('price')!.valid">
+				<mat-label>Price</mat-label>
+				<input matInput name="price" formControlName="price" lvCurrencyFormat />
+			</mat-form-field>
+			<button mat-mini-fab color="warn" (click)="removeLine.next(i)">
+				<mat-icon>clear</mat-icon>
+			</button>
+		</div>
+		}
+		<button mat-mini-fab color="accent" (click)="addLine.next()">
+			<mat-icon>add_circle</mat-icon>
+		</button>
 	</div>
 </div>

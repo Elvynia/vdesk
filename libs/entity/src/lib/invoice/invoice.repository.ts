@@ -16,4 +16,14 @@ export class InvoiceRepository extends EntityRepository<
 	) {
 		super();
 	}
+
+	getYearCount(companyId: string) {
+		const startYear = new Date();
+		startYear.setMonth(0);
+		startYear.setDate(0);
+		return this.model.countDocuments({
+			companyId,
+			date: { $gt: startYear }
+		});
+	}
 }

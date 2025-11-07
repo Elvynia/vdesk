@@ -6,12 +6,15 @@ export const invoiceFields = [
 	'date',
 	'estimate',
 	'amount',
+	'companyId',
 	'currency',
 	'execStart',
 	'execEnd',
 	'sent',
 	'paid',
-	'missionId',
+	'missionIds',
+	'tax',
+	'taxMultiplier',
 	`lines {
 		${invoiceLineFields.join('\n')}
 	}`
