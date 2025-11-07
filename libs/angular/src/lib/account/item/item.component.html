@@ -8,16 +8,13 @@
 	<span matListItemLine>Created on {{ value.creationDate | date:'medium' }}</span>
 	@if (hovering) {
 	<div matListItemMeta>
-		<button mat-icon-button [class.lv-accent]="!value.pending" [disabled]="value.pending"
-			(click)="detail.next(value._id)">
+		<button mat-icon-button [disabled]="value.pending" (click)="detail.next(value._id)">
 			<mat-icon>info</mat-icon>
 		</button>
-		<button mat-icon-button [class.lv-accent]="!value.pending" [disabled]="value.pending"
-			(click)="edit.next(value)">
+		<button mat-icon-button class="lv-accent" [disabled]="value.pending" (click)="edit.next(value)">
 			<mat-icon>edit</mat-icon>
 		</button>
-		<button mat-icon-button [class.lv-error]="!value.pending" [disabled]="value.pending"
-			(click)="delete.next(value)">
+		<button mat-icon-button class="lv-error" [disabled]="value.pending" (click)="delete.next(value)">
 			<mat-icon>delete</mat-icon>
 		</button>
 	</div>
