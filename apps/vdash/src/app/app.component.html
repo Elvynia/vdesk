@@ -1,7 +1,9 @@
-<h1 *ngFor="let a of addresses">{{ a.line1 }}</h1>
+@for (a of addresses; track a) {
+  <h1>{{ a.line1 }}</h1>
+}
 <div class="container">
-	<lv-auth-form></lv-auth-form>
-	<div class="mt-5">
-		<button mat-raised-button color="primary" (click)="query()">Query</button>
-	</div>
+  <lv-auth-form></lv-auth-form>
+  <div class="mt-5">
+    <button mat-raised-button color="primary" (click)="query()">Query</button>
+  </div>
 </div>

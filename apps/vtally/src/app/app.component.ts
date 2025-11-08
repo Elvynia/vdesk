@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
@@ -14,14 +14,13 @@ import { TallyState } from './app.type';
 
 @Component({
 	imports: [
-		CommonModule,
-		RouterModule,
-		MatButtonModule,
-		MatIconModule,
-		MatToolbarModule,
-		MatSidenavModule,
-		MatProgressSpinnerModule
-	],
+    RouterModule,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatProgressSpinnerModule
+],
 	selector: 'lv-root',
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',

@@ -1,5 +1,5 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,15 +22,14 @@ import { authActions } from '../actions';
 	templateUrl: './form.component.html',
 	styleUrls: ['./form.component.css'],
 	imports: [
-		LoadingDirective,
-		CommonModule,
-		MatButtonModule,
-		MatCardModule,
-		MatCheckboxModule,
-		MatFormFieldModule,
-		MatInputModule,
-		ReactiveFormsModule
-	]
+    LoadingDirective,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule
+]
 })
 export class AuthFormComponent implements OnInit {
 	@Input({ transform: coerceBooleanProperty }) admin: boolean;

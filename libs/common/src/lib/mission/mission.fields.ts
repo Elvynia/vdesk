@@ -15,7 +15,7 @@ export function makeMissionFields({
 		'start',
 		'end',
 		'desc',
-		`chunks (active:${chunkActive}) {
+		`chunks (active:${chunkActive || false}) {
 		${chunkFields.join('\n')}
 	}`,
 		'companyId'

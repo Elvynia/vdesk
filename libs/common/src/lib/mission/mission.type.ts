@@ -7,7 +7,7 @@ export interface Mission extends IEntity {
 
 	rate: number;
 
-	byDay?: boolean;
+	byDay: boolean;
 
 	dayLength?: number;
 

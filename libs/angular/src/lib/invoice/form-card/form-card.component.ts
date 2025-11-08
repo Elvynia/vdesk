@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
 	Component,
 	EventEmitter,
@@ -29,19 +29,16 @@ type MissionSelectable = Mission & { disabled?: boolean };
 @Component({
 	selector: 'lv-invoice-form-card',
 	imports: [
-		CommonModule,
-		InvoiceFormComponent,
-		InvoiceGeneratorComponent,
-
-		MatButtonModule,
-		MatCardModule,
-		MatCheckboxModule,
-		MatExpansionModule,
-		MatListModule,
-
-		ReactiveFormsModule,
-		LoadingDirective,
-	],
+    InvoiceFormComponent,
+    InvoiceGeneratorComponent,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatExpansionModule,
+    MatListModule,
+    ReactiveFormsModule,
+    LoadingDirective
+],
 	templateUrl: './form-card.component.html',
 	styleUrl: './form-card.component.scss',
 })

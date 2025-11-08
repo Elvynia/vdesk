@@ -29,11 +29,11 @@ export class ChunkEntity implements Chunk {
 	@Prop()
 	desc: string;
 
-	@Field()
+	@Field({ defaultValue: false })
 	@Prop()
 	invoiced: boolean;
 
-	@Field()
+	@Field({ defaultValue: false })
 	@Prop()
 	paid: boolean;
 
@@ -90,11 +90,11 @@ export class ChunkUpdate {
 	@Prop()
 	desc: string;
 
-	@Field()
+	@Field({ defaultValue: false })
 	@Prop()
 	invoiced: boolean;
 
-	@Field()
+	@Field({ defaultValue: false })
 	@Prop()
 	paid: boolean;
 

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,10 +6,9 @@ import { AuthFormComponent } from '@lv/angular';
 
 @Component({
 	imports: [
-		CommonModule,
-		AuthFormComponent,
-		MatButtonModule
-	],
+    AuthFormComponent,
+    MatButtonModule
+],
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',

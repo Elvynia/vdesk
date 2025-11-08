@@ -26,9 +26,9 @@ export class MissionEntity implements Mission {
 	@Prop()
 	rate: number;
 
-	@Field({ nullable: true })
+	@Field({ defaultValue: false })
 	@Prop()
-	byDay?: boolean;
+	byDay: boolean;
 
 	@Field({ nullable: true })
 	@Prop({ default: 7 })
@@ -69,9 +69,9 @@ export class MissionCreate {
 	@Prop()
 	rate: number;
 
-	@Field({ nullable: true })
+	@Field({ defaultValue: false })
 	@Prop()
-	byDay?: boolean;
+	byDay: boolean;
 
 	@Field({ nullable: true })
 	@Prop()
@@ -107,9 +107,9 @@ export class MissionUpdate {
 	@Prop()
 	rate: number;
 
-	@Field({ nullable: true })
+	@Field({ defaultValue: false })
 	@Prop()
-	byDay?: boolean;
+	byDay: boolean;
 
 	@Field({ nullable: true })
 	@Prop()
