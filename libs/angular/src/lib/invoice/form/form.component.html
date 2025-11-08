@@ -5,7 +5,7 @@
 			<input matInput name="name" formControlName="name" />
 		</mat-form-field>
 
-		<mat-form-field class="basis-auto lg:basis-40 flex-shrink-0">
+		<mat-form-field class="basis-auto lg:basis-40 shrink-0">
 			<mat-label> date </mat-label>
 			<input matInput name="date" formControlName="date" [matDatepicker]="datePicker" />
 			<mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
@@ -49,7 +49,7 @@
 	<div class="flex flex-col" formArrayName="lines">
 		@for (line of lineArray.controls; track $index; let i = $index) {
 		<div class="flex flex-col lg:flex-row lg:justify-around gap-1" [formGroup]="line">
-			<mat-form-field class="flex-grow" [class.lv-accent]="line.get('desc')!.valid">
+			<mat-form-field class="grow" [class.lv-accent]="line.get('desc')!.valid">
 				<mat-label>Description</mat-label>
 				<input matInput name="desc" formControlName="desc" />
 			</mat-form-field>

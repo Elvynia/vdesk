@@ -36,7 +36,7 @@
 		</mat-form-field>
 	</div>
 
-	<mat-form-field class="!w-full px-6" [class.lv-accent]="group.get('company')!.valid">
+	<mat-form-field class="w-full! px-6" [class.lv-accent]="group.get('company')!.valid">
 		<mat-label>Company</mat-label>
 		<mat-select [compareWith]="compareId" formControlName="company">
 			@for (company of companyList; track company._id) {

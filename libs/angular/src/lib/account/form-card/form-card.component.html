@@ -4,7 +4,7 @@
 			{{ value?._id ? 'Edit' : 'New' }} account
 		</h1>
 	</mat-card-header>
-	<mat-card-content class="!flex flex-col justify-center">
+	<mat-card-content class="flex! flex-col justify-center">
 		<lv-account-form [value]="value" [group]="group"
 			*lvLoading="pending; color: 'accent'; diameter: 128"></lv-account-form>
 	</mat-card-content>

@@ -2,7 +2,7 @@
 	<mat-card-header class="mb-4">
 		<h1 mat-card-title>{{ value?._id ? 'Edit' : 'New' }} mission</h1>
 	</mat-card-header>
-	<mat-card-content class="!flex flex-col justify-center">
+	<mat-card-content class="flex! flex-col justify-center">
 		<lv-mission-form [value]="value" [group]="group" [companyList]="companyList"
 			*lvLoading="pending; color: 'accent'; diameter: 128"></lv-mission-form>
 	</mat-card-content>

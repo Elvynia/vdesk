@@ -3,7 +3,7 @@
 		<h1 mat-card-title>{{ value?._id ? 'Edit' : 'New' }} invoice</h1>
 		<mat-checkbox class="ms-auto" labelPosition="before" formControlName="estimate">Estimate</mat-checkbox>
 	</mat-card-header>
-	<mat-card-content class="!flex flex-col mb-4">
+	<mat-card-content class="flex! flex-col mb-4">
 		<mat-accordion [multi]="false">
 			<mat-expansion-panel [disabled]="!groupMissions.length" #panel>
 				<mat-expansion-panel-header>
@@ -11,7 +11,7 @@
 					<mat-selection-list multiple class="missions flex-wrap mb-2" formControlName="missions"
 						[hidden]="panel.expanded">
 						@for (mission of missionList; track mission._id) {
-						<mat-list-option class="!w-min" [value]="mission" [disabled]="mission.disabled"
+						<mat-list-option class="w-min!" [value]="mission" [disabled]="mission.disabled"
 							(click)="$event.stopPropagation()">
 							{{ mission.name }}
 						</mat-list-option>

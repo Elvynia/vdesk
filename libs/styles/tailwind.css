@@ -1,8 +1,1 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* FIXME: Remove after Tailwind update to v4 */
-[hidden]:where(:not([hidden='until-found'])) {
-  display: none !important;
-}
+@import 'tailwindcss';
