@@ -8,12 +8,16 @@
 	"targets": {
 		"build": {
 			"executor": "@angular-devkit/build-angular:application",
-			"outputs": ["{options.outputPath}"],
+			"outputs": [
+				"{options.outputPath}"
+			],
 			"options": {
 				"outputPath": "dist/apps/vtally",
 				"index": "apps/vtally/src/index.html",
 				"browser": "apps/vtally/src/main.ts",
-				"polyfills": ["zone.js"],
+				"polyfills": [
+					"zone.js"
+				],
 				"tsConfig": "apps/vtally/tsconfig.app.json",
 				"inlineStyleLanguage": "scss",
 				"assets": [
@@ -22,7 +26,10 @@
 						"input": "apps/vtally/public"
 					}
 				],
-				"styles": ["apps/vtally/src/styles.scss"],
+				"styles": [
+					"apps/vtally/src/styles.scss",
+					"libs/styles/material.scss"
+				],
 				"scripts": []
 			},
 			"configurations": {

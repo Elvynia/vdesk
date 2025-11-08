@@ -8,12 +8,16 @@
 	"targets": {
 		"build": {
 			"executor": "@angular-devkit/build-angular:application",
-			"outputs": ["{options.outputPath}"],
+			"outputs": [
+				"{options.outputPath}"
+			],
 			"options": {
 				"outputPath": "dist/apps/vdash",
 				"index": "apps/vdash/src/index.html",
 				"browser": "apps/vdash/src/main.ts",
-				"polyfills": ["zone.js"],
+				"polyfills": [
+					"zone.js"
+				],
 				"tsConfig": "apps/vdash/tsconfig.app.json",
 				"inlineStyleLanguage": "scss",
 				"assets": [
@@ -22,7 +26,10 @@
 						"input": "apps/vdash/public"
 					}
 				],
-				"styles": ["apps/vdash/src/styles.scss"],
+				"styles": [
+					"apps/vdash/src/styles.scss",
+					"libs/styles/material.scss"
+				],
 				"scripts": []
 			},
 			"configurations": {
