@@ -8,6 +8,7 @@ import {
 	OnInit,
 	Output,
 	SimpleChanges,
+	ViewChild,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -51,6 +52,7 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Invoice;
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<Invoice>;
+	@ViewChild('formPanel') formPanel!: MatExpansionPanel;
 	generatorExpanded: boolean;
 	group!: FormGroup;
 	missionLabel?: string;
@@ -93,6 +95,7 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 	}
 
 	cancel() {
+		this.formPanel.close();
 		this.reset();
 		this.back.next();
 	}
