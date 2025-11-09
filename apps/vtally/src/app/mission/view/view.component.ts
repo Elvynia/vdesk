@@ -15,7 +15,7 @@ import { filter, first, takeUntil } from 'rxjs';
 	selector: 'lv-mission-view',
 	imports: [MissionListComponent, MissionFormCardComponent],
 	templateUrl: './view.component.html',
-	styleUrl: './view.component.scss',
+	styleUrl: './view.component.css',
 })
 export class MissionViewComponent extends ObserverCompomix() implements OnInit {
 	missions: Mission[];

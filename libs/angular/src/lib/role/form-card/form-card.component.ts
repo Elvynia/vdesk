@@ -26,7 +26,7 @@ import { roleActions } from '../role.actions';
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
-	styleUrl: './form-card.component.scss',
+	styleUrl: './form-card.component.css',
 })
 export class RoleFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Role;

@@ -19,7 +19,7 @@
 					"zone.js"
 				],
 				"tsConfig": "apps/vtally/tsconfig.app.json",
-				"inlineStyleLanguage": "scss",
+				"inlineStyleLanguage": "css",
 				"assets": [
 					{
 						"glob": "**/*",

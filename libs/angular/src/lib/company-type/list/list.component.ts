@@ -7,7 +7,7 @@ import { CompanyTypeItemComponent } from '../item/item.component';
 	selector: 'lv-company-type-list',
 	imports: [CompanyTypeItemComponent, MatListModule],
 	templateUrl: './list.component.html',
-	styleUrl: './list.component.scss',
+	styleUrl: './list.component.css',
 })
 export class CompanyTypeListComponent {
 	@Input() values: CompanyType[];

@@ -7,7 +7,7 @@ import { ChunkItemComponent } from '../item/item.component';
 	selector: 'lv-chunk-list',
 	imports: [ChunkItemComponent, MatListModule],
 	templateUrl: './list.component.html',
-	styleUrl: './list.component.scss',
+	styleUrl: './list.component.css',
 })
 export class ChunkListComponent {
 	@Input() values: Chunk[];

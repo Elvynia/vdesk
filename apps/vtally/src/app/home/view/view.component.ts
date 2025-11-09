@@ -9,7 +9,7 @@ import { ChunkFormCardComponent, ObserverCompomix } from '@lv/angular';
 		MatCardModule
 	],
 	templateUrl: './view.component.html',
-	styleUrl: './view.component.scss',
+	styleUrl: './view.component.css',
 })
 export class ViewComponent extends ObserverCompomix() {
 

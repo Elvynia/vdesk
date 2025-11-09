@@ -15,7 +15,7 @@ import { filter, first, takeUntil } from 'rxjs';
 	selector: 'lv-company-type-view',
 	imports: [CompanyTypeListComponent, CompanyTypeFormCardComponent],
 	templateUrl: './view.component.html',
-	styleUrl: './view.component.scss',
+	styleUrl: './view.component.css',
 })
 export class CompanyTypeViewComponent
 	extends ObserverCompomix()

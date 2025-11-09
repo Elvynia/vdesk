@@ -7,7 +7,7 @@ import { MissionItemComponent } from '../item/item.component';
 	selector: 'lv-mission-list',
 	imports: [MissionItemComponent, MatListModule],
 	templateUrl: './list.component.html',
-	styleUrl: './list.component.scss',
+	styleUrl: './list.component.css',
 })
 export class MissionListComponent {
 	@Input() values: Mission[];

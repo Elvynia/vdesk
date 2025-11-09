@@ -27,7 +27,7 @@ import { addressActions } from '../../address/address.actions';
 	],
 
 	templateUrl: './form.component.html',
-	styleUrl: './form.component.scss',
+	styleUrl: './form.component.css',
 })
 export class CompanyFormComponent extends ObserverCompomix() implements OnInit {
 	@Input() group!: FormGroup;

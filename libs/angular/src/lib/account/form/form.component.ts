@@ -20,7 +20,7 @@ import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 		ReactiveFormsModule
 	],
 	templateUrl: './form.component.html',
-	styleUrl: './form.component.scss'
+	styleUrl: './form.component.css'
 })
 export class AccountFormComponent extends ObserverCompomix() implements OnInit {
 	@Input() group!: FormGroup;

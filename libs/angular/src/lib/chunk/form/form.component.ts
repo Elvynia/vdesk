@@ -47,7 +47,7 @@ import { chunkActions } from '../chunk.actions';
 		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
 	],
 	templateUrl: './form.component.html',
-	styleUrl: './form.component.scss',
+	styleUrl: './form.component.css',
 })
 export class ChunkFormComponent implements OnChanges {
 	@Input() group!: FormGroup;

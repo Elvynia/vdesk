@@ -7,7 +7,7 @@ import { AddressItemComponent } from '../item/item.component';
 	selector: 'lv-address-list',
 	imports: [AddressItemComponent, MatListModule],
 	templateUrl: './list.component.html',
-	styleUrl: './list.component.scss',
+	styleUrl: './list.component.css',
 })
 export class AddressListComponent {
 	@Input() values: Address[];

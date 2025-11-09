@@ -1,17 +1,12 @@
 import { CurrencyPipe } from '@angular/common';
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Invoice, Mission } from '@lv/common';
+import { Invoice } from '@lv/common';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
-
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
 import { CurrencyFormatDirective } from '../../util/format/currency-format.directive';
-
-
 import {
 	MAT_DATE_LOCALE,
 	MatNativeDateModule,
@@ -19,7 +14,6 @@ import {
 } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { DecimalFormatDirective } from "../../util/format/decimal-format.directive";
 
 @Component({
@@ -53,7 +47,7 @@ import { DecimalFormatDirective } from "../../util/format/decimal-format.directi
 		CurrencyPipe,
 	],
 	templateUrl: './form.component.html',
-	styleUrl: './form.component.scss',
+	styleUrl: './form.component.css',
 })
 export class InvoiceFormComponent extends ObserverCompomix() {
 	@Input() group!: FormGroup;

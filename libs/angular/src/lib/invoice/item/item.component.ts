@@ -16,7 +16,7 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
     LoadingPlaceholderComponent
 ],
 	templateUrl: './item.component.html',
-	styleUrl: './item.component.scss',
+	styleUrl: './item.component.css',
 })
 export class InvoiceItemComponent extends HoverableCompomix() {
 	@Input() value!: Invoice;

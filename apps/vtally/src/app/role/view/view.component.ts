@@ -15,7 +15,7 @@ import { filter, first, takeUntil } from 'rxjs';
 	selector: 'lv-role-view',
 	imports: [RoleListComponent, RoleFormCardComponent],
 	templateUrl: './view.component.html',
-	styleUrl: './view.component.scss',
+	styleUrl: './view.component.css',
 })
 export class RoleViewComponent extends ObserverCompomix() implements OnInit {
 	roles: Role[];

@@ -31,7 +31,7 @@ import { ChunkFormComponent } from '../form/form.component';
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
-	styleUrl: './form-card.component.scss',
+	styleUrl: './form-card.component.css',
 })
 export class ChunkFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Chunk;

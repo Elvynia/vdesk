@@ -18,7 +18,7 @@ import { AccountFormComponent } from '../form/form.component';
 		AccountFormComponent
 	],
 	templateUrl: './form-card.component.html',
-	styleUrl: './form-card.component.scss'
+	styleUrl: './form-card.component.css'
 })
 export class AccountFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Account;

@@ -18,7 +18,7 @@ import { formParseFromDate } from '../../util/form/form-parse-date';
 		LoadingDirective
 	],
 	templateUrl: './generator.component.html',
-	styleUrl: './generator.component.scss',
+	styleUrl: './generator.component.css',
 	encapsulation: ViewEncapsulation.None,
 	providers: [
 		{
