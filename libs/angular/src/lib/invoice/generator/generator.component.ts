@@ -32,7 +32,6 @@ export class InvoiceGeneratorComponent implements OnChanges {
 	@Input() group!: FormGroup;
 	@Output() lineAdded: EventEmitter<InvoiceLine>;
 	@Output() lineRemoved: EventEmitter<number>;
-	@ViewChild('cal') cal!: MatCalendar<Date>;
 	startView?: MatCalendarView;
 	dateClass!: MatCalendarCellClassFunction<Date>;
 	calPending: boolean;
@@ -84,7 +83,6 @@ export class InvoiceGeneratorComponent implements OnChanges {
 				this.resetAll();
 				if (missions && missions.length > 0) {
 					this.chunks = missions.flatMap((m) => m.chunks);
-					console.log('chunks: ', this.chunks.length)
 					this.dateClass = (d) => {
 						const date = formParseFromDate(d);
 						const chunkLoad = this.chunks.filter((c) => c.date === date).reduce((total, c) => total + c.count, 0);
