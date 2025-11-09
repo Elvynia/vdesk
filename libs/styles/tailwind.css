@@ -1,1 +1,14 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@theme {
+	--color-default: var(--mat-sys-background);
+	--color-on-default: var(--mat-sys-on-background);
+	--color-primary: var(--mat-sys-primary);
+	--color-on-primary: var(--mat-sys-on-primary);
+	--color-secondary: var(--mat-sys-secondary);
+	--color-on-secondary: var(--mat-sys-on-secondary);
+	--color-tertiary: var(--mat-sys-tertiary);
+	--color-on-tertiary: var(--mat-sys-on-tertiary);
+	--color-error: var(--mat-sys-error);
+	--color-on-error: var(--mat-sys-on-error);
+}

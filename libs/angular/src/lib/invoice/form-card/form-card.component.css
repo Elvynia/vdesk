@@ -1,9 +1,8 @@
-@use '@angular/material' as mat;
 @reference 'tailwindcss';
 
 :host {
-	@include mat.expansion-overrides((header-collapsed-state-height: min-content));
-	@apply max-w-xl
+	--mat-expansion-header-collapsed-state-height: min-content;
+	@apply max-w-xl;
 }
 
 mat-selection-list.missions {

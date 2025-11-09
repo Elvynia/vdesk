@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Invoice, InvoiceLine, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
@@ -29,16 +30,19 @@ type MissionSelectable = Mission & { disabled?: boolean };
 @Component({
 	selector: 'lv-invoice-form-card',
 	imports: [
-    InvoiceFormComponent,
-    InvoiceGeneratorComponent,
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatExpansionModule,
-    MatListModule,
-    ReactiveFormsModule,
-    LoadingDirective
-],
+		InvoiceFormComponent,
+		InvoiceGeneratorComponent,
+
+		MatButtonModule,
+		MatCardModule,
+		MatCheckboxModule,
+		MatExpansionModule,
+		MatIconModule,
+		MatListModule,
+
+		ReactiveFormsModule,
+		LoadingDirective,
+	],
 	templateUrl: './form-card.component.html',
 	styleUrl: './form-card.component.css',
 })
@@ -188,26 +192,27 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 			.subscribe(() => this.fetchMissions());
 	}
 
-	private reset() {
+	private reset(value?: Partial<Invoice>) {
+		value = value || this.value;
 		this.group = this.formBuilder.nonNullable.group({
 			_id: [
 				{
-					value: this.value?._id,
+					value: value?._id,
 					disabled: true,
 				},
 			],
-			name: [this.value?.name, [Validators.required]],
-			date: [this.value?.date || new Date(), [Validators.required]],
-			estimate: [this.value?.estimate || false, [Validators.required]],
-			amount: [this.value?.amount, [Validators.required]],
-			companyId: [this.value?.companyId, [Validators.required]],
-			currency: [this.value?.currency, [Validators.required]],
-			execStart: [this.value?.execStart, [Validators.required]],
-			execEnd: [this.value?.execEnd, [Validators.required]],
-			sent: [this.value?.sent || false],
-			paid: [this.value?.paid || false],
-			tax: [this.value?.tax || false],
-			missions: [this.findMissions(this.value?.missionIds), [Validators.required]],
+			name: [value?.name, [Validators.required]],
+			date: [value?.date || new Date(), [Validators.required]],
+			estimate: [value?.estimate || false, [Validators.required]],
+			amount: [value?.amount, [Validators.required]],
+			companyId: [value?.companyId, [Validators.required]],
+			currency: [value?.currency, [Validators.required]],
+			execStart: [value?.execStart, [Validators.required]],
+			execEnd: [value?.execEnd, [Validators.required]],
+			sent: [value?.sent || false],
+			paid: [value?.paid || false],
+			tax: [value?.tax || false],
+			missions: [this.findMissions(value?.missionIds), [Validators.required]],
 			lines: this.formBuilder.nonNullable.array([], [Validators.required]),
 			// Form specific
 			generate: [!this.value]
