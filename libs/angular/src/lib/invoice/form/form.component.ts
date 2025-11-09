@@ -52,7 +52,6 @@ import { DecimalFormatDirective } from "../../util/format/decimal-format.directi
 export class InvoiceFormComponent extends ObserverCompomix() {
 	@Input() group!: FormGroup;
 	@Input() value?: Invoice;
-	// @Input() missionList: Mission[];
 	@Output() addLine: EventEmitter<void>;
 	@Output() removeLine: EventEmitter<number>;
 
@@ -64,7 +63,6 @@ export class InvoiceFormComponent extends ObserverCompomix() {
 		super();
 		this.addLine = new EventEmitter();
 		this.removeLine = new EventEmitter();
-		// this.missionList = [];
 	}
 
 	compareId(e1: any, e2: any) {

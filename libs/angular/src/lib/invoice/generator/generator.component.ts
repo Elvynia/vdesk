@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatButtonModule } from "@angular/material/button";
 import { DateRange, DefaultMatCalendarRangeStrategy, MAT_DATE_RANGE_SELECTION_STRATEGY, MatCalendar, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
 import { Chunk, Company, distinctUntilAnyKeyChanged, findStartOfWeek, InvoiceLine, makeInvoiceLineWeek, Mission } from '@lv/common';
-import { delay, distinctUntilChanged, map, tap } from 'rxjs';
+import { delay, distinctUntilChanged, map, startWith, tap } from 'rxjs';
 import '../../../../../extension/array-reduce-sum';
 import { LoadingDirective } from "../../loading/loading.directive";
 import { formParseFromDate } from '../../util/form/form-parse-date';
@@ -24,7 +24,8 @@ import { formParseFromDate } from '../../util/form/form-parse-date';
 		{
 			provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
 			useClass: DefaultMatCalendarRangeStrategy,
-		}
+		},
+		CurrencyPipe
 	]
 })
 export class InvoiceGeneratorComponent implements OnChanges {
@@ -40,7 +41,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 	selected!: DateRange<Date> | null;
 	startAt!: Date;
 
-	constructor() {
+	constructor(private currencyPipe: CurrencyPipe) {
 		this.calPending = false;
 		this.chunks = [];
 		this.lineAdded = new EventEmitter();
@@ -53,6 +54,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 		if (changes.group && this.group) {
 			this.resetAll();
 			this.group.controls.missions.valueChanges.pipe(
+				startWith(this.group.controls.missions.value),
 				map((missions) => {
 					let currency = '';
 					let name = '';
@@ -70,6 +72,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 				Object.entries(values).forEach(([k, v]) => this.group.get(k)?.setValue(v));
 			});
 			this.group.controls.missions.valueChanges.pipe(
+				startWith(this.group.controls.missions.value),
 				distinctUntilChanged((a: Mission[], b: Mission[]) => {
 					const aIds = a.map((am) => am._id);
 					const bIds = b.map((bm) => bm._id);
@@ -151,7 +154,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 			this.makeLines(this.selected);
 			this.group.controls.execStart.setValue(this.selected.start);
 			this.group.controls.execEnd.setValue(this.selected.end);
-			this.group.controls.amount.setValue(this.lines.map((l) => l.price).reduceSum());
+			this.group.controls.amount.setValue(this.currencyPipe.transform(this.lines.map((l) => l.price).reduceSum()));
 		} else {
 			this.selected = new DateRange(date, null);
 			this.reset();

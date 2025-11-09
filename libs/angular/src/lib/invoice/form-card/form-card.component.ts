@@ -1,4 +1,5 @@
 
+import { CommonModule } from '@angular/common';
 import {
 	Component,
 	EventEmitter,
@@ -17,9 +18,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Invoice, InvoiceLine, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { filter, finalize, first } from 'rxjs';
+import { filter, finalize, first, map, startWith, switchMap } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { MissionService } from '../../mission/mission.service';
+import { ApiActionSave } from '../../util/api.action';
 import { formParseFloat } from '../../util/form/form-parse-number';
 import { InvoiceFormComponent } from '../form/form.component';
 import { InvoiceGeneratorComponent } from '../generator/generator.component';
@@ -30,16 +32,15 @@ type MissionSelectable = Mission & { disabled?: boolean };
 @Component({
 	selector: 'lv-invoice-form-card',
 	imports: [
+		CommonModule,
 		InvoiceFormComponent,
 		InvoiceGeneratorComponent,
-
 		MatButtonModule,
 		MatCardModule,
 		MatCheckboxModule,
 		MatExpansionModule,
 		MatIconModule,
 		MatListModule,
-
 		ReactiveFormsModule,
 		LoadingDirective,
 	],
@@ -55,6 +56,7 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 	missionLabel?: string;
 	missionList: MissionSelectable[];
 	pending: boolean;
+	idComparator = (a: Mission, b: Mission) => a?._id === b?._id;
 
 	get groupGenerate() {
 		return this.group.controls.generate.value as boolean;
@@ -97,12 +99,13 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 
 	fetchMissions() {
 		this.pending = true;
-		this.missionService.sendListActive().pipe(
+		const fetch$ = this.missionService.sendListActive().pipe(
 			finalize(() => this.pending = false)
-		).subscribe((missions) => {
-			this.missionList = missions;
-			this.reset();
+		);
+		fetch$.subscribe((missions) => {
+			this.missionList = missions.slice();
 		});
+		return fetch$;
 	}
 
 	updateGeneratePanel(event: MatCheckboxChange, genPanel: MatExpansionPanel) {
@@ -187,9 +190,14 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 				),
 				first(),
 				filter(({ success }) => !!success),
+				switchMap((a) => this.fetchMissions().pipe(
+					map(() => a)
+				)),
 				finalize(() => (this.pending = false))
 			)
-			.subscribe(() => this.fetchMissions());
+			.subscribe((a) => {
+				this.reset({ missionIds: (a as any as ApiActionSave<Invoice>).value.missionIds });
+			});
 	}
 
 	private reset(value?: Partial<Invoice>) {
@@ -217,7 +225,9 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 			// Form specific
 			generate: [!this.value]
 		});
-		this.group.controls.missions.valueChanges.subscribe(
+		this.group.controls.missions.valueChanges.pipe(
+			startWith(this.group.controls.missions.valueChanges)
+		).subscribe(
 			(missions: Mission[]) => {
 				const hasMissions = missions.length > 0;
 				this.missionLabel = hasMissions ? missions.map((m) => m.name).join(', ') : undefined;

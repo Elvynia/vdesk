@@ -4,12 +4,13 @@
 		<mat-checkbox class="ms-auto" labelPosition="before" formControlName="estimate">Estimate</mat-checkbox>
 	</mat-card-header>
 	<mat-card-content class="flex! flex-col mb-4">
-		<mat-accordion [multi]="false">
-			<mat-expansion-panel hideToggle [disabled]="!groupMissions.length" #panel>
+		<mat-accordion [multi]="false" *lvLoading="pending; color: 'accent'; diameter: 128">
+			<mat-expansion-panel hideToggle [disabled]="!groupMissions.length" #formPanel>
 				<mat-expansion-panel-header>
-					<h3 [hidden]="!panel.expanded">{{ missionLabel }}</h3>
-					<div class="flex flex-col" [hidden]="panel.expanded">
-						<mat-selection-list multiple class="missions flex-wrap mb-2" formControlName="missions">
+					<h3 [hidden]="!formPanel.expanded">{{ missionLabel }}</h3>
+					<div class="flex flex-col" [hidden]="formPanel.expanded">
+						<mat-selection-list multiple class="missions flex-wrap mb-2" [compareWith]="idComparator"
+							formControlName="missions">
 							@for (mission of missionList; track mission._id) {
 							<mat-list-option class="w-min!" [value]="mission" [disabled]="mission.disabled"
 								(click)="$event.stopPropagation()">
@@ -18,7 +19,7 @@
 							}
 						</mat-selection-list>
 						<div class="inline-flex items-center justify-center w-full" [hidden]="!groupMissions.length">
-							<hr class="w-3/4 h-1 my-4 border-0 rounded-sm bg-primary">
+							<hr class="w-5/6 h-1 my-4 border-0 rounded-sm bg-primary">
 							<div class="absolute flex items-center rounded-b-2xl px-3 bg-surface bg-default">
 								<mat-icon class="lv-accent">keyboard_double_arrow_down</mat-icon>
 							</div>
@@ -27,15 +28,14 @@
 				</mat-expansion-panel-header>
 				<ng-template matExpansionPanelContent>
 					<lv-invoice-form [value]="value" [group]="group" (addLine)="lineAdd()"
-						(removeLine)="lineRemove($event)"
-						*lvLoading="pending; color: 'accent'; diameter: 128"></lv-invoice-form>
+						(removeLine)="lineRemove($event)"></lv-invoice-form>
 				</ng-template>
 			</mat-expansion-panel>
 			<mat-expansion-panel hideToggle [expanded]="generatorExpanded" [disabled]="!groupGenerate"
 				[hidden]="!groupMissions.length" #genPanel>
 				<mat-expansion-panel-header>
 					<mat-panel-title>Generate</mat-panel-title>
-					<mat-panel-description>
+					<mat-panel-description class="justify-end!">
 						<mat-checkbox formControlName="generate" (change)="updateGeneratePanel($event, genPanel)"
 							(click)="$event.stopPropagation()">Enabled</mat-checkbox>
 					</mat-panel-description>
