@@ -1,9 +1,9 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatButtonModule } from "@angular/material/button";
-import { DateRange, DefaultMatCalendarRangeStrategy, MAT_DATE_RANGE_SELECTION_STRATEGY, MatCalendar, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
-import { Chunk, Company, distinctUntilAnyKeyChanged, findStartOfWeek, InvoiceLine, makeInvoiceLineWeek, Mission } from '@lv/common';
+import { DateRange, DefaultMatCalendarRangeStrategy, MAT_DATE_RANGE_SELECTION_STRATEGY, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
+import { Chunk, Company, distinctUntilAnyKeyChanged, findDayOfWeek, InvoiceLine, makeInvoiceLineWeek, Mission } from '@lv/common';
 import { delay, distinctUntilChanged, map, startWith, tap } from 'rxjs';
 import '../../../../../extension/array-reduce-sum';
 import { LoadingDirective } from "../../loading/loading.directive";
@@ -106,16 +106,17 @@ export class InvoiceGeneratorComponent implements OnChanges {
 	}
 
 	makeLines(range: DateRange<Date>) {
-		let start = findStartOfWeek(range.start!).getTime();
+		let start = findDayOfWeek(range.start!);
 		console.log('range start: ', formParseFromDate(range.start!))
 		while (start) {
 			console.log('start: ', formParseFromDate(new Date(start)))
-			let week = start + 7 * 24 * 3600000;
-			let end = week > range.end!.getTime() ? range.end!.getTime() : week;
+			let week = findDayOfWeek(new Date(start), 7);
+			let end = week.getTime() > range.end!.getTime() ? range.end! : week;
+			end.setHours(23, 59, 59);
 			console.log('end: ', formParseFromDate(new Date(end)))
 			let weekChunks = this.chunks.filter((c) => {
 				const cDate = new Date(c.date).getTime();
-				return start <= cDate && cDate <= end;
+				return start.getTime() <= cDate && cDate <= end.getTime();
 			});
 			if (weekChunks.length > 0) {
 				this.lines.push(makeInvoiceLineWeek({
@@ -125,10 +126,10 @@ export class InvoiceGeneratorComponent implements OnChanges {
 					end: new Date(end)
 				}));
 			}
-			if (end >= range.end!.getTime()) {
+			if (end.getTime() === range.end!.getTime()) {
 				start = undefined as any;
 			} else {
-				start = end;
+				start = findDayOfWeek(new Date(start.getFullYear(), start.getMonth(), start.getDate() + 7));
 			}
 		}
 		console.log('range end: ', formParseFromDate(range.end!))
