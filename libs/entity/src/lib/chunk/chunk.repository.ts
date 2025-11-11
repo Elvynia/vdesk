@@ -25,4 +25,20 @@ export class ChunkRepository extends EntityRepository<
 		}
 		return this.model.find(args);
 	}
+
+	markInvoiced(ids: string[], invoiced: boolean) {
+		return this.model.updateMany({
+			_id: { $in: ids }
+		}, {
+			invoiced
+		}).exec();
+	}
+
+	markPaid(ids: string[], paid: boolean) {
+		return this.model.updateMany({
+			_id: { $in: ids }
+		}, {
+			paid
+		}).exec();
+	}
 }
