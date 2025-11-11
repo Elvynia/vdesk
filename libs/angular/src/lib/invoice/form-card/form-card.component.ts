@@ -229,7 +229,7 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 			generate: [!this.value]
 		});
 		this.group.controls.missions.valueChanges.pipe(
-			startWith(this.group.controls.missions.valueChanges)
+			startWith(this.group.controls.missions.value)
 		).subscribe(
 			(missions: Mission[]) => {
 				const hasMissions = missions.length > 0;

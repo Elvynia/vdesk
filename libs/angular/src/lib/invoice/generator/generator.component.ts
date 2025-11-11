@@ -107,13 +107,10 @@ export class InvoiceGeneratorComponent implements OnChanges {
 
 	makeLines(range: DateRange<Date>) {
 		let start = findDayOfWeek(range.start!);
-		console.log('range start: ', formParseFromDate(range.start!))
 		while (start) {
-			console.log('start: ', formParseFromDate(new Date(start)))
 			let week = findDayOfWeek(new Date(start), 7);
 			let end = week.getTime() > range.end!.getTime() ? range.end! : week;
 			end.setHours(23, 59, 59);
-			console.log('end: ', formParseFromDate(new Date(end)))
 			let weekChunks = this.chunks.filter((c) => {
 				const cDate = new Date(c.date).getTime();
 				return start.getTime() <= cDate && cDate <= end.getTime();
@@ -132,7 +129,6 @@ export class InvoiceGeneratorComponent implements OnChanges {
 				start = findDayOfWeek(new Date(start.getFullYear(), start.getMonth(), start.getDate() + 7));
 			}
 		}
-		console.log('range end: ', formParseFromDate(range.end!))
 	}
 
 	updateSelected(date: Date | null) {
