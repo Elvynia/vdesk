@@ -17,6 +17,7 @@ export * from './lib/mission/mission.fields';
 export * from './lib/mission/mission.type';
 export * from './lib/role/role.fields';
 export * from './lib/role/role.type';
+export * from './lib/util/config/is-env-dev';
 export * from './lib/util/date/find';
 export * from './lib/util/entity.type';
 export * from './lib/util/menu/menu.type';

@@ -1,3 +1,4 @@
+import { isEnvDev } from '@lv/common';
 import {
 	CanActivate,
 	Injectable
@@ -9,7 +10,6 @@ import { ErrorWithProps } from 'mercurius';
 import { MappingPublicKey } from '../decorator/mapping-public';
 import { EntityRequest } from '../util/request.type';
 import { AuthResolver } from './auth.resolver';
-import { isEnvDev } from '../config/is-env-dev';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

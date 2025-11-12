@@ -30,7 +30,6 @@ export * from './lib/company/to-invoice/company-to-invoice.resolver';
 export * from './lib/company/to-mission/company-to-mission.module';
 export * from './lib/company/to-mission/company-to-mission.resolver';
 export * from './lib/config/config.type';
-export * from './lib/config/is-env-dev';
 export * from './lib/decorator/mapping-public';
 export * from './lib/entity.module';
 export * from './lib/entity.repository';

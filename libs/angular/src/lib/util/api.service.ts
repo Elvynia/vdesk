@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { IEntity } from "@lv/common";
 import { map } from "rxjs";
 import { ApiConfig } from "../config";
+import { throwGraphQlError } from "./operator/throw-graphql-error";
 
 @Injectable({
 	providedIn: "root"
@@ -36,6 +37,7 @@ export abstract class ApiService<T extends IEntity> {
 				input: data
 			}
 		}).pipe(
+			throwGraphQlError(),
 			map((results: any) => results.data[`create${this.clazz}`] as T)
 		);
 	}
@@ -53,6 +55,7 @@ export abstract class ApiService<T extends IEntity> {
 				input: data
 			}
 		}).pipe(
+			throwGraphQlError(),
 			map((results: any) => results.data[`update${this.clazz}`] as T)
 		);
 	}
@@ -69,7 +72,9 @@ export abstract class ApiService<T extends IEntity> {
 			variables: {
 				input: id
 			}
-		})
+		}).pipe(
+			throwGraphQlError()
+		);
 	}
 
 	sendGet(id: string) {
@@ -85,6 +90,7 @@ export abstract class ApiService<T extends IEntity> {
 				id
 			}
 		}).pipe(
+			throwGraphQlError(),
 			map((results: any) => results.data[`${this.entity}Id`] as T)
 		);
 	}
@@ -97,6 +103,7 @@ export abstract class ApiService<T extends IEntity> {
 				}
 			}`
 		}).pipe(
+			throwGraphQlError(),
 			map((results: any) => results.data[this.entity] as T[])
 		);
 	}

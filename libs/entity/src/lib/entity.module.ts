@@ -1,10 +1,10 @@
+import { isEnvDev } from '@lv/common';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommonConfig } from './config/config.type';
-import { isEnvDev } from './config/is-env-dev';
 
 @Module({
 	controllers: [],
