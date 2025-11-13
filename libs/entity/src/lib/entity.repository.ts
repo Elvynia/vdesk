@@ -10,30 +10,30 @@ export abstract class EntityRepository<Entity, CreateEntity = Entity, UpdateEnti
 
 	findAll(filter?: RootFilterQuery<Entity>) {
 		if (filter) {
-			return this.model.find<Entity>(filter).exec();
+			return this.model.find(filter).exec();
 		}
-		return this.model.find<Entity>().exec();
+		return this.model.find().exec();
 	}
 
 	findAllByIds(ids: string[]) {
-		return this.model.find<Entity>({
+		return this.model.find({
 			_id: { $in: ids }
 		}).exec();
 	}
 
 	findOne(_id: string) {
-		return this.model.findOne<Entity>({ _id }).exec();
+		return this.model.findOne({ _id }).exec();
 	}
 
 	update(_id: string, editEntity: UpdateEntity) {
 		return this.model
-			.findByIdAndUpdate<Entity>({ _id }, editEntity, { new: true })
+			.findByIdAndUpdate({ _id }, editEntity, { new: true })
 			.exec();
 	}
 
 	remove(_id: string) {
 		return this.model
-			.findByIdAndDelete<Entity>({ _id })
+			.findByIdAndDelete({ _id })
 			.exec();
 	}
 }
