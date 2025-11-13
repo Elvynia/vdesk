@@ -46,7 +46,7 @@ export class AuthService {
 	constructor(private httpClient: HttpClient, private snackBar: MatSnackBar,
 		private store: Store<AuthState>, private actions: Actions, config: ApiConfig) {
 		this.resetAuth();
-		this.url = config.apiUrl + config.apiPath + '/auth';
+		this.url = config.apiUrl + config.authPath;
 		this._refreshing = false;
 	}
 

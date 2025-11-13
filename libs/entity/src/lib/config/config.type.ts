@@ -11,7 +11,8 @@ export interface CommonConfig {
 		secret: string;
 	};
 	web: {
-		apiPath: string;
+		globalPath: string;
+		graphqlPath: string;
 		port: number;
 	}
 	tz: string;

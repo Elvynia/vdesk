@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { MongooseModule } from '@nestjs/mongoose';
+import configDefaults from './config/config.defaults';
 import { CommonConfig } from './config/config.type';
 
 @Module({
@@ -12,31 +13,36 @@ import { CommonConfig } from './config/config.type';
 		ConfigModule.forRoot({
 			cache: true,
 			isGlobal: true,
+			load: [configDefaults]
 		}),
 		MongooseModule.forRootAsync({
-			useFactory: (configService: ConfigService<CommonConfig>) => {
-				return ({
-					dbName: configService.get('database.name', {
-						infer: true
-					}),
-					uri: configService.get('database.url', {
-						infer: true
-					})
+			useFactory: (configService: ConfigService<CommonConfig>) => ({
+				dbName: configService.get('database.name', {
+					infer: true
+				}),
+				uri: configService.get('database.url', {
+					infer: true
 				})
-			},
-			inject: [ConfigService],
+			}),
+			inject: [
+				ConfigService,
+			],
 		}),
-		GraphQLModule.forRoot<MercuriusDriverConfig>({
+		GraphQLModule.forRootAsync<MercuriusDriverConfig>({
 			driver: MercuriusDriver,
-			autoSchemaFile: true,
-			subscription: true,
-			graphiql: isEnvDev(),
-			path: 'api',
-			fieldResolverEnhancers: ['guards']
+			useFactory: (configService: ConfigService<CommonConfig>) => ({
+				autoSchemaFile: true,
+				subscription: true,
+				graphiql: isEnvDev(),
+				path: configService.get('web.graphqlPath', {
+					infer: true
+				}),
+				fieldResolverEnhancers: ['guards']
+			}),
+			inject: [
+				ConfigService,
+			],
 		}),
 	],
-	exports: [
-		ConfigModule
-	]
 })
 export class EntityModule { }

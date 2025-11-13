@@ -1,8 +1,4 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
+import { CommonConfig } from '@lv/entity';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -20,17 +16,19 @@ async function bootstrap() {
 			cors: true
 		}
 	);
-	const conf = app.get(ConfigService);
-	const globalPrefix = conf.get('web.api', {
+	const conf = app.get<ConfigService<CommonConfig>>(ConfigService);
+	const globalPrefix = conf.get('web.globalPath', {
 		infer: true
-	}) || 'api';
-	app.setGlobalPrefix(globalPrefix);
+	});
+	if (globalPrefix) {
+		app.setGlobalPrefix(globalPrefix);
+	}
 	const port = conf.get<number>('web.port', {
 		infer: true
 	}) || 3000;
 	await app.listen(port);
 	Logger.log(
-		`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+		`🗂️ Desk is running on: http://localhost:${port}/${globalPrefix || ''}`
 	);
 }
 
