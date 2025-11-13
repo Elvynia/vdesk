@@ -7,6 +7,7 @@ import {
 	NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app/app.module';
+import { join } from 'path';
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestFastifyApplication>(
@@ -17,6 +18,12 @@ async function bootstrap() {
 		}
 	);
 	const conf = app.get<ConfigService<CommonConfig>>(ConfigService);
+	app.setViewEngine({
+		engine: {
+			handlebars: require('handlebars')
+		},
+		templates: join(__dirname, 'templates'),
+	});
 	const globalPrefix = conf.get('web.globalPath', {
 		infer: true
 	});
