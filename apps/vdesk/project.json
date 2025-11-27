@@ -12,10 +12,7 @@
 				"args": [
 					"--node-env=production"
 				],
-				"cwd": "apps/vdesk",
-				"assets": [
-					"apps/vdesk/src/templates"
-				]
+				"cwd": "apps/vdesk"
 			},
 			"configurations": {
 				"development": {

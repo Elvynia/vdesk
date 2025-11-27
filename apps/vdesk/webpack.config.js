@@ -2,6 +2,7 @@ const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
 
 module.exports = {
+	name: 'vdesk-nest',
 	output: {
 		path: join(__dirname, '../../dist/apps/vdesk'),
 		clean: true,
@@ -15,7 +16,10 @@ module.exports = {
 			compiler: 'tsc',
 			main: './src/main.ts',
 			tsConfig: './tsconfig.app.json',
-			assets: ['./src/assets'],
+			assets: [
+				'./src/assets',
+				'./src/templates'
+			],
 			optimization: false,
 			outputHashing: 'none',
 			generatePackageJson: true,
