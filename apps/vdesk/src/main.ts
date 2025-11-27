@@ -1,3 +1,4 @@
+import { isEnvDev } from '@lv/common';
 import { CommonConfig } from '@lv/entity';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -8,6 +9,11 @@ import {
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app/app.module';
 import { join } from 'path';
+
+// Mongoose debug
+if (isEnvDev()) {
+	import('mongoose').then((mongoose) => mongoose.set('debug', true));
+}
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestFastifyApplication>(
