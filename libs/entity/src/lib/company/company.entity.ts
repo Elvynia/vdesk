@@ -38,6 +38,7 @@ export class CompanyEntity implements Company {
 	@Prop({ type: () => String, ref: () => CompanyTypeEntity })
 	type: CompanyTypeEntity;
 
+	// FIXME: Add addressId and make address virtual ?
 	@Field(() => AddressEntity, { nullable: true })
 	@Prop({ type: () => String, ref: () => AddressEntity })
 	address?: AddressEntity;

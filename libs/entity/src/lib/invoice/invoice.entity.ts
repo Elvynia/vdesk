@@ -1,13 +1,20 @@
 import { Invoice } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
-import { InvoiceLineEntity } from '../invoice-line/invoice-line.entity';
-import { MissionEntity } from '../mission/mission.entity';
 import { CompanyEntity } from '../company/company.entity';
+import { InvoiceLineEntity, InvoiceLineEntitySave, InvoiceLineSchema } from '../invoice-line/invoice-line.entity';
+import { MissionEntity } from '../mission/mission.entity';
 
 @InputType('InvoiceInput')
 @ObjectType()
-@Schema()
+@Schema({
+	toJSON: {
+		virtuals: true,
+	},
+	toObject: {
+		virtuals: true
+	}
+})
 export class InvoiceEntity implements Invoice {
 	@Field()
 	_id: string;
@@ -28,9 +35,20 @@ export class InvoiceEntity implements Invoice {
 	@Prop()
 	amount: number;
 
+	@Field(() => CompanyEntity, { nullable: true })
+	@Virtual({
+		options: {
+			foreignField: '_id',
+			localField: 'companyId',
+			justOne: true,
+			ref: () => CompanyEntity
+		}
+	})
+	company?: CompanyEntity[];
+
 	@Field(() => String)
 	@Prop({ type: () => String, ref: () => CompanyEntity })
-	companyId: number;
+	companyId: string;
 
 	@Field()
 	@Prop()
@@ -65,11 +83,11 @@ export class InvoiceEntity implements Invoice {
 	missions?: MissionEntity[];
 
 	@Field(() => [String])
-	@Prop({ type: () => [String], ref: () => [MissionEntity] })
+	@Prop()
 	missionIds: string[];
 
 	@Field(() => [InvoiceLineEntity])
-	@Prop({ type: () => String, ref: () => [InvoiceLineEntity] })
+	@Prop([InvoiceLineSchema])
 	lines: InvoiceLineEntity[];
 }
 
@@ -127,9 +145,9 @@ export class InvoiceCreate {
 	@Prop({ type: () => [String], ref: () => [MissionEntity] })
 	missionIds: string[];
 
-	@Field(() => [InvoiceLineEntity])
-	@Prop({ type: () => String, ref: () => [InvoiceLineEntity] })
-	lines: InvoiceLineEntity[];
+	@Field(() => [InvoiceLineEntitySave])
+	@Prop(() => [InvoiceLineEntitySave])
+	lines: InvoiceLineEntitySave[];
 }
 
 @InputType()
@@ -173,9 +191,9 @@ export class InvoiceUpdate {
 	@Prop()
 	taxMultiplier?: number;
 
-	@Field(() => [InvoiceLineEntity])
-	@Prop({ type: () => String, ref: () => [InvoiceLineEntity] })
-	lines: InvoiceLineEntity[];
+	@Field(() => [InvoiceLineEntitySave])
+	@Prop(() => [InvoiceLineEntitySave])
+	lines: InvoiceLineEntitySave[];
 }
 
 export const InvoiceSchema = SchemaFactory.createForClass(InvoiceEntity);

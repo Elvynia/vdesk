@@ -11,7 +11,7 @@ export interface Invoice extends IEntity {
 
 	amount: number;
 
-	companyId: number;
+	companyId: string;
 
 	currency: string;
 

@@ -12,6 +12,20 @@ export interface InvoiceLine {
 	chunks?: Chunk[];
 
 	chunkIds: string[];
+
+	total?: number;
+}
+
+export interface InvoiceLineCreate {
+
+	count: number;
+
+	desc: string;
+
+	price: number;
+
+	chunkIds: string[];
+
 }
 
 export function makeInvoiceLineWeek({
@@ -30,7 +44,7 @@ export function makeInvoiceLineWeek({
 	chunks.forEach((c) => {
 		let mission = missions.find((m) => m._id === c.missionId)!;
 		count += c.count;
-		price += c.count * (mission.byDay ? mission.rate / mission.dayLength! : mission.rate)
+		price += mission.rate;
 	});
 	let monthStart = (start.getMonth() + 1).toString().padStart(2, '0');
 	let monthEnd = (end.getMonth() + 1).toString().padStart(2, '0');

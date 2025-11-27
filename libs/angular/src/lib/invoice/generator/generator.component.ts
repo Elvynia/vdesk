@@ -62,7 +62,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 						const company = missions[0].company as Company;
 						const count = (company.invoiceCount! + 1).toString().padStart(2, '0');
 						currency = company.type.currency;
-						name = `Facture n°${currentYear}-${company.trigram}-${count}`;
+						name = `${currentYear}-${company.trigram}-${count}`;
 					}
 					return { currency, name };
 				}),
@@ -85,7 +85,9 @@ export class InvoiceGeneratorComponent implements OnChanges {
 					this.chunks = missions.flatMap((m) => m.chunks);
 					this.dateClass = (d) => {
 						const date = formParseFromDate(d);
-						const chunkLoad = this.chunks.filter((c) => c.date === date).reduce((total, c) => total + c.count, 0);
+						const chunkLoad = this.chunks.filter((c) => c.date === date)
+							.map((c) => c.count)
+							.reduceSum();
 						if (chunkLoad > 0) {
 							return ['chunk', 'c' + chunkLoad];
 						}
@@ -149,7 +151,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 			this.makeLines(this.selected);
 			this.group.controls.execStart.setValue(this.selected.start);
 			this.group.controls.execEnd.setValue(this.selected.end);
-			this.group.controls.amount.setValue(this.currencyPipe.transform(this.lines.map((l) => l.price).reduceSum()));
+			this.group.controls.amount.setValue(this.currencyPipe.transform(this.lines.map((l) => l.count * l.price).reduceSum()));
 		} else {
 			this.selected = new DateRange(date, null);
 			this.reset();

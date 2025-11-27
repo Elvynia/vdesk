@@ -17,5 +17,5 @@ export const invoiceFields = [
 	'taxMultiplier',
 	`lines {
 		${invoiceLineFields.join('\n')}
-	}`
+	}`,
 ];
