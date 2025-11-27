@@ -37,6 +37,7 @@ export * from './lib/invoice/invoice.entity';
 export * from './lib/invoice/invoice.module';
 export * from './lib/invoice/invoice.repository';
 export * from './lib/invoice/invoice.resolver';
+export * from './lib/invoice/to-company/invoice-to-company.resolver';
 export * from './lib/mission/mission.entity';
 export * from './lib/mission/mission.module';
 export * from './lib/mission/mission.repository';
