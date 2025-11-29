@@ -104,6 +104,10 @@ export class InvoiceGeneratorComponent implements OnChanges {
 
 	addLines() {
 		this.lines.forEach((l) => this.lineAdded.next({ ...l }));
+		// TODO update fields
+		const createdOn = this.group.controls.createdOn.value as Date;
+		this.group.controls.paymentLimit.setValue(new Date(createdOn.getFullYear(), createdOn.getMonth() + 1, 0));
+		this.group.controls.amount.setValue(this.currencyPipe.transform(this.group.controls.lines.value.map((l: InvoiceLine) => l.count * l.price).reduceSum()));
 		this.resetAll();
 	}
 
@@ -149,9 +153,14 @@ export class InvoiceGeneratorComponent implements OnChanges {
 				date
 			);
 			this.makeLines(this.selected);
-			this.group.controls.execStart.setValue(this.selected.start);
-			this.group.controls.execEnd.setValue(this.selected.end);
-			this.group.controls.amount.setValue(this.currencyPipe.transform(this.lines.map((l) => l.count * l.price).reduceSum()));
+			const execStart = this.group.controls.execStart;
+			const execEnd = this.group.controls.execEnd;
+			if (!execStart.value || execStart.value.getTime() > this.selected.start!.getTime()) {
+				execStart.setValue(this.selected.start);
+			}
+			if (!execEnd.value || execEnd.value.getTime() < this.selected.end!.getTime()) {
+				execEnd.setValue(this.selected.end);
+			}
 		} else {
 			this.selected = new DateRange(date, null);
 			this.reset();

@@ -1,4 +1,4 @@
-import { Invoice } from '@lv/common';
+import { Invoice, InvoiceCreate, InvoiceUpdate } from '@lv/common';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import {
 	ApiActionError,
@@ -11,7 +11,7 @@ import {
 export const invoiceActions = createActionGroup({
 	source: 'Invoice',
 	events: {
-		Create: props<ApiActionSave<Invoice>>(),
+		Create: props<ApiActionSave<InvoiceCreate>>(),
 		'Create Success': props<ApiActionSave<Invoice> & ApiActionSuccess>(),
 		'Create Error': props<ApiActionSave<Invoice>>(),
 		Delete: props<ApiActionSave<Invoice>>(),
@@ -23,7 +23,7 @@ export const invoiceActions = createActionGroup({
 		List: emptyProps(),
 		'List Success': props<ApiActionListSuccess<Invoice>>(),
 		'List Error': props<ApiActionError>(),
-		Update: props<ApiActionSave<Invoice>>(),
+		Update: props<ApiActionSave<InvoiceUpdate>>(),
 		'Update Success': props<ApiActionSave<Invoice> & ApiActionSuccess>(),
 		'Update Error': props<ApiActionError>(),
 	},

@@ -39,15 +39,10 @@ export function makeInvoiceLineWeek({
 	start: Date;
 	end: Date;
 }): InvoiceLine {
-	let count = 0,
-		price = 0;
-	chunks.forEach((c) => {
-		let mission = missions.find((m) => m._id === c.missionId)!;
-		count += c.count;
-		price += mission.rate;
-	});
-	let monthStart = (start.getMonth() + 1).toString().padStart(2, '0');
-	let monthEnd = (end.getMonth() + 1).toString().padStart(2, '0');
+	const count = chunks.map((c) => c.count).reduce((a, b) => a + b, 0);
+	const price = missions[0].rate;
+	const monthStart = (start.getMonth() + 1).toString().padStart(2, '0');
+	const monthEnd = (end.getMonth() + 1).toString().padStart(2, '0');
 	return {
 		count,
 		chunkIds: chunks.map((c) => c._id),

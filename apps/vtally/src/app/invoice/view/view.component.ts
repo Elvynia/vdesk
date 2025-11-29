@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
+	ApiAction,
 	invoiceActions,
 	InvoiceFormCardComponent,
 	InvoiceListComponent,
-	ApiAction,
 	ObserverCompomix,
 } from '@lv/angular';
-import { Invoice, selectInvoices } from '@lv/common';
+import { Invoice, InvoiceSave, isInvoiceUpdate, selectInvoices } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
@@ -48,13 +48,13 @@ export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 		this.store.dispatch(invoiceActions.delete({ value }));
 	}
 
-	edit(invoice: Invoice) {
-		this.editInvoice = invoice;
+	edit(invoice: InvoiceSave) {
+		this.editInvoice = invoice as Invoice;
 	}
 
-	save(value: Invoice) {
+	save(value: InvoiceSave) {
 		let action;
-		if (value._id) {
+		if (isInvoiceUpdate(value)) {
 			action = invoiceActions.update({ value });
 		} else {
 			action = invoiceActions.create({ value });

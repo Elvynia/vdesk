@@ -1,1 +1,108 @@
-<p>{{ invoice.name }}</p>
+<html>
+
+<head>
+	<link rel="stylesheet" href="/index.css">
+	<link rel="stylesheet" href="/invoice-print.css">
+</head>
+
+<body>
+	<div class="flex flex-col m-8">
+		<div class="flex justify-between text-md">
+			<div class="flex gap-3">
+				<img src="/invoice.svg" class="size-24">
+				<div class="flex flex-col">
+					<div>Leah Masson</div>
+					<div>44 chemin des sables jaunes</div>
+					<div>13012 Marseille</div>
+					<div>SIREN : 821 543 030</div>
+				</div>
+			</div>
+			<div class="flex flex-col text-end">
+				<div>{{ invoice.company.name }}</div>
+				<div>{{ invoice.company.address.line1 }}</div>
+				{{#if invoice.company.address.line2}}
+				<div>{{ invoice.company.address.line2 }}</div>
+				{{/if}}
+				<div>
+					<span>{{ invoice.company.address.city }}</span>
+					<span>{{ invoice.company.address.zip }}</span>
+				</div>
+				<div>
+					<span>{{ invoice.company.type.identifierLabel }}</span>
+					<span>{{ invoice.company.identifier }}</span>
+				</div>
+			</div>
+		</div>
+		<div class="flex justify-end me-24 mt-12 text-lg">
+			Date : {{ parseDate invoice.createdOn }}
+		</div>
+		<div class="w-fit inline-flex justify-start border-4 p-2 my-6 text-xl font-bold">
+			Facture n°{{ invoice.name }}
+		</div>
+		<table class="w-full text-sm">
+			<thead>
+				<tr class="bg-primary text-center text-md font-medium text-white print:text-black">
+					<th>Désignation</th>
+					<th class="w-20">Quantité</th>
+					<th class="w-32">Prix unitaire HT</th>
+					<th class="w-40">Total HT</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each invoice.lines}}
+				<tr>
+					<td class="text-left">
+						{{ desc }}
+					</td>
+					<td class="text-center">
+						{{ count }}
+					</td>
+					<td class="text-right">
+						{{ parseCurrency price }}
+					</td>
+					<td class="text-right">
+						{{ parseCurrency total }}
+					</td>
+				</tr>
+				{{/each}}
+				{{#if invoice.tax}}
+				<tr>
+					<td></td>
+					<td colspan="2">TODO</td>
+					<td>TTC</td>
+				</tr>
+				{{/if}}
+				<tr>
+					<td colspan="3" class="text-right">
+						<div class="text-lg font-extrabold">
+							Total HT :
+						</div>
+						<div class="text-sm">
+							TVA non applicable, art 293 B du CGI
+						</div>
+					</td>
+					<td class="align-top text-right text-lg font-bold">
+						{{ parseCurrency invoice.amount }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="text-sm mt-8">
+			<div>Date de règlement : à réception</div>
+			<div>Date d&rsquo;exécution de la prestation : {{ dateExecution }}</div>
+			<div>Date limite de paiement : {{ parseDate invoice.paymentLimit }}</div>
+			<div>Conditions d&rsquo;escompte : pas d&rsquo;escompte pour règlement anticipé</div>
+		</div>
+		<ul class="mt-12 list-disc">
+			<span class="text-sm font-semibold">Mention légales :</span>
+			<li class="text-xs italic">
+				Dispensé d&rsquo;immatriculation au registre du commerce et des sociétés (RCS) et au répertoire des métiers (RM)
+			</li>
+			<li class="text-xs italic">
+				Indemnité forfaitaire pour frais de recouvrement en cas de retard de paiement (loi du 22 mars 2012) : 40€
+			</li>
+		</ul>
+	</div>
+</body>
+
+</html>

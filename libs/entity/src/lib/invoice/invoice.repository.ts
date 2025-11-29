@@ -34,7 +34,7 @@ export class InvoiceRepository extends EntityRepository<
 		startYear.setDate(0);
 		return this.model.countDocuments({
 			companyId,
-			date: { $gt: startYear }
+			createdOn: { $gt: startYear }
 		});
 	}
 }

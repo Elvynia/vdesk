@@ -1,7 +1,9 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 
-module.exports = {
+module.exports = [{
 	name: 'vdesk-nest',
 	output: {
 		path: join(__dirname, '../../dist/apps/vdesk'),
@@ -25,4 +27,32 @@ module.exports = {
 			generatePackageJson: true,
 		}),
 	],
-};
+}, {
+	name: 'vdesk-hbs',
+	dependencies: ['vdesk-nest'],
+	entry: {
+		"indexFake": join(__dirname, './styles/index.js'),
+		"index": join(__dirname, './styles/index.css'),
+		"invoice-print": join(__dirname, './styles/invoice-print.css')
+	},
+	output: {
+		path: join(__dirname, '../../dist/apps/vdesk/styles')
+	},
+	module: {
+		rules: [{
+			test: /\.css$/i,
+			// include: join(__dirname, './src/styles'),
+			use: [
+				MiniCssExtractPlugin.loader,
+				'css-loader',
+				'postcss-loader'
+			],
+		}]
+	},
+	plugins: [
+		new FixStyleOnlyEntriesPlugin(),
+		new MiniCssExtractPlugin({
+			filename: "[name].css",
+		}),
+	],
+}];

@@ -1,0 +1,29 @@
+@reference './index.css';
+
+@layer base {
+	table {
+		th {
+			@apply border border-white print:border-grey p-2;
+		}
+
+		td {
+			@apply border-b border-x border-grey p-2;
+		}
+
+		tbody {
+			tr:nth-child(even) td {
+				@apply bg-secondary;
+			}
+
+			tr:nth-child(odd) td {
+				@apply bg-white;
+			}
+		}
+	}
+
+	@media print {
+		body {
+			font-size: 12px;
+		}
+	}
+}

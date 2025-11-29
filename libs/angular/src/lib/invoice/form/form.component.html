@@ -4,21 +4,15 @@
 			<mat-label> name </mat-label>
 			<input matInput name="name" formControlName="name" />
 		</mat-form-field>
-
-		<mat-form-field class="basis-auto lg:basis-40 shrink-0">
-			<mat-label> date </mat-label>
-			<input matInput name="date" formControlName="date" [matDatepicker]="datePicker" />
-			<mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
-			<mat-datepicker #datePicker></mat-datepicker>
-		</mat-form-field>
 	</div>
 
 	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
-		<mat-form-field>
-			<mat-label> currency </mat-label>
-			<input matInput name="currency" formControlName="currency" />
+		<mat-form-field class="basis-auto lg:basis-40 shrink-0">
+			<mat-label> createdOn </mat-label>
+			<input matInput name="createdOn" formControlName="createdOn" [matDatepicker]="datePicker" />
+			<mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+			<mat-datepicker #datePicker></mat-datepicker>
 		</mat-form-field>
-
 		<mat-form-field>
 			<mat-label> amount </mat-label>
 			<input matInput name="amount" formControlName="amount" lvCurrencyFormat />

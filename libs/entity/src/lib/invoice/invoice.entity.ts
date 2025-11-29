@@ -16,20 +16,9 @@ import { MissionEntity } from '../mission/mission.entity';
 	}
 })
 export class InvoiceEntity implements Invoice {
+
 	@Field()
 	_id: string;
-
-	@Field()
-	@Prop()
-	name: string;
-
-	@Field()
-	@Prop()
-	date: Date;
-
-	@Field()
-	@Prop()
-	estimate: boolean;
 
 	@Field()
 	@Prop()
@@ -44,7 +33,7 @@ export class InvoiceEntity implements Invoice {
 			ref: () => CompanyEntity
 		}
 	})
-	company?: CompanyEntity[];
+	company?: CompanyEntity;
 
 	@Field(() => String)
 	@Prop({ type: () => String, ref: () => CompanyEntity })
@@ -52,7 +41,11 @@ export class InvoiceEntity implements Invoice {
 
 	@Field()
 	@Prop()
-	currency: string;
+	createdOn: Date;
+
+	@Field()
+	@Prop()
+	estimate: boolean;
 
 	@Field()
 	@Prop()
@@ -62,21 +55,9 @@ export class InvoiceEntity implements Invoice {
 	@Prop()
 	execEnd: Date;
 
-	@Field()
-	@Prop()
-	sent: boolean;
-
-	@Field({ nullable: true })
-	@Prop()
-	paid: boolean;
-
-	@Field({ nullable: true })
-	@Prop()
-	tax: boolean;
-
-	@Field({ nullable: true })
-	@Prop()
-	taxMultiplier?: number;
+	@Field(() => [InvoiceLineEntity])
+	@Prop([InvoiceLineSchema])
+	lines: InvoiceLineEntity[];
 
 	@Field(() => [MissionEntity], { defaultValue: [] })
 	@Virtual()
@@ -86,52 +67,21 @@ export class InvoiceEntity implements Invoice {
 	@Prop()
 	missionIds: string[];
 
-	@Field(() => [InvoiceLineEntity])
-	@Prop([InvoiceLineSchema])
-	lines: InvoiceLineEntity[];
-}
-
-@InputType()
-export class InvoiceCreate {
 	@Field()
 	@Prop()
 	name: string;
 
-	@Field()
+	@Field({ nullable: true })
 	@Prop()
-	date: Date;
+	paid: boolean;
 
 	@Field()
 	@Prop()
-	estimate: boolean;
-
-	@Field()
-	@Prop()
-	amount: number;
-
-	@Field(() => String)
-	@Prop({ type: () => String, ref: () => CompanyEntity })
-	companyId: number;
-
-	@Field()
-	@Prop()
-	currency: string;
-
-	@Field()
-	@Prop()
-	execStart: Date;
-
-	@Field()
-	@Prop()
-	execEnd: Date;
+	paymentLimit: Date;
 
 	@Field()
 	@Prop()
 	sent: boolean;
-
-	@Field({ nullable: true })
-	@Prop()
-	paid?: boolean;
 
 	@Field({ nullable: true })
 	@Prop()
@@ -140,14 +90,53 @@ export class InvoiceCreate {
 	@Field({ nullable: true })
 	@Prop()
 	taxMultiplier?: number;
+}
 
-	@Field(() => [String])
-	@Prop({ type: () => [String], ref: () => [MissionEntity] })
-	missionIds: string[];
+@InputType()
+export class InvoiceCreate {
+
+	@Field()
+	amount: number;
+
+	@Field(() => String)
+	@Prop({ type: () => String, ref: () => CompanyEntity })
+	companyId: string;
+
+	@Field()
+	createdOn: Date;
+
+	@Field()
+	estimate: boolean;
+
+	@Field()
+	execStart: Date;
+
+	@Field()
+	execEnd: Date;
 
 	@Field(() => [InvoiceLineEntitySave])
-	@Prop(() => [InvoiceLineEntitySave])
 	lines: InvoiceLineEntitySave[];
+
+	@Field(() => [String])
+	missionIds: string[];
+
+	@Field()
+	name: string;
+
+	@Field({ nullable: true })
+	paid: boolean;
+
+	@Field()
+	paymentLimit: Date;
+
+	@Field()
+	sent: boolean;
+
+	@Field({ nullable: true })
+	tax: boolean;
+
+	@Field({ nullable: true })
+	taxMultiplier?: number;
 }
 
 @InputType()
@@ -156,44 +145,46 @@ export class InvoiceUpdate {
 	_id: string;
 
 	@Field()
-	@Prop()
+	amount: number;
+
+	@Field(() => String)
+	companyId: string;
+
+	@Field()
+	createdOn: Date;
+
+	@Field()
 	estimate: boolean;
 
 	@Field()
-	@Prop()
-	amount: number;
-
-	@Field()
-	@Prop()
-	currency: string;
-
-	@Field()
-	@Prop()
 	execStart: Date;
 
 	@Field()
-	@Prop()
 	execEnd: Date;
 
+	@Field(() => [InvoiceLineEntitySave])
+	lines: InvoiceLineEntitySave[];
+
+	@Field(() => [String])
+	missionIds: string[];
+
 	@Field()
-	@Prop()
+	name: string;
+
+	@Field({ nullable: true })
+	paid: boolean;
+
+	@Field()
+	paymentLimit: Date;
+
+	@Field()
 	sent: boolean;
 
 	@Field({ nullable: true })
-	@Prop()
-	paid?: boolean;
-
-	@Field({ nullable: true })
-	@Prop()
 	tax: boolean;
 
 	@Field({ nullable: true })
-	@Prop()
 	taxMultiplier?: number;
-
-	@Field(() => [InvoiceLineEntitySave])
-	@Prop(() => [InvoiceLineEntitySave])
-	lines: InvoiceLineEntitySave[];
 }
 
 export const InvoiceSchema = SchemaFactory.createForClass(InvoiceEntity);

@@ -8,7 +8,7 @@ import { throwGraphQlError } from "./operator/throw-graphql-error";
 @Injectable({
 	providedIn: "root"
 })
-export abstract class ApiService<T extends IEntity> {
+export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCreate> {
 	apiUrl!: string;
 	graphUrl: string;
 
@@ -24,7 +24,7 @@ export abstract class ApiService<T extends IEntity> {
 
 	abstract getFields(args?: any): string;
 
-	sendCreate(data: T) {
+	sendCreate(data: TCreate) {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
 				mutation($input: ${this.clazz}Create!) {
@@ -42,7 +42,7 @@ export abstract class ApiService<T extends IEntity> {
 		);
 	}
 
-	sendUpdate(data: T) {
+	sendUpdate(data: TUpdate) {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
 				mutation($input: ${this.clazz}Update!) {

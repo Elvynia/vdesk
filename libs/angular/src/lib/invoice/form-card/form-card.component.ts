@@ -17,7 +17,7 @@ import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { Invoice, InvoiceLine, Mission } from '@lv/common';
+import { Invoice, InvoiceCreate, InvoiceLine, InvoiceSave, InvoiceUpdate, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, finalize, first, map, startWith, switchMap } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
@@ -51,7 +51,7 @@ type MissionSelectable = Mission & { disabled?: boolean };
 export class InvoiceFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Invoice;
 	@Output() back: EventEmitter<void>;
-	@Output() save: EventEmitter<Invoice>;
+	@Output() save: EventEmitter<InvoiceCreate | InvoiceUpdate>;
 	@ViewChild('formPanel') formPanel!: MatExpansionPanel;
 	generatorExpanded: boolean;
 	group!: FormGroup;
@@ -131,13 +131,12 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 		return [];
 	}
 
-	getEditValue() {
+	getEditValue(): InvoiceSave {
 		const value = this.group.getRawValue();
 		let result = {
-			amount: formParseFloat(value.amount),
+			amount: formParseFloat(value.amount)!,
 			companyId: value.companyId,
-			currency: value.currency,
-			date: value.date,
+			createdOn: value.createdOn,
 			estimate: value.estimate,
 			execEnd: value.execEnd,
 			execStart: value.execStart,
@@ -148,16 +147,17 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 			missionIds: value.missions.map((m: Mission) => m._id),
 			name: value.name,
 			paid: value.paid,
+			paymentLimit: value.paymentLimit,
 			sent: value.sent,
 			tax: value.tax,
 			// FIXME: Put tax multiplier in config
 			taxMultiplier: value.tax ? 20 : undefined,
-		} as Invoice;
+		} satisfies InvoiceCreate;
 		if (value._id) {
 			return {
 				...result,
 				_id: value._id,
-			}
+			} satisfies InvoiceUpdate;
 		} else {
 			return result;
 		}
@@ -212,19 +212,22 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 					disabled: true,
 				},
 			],
-			name: [value?.name, [Validators.required]],
-			date: [value?.date || new Date(), [Validators.required]],
-			estimate: [value?.estimate || false, [Validators.required]],
 			amount: [value?.amount, [Validators.required]],
 			companyId: [value?.companyId, [Validators.required]],
-			currency: [value?.currency, [Validators.required]],
+			createdOn: [value?.createdOn || new Date(), [Validators.required]],
+			estimate: [value?.estimate || false, [Validators.required]],
 			execStart: [value?.execStart, [Validators.required]],
 			execEnd: [value?.execEnd, [Validators.required]],
-			sent: [value?.sent || false],
-			paid: [value?.paid || false],
-			tax: [value?.tax || false],
+			lines: this.formBuilder.nonNullable.array(
+				this.value ? this.value.lines.map((l) => this.lineCreate(l)) : [],
+				[Validators.required]
+			),
 			missions: [this.findMissions(value?.missionIds), [Validators.required]],
-			lines: this.formBuilder.nonNullable.array([], [Validators.required]),
+			name: [value?.name, [Validators.required]],
+			paid: [value?.paid || false],
+			paymentLimit: [value?.paymentLimit, [Validators.required]],
+			sent: [value?.sent || false],
+			tax: [value?.tax || false],
 			// Form specific
 			generate: [!this.value]
 		});
