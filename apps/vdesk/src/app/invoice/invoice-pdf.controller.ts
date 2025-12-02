@@ -2,8 +2,6 @@ import { makeInvoiceDateExecution } from "@lv/common";
 import { InvoiceRepository, MappingPublic } from "@lv/entity";
 import { Controller, Get, Param, Render } from "@nestjs/common";
 
-// FIXME: Remove after testing
-@MappingPublic()
 @Controller('invoice/pdf')
 export class InvoicePdfController {
 

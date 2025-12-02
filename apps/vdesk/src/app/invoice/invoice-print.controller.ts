@@ -1,10 +1,8 @@
-import { InvoiceRepository, MappingPublic } from "@lv/entity";
-import { Controller, Get, Param, Res } from "@nestjs/common";
-import { FastifyReply } from "fastify";
+import { InvoiceRepository } from "@lv/entity";
+import { Controller, Get, Param, Req, Res } from "@nestjs/common";
+import { FastifyReply, FastifyRequest } from "fastify";
 import puppeteer from 'puppeteer';
 
-// FIXME: Remove after testing
-@MappingPublic()
 @Controller('invoice/print')
 export class InvoicePrintController {
 
@@ -15,6 +13,7 @@ export class InvoicePrintController {
 	@Get('/:id')
 	async print(
 		@Param('id') id: string,
+		@Req() req: FastifyRequest,
 		@Res() res: FastifyReply
 	) {
 		const invoiceDoc = await this.invoiceRepo.findOne(id);
@@ -23,6 +22,9 @@ export class InvoicePrintController {
 		}
 		const browser = await puppeteer.launch();
 		const page = await browser.newPage();
+		page.setExtraHTTPHeaders({
+			'Authorization': req.headers.authorization
+		});
 		await page.goto('http://localhost:3000/invoice/pdf/' + id, {
 			waitUntil: 'networkidle2',
 		});
