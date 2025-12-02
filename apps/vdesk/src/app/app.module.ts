@@ -1,6 +1,7 @@
 import { AddressModule, AuthModule, ChunkModule, ChunkToMissionModule, CompanyModule, CompanyToInvoiceModule, CompanyTypeModule, EntityModule, InvoiceModule, MissionModule, MissionToChunkModule, MissionToCompanyModule, RoleModule } from '@lv/entity';
 import { Module } from '@nestjs/common';
 import { InvoicePdfController } from './invoice/invoice-pdf.controller';
+import { InvoicePrintController } from './invoice/invoice-print.controller';
 
 @Module({
 	imports: [
@@ -21,7 +22,8 @@ import { InvoicePdfController } from './invoice/invoice-pdf.controller';
 		InvoiceModule
 	],
 	controllers: [
-		InvoicePdfController
+		InvoicePdfController,
+		InvoicePrintController
 	]
 })
 export class AppModule { }

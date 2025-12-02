@@ -4,8 +4,11 @@
 	</h3>
 	@if (hovering) {
 	<div matListItemMeta>
-		<button mat-icon-button [disabled]="value.pending" (click)="detail.next(value._id)">
+		<!-- <button mat-icon-button [disabled]="value.pending" (click)="detail.next(value._id)">
 			<mat-icon>info</mat-icon>
+		</button> -->
+		<button mat-icon-button [disabled]="value.pending" (click)="download.next(value._id)">
+			<mat-icon>download</mat-icon>
 		</button>
 		<button mat-icon-button class="lv-accent" [disabled]="value.pending" (click)="edit.next(value)">
 			<mat-icon>edit</mat-icon>

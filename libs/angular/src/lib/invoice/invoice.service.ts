@@ -12,9 +12,16 @@ export class InvoiceService extends ApiService<Invoice, InvoiceCreate, InvoiceUp
 		return 'invoice';
 	}
 
-	constructor(httpClient: HttpClient, config: ApiConfig) {
+	constructor(httpClient: HttpClient, private config: ApiConfig) {
 		super(httpClient, config);
 		this.apiUrl = config.apiUrl + config.apiPath + '/invoice';
+	}
+
+	download(id: string) {
+		return this.httpClient.get(this.config.apiUrl + '/invoice/print/' + id, {
+			observe: 'response',
+			responseType: 'blob'
+		});
 	}
 
 	getFields(): string {

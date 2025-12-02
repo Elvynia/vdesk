@@ -22,12 +22,14 @@ export class InvoiceItemComponent extends HoverableCompomix() {
 	@Input() value!: Invoice;
 	@Output() delete: EventEmitter<Invoice>;
 	@Output() detail: EventEmitter<string>;
+	@Output() download: EventEmitter<string>;
 	@Output() edit: EventEmitter<Invoice>;
 
 	constructor() {
 		super();
 		this.delete = new EventEmitter();
 		this.detail = new EventEmitter();
+		this.download = new EventEmitter();
 		this.edit = new EventEmitter();
 	}
 }

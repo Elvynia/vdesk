@@ -13,12 +13,14 @@ export class InvoiceListComponent {
 	@Input() values: Invoice[];
 	@Output() delete: EventEmitter<Invoice>;
 	@Output() detail: EventEmitter<string>;
+	@Output() download: EventEmitter<string>;
 	@Output() edit: EventEmitter<Invoice>;
 
 	constructor() {
 		this.values = [];
 		this.delete = new EventEmitter();
 		this.detail = new EventEmitter();
+		this.download = new EventEmitter();
 		this.edit = new EventEmitter();
 	}
 }

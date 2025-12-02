@@ -97,6 +97,7 @@ export * from './lib/util/format/trim-format.directive';
 export * from './lib/util/mixins/hoverable.compomix';
 export * from './lib/util/mixins/observer.compomix';
 export * from './lib/util/notify-user';
+export * from './lib/util/observe-download';
 export * from './lib/util/operator/catch-backend';
 export * from './lib/util/operator/catch-backend-action';
 export * from './lib/util/operator/throw-graphql-error';

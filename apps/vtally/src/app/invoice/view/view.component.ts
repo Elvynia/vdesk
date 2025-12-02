@@ -4,6 +4,8 @@ import {
 	invoiceActions,
 	InvoiceFormCardComponent,
 	InvoiceListComponent,
+	InvoiceService,
+	observeDownload,
 	ObserverCompomix,
 } from '@lv/angular';
 import { Invoice, InvoiceSave, isInvoiceUpdate, selectInvoices } from '@lv/common';
@@ -21,7 +23,9 @@ export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 	invoices: Invoice[];
 	editInvoice?: Invoice;
 
-	constructor(private store: Store<any>, private actions: Actions) {
+	constructor(private store: Store<any>, private actions: Actions,
+		private invoiceService: InvoiceService
+	) {
 		super();
 		this.invoices = [];
 	}
@@ -46,6 +50,10 @@ export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 			this.editInvoice = undefined;
 		}
 		this.store.dispatch(invoiceActions.delete({ value }));
+	}
+
+	download(id: string) {
+		this.invoiceService.download(id).subscribe(observeDownload());
 	}
 
 	edit(invoice: InvoiceSave) {
