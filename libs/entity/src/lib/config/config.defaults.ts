@@ -1,8 +1,9 @@
 import { CommonConfig } from "./config.type";
 
+// FIXME: Defaults override env values.
 export default () => ({
 	database: {
-		name: 'vdesk'
+		// name: 'vdesk'
 	},
 	jwt: {
 		expiresApi: '10min',
