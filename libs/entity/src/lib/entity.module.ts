@@ -4,23 +4,26 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { MongooseModule } from '@nestjs/mongoose';
-import configDefaults from './config/config.defaults';
-import { CommonConfig } from './config/config.type';
+import { commonConfigSchema } from './config/common-config.schema';
+import { CommonConfig } from './config/common-config.type';
 
 @Module({
 	controllers: [],
 	imports: [
 		ConfigModule.forRoot({
 			cache: true,
+			expandVariables: true,
+			envFilePath: 'apps/vdesk/.env',
+			ignoreEnvFile: !isEnvDev(),
 			isGlobal: true,
-			load: [configDefaults]
+			validationSchema: commonConfigSchema,
 		}),
 		MongooseModule.forRootAsync({
 			useFactory: (configService: ConfigService<CommonConfig>) => ({
-				dbName: configService.get('database.name', {
+				dbName: configService.get('DATABASE_NAME', {
 					infer: true
 				}),
-				uri: configService.get('database.url', {
+				uri: configService.get('DATABASE_URL', {
 					infer: true
 				})
 			}),
@@ -34,7 +37,7 @@ import { CommonConfig } from './config/config.type';
 				autoSchemaFile: true,
 				subscription: true,
 				graphiql: isEnvDev(),
-				path: configService.get('web.graphqlPath', {
+				path: configService.get('WEB_GRAPHQL_PATH', {
 					infer: true
 				}),
 				fieldResolverEnhancers: ['guards']

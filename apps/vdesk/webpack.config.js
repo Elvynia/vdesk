@@ -3,7 +3,11 @@ const { join } = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 
+const isProd = process.env.NODE_ENV === 'production';
+
 module.exports = [{
+	devtool: isProd ? false : 'source-map',
+	mode: isProd ? 'production' : 'development',
 	name: 'vdesk-nest',
 	output: {
 		path: join(__dirname, '../../dist/apps/vdesk'),
@@ -22,7 +26,7 @@ module.exports = [{
 				'./src/assets',
 				'./src/templates'
 			],
-			optimization: false,
+			optimization: isProd,
 			outputHashing: 'none',
 			generatePackageJson: true,
 		}),

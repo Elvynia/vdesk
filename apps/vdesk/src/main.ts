@@ -15,6 +15,8 @@ import { AppModule } from './app/app.module';
 if (isEnvDev()) {
 	import('mongoose').then((mongoose) => mongoose.set('debug', true));
 }
+console.log('process.env.DATABASE_URL at runtime:', process.env.DATABASE_URL);
+console.log('process.env.NODE_ENV at runtime:', process.env.NODE_ENV);
 
 // Handlebars helpers
 Handlebars.registerHelper('parseDate', function (value: Date) {
@@ -43,7 +45,7 @@ async function bootstrap() {
 			cors: true
 		}
 	);
-	const conf = app.get<ConfigService<CommonConfig>>(ConfigService);
+	const config = app.get<ConfigService<CommonConfig>>(ConfigService);
 	app.setViewEngine({
 		engine: {
 			handlebars: Handlebars
@@ -56,18 +58,18 @@ async function bootstrap() {
 			join(__dirname, 'styles')
 		]
 	})
-	const globalPrefix = conf.get('web.globalPath', {
+	const globalPrefix = config.get('WEB_GLOBAL_PATH', {
 		infer: true
 	});
 	if (globalPrefix) {
 		app.setGlobalPrefix(globalPrefix);
 	}
-	const port = conf.get<number>('web.port', {
+	const port = config.get('WEB_PORT', {
 		infer: true
-	}) || 3000;
+	});
 	await app.listen(port);
 	Logger.log(
-		`🗂️ Desk is running on: http://localhost:${port}/${globalPrefix || ''}`
+		`🗂️ LV Desk is running on: http://localhost:${port}/${globalPrefix || ''}`
 	);
 }
 

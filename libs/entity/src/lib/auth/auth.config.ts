@@ -1,7 +1,7 @@
 import { ConfigService } from "@nestjs/config";
 import { JwtModuleOptions, JwtOptionsFactory } from "@nestjs/jwt";
-import { CommonConfig } from "../config/config.type";
 import { Injectable } from "@nestjs/common";
+import { CommonConfig } from "../config/common-config.type";
 
 @Injectable()
 export class AuthConfig implements JwtOptionsFactory {
@@ -10,7 +10,7 @@ export class AuthConfig implements JwtOptionsFactory {
 
 	createJwtOptions(): Promise<JwtModuleOptions> | JwtModuleOptions {
 		return {
-			secret: this.configService.get("jwt.secret", {
+			secret: this.configService.get("JWT_SECRET", {
 				infer: true
 			})
 		}

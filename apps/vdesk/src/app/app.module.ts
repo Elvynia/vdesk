@@ -1,5 +1,6 @@
 import { AddressModule, AuthModule, ChunkModule, ChunkToMissionModule, CompanyModule, CompanyToInvoiceModule, CompanyTypeModule, EntityModule, InvoiceModule, MissionModule, MissionToChunkModule, MissionToCompanyModule, RoleModule } from '@lv/entity';
 import { Module } from '@nestjs/common';
+import { HealthModule } from './health/health.module';
 import { InvoicePdfController } from './invoice/invoice-pdf.controller';
 import { InvoicePrintController } from './invoice/invoice-print.controller';
 
@@ -11,6 +12,7 @@ import { InvoicePrintController } from './invoice/invoice-print.controller';
 		CompanyTypeModule,
 		CompanyModule,
 		CompanyToInvoiceModule,
+		HealthModule,
 		RoleModule,
 		AddressModule,
 		CompanyModule,

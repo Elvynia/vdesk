@@ -3,7 +3,7 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService, JwtSignOptions, TokenExpiredError } from "@nestjs/jwt";
 import { AccountEntity } from "../account/account.entity";
-import { CommonConfig } from "../config/config.type";
+import { CommonConfig } from "../config/common-config.type";
 
 @Injectable()
 export class AuthResolver {
@@ -15,7 +15,7 @@ export class AuthResolver {
 		return {
 			algorithm: 'RS512',
 			issuer: 'vdesk',
-			secret: await this.config.get('jwt.secret', {
+			secret: await this.config.get('JWT_SECRET', {
 				infer: true
 			})
 		} as JwtSignOptions
@@ -26,7 +26,7 @@ export class AuthResolver {
 			...this.defaultOptions,
 			// FIXME: audience: account.role.authorizations,
 			subject: account.username,
-			expiresIn: await this.config.get('jwt.expires' + expiresKey as any),
+			expiresIn: await this.config.get('JWT_EXPIRES' + expiresKey as keyof CommonConfig),
 		} as JwtSignOptions
 	}
 
