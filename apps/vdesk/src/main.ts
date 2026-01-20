@@ -15,8 +15,6 @@ import { AppModule } from './app/app.module';
 if (isEnvDev()) {
 	import('mongoose').then((mongoose) => mongoose.set('debug', true));
 }
-console.log('process.env.DATABASE_URL at runtime:', process.env.DATABASE_URL);
-console.log('process.env.NODE_ENV at runtime:', process.env.NODE_ENV);
 
 // Handlebars helpers
 Handlebars.registerHelper('parseDate', function (value: Date) {
@@ -67,7 +65,7 @@ async function bootstrap() {
 	const port = config.get('WEB_PORT', {
 		infer: true
 	});
-	await app.listen(port);
+	await app.listen(port, '0.0.0.0');
 	Logger.log(
 		`🗂️ LV Desk is running on: http://localhost:${port}/${globalPrefix || ''}`
 	);
