@@ -29,6 +29,9 @@ module.exports = [{
 			optimization: isProd,
 			outputHashing: 'none',
 			generatePackageJson: true,
+			dependencies: [
+				"@nestjs/config",
+			]
 		}),
 	],
 }, {
