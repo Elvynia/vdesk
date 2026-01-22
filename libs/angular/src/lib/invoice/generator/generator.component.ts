@@ -5,7 +5,6 @@ import { MatButtonModule } from "@angular/material/button";
 import { DateRange, DefaultMatCalendarRangeStrategy, MAT_DATE_RANGE_SELECTION_STRATEGY, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
 import { Chunk, Company, distinctUntilAnyKeyChanged, findDayOfWeek, InvoiceLine, makeInvoiceLineWeek, Mission } from '@lv/common';
 import { delay, distinctUntilChanged, map, startWith, tap } from 'rxjs';
-import '../../../../../extension/array-reduce-sum';
 import { LoadingDirective } from "../../loading/loading.directive";
 import { formParseFromDate } from '../../util/form/form-parse-date';
 
