@@ -87,7 +87,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 						const date = formParseFromDate(d);
 						const chunkLoad = this.chunks.filter((c) => c.date === date)
 							.map((c) => c.count)
-							.reduceSum();
+							.reduce((acc, c) => acc + c, 0);
 						if (chunkLoad > 0) {
 							return ['chunk', 'c' + chunkLoad];
 						}
