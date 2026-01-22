@@ -6,10 +6,6 @@ export function HoverableCompomix<T extends Constructor>(Base: T = (class { } as
 	class HoverableCompomix extends Base {
 		hovering: boolean;
 
-		get target(): HTMLElement {
-			throw new Error('Not implemented');
-		}
-
 		constructor(...params: any[]) {
 			super(params);
 			this.hovering = false;
