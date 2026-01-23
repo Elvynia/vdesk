@@ -26,7 +26,7 @@ export class AuthResolver {
 			...this.defaultOptions,
 			// FIXME: audience: account.role.authorizations,
 			subject: account.username,
-			expiresIn: await this.config.get('JWT_EXPIRES' + expiresKey as keyof CommonConfig),
+			expiresIn: await this.config.get('JWT_EXPIRES_' + expiresKey as keyof CommonConfig),
 		} as JwtSignOptions
 	}
 
@@ -34,10 +34,10 @@ export class AuthResolver {
 		const payload = { acc: account._id } as AuthJwtPayloadCreate;
 		return {
 			apiToken: await this.jwtService.signAsync(payload, {
-				...await this.getAccountOptions(account, 'Api')
+				...await this.getAccountOptions(account, 'API')
 			}),
 			refreshToken: await this.jwtService.signAsync(payload, {
-				...await this.getAccountOptions(account, 'Refresh')
+				...await this.getAccountOptions(account, 'REFRESH')
 			}),
 		};
 	}
