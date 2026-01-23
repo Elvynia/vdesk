@@ -4,3 +4,5 @@ node_modules
 tmp
 tools
 .vscode
+Dockerfile
+nginx.conf
