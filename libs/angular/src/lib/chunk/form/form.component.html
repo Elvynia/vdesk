@@ -1,7 +1,7 @@
 <div class="flex flex-col" [formGroup]="group">
 	<mat-radio-group class="flex flex-wrap mb-2" formControlName="mission" (change)="count.focus()">
 		@for (mission of missions; track mission._id) {
-		<mat-radio-button [value]="mission">
+		<mat-radio-button tabIndex="-1" [value]="mission">
 			{{ mission.name }}
 		</mat-radio-button>
 		}
@@ -11,18 +11,18 @@
 			<mat-label>
 				{{ countLabel }}
 			</mat-label>
-			<input matInput formControlName="count" lvDecimalFormat #count>
+			<input matInput formControlName="count" tabindex="1" lvDecimalFormat #count>
 		</mat-form-field>
-		<mat-form-field class="min-w-32! basis-2/3">
+		<mat-form-field class="min-w-32! basis-2/3" tabindex="-1" (click)="datePicker.open()">
 			<mat-label>Date</mat-label>
 			<input matInput formControlName="date" [matDatepicker]="datePicker" hidden #date="matInput" />
 			{{ date.value | date:'dd/MM' }}
-			<mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
 			<mat-datepicker #datePicker></mat-datepicker>
+			<span matTextSuffix>{{ group.controls.date.value.toLocaleDateString('fr', { weekday: 'long' })}}</span>
 		</mat-form-field>
 	</div>
 	<mat-form-field>
 		<mat-label>Description</mat-label>
-		<textarea matInput formControlName="desc"></textarea>
+		<textarea matInput formControlName="desc" tabindex="2"></textarea>
 	</mat-form-field>
 </div>

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
 	MAT_DATE_LOCALE,
 	MatNativeDateModule,
@@ -11,14 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { Chunk, Mission } from '@lv/common';
-import { Actions, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { distinctUntilChanged, filter, finalize, first } from 'rxjs';
-import { LoadingDirective } from "../../loading/loading.directive";
-import { MissionService } from '../../mission/mission.service';
-import { formParseInt } from '../../util/form/form-parse-number';
+import { distinctUntilChanged } from 'rxjs';
 import { DecimalFormatDirective } from "../../util/format/decimal-format.directive";
-import { chunkActions } from '../chunk.actions';
 
 @Component({
 	selector: 'lv-chunk-form',
@@ -54,10 +48,31 @@ export class ChunkFormComponent implements OnChanges {
 	@Input() value?: Chunk;
 	@Input() missions: Mission[];
 	countLabel: string;
+	decr: number = -1;
+	incr: number = 1;
 
 	constructor() {
 		this.missions = [];
 		this.countLabel = 'Hours';
+	}
+
+	@HostListener('keyup.control.arrowLeft', ['decr'])
+	@HostListener('keyup.control.arrowRight', ['incr'])
+	updateDate(val: number) {
+		const date = this.group.controls.date as FormControl<Date>;
+		const newDateValue = new Date(date.value)
+		newDateValue.setDate(date.value.getDate() + val);
+		date.setValue(newDateValue);
+	}
+
+	@HostListener('keyup.control.1', ['missions[0]'])
+	@HostListener('keyup.control.2', ['missions[1]'])
+	@HostListener('keyup.control.3', ['missions[2]'])
+	@HostListener('keyup.control.4', ['missions[3]'])
+	updateMission(mission: Mission) {
+		if (mission) {
+			this.group.controls.mission.setValue(mission);
+		}
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {

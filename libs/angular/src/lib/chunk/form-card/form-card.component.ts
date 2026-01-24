@@ -1,6 +1,7 @@
 import {
 	Component,
 	EventEmitter,
+	HostListener,
 	Input,
 	OnChanges,
 	OnInit,
@@ -94,7 +95,7 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 		}
 	}
 
-	submit() {
+	submit(keepAll?: boolean) {
 		if (this.group.invalid || this.group.pending || this.pending) {
 			return;
 		}
@@ -112,7 +113,16 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 				// filter(isApiActionSuccess),
 				finalize(() => (this.pending = false))
 			)
-			.subscribe((a) => this.reset({ missionId: (a as ApiActionSave<Chunk>).value.missionId }));
+			.subscribe((a) => this.reset({
+				missionId: (a as ApiActionSave<Chunk>).value.missionId,
+				desc: keepAll ? (a as ApiActionSave<Chunk>).value.desc : undefined,
+				date: keepAll ? new Date((a as ApiActionSave<Chunk>).value.date) : undefined
+			}));
+	}
+
+	@HostListener('keyup.control.enter')
+	submitKey() {
+		this.submit(true);
 	}
 
 	private reset(value?: Partial<Chunk>) {

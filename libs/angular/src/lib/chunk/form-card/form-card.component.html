@@ -1,4 +1,4 @@
-<mat-card (keyup.enter)="submit()">
+<mat-card>
 	<mat-card-header class="mb-4">
 		<h1 mat-card-title>Add time</h1>
 	</mat-card-header>
@@ -10,7 +10,7 @@
 		<!-- <button mat-stroked-button class="lv-error" [disabled]="pending" (click)="cancel()">
 			Cancel
 		</button> -->
-		<button mat-raised-button color="accent" class="grow"
+		<button mat-raised-button color="accent" class="grow" tabindex="3"
 			[disabled]="pending || group.invalid || group.pending" (click)="submit()">Save</button>
 	</mat-card-actions>
 </mat-card>
