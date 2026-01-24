@@ -58,16 +58,16 @@
 		"@nx/angular:application": {
 			"e2eTestRunner": "none",
 			"linter": "eslint",
-			"style": "scss",
+			"style": "css",
 			"unitTestRunner": "none"
 		},
 		"@nx/angular:library": {
 			"linter": "eslint",
-			"style": "scss",
+			"style": "css",
 			"unitTestRunner": "none"
 		},
 		"@nx/angular:component": {
-			"style": "scss",
+			"style": "css",
 			"type": "component"
 		},
 		"@schematics/angular:component": {
