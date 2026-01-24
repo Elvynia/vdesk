@@ -2,8 +2,17 @@
 	"name": "@lv/angular",
 	"version": "0.0.1",
 	"peerDependencies": {
-		"@angular/common": "^19.0.0",
-		"@angular/core": "^19.0.0"
+		"@angular/common": "20.3.10",
+		"@angular/core": "20.3.10",
+		"@lv/common": "0.0.1",
+		"@ngrx/store": "20.1.0",
+		"@ngrx/effects": "20.1.0",
+		"@angular/material": "20.2.12",
+		"rxjs": "^7.8.2",
+		"@angular/forms": "20.3.10",
+		"@angular/router": "20.3.10",
+		"@angular/cdk": "20.2.12",
+		"jwt-decode": "^4.0.0"
 	},
 	"sideEffects": false
 }
