@@ -16,7 +16,7 @@ import { formParseFromDate } from '../../util/form/form-parse-date';
 	],
 	encapsulation: ViewEncapsulation.None,
 	host: {
-		'class': 'block w-full border-2 border-amber-600'
+		'class': 'flex w-full h-full'
 	},
 	templateUrl: './calendar.component.html',
 	styleUrl: './calendar.component.css',
