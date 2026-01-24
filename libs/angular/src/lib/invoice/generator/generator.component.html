@@ -12,11 +12,10 @@
 		{{ group.controls.amount.value }}
 	</div>
 	<div class="duo mt-4">
-		<button mat-flat-button class="lv-error" (click)="updateSelected(null)">Change selection</button>
+		<button mat-flat-button class="lv-error" (click)="reset()">Change selection</button>
 		<button mat-flat-button class="lv-accent" (click)="addLines()">Confirm lines</button>
 	</div>
 </div>
-} @else {
-<mat-calendar startView="month" [startAt]="startAt" [dateClass]="dateClass" [selected]="selected"
-	(selectedChange)="updateSelected($event)" *lvLoading="calPending"></mat-calendar>
 }
+<lv-chunk-calendar [startAt]="startAt" [chunks]="chunks" [range]="selected" [hidden]="lines.length"
+	(rangeChange)="updateSelected($event)" *lvLoading="calPending"></lv-chunk-calendar>

@@ -1,0 +1,73 @@
+@use "@angular/material" as mat;
+
+/* TODO: not working, move to theme or don't use overrides. */
+.mat-calendar {
+	@include mat.datepicker-overrides(
+		(
+			calendar-date-today-outline-color: transparent,
+			calendar-date-text-color: var(--mat-sys-primary),
+			calendar-date-selected-state-text-color: var(--mat-sys-secondary),
+			calendar-date-selected-state-background-color: var(--mat-sys-on-tertiary)
+		)
+	);
+}
+
+.mat-calendar-body-cell > .mat-calendar-body-cell-content {
+	top: 20%;
+}
+
+.mat-calendar-body-cell.chunk::after {
+	font-size: 2.5vi;
+	background-color: var(--mat-sys-primary-container);
+	border-radius: 0.25rem;
+	padding-top: 1vi;
+	width: calc(100% - 0.25rem);
+}
+
+.mat-calendar-body-cell.chunk.c1::after {
+	content: "\2680";
+}
+
+.mat-calendar-body-cell.chunk.c2::after {
+	content: "\2681";
+}
+
+.mat-calendar-body-cell.chunk.c3::after {
+	content: "\2682";
+}
+
+.mat-calendar-body-cell.chunk.c4::after {
+	content: "\2683";
+}
+
+.mat-calendar-body-cell.chunk.c5::after {
+	content: "\2684";
+}
+
+.mat-calendar-body-cell.chunk.c6::after {
+	content: "\2685";
+}
+
+.mat-calendar-body-cell.chunk.c7::after {
+	content: "\2683\2682";
+}
+
+.mat-calendar-body-cell.chunk.c8::after {
+	content: "\2683\2683";
+}
+
+.mat-calendar-body-cell.chunk.c9::after {
+	content: "\2684\2683";
+}
+
+.mat-calendar-body-cell.chunk.c10::after {
+	content: "\2684\2684";
+}
+
+.mat-calendar-body-cell.chunk.c11::after {
+	content: "\2685\2684";
+}
+
+.mat-calendar-body-cell.chunk.c12::after {
+	content: "\2685\2685";
+}

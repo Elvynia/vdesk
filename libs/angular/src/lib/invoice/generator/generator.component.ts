@@ -1,29 +1,24 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatButtonModule } from "@angular/material/button";
-import { DateRange, DefaultMatCalendarRangeStrategy, MAT_DATE_RANGE_SELECTION_STRATEGY, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
+import { DateRange } from '@angular/material/datepicker';
 import { Chunk, Company, distinctUntilAnyKeyChanged, findDayOfWeek, InvoiceLine, makeInvoiceLineWeek, Mission } from '@lv/common';
 import { delay, distinctUntilChanged, map, startWith, tap } from 'rxjs';
+import { ChunkCalendarComponent } from '../../chunk/calendar/calendar.component';
 import { LoadingDirective } from "../../loading/loading.directive";
-import { formParseFromDate } from '../../util/form/form-parse-date';
 
 @Component({
 	selector: 'lv-invoice-generator',
 	imports: [
+		ChunkCalendarComponent,
 		CommonModule,
 		MatButtonModule,
-		MatDatepickerModule,
-		LoadingDirective
+		LoadingDirective,
 	],
 	templateUrl: './generator.component.html',
 	styleUrl: './generator.component.css',
-	encapsulation: ViewEncapsulation.None,
 	providers: [
-		{
-			provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
-			useClass: DefaultMatCalendarRangeStrategy,
-		},
 		CurrencyPipe
 	]
 })
@@ -31,8 +26,6 @@ export class InvoiceGeneratorComponent implements OnChanges {
 	@Input() group!: FormGroup;
 	@Output() lineAdded: EventEmitter<InvoiceLine>;
 	@Output() lineRemoved: EventEmitter<number>;
-	startView?: MatCalendarView;
-	dateClass!: MatCalendarCellClassFunction<Date>;
 	calPending: boolean;
 	chunks: Chunk[];
 	lines!: InvoiceLine[];
@@ -44,13 +37,16 @@ export class InvoiceGeneratorComponent implements OnChanges {
 		this.chunks = [];
 		this.lineAdded = new EventEmitter();
 		this.lineRemoved = new EventEmitter();
-		this.dateClass = this.dateClass = () => [];
-		this.resetAll();
+		const now = new Date();
+		now.setMonth(now.getMonth() - 1);
+		now.setDate(1);
+		this.startAt = now;
+		this.reset();
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.group && this.group) {
-			this.resetAll();
+			this.reset();
 			this.group.controls.missions.valueChanges.pipe(
 				startWith(this.group.controls.missions.value),
 				map((missions) => {
@@ -77,24 +73,13 @@ export class InvoiceGeneratorComponent implements OnChanges {
 					return aIds.every((aid) => bIds.includes(aid)) && bIds.every((bid) => aIds.includes(bid));
 				}),
 				tap(() => this.calPending = true),
-				delay(20)
+				delay(0)
 			).subscribe((missions: Mission[]) => {
-				this.resetAll();
+				this.reset();
 				if (missions && missions.length > 0) {
 					this.chunks = missions.flatMap((m) => m.chunks);
-					this.dateClass = (d) => {
-						const date = formParseFromDate(d);
-						const chunkLoad = this.chunks.filter((c) => c.date === date)
-							.map((c) => c.count)
-							.reduce((acc, c) => acc + c, 0);
-						if (chunkLoad > 0) {
-							return ['chunk', 'c' + chunkLoad];
-						}
-						return [];
-					};
 				} else {
 					this.chunks = [];
-					this.dateClass = this.dateClass = () => [];
 				}
 				this.calPending = false;
 			});
@@ -106,8 +91,14 @@ export class InvoiceGeneratorComponent implements OnChanges {
 		// TODO update fields
 		const createdOn = this.group.controls.createdOn.value as Date;
 		this.group.controls.paymentLimit.setValue(new Date(createdOn.getFullYear(), createdOn.getMonth() + 1, 0));
-		this.group.controls.amount.setValue(this.currencyPipe.transform(this.group.controls.lines.value.map((l: InvoiceLine) => l.count * l.price).reduceSum()));
-		this.resetAll();
+		this.group.controls.amount.setValue(
+			this.currencyPipe.transform(
+				(this.group.controls.lines.value as InvoiceLine[])
+					.map((l) => l.count * l.price)
+					.reduce((acc, c) => acc + c, 0)
+			)
+		);
+		this.reset();
 	}
 
 	makeLines(range: DateRange<Date>) {
@@ -136,45 +127,31 @@ export class InvoiceGeneratorComponent implements OnChanges {
 		}
 	}
 
-	updateSelected(date: Date | null) {
-		if (!date) {
-			this.resetAll();
-			return;
-		}
-		if (
-			this.selected &&
-			this.selected.start &&
-			date > this.selected.start &&
-			!this.selected.end
-		) {
-			this.selected = new DateRange(
-				this.selected.start,
-				date
-			);
-			this.makeLines(this.selected);
-			const execStart = this.group.controls.execStart;
-			const execEnd = this.group.controls.execEnd;
-			if (!execStart.value || execStart.value.getTime() > this.selected.start!.getTime()) {
-				execStart.setValue(this.selected.start);
+	updateSelected(selection: DateRange<Date> | null) {
+		if (selection) {
+			if (
+				selection.start &&
+				selection.end
+			) {
+				this.selected = selection;
+				this.makeLines(selection);
+				const execStart = this.group.controls.execStart;
+				const execEnd = this.group.controls.execEnd;
+				if (!execStart.value || execStart.value.getTime() > selection.start!.getTime()) {
+					execStart.setValue(selection.start);
+				}
+				if (!execEnd.value || execEnd.value.getTime() < selection.end!.getTime()) {
+					execEnd.setValue(selection.end);
+				}
 			}
-			if (!execEnd.value || execEnd.value.getTime() < this.selected.end!.getTime()) {
-				execEnd.setValue(this.selected.end);
-			}
+
 		} else {
-			this.selected = new DateRange(date, null);
 			this.reset();
 		}
-	}
-	resetAll() {
-		this.reset();
-		this.selected = null;
 	}
 
 	reset() {
 		this.lines = [];
-		const now = new Date();
-		now.setMonth(now.getMonth() - 1);
-		now.setDate(1);
-		this.startAt = now;
+		this.selected = null;
 	}
 }
