@@ -11,7 +11,7 @@ import { ChunkService } from './chunk.service';
 export class ChunkEffects {
 	private actions$ = inject(Actions);
 
-	constructor(private service: ChunkService, private snackbar: MatSnackBar) {}
+	constructor(private service: ChunkService, private snackbar: MatSnackBar) { }
 
 	create$ = createEffect(() =>
 		this.actions$.pipe(
@@ -104,7 +104,7 @@ export class ChunkEffects {
 		this.actions$.pipe(
 			ofType(chunkActions.update),
 			mergeMap(({ value }) =>
-				this.service.sendUpdate(value).pipe(
+				this.service.sendUpdate({ ...value, pending: undefined }).pipe(
 					map((updated) =>
 						chunkActions.updateSuccess({
 							value: updated,

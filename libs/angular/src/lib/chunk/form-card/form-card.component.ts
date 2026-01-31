@@ -6,7 +6,7 @@ import {
 	OnChanges,
 	OnInit,
 	Output,
-	SimpleChanges,
+	SimpleChanges
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,7 +16,6 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
-import { MissionService } from '../../mission/mission.service';
 import { ApiActionSave } from '../../util/api.action';
 import { formParseFromDate } from '../../util/form/form-parse-date';
 import { formParseInt } from '../../util/form/form-parse-number';
@@ -35,15 +34,14 @@ import { ChunkFormComponent } from '../form/form.component';
 	styleUrl: './form-card.component.css',
 })
 export class ChunkFormCardComponent implements OnInit, OnChanges {
+	@Input() missions: Mission[];
 	@Input() value?: Chunk;
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<Chunk>;
 	group!: FormGroup;
-	missions: Mission[];
 	pending: boolean;
 
 	constructor(
-		private missionService: MissionService,
 		private formBuilder: FormBuilder,
 		private store: Store<any>,
 		private actions: Actions
@@ -51,18 +49,7 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 		this.back = new EventEmitter();
 		this.save = new EventEmitter();
 		this.missions = [];
-		this.pending = true;
-	}
-
-	ngOnInit() {
-		this.missionService.sendListActive().pipe(
-			finalize(() => this.pending = false)
-		).subscribe((missions) => {
-			this.missions = missions;
-			if (!this.group) {
-				this.reset();
-			}
-		});
+		this.pending = false;
 	}
 
 	private findMission(missionId: string | undefined): any {
@@ -72,8 +59,14 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 		return undefined;
 	}
 
+	ngOnInit(): void {
+		if (!this.group) {
+			this.reset();
+		}
+	}
+
 	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['value']) {
+		if (changes.value || changes.missions) {
 			this.reset();
 		}
 	}
@@ -89,7 +82,7 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 		return {
 			...value,
 			count: formParseInt(value.count)!,
-			date: formParseFromDate(value.date as Date),
+			date: formParseFromDate(value.date as Date).toISOString(),
 			mission: undefined,
 			missionId: value.mission!._id,
 		}

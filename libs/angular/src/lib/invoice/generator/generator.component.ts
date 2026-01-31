@@ -4,9 +4,9 @@ import { FormGroup } from '@angular/forms';
 import { MatButtonModule } from "@angular/material/button";
 import { DateRange } from '@angular/material/datepicker';
 import { Chunk, Company, distinctUntilAnyKeyChanged, findDayOfWeek, InvoiceLine, makeInvoiceLineWeek, Mission } from '@lv/common';
-import { delay, distinctUntilChanged, map, startWith, tap } from 'rxjs';
+import { distinctUntilChanged, map, startWith } from 'rxjs';
 import { ChunkCalendarComponent } from '../../chunk/calendar/calendar.component';
-import { LoadingDirective } from "../../loading/loading.directive";
+import { ChunkCalendarSelectRange } from '../../chunk/calendar/calendar.type';
 
 @Component({
 	selector: 'lv-invoice-generator',
@@ -14,7 +14,6 @@ import { LoadingDirective } from "../../loading/loading.directive";
 		ChunkCalendarComponent,
 		CommonModule,
 		MatButtonModule,
-		LoadingDirective,
 	],
 	templateUrl: './generator.component.html',
 	styleUrl: './generator.component.css',
@@ -26,14 +25,12 @@ export class InvoiceGeneratorComponent implements OnChanges {
 	@Input() group!: FormGroup;
 	@Output() lineAdded: EventEmitter<InvoiceLine>;
 	@Output() lineRemoved: EventEmitter<number>;
-	calPending: boolean;
 	chunks: Chunk[];
 	lines!: InvoiceLine[];
 	selected!: DateRange<Date> | null;
 	startAt!: Date;
 
 	constructor(private currencyPipe: CurrencyPipe) {
-		this.calPending = false;
 		this.chunks = [];
 		this.lineAdded = new EventEmitter();
 		this.lineRemoved = new EventEmitter();
@@ -72,8 +69,6 @@ export class InvoiceGeneratorComponent implements OnChanges {
 					const bIds = b.map((bm) => bm._id);
 					return aIds.every((aid) => bIds.includes(aid)) && bIds.every((bid) => aIds.includes(bid));
 				}),
-				tap(() => this.calPending = true),
-				delay(0)
 			).subscribe((missions: Mission[]) => {
 				this.reset();
 				if (missions && missions.length > 0) {
@@ -81,7 +76,6 @@ export class InvoiceGeneratorComponent implements OnChanges {
 				} else {
 					this.chunks = [];
 				}
-				this.calPending = false;
 			});
 		}
 	}
@@ -104,7 +98,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 	makeLines(range: DateRange<Date>) {
 		let start = findDayOfWeek(range.start!);
 		while (start) {
-			let week = findDayOfWeek(new Date(start), 7);
+			let week = findDayOfWeek(start, 7);
 			let end = week.getTime() > range.end!.getTime() ? range.end! : week;
 			end.setHours(23, 59, 59);
 			let weekChunks = this.chunks.filter((c) => {
@@ -127,24 +121,18 @@ export class InvoiceGeneratorComponent implements OnChanges {
 		}
 	}
 
-	updateSelected(selection: DateRange<Date> | null) {
+	updateSelected(selection: ChunkCalendarSelectRange | null) {
 		if (selection) {
-			if (
-				selection.start &&
-				selection.end
-			) {
-				this.selected = selection;
-				this.makeLines(selection);
-				const execStart = this.group.controls.execStart;
-				const execEnd = this.group.controls.execEnd;
-				if (!execStart.value || execStart.value.getTime() > selection.start!.getTime()) {
-					execStart.setValue(selection.start);
-				}
-				if (!execEnd.value || execEnd.value.getTime() < selection.end!.getTime()) {
-					execEnd.setValue(selection.end);
-				}
+			this.selected = selection.range;
+			this.makeLines(this.selected);
+			const execStart = this.group.controls.execStart;
+			const execEnd = this.group.controls.execEnd;
+			if (!execStart.value || execStart.value.getTime() > this.selected.start!.getTime()) {
+				execStart.setValue(this.selected.start);
 			}
-
+			if (!execEnd.value || execEnd.value.getTime() < this.selected.end!.getTime()) {
+				execEnd.setValue(this.selected.end);
+			}
 		} else {
 			this.reset();
 		}

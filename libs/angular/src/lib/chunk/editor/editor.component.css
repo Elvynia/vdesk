@@ -1,0 +1,4 @@
+mat-drawer {
+	--mat-button-filled-container-color: var(--color-on-tertiary);
+	--mat-button-filled-label-text-color: var(--color-tertiary);
+}

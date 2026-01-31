@@ -1,0 +1,27 @@
+<mat-card>
+	<mat-card-content class="flex! flex-col justify-center">
+		<mat-drawer-container [hasBackdrop]="false">
+			<mat-drawer autoFocus="div" mode="over" class="max-w-1/2" #drawer>
+				<div class="flex flex-col overflow-hidden">
+					@for (c of selected?.chunks; track c._id) {
+					<div class="flex flex-col gap-1 first:mt-6">
+						<mat-slider min="1" max="15" step="1" discrete>
+							<input matSliderThumb [value]="c.count" (valueChange)="doUpdateCount(c, $event)">
+						</mat-slider>
+						<div class="px-2">{{ c.desc }}</div>
+						<button mat-flat-button [disabled]="c.pending" (click)="doDelete(c)">
+							<span *lvLoading="c.pending; color:'danger'; diameter: 24">
+								Delete {{ c.count }}
+							</span>
+						</button>
+					</div>
+					}
+				</div>
+			</mat-drawer>
+			<mat-drawer-content>
+				<lv-chunk-calendar [chunks]="chunks" [selected]="selected?.date || null"
+					(selectedChange)="updateSelected($event)"></lv-chunk-calendar>
+			</mat-drawer-content>
+		</mat-drawer-container>
+	</mat-card-content>
+</mat-card>

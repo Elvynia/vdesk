@@ -3,7 +3,7 @@ export function formParseFromDate(date: Date, hasTime: boolean = false) {
 	if (!hasTime) {
 		result.setUTCHours(0, 0, 0, 0);
 	}
-	return result.toISOString();
+	return result;
 }
 
 export function formParseToDate(date: string, hasTime: boolean = false) {

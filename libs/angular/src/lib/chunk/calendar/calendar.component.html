@@ -1,2 +1,2 @@
-<mat-calendar startView="month" [startAt]="startAt" [dateClass]="dateClass" [selected]="hasRange ? range : selected"
-	(selectedChange)="updateSelected($event)"></mat-calendar>
+<mat-calendar class="w-full h-full" startView="month" [startAt]="startAt" [dateClass]="dateClass" [selected]="hasRange ? range : selected"
+	(selectedChange)="updateSelected($event)" *lvLoading="viewReload"></mat-calendar>

@@ -1,10 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { DateRange, MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
-import { Chunk } from '@lv/common';
+import { Chunk, makeChunkFinder } from '@lv/common';
+import { delay, from } from 'rxjs';
+import { LoadingDirective } from '../../loading/loading.directive';
 import { formParseFromDate } from '../../util/form/form-parse-date';
+import { MondayDateAdapter } from '../../util/monday-date-adapter';
+import { ChunkCalendarSelectRange, ChunkCalendarSelectSingle } from './calendar.type';
+
 
 @Component({
 	selector: 'lv-chunk-calendar',
@@ -13,11 +18,18 @@ import { formParseFromDate } from '../../util/form/form-parse-date';
 		MatButtonModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
+		LoadingDirective
 	],
 	encapsulation: ViewEncapsulation.None,
 	host: {
 		'class': 'flex w-full h-full'
 	},
+	providers: [
+		{
+			provide: DateAdapter,
+			useClass: MondayDateAdapter
+		}
+	],
 	templateUrl: './calendar.component.html',
 	styleUrl: './calendar.component.css',
 })
@@ -26,17 +38,21 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 	@Input() startAt!: Date;
 	@Input() range!: DateRange<Date> | null;
 	@Input() selected!: Date | null;
-	@Output() rangeChange: EventEmitter<DateRange<Date> | null>;
-	@Output() selectedChange: EventEmitter<Date | null>;
+	@Output() rangeChange: EventEmitter<ChunkCalendarSelectRange | null>;
+	@Output() selectedChange: EventEmitter<ChunkCalendarSelectSingle | null>;
 	dateClass!: MatCalendarCellClassFunction<Date>;
 	hasRange: boolean;
+	chunkFinder!: ReturnType<typeof makeChunkFinder>;
+	viewReload: boolean;
 
 	constructor() {
 		this.chunks = [];
+		this.chunkFinder = makeChunkFinder([]);
 		this.dateClass = this.dateClass = () => [];
 		this.hasRange = false;
-		this.selectedChange = new EventEmitter();
 		this.rangeChange = new EventEmitter();
+		this.selectedChange = new EventEmitter();
+		this.viewReload = false;
 	}
 
 	ngOnInit() {
@@ -53,16 +69,26 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 		}
 		if (changes.chunks) {
 			if (this.chunks) {
-				this.dateClass = (d) => {
-					const date = formParseFromDate(d);
-					const chunkLoad = this.chunks.filter((c) => c.date === date)
-						.map((c) => c.count)
-						.reduce((acc, c) => acc + c, 0);
-					if (chunkLoad > 0) {
-						return ['chunk', 'c' + chunkLoad];
-					}
-					return [];
-				};
+				this.chunkFinder = makeChunkFinder(this.chunks);
+				this.viewReload = true;
+				// Using async and viewReload boolean to trigger material calendar when changing dateClass function.
+				// Otherwise it won't be updated in calendar's view until the next calendar event.
+				from(this.chunks).pipe(
+					delay(0)
+				).subscribe(() => {
+					this.dateClass = (d) => {
+						const date = formParseFromDate(d);
+						const dayChunks = this.chunkFinder(date);
+						const chunkLoad = dayChunks
+							.map((c) => c.count)
+							.reduce((acc, c) => acc + c, 0);
+						if (chunkLoad > 0) {
+							return ['chunk', 'c' + chunkLoad];
+						}
+						return [];
+					};
+					this.viewReload = false;
+				})
 			} else {
 				this.chunks = [];
 				this.dateClass = this.dateClass = () => [];
@@ -98,10 +124,21 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 	}
 
 	private rangeNext() {
-		this.rangeChange.next(this.range);
+		this.rangeChange.next(this.range ? {
+			type: 'range',
+			range: this.range,
+			chunks: this.chunkFinder(
+				formParseFromDate(this.range.start!),
+				formParseFromDate(this.range.end!)
+			)
+		} : null);
 	}
 
 	private selectedNext() {
-		this.selectedChange.next(this.selected);
+		this.selectedChange.next(this.selected ? {
+			type: 'single',
+			date: this.selected,
+			chunks: this.chunkFinder(formParseFromDate(this.selected))
+		} : null);
 	}
 }
