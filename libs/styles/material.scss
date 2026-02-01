@@ -44,7 +44,9 @@ mat-list-item {
 	@include mat.button-overrides(
 		(
 			filled-container-color: var(--mat-sys-on-secondary),
-			filled-label-text-color: var(--mat-sys-secondary)
+			filled-label-text-color: var(--mat-sys-secondary),
+			outlined-outline-color: var(--mat-sys-on-secondary),
+			outlined-label-text-color: var(--mat-sys-secondary)
 		)
 	);
 	@include mat.icon-button-overrides(
