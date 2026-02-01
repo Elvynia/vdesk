@@ -1,9 +1,9 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { AuthEntity, AuthService, isAuthenticated, ObserverCompomix, selectAuth } from '@lv/angular';
@@ -29,6 +29,7 @@ import { TallyState } from './app.type';
 	}
 })
 export class AppComponent extends ObserverCompomix() implements OnInit {
+	@ViewChild('drawer') drawer?: MatDrawer;
 	menu: MenuItem[];
 	auth!: AuthEntity;
 
@@ -50,6 +51,12 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 			{ "path": "mission", "label": "Missions", "icon": "badge" },
 			{ "path": "invoice", "label": "Invoices", "icon": "point_of_sale" }
 		];
+	}
+
+	@HostListener('contextmenu', ['$event'])
+	cancelSelect(event: Event) {
+		event.preventDefault();
+		this.drawer?.toggle();
 	}
 
 	ngOnInit(): void {

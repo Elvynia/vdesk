@@ -50,6 +50,7 @@ export class ChunkEditorComponent implements OnChanges {
 	@HostListener('contextmenu', ['$event'])
 	cancelSelect(event: Event) {
 		event.preventDefault();
+		event.stopPropagation();
 		this.updateSelected(null);
 	}
 
