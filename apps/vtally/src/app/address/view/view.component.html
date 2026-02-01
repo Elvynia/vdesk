@@ -1,9 +1,11 @@
 <lv-address-list
+	class="flex-1"
 	[values]="addresses"
 	(edit)="edit($event)"
 	(delete)="delete($event)"
 ></lv-address-list>
 <lv-address-form-card
+	class="flex-1"
 	[value]="editAddress"
 	(back)="cancel()"
 	(save)="save($event)"

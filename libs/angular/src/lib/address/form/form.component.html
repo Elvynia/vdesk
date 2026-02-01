@@ -1,42 +1,36 @@
 <div class="pt-3" [formGroup]="group">
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('city')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label> city </mat-label>
-
 			<input matInput name="city" formControlName="city" />
 		</mat-form-field>
 
-		<mat-form-field [class.lv-accent]="group.get('firstname')!.valid">
+		<mat-form-field>
 			<mat-label> firstname </mat-label>
-
 			<input matInput name="firstname" formControlName="firstname" />
 		</mat-form-field>
 	</div>
 
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('lastname')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label> lastname </mat-label>
-
 			<input matInput name="lastname" formControlName="lastname" />
 		</mat-form-field>
 
-		<mat-form-field [class.lv-accent]="group.get('line1')!.valid">
+		<mat-form-field>
 			<mat-label> line1 </mat-label>
-
 			<input matInput name="line1" formControlName="line1" />
 		</mat-form-field>
 	</div>
 
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('line2')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label> line2 </mat-label>
-
 			<input matInput name="line2" formControlName="line2" />
 		</mat-form-field>
 
-		<mat-form-field [class.lv-accent]="group.get('zip')!.valid">
+		<mat-form-field>
 			<mat-label> zip </mat-label>
-
 			<input matInput name="zip" formControlName="zip" />
 		</mat-form-field>
 	</div>

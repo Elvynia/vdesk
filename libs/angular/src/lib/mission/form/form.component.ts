@@ -53,7 +53,6 @@ import { MatSelectModule } from '@angular/material/select';
 	],
 
 	templateUrl: './form.component.html',
-	styleUrl: './form.component.css',
 })
 export class MissionFormComponent {
 	@Input() group!: FormGroup;

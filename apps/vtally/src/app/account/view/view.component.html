@@ -1,2 +1,13 @@
-<lv-account-list [values]="accounts" (detail)="get($event)" (edit)="edit($event)" (delete)="delete($event)"></lv-account-list>
-<lv-account-form-card [value]="editAccount" (back)="cancel()" (save)="save($event)"></lv-account-form-card>
+<lv-account-list
+	class="flex-1"
+	[values]="accounts"
+	(detail)="get($event)"
+	(edit)="edit($event)"
+	(delete)="delete($event)"
+></lv-account-list>
+<lv-account-form-card
+	class="flex-1"
+	[value]="editAccount"
+	(back)="cancel()"
+	(save)="save($event)"
+></lv-account-form-card>

@@ -12,7 +12,9 @@ import { filter, first, takeUntil } from 'rxjs';
 		AccountFormCardComponent,
 	],
 	templateUrl: './view.component.html',
-	styleUrl: './view.component.css'
+	host: {
+		class: 'flex space-between gap-8 h-full w-full'
+	}
 })
 export class AccountViewComponent extends ObserverCompomix() implements OnInit {
 	accounts: Account[];

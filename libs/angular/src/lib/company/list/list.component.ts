@@ -7,7 +7,6 @@ import { CompanyItemComponent } from '../item/item.component';
 	selector: 'lv-company-list',
 	imports: [CompanyItemComponent, MatListModule],
 	templateUrl: './list.component.html',
-	styleUrl: './list.component.css',
 })
 export class CompanyListComponent {
 	@Input() values: Company[];

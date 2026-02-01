@@ -10,7 +10,6 @@ import { AccountItemComponent } from '../item/item.component';
 		MatListModule,
 	],
 	templateUrl: './list.component.html',
-	styleUrl: './list.component.css'
 })
 export class AccountListComponent {
 	@Input() values: Account[];

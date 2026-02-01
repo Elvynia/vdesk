@@ -7,7 +7,6 @@ import { RoleItemComponent } from '../item/item.component';
 	selector: 'lv-role-list',
 	imports: [RoleItemComponent, MatListModule],
 	templateUrl: './list.component.html',
-	styleUrl: './list.component.css',
 })
 export class RoleListComponent {
 	@Input() values: Role[];

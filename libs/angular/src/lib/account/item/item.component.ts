@@ -20,7 +20,9 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 		DatePipe
 	],
 	templateUrl: './item.component.html',
-	styleUrl: './item.component.css',
+	host: {
+		class: 'relative'
+	}
 })
 export class AccountItemComponent extends HoverableCompomix() {
 	@Input() value!: Account;

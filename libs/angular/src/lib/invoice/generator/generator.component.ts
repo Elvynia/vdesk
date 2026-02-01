@@ -16,7 +16,6 @@ import { ChunkCalendarSelectRange } from '../../chunk/calendar/calendar.type';
 		MatButtonModule,
 	],
 	templateUrl: './generator.component.html',
-	styleUrl: './generator.component.css',
 	providers: [
 		CurrencyPipe
 	]

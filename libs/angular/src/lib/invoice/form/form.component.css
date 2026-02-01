@@ -1,9 +1,0 @@
-@reference 'tailwindcss';
-
-:host {
-	display: block;
-}
-
-mat-form-field:not([class*='basis-']) {
-	@apply flex-grow;
-}

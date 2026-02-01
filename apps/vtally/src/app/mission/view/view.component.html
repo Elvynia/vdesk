@@ -1,9 +1,11 @@
 <lv-mission-list
+	class="flex-1"
 	[values]="missions"
 	(edit)="edit($event)"
 	(delete)="delete($event)"
 ></lv-mission-list>
 <lv-mission-form-card
+	class="flex-1"
 	[value]="editMission"
 	(back)="cancel()"
 	(save)="save($event)"

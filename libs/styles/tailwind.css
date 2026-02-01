@@ -12,3 +12,26 @@
 	--color-error: var(--mat-sys-error);
 	--color-on-error: var(--mat-sys-on-error);
 }
+
+@layer base {
+	mat-form-field {
+		flex-grow: 1;
+	}
+}
+
+@utility duo {
+	display: flex;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 4);
+
+	button {
+		flex-grow: 1;
+	}
+}
+
+@utility absolute-center {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}

@@ -41,7 +41,6 @@ import { DecimalFormatDirective } from "../../util/format/decimal-format.directi
 		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
 	],
 	templateUrl: './form.component.html',
-	styleUrl: './form.component.css',
 })
 export class ChunkFormComponent implements OnChanges {
 	@Input() group!: FormGroup;

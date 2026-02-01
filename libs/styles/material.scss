@@ -33,6 +33,13 @@ body {
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+mat-list-item {
+	@include mat.list-overrides((
+		list-item-label-text-size: 18px,
+		list-item-supporting-text-size: 12px
+	))
+}
+
 .lv-accent:not(:disabled) {
 	@include mat.button-overrides(
 		(
@@ -79,12 +86,4 @@ body {
 			active-indicator-color: var(--mat-sys-error)
 		)
 	);
-}
-
-.duo {
-	@apply flex justify-between gap-4;
-
-	button {
-		@apply w-full;
-	}
 }

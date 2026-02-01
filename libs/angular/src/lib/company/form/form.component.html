@@ -1,26 +1,26 @@
 <div class="pt-3" [formGroup]="group">
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('name')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label>Name</mat-label>
 			<input matInput name="name" formControlName="name" />
 		</mat-form-field>
-		<mat-form-field [class.lv-accent]="group.get('trigram')!.valid">
+		<mat-form-field>
 			<mat-label>Trigram</mat-label>
 			<input matInput name="trigram" formControlName="trigram" />
 		</mat-form-field>
 	</div>
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('identifier')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label>Identifier</mat-label>
 			<input matInput name="identifier" formControlName="identifier" />
 		</mat-form-field>
-		<mat-form-field [class.lv-accent]="group.get('taxNumber')!.valid">
+		<mat-form-field>
 			<mat-label>Tax Number</mat-label>
 			<input matInput name="taxNumber" formControlName="taxNumber" />
 		</mat-form-field>
 	</div>
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('type')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label> type </mat-label>
 			<mat-select [compareWith]="compareId" formControlName="type">
 				@for (type of companyTypeList; track type._id) {
@@ -30,7 +30,7 @@
 				}
 			</mat-select>
 		</mat-form-field>
-		<mat-form-field [class.lv-accent]="group.get('address')!.valid">
+		<mat-form-field>
 			<mat-label> address </mat-label>
 			<mat-select [compareWith]="compareId" formControlName="address">
 				@for (address of addressList; track address._id) {

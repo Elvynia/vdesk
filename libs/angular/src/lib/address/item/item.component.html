@@ -1,7 +1,7 @@
 <mat-list-item class="mb-2">
-	<h3 matListItemTitle class="font-2rem lv-primary">
+	<span matListItemTitle>
 		{{ value.firstname ? value.firstname + ' ' : '' }}{{ value.lastname }}
-	</h3>
+	</span>
 	<div matListItemLine>
 		{{ value.line1 }}, {{ value.line2 ? value.line2 + ', ' : '' }}{{ value.city }} {{ value.zip }}
 	</div>
@@ -10,16 +10,15 @@
 		<button mat-icon-button [disabled]="value.pending" (click)="detail.next(value._id)">
 			<mat-icon>info</mat-icon>
 		</button>
-		<button mat-icon-button class="lv-accent" [disabled]="value.pending"
-			(click)="edit.next(value)">
+		<button mat-icon-button class="lv-accent" [disabled]="value.pending" (click)="edit.next(value)">
 			<mat-icon>edit</mat-icon>
 		</button>
-		<button mat-icon-button class="lv-error" [disabled]="value.pending"
-			(click)="delete.next(value)">
+		<button mat-icon-button class="lv-error" [disabled]="value.pending" (click)="delete.next(value)">
 			<mat-icon>delete</mat-icon>
 		</button>
 	</div>
-	} @if (value.pending) {
-	<lv-loading-placeholder [diameter]="32" color="error"></lv-loading-placeholder>
+	}
+	@if (value.pending) {
+	<lv-loading-placeholder class="absolute-center"[diameter]="32" color="error"></lv-loading-placeholder>
 	}
 </mat-list-item>

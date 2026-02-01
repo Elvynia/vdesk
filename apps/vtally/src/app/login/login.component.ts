@@ -7,7 +7,6 @@ import { AuthFormComponent } from '@lv/angular';
 		AuthFormComponent
 	],
 	templateUrl: './login.component.html',
-	styleUrl: './login.component.css'
 })
 export class LoginComponent {
 

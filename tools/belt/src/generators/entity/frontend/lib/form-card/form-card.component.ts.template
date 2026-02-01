@@ -18,7 +18,6 @@ import { <%= clazz %>FormComponent } from '../form/form.component';
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
-	styleUrl: './form-card.component.scss'
 })
 export class <%= clazz %>FormCardComponent implements OnInit, OnChanges {
 	@Input() value?: <%= clazz %>;

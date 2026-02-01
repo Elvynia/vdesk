@@ -1,9 +1,11 @@
 <lv-role-list
+	class="flex-1"
 	[values]="roles"
 	(edit)="edit($event)"
 	(delete)="delete($event)"
 ></lv-role-list>
 <lv-role-form-card
+	class="flex-1"
 	[value]="editRole"
 	(back)="cancel()"
 	(save)="save($event)"

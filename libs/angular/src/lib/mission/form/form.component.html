@@ -1,34 +1,34 @@
 <div class="pt-3" [formGroup]="group">
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('name')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label>Name</mat-label>
 			<input matInput name="name" formControlName="name" />
 		</mat-form-field>
 
-		<mat-form-field [class.lv-accent]="group.get('rate')!.valid">
+		<mat-form-field>
 			<mat-label>Rate</mat-label>
 			<input matInput name="rate" formControlName="rate" lvCurrencyFormat />
 		</mat-form-field>
 	</div>
 
-	<div class="flex flex-col lg:flex-row lg:justify-around">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
 		<mat-checkbox formControlName="byDay">Rate by day</mat-checkbox>
 
-		<mat-form-field [class.lv-accent]="group.get('dayLength')!.valid">
+		<mat-form-field>
 			<mat-label>Day length</mat-label>
 			<input matInput name="dayLength" formControlName="dayLength" lvDigitsFormat />
 		</mat-form-field>
 	</div>
 
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('start')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label>Start</mat-label>
 			<input matInput name="start" formControlName="start" [matDatepicker]="startPicker" />
 			<mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
 			<mat-datepicker #startPicker></mat-datepicker>
 		</mat-form-field>
 
-		<mat-form-field [class.lv-accent]="group.get('end')!.valid">
+		<mat-form-field>
 			<mat-label>End</mat-label>
 			<input matInput name="end" formControlName="end" [matDatepicker]="endPicker" />
 			<mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
@@ -36,7 +36,7 @@
 		</mat-form-field>
 	</div>
 
-	<mat-form-field class="w-full! px-6" [class.lv-accent]="group.get('company')!.valid">
+	<mat-form-field class="w-full! px-6">
 		<mat-label>Company</mat-label>
 		<mat-select [compareWith]="compareId" formControlName="company">
 			@for (company of companyList; track company._id) {
@@ -47,7 +47,7 @@
 		</mat-select>
 	</mat-form-field>
 
-	<mat-form-field class="area" [class.lv-accent]="group.get('desc')!.valid">
+	<mat-form-field class="area">
 		<mat-label> desc </mat-label>
 		<textarea matInput name="desc" formControlName="desc"></textarea>
 	</mat-form-field>

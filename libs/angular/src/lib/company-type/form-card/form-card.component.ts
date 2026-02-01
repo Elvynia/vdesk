@@ -26,7 +26,6 @@ import { CompanyTypeFormComponent } from '../form/form.component';
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
-	styleUrl: './form-card.component.css',
 })
 export class CompanyTypeFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: CompanyType;

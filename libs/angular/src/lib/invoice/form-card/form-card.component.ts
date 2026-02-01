@@ -46,7 +46,11 @@ type MissionSelectable = Mission & { disabled?: boolean };
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
-	styleUrl: './form-card.component.css',
+	host: {
+		style: `
+		--mat-expansion-header-collapsed-state-height: min-content;
+		`
+	}
 })
 export class InvoiceFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Invoice;

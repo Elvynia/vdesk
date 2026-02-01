@@ -15,7 +15,9 @@ import { filter, first, takeUntil } from 'rxjs';
 	selector: 'lv-address-view',
 	imports: [AddressListComponent, AddressFormCardComponent],
 	templateUrl: './view.component.html',
-	styleUrl: './view.component.css',
+	host: {
+		class: 'flex space-between gap-8 h-full w-full'
+	}
 })
 export class AddressViewComponent extends ObserverCompomix() implements OnInit {
 	addresses: Address[];

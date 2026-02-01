@@ -8,8 +8,8 @@
 			<mat-expansion-panel hideToggle [disabled]="!groupMissions.length" #formPanel>
 				<mat-expansion-panel-header>
 					<h3 [hidden]="!formPanel.expanded">{{ missionLabel }}</h3>
-					<div class="flex flex-col" [hidden]="formPanel.expanded">
-						<mat-selection-list multiple class="missions flex-wrap mb-2" [compareWith]="idComparator"
+					<div class="flex flex-col grow" [hidden]="formPanel.expanded">
+						<mat-selection-list multiple class="flex! flex-wrap mb-2" [compareWith]="idComparator"
 							formControlName="missions">
 							@for (mission of missionList; track mission._id) {
 							<mat-list-option class="w-min!" [value]="mission" [disabled]="mission.disabled"
@@ -18,7 +18,7 @@
 							</mat-list-option>
 							}
 						</mat-selection-list>
-						<div class="inline-flex items-center justify-center w-full" [hidden]="!groupMissions.length">
+						<div class="inline-flex items-center justify-center" [hidden]="!groupMissions.length">
 							<hr class="w-5/6 h-1 my-4 border-0 rounded-sm bg-primary">
 							<div class="absolute flex items-center rounded-b-2xl px-3 bg-surface bg-default">
 								<mat-icon class="lv-accent">keyboard_double_arrow_down</mat-icon>

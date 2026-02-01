@@ -4,7 +4,7 @@
 	</mat-card-header>
 	<mat-card-content class="flex! flex-col justify-center">
 		<lv-chunk-form [value]="value" [group]="group" [missions]="missions"
-			*lvLoading="pending; color: 'accent'; diameter: 128"></lv-chunk-form>
+			*lvLoading="dataPending; color: 'accent'; diameter: 128"></lv-chunk-form>
 	</mat-card-content>
 	<mat-card-actions class="flex">
 		<!-- <button mat-stroked-button class="lv-error" [disabled]="pending" (click)="cancel()">

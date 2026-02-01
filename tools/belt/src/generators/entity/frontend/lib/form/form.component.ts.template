@@ -82,7 +82,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 	],
 <% } %>
 	templateUrl: './form.component.html',
-	styleUrl: './form.component.scss'
 })
 export class <%= clazz %>FormComponent extends ObserverCompomix()
 <% if (formFieldSelects.length > 0) { %>

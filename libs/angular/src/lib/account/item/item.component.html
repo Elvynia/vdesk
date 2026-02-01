@@ -1,11 +1,13 @@
 <mat-list-item class="mb-2">
-	<h3 matListItemTitle class="font-2rem">
+	<span matListItemTitle>
 		{{ value.username }}
-	</h3>
-	<span matListItemLine>
-		<a class="link" [href]="'emailto:' + value.email">{{ value.email }}</a>
 	</span>
-	<span matListItemLine>Created on {{ value.creationDate | date:'medium' }}</span>
+	<a class="link" [href]="'emailto:' + value.email" matListItemLine>
+		{{ value.email }}
+	</a>
+	<span matListItemLine>
+		Created on {{ value.creationDate | date:'medium' }}
+	</span>
 	@if (hovering) {
 	<div matListItemMeta>
 		<button mat-icon-button [disabled]="value.pending" (click)="detail.next(value._id)">
@@ -19,7 +21,7 @@
 		</button>
 	</div>
 	}
-	@if (value.pending) {
-	<lv-loading-placeholder [diameter]="32" color="error"></lv-loading-placeholder>
-	}
 </mat-list-item>
+@if (value.pending) {
+<lv-loading-placeholder class="absolute-center" [diameter]="32" color="error"></lv-loading-placeholder>
+}

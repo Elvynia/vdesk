@@ -16,7 +16,9 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
     LoadingPlaceholderComponent
 ],
 	templateUrl: './item.component.html',
-	styleUrl: './item.component.css',
+	host: {
+		class: 'relative'
+	}
 })
 export class CompanyItemComponent extends HoverableCompomix() {
 	@Input() value!: Company;

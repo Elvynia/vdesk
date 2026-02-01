@@ -15,7 +15,9 @@ import { filter, first, takeUntil } from 'rxjs';
 	selector: 'lv-company-view',
 	imports: [CompanyListComponent, CompanyFormCardComponent],
 	templateUrl: './view.component.html',
-	styleUrl: './view.component.css',
+	host: {
+		class: 'flex space-between gap-8 h-full w-full'
+	}
 })
 export class CompanyViewComponent extends ObserverCompomix() implements OnInit {
 	companies: Company[];

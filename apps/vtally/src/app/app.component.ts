@@ -23,7 +23,10 @@ import { TallyState } from './app.type';
 ],
 	selector: 'lv-root',
 	templateUrl: './app.component.html',
-	styleUrl: './app.component.css',
+	styleUrl: './app.component.scss',
+	host: {
+		class: 'flex flex-col h-dvh'
+	}
 })
 export class AppComponent extends ObserverCompomix() implements OnInit {
 	menu: MenuItem[];

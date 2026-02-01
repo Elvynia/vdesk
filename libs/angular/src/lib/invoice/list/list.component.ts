@@ -7,7 +7,6 @@ import { InvoiceItemComponent } from '../item/item.component';
 	selector: 'lv-invoice-list',
 	imports: [InvoiceItemComponent, MatListModule],
 	templateUrl: './list.component.html',
-	styleUrl: './list.component.css',
 })
 export class InvoiceListComponent {
 	@Input() values: Invoice[];

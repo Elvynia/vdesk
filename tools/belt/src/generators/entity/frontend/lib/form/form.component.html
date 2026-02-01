@@ -1,11 +1,11 @@
 <div class="pt-3" [formGroup]="group">
 <% for (let group of formFields) { %>
-		<div class="flex flex-col lg:flex-row lg:justify-around">
+		<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
 	<% for (let field of group) { %>
 		<% if (field.component.type === 'checkbox') { %>
 			<mat-checkbox formControlName="<%= field.name %>"><%= field.component.label %></mat-checkbox>
 		<% } else { %>
-			<mat-form-field [class.lv-accent]="group.get('<%= field.name %>')!.valid">
+			<mat-form-field>
 				<mat-label>
 					<%= field.name %>
 				</mat-label>

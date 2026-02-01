@@ -17,7 +17,9 @@ import { filter, first, takeUntil } from 'rxjs';
 	selector: 'lv-invoice-view',
 	imports: [InvoiceListComponent, InvoiceFormCardComponent],
 	templateUrl: './view.component.html',
-	styleUrl: './view.component.css',
+	host: {
+		class: 'flex space-between gap-8 h-full w-full'
+	}
 })
 export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 	invoices: Invoice[];

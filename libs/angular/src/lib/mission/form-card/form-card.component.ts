@@ -32,7 +32,6 @@ import { missionActions } from '../mission.actions';
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
-	styleUrl: './form-card.component.css',
 })
 export class MissionFormCardComponent extends ObserverCompomix() implements OnInit, OnChanges {
 	@Input() value?: Mission;

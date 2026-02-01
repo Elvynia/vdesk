@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { DateRange, MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
 import { Chunk, makeChunkFinder } from '@lv/common';
-import { delay, from } from 'rxjs';
+import { delay, finalize, from } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { formParseFromDate } from '../../util/form/form-parse-date';
 import { MondayDateAdapter } from '../../util/monday-date-adapter';
@@ -31,7 +31,7 @@ import { ChunkCalendarSelectRange, ChunkCalendarSelectSingle } from './calendar.
 		}
 	],
 	templateUrl: './calendar.component.html',
-	styleUrl: './calendar.component.css',
+	styleUrl: './calendar.component.scss',
 })
 export class ChunkCalendarComponent implements OnInit, OnChanges {
 	@Input() chunks: Chunk[];
@@ -74,7 +74,8 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 				// Using async and viewReload boolean to trigger material calendar when changing dateClass function.
 				// Otherwise it won't be updated in calendar's view until the next calendar event.
 				from(this.chunks).pipe(
-					delay(0)
+					delay(0),
+					finalize(() => this.viewReload = false && console.log('debug: ', ))
 				).subscribe(() => {
 					this.dateClass = (d) => {
 						const date = formParseFromDate(d);
@@ -87,7 +88,6 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 						}
 						return [];
 					};
-					this.viewReload = false;
 				})
 			} else {
 				this.chunks = [];

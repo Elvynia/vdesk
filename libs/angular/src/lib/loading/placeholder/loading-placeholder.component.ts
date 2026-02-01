@@ -9,7 +9,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 		MatProgressSpinnerModule
 	],
 	templateUrl: './loading-placeholder.component.html',
-	styleUrls: ['./loading-placeholder.component.css']
+	host: {
+		class: 'flex place-content-center w-full h-full'
+	}
 })
 export class LoadingPlaceholderComponent {
 	@Input() diameter: number;

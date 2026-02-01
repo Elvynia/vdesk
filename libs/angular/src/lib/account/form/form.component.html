@@ -1,24 +1,23 @@
 <div class="pt-3" [formGroup]="group">
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('username')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label>Username</mat-label>
-			<input matInput name="username" formControlName="username">
+			<input matInput name="username" formControlName="username" />
 		</mat-form-field>
 		@if (!value?._id) {
-			<mat-form-field [class.lv-accent]="group.get('password')!.valid">
-				<mat-label>Password</mat-label>
-				<input matInput type="password" formControlName="password">
-			</mat-form-field>
+		<mat-form-field>
+			<mat-label>Password</mat-label>
+			<input matInput type="password" formControlName="password" />
+		</mat-form-field>
 		} @else {
-			<div class="form-field-spacer"></div>
 		}
 	</div>
-	<div class="flex flex-col lg:flex-row lg:justify-around">
-		<mat-form-field [class.lv-accent]="group.get('email')!.valid">
+	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
+		<mat-form-field>
 			<mat-label>Email</mat-label>
-			<input matInput name="email" formControlName="email">
+			<input matInput name="email" formControlName="email" />
 		</mat-form-field>
-		<mat-form-field [class.lv-accent]="group.get('role')!.valid">
+		<mat-form-field>
 			<mat-label>Role</mat-label>
 			<mat-select [compareWith]="compareRole" formControlName="role">
 				@for (role of roles; track role._id) {

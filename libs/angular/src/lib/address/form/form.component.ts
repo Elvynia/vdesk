@@ -10,7 +10,6 @@ import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule],
 
 	templateUrl: './form.component.html',
-	styleUrl: './form.component.css',
 })
 export class AddressFormComponent extends ObserverCompomix() {
 	@Input() group!: FormGroup;

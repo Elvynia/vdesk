@@ -1,10 +1,12 @@
 <lv-invoice-list
+	class="flex-1"
 	[values]="invoices"
 	(edit)="edit($event)"
 	(delete)="delete($event)"
 	(download)="download($event)"
 ></lv-invoice-list>
 <lv-invoice-form-card
+	class="flex-1"
 	[value]="editInvoice"
 	(back)="cancel()"
 	(save)="save($event)"

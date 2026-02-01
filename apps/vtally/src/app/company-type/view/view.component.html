@@ -1,9 +1,11 @@
 <lv-company-type-list
+	class="flex-1"
 	[values]="companyTypes"
 	(edit)="edit($event)"
 	(delete)="delete($event)"
 ></lv-company-type-list>
 <lv-company-type-form-card
+	class="flex-1"
 	[value]="editCompanyType"
 	(back)="cancel()"
 	(save)="save($event)"
