@@ -14,13 +14,13 @@ import { TallyState } from './app.type';
 
 @Component({
 	imports: [
-    RouterModule,
-    MatButtonModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatProgressSpinnerModule
-],
+		RouterModule,
+		MatButtonModule,
+		MatIconModule,
+		MatToolbarModule,
+		MatSidenavModule,
+		MatProgressSpinnerModule
+	],
 	selector: 'lv-root',
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
@@ -48,8 +48,8 @@ export class AppComponent extends ObserverCompomix() implements OnInit {
 			{ "path": "company-type", "label": "Company Types", "icon": "contact_mail" },
 			{ "path": "role", "label": "Roles", "icon": "license" },
 			{ "path": "mission", "label": "Missions", "icon": "badge" },
-            {"path":"invoice","label":"Invoices","icon":"point_of_sale"}
-        ];
+			{ "path": "invoice", "label": "Invoices", "icon": "point_of_sale" }
+		];
 	}
 
 	ngOnInit(): void {
