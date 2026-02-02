@@ -20,7 +20,15 @@ export class InvoicePrintController {
 		if (!invoiceDoc) {
 			throw new Error('Invoice not found');
 		}
-		const browser = await puppeteer.launch();
+		const browser = await puppeteer.launch({
+			headless: true,
+			args: [
+				'--no-sandbox',
+				'--disable-setuid-sandbox',
+				'--disable-dev-shm-usage',
+				'--disable-gpu'
+			]
+		});
 		const page = await browser.newPage();
 		page.setExtraHTTPHeaders({
 			'Authorization': req.headers.authorization

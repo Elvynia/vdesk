@@ -2,9 +2,10 @@
 FROM node:lts-alpine AS builder
 WORKDIR /sources
 
-COPY package*.json nx.json tsconfig.base.json .postcssrc.json ./
+COPY package*.json ./
 RUN npm ci
 
+COPY nx.json tsconfig.base.json .postcssrc.json ./
 COPY apps ./apps
 COPY libs ./libs
 RUN npx nx run vtally:build:production
