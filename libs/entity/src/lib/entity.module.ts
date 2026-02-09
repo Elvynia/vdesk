@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './auth/auth.module';
+import { AuthResolver } from './auth/auth.resolver';
 import { commonConfigSchema } from './config/common-config.schema';
 import { CommonConfig } from './config/common-config.type';
 
@@ -33,9 +35,23 @@ import { CommonConfig } from './config/common-config.type';
 		}),
 		GraphQLModule.forRootAsync<MercuriusDriverConfig>({
 			driver: MercuriusDriver,
-			useFactory: (configService: ConfigService<CommonConfig>) => ({
+			imports: [AuthModule],
+			useFactory: (
+				configService: ConfigService<CommonConfig>,
+				authResolver: AuthResolver
+			) => ({
 				autoSchemaFile: true,
-				subscription: true,
+				subscription: {
+					onConnect: async (data) => {
+						const token = data.payload?.authorization;
+						console.debug(`[GraphQLModule] WS connect attempt (token=${!!token})`);
+						const { id } = await authResolver.verify(token);
+						// Verify throw using mercurius ErrorWithProps but may miss proper object parameter.
+						// returning false instead of throwing does not change anything.
+						console.info('[GraphQLModule] WS connect successful', id);
+						return { id };
+					},
+				},
 				graphiql: isEnvDev(),
 				path: configService.get('WEB_GRAPHQL_PATH', {
 					infer: true
@@ -44,6 +60,7 @@ import { CommonConfig } from './config/common-config.type';
 			}),
 			inject: [
 				ConfigService,
+				AuthResolver
 			],
 		}),
 	],

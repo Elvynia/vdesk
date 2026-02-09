@@ -4,14 +4,14 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AccountEntity, AccountSchema } from '../account/account.entity';
-import { AccountResolver } from '../account/account.resolver';
 import { AccountRepository } from '../account/account.repository';
+import { AccountResolver } from '../account/account.resolver';
+import { RoleModule } from '../role/role.module';
 import { AuthConfig } from './auth.config';
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
-import { AuthResolver } from './auth.resolver';
 import { AuthRepository } from './auth.repository';
-import { RoleModule } from '../role/role.module';
+import { AuthResolver } from './auth.resolver';
 
 @Module({
 	controllers: [

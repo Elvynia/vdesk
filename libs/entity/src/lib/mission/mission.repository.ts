@@ -12,12 +12,27 @@ export class MissionRepository extends EntityRepository<
 > {
 	constructor(
 		@InjectModel(MissionEntity.name)
-		protected readonly model: Model<MissionEntity>
+		protected readonly model: Model<MissionEntity>,
 	) {
 		super();
 	}
 
 	findByCompany(companyId: string) {
 		return this.model.find({ companyId });
+	}
+
+	findAllActive(date: Date = new Date()) {
+		return this.findAll({
+			start: { $lt: date },
+			$or: [{
+				end: {
+					$eq: null
+				}
+			}, {
+				end: {
+					$gt: date
+				}
+			}]
+		});
 	}
 }

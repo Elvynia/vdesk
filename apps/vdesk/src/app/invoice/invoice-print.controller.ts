@@ -1,6 +1,7 @@
 import { InvoiceRepository } from "@lv/entity";
 import { Controller, Get, Param, Req, Res } from "@nestjs/common";
 import { FastifyReply, FastifyRequest } from "fastify";
+import { ErrorWithProps } from "mercurius";
 import puppeteer from 'puppeteer';
 
 @Controller('invoice/print')
@@ -18,7 +19,7 @@ export class InvoicePrintController {
 	) {
 		const invoiceDoc = await this.invoiceRepo.findOne(id);
 		if (!invoiceDoc) {
-			throw new Error('Invoice not found');
+			throw new ErrorWithProps('Invoice not found', undefined, 404);
 		}
 		const browser = await puppeteer.launch({
 			headless: true,

@@ -15,10 +15,13 @@ export interface AuthEntity extends Partial<AuthToken> {
 	authorities: string[];
 }
 
-export type AuthState = Record<'auth', AuthEntity>;
+export interface HasAuthState {
+	auth: AuthEntity;
+}
 
 export const isAuthenticated = (state: AuthEntity) => !!state.apiToken;
 export const isAuthAdmin = (state: AuthEntity) => state.authorities?.includes('ROLE_ADMIN');
-export const selectAuth = (state: AuthState) => state.auth;
-export const selectAuthIsAdmin = (state: AuthState) => isAuthAdmin(state.auth);
-export const selectAuthenticated = (state: AuthState) => !!state.auth.apiToken;
+export const selectAuth = (state: HasAuthState) => state.auth;
+export const selectAuthIsAdmin = (state: HasAuthState) => isAuthAdmin(state.auth);
+export const selectAuthenticated = (state: HasAuthState) => !!state.auth.apiToken;
+export const selectAuthToken = (state: HasAuthState) => state.auth.apiToken;
