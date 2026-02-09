@@ -3,11 +3,11 @@ import { CanActivateFn, Router } from "@angular/router";
 import { Store } from '@ngrx/store';
 import { first, map, tap } from 'rxjs';
 import { AuthService } from './service';
-import { AuthState, selectAuthenticated } from './type';
+import { HasAuthState, selectAuthenticated } from './type';
 
 export const authGuard: CanActivateFn = () => {
     const authService = inject(AuthService);
-    const store = inject<Store<AuthState>>(Store<any>);
+    const store = inject<Store<HasAuthState>>(Store<any>);
     const router = inject(Router);
     let source;
     if (!authService.initilized) {

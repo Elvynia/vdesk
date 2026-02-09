@@ -29,7 +29,7 @@ export class AuthRepository {
 		if (account && account.enabled) {
 			return this.authResolver.generate(account);
 		}
-		throw new UnauthorizedException('Invalid refresh token');
+		throw new BadRequestException('Invalid refresh token');
 	}
 
 

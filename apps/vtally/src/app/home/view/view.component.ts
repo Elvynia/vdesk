@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from "@angular/material/card";
 import { ChunkEditorComponent, ChunkFormCardComponent, MissionService, ObserverCompomix } from '@lv/angular';
 import { Mission } from '@lv/common';
+import { takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'lv-home-view',
@@ -26,7 +27,9 @@ export class ViewComponent extends ObserverCompomix() implements OnInit {
 	}
 
 	ngOnInit() {
-		this.missionService.sendListActive().subscribe((missions) => {
+		this.missionService.listenActive().pipe(
+			takeUntil(this.destroy$)
+		).subscribe((missions) => {
 			this.missions = missions;
 		});
 	}

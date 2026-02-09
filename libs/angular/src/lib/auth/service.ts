@@ -8,7 +8,7 @@ import { AsyncSubject, EMPTY, Observable, catchError, first, map, tap } from "rx
 import { ApiConfig } from "../config";
 import { notifyUserWarning } from "../util/notify-user";
 import { authActions } from "./actions";
-import { AuthEntity, AuthState, ChangePasswordRequest, LoginRequest } from "./type";
+import { AuthEntity, HasAuthState, ChangePasswordRequest, LoginRequest } from "./type";
 
 @Injectable({
 	providedIn: 'root'
@@ -44,7 +44,7 @@ export class AuthService {
 	}
 
 	constructor(private httpClient: HttpClient, private snackBar: MatSnackBar,
-		private store: Store<AuthState>, private actions: Actions, config: ApiConfig) {
+		private store: Store<HasAuthState>, private actions: Actions, config: ApiConfig) {
 		this.resetAuth();
 		this.url = config.apiUrl + config.authPath;
 		this._refreshing = false;
@@ -68,7 +68,7 @@ export class AuthService {
 	}
 
 	changeExpiredPassword(request: ChangePasswordRequest) {
-		return this.httpClient.post<AuthState>(this.url + '/expiry_change', request, {
+		return this.httpClient.post<HasAuthState>(this.url + '/expiry_change', request, {
 			headers: this.baseHeaders
 		});
 	}
