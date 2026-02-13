@@ -14,7 +14,7 @@ export class SocketService {
 		private authService: AuthService
 	) {
 		this.client = createClient({
-			url: 'ws://localhost:3000/api',
+			url: 'ws://127.0.0.1:3000/api',
 			connectionParams: () => firstValueFrom(this.store.select(selectAuthToken).pipe(
 				map((authorization) => ({
 					authorization
@@ -22,24 +22,22 @@ export class SocketService {
 			)),
 			retryAttempts: 5,
 			shouldRetry: (errOrCloseEvent) => {
-				if (errOrCloseEvent instanceof Error) {
-					this.authService.getRefreshToken().subscribe();
-				}
-				// if (
-				// 	errOrCloseEvent
-				// 	&& typeof errOrCloseEvent === 'object'
-				// 	&& 'code' in errOrCloseEvent
-				// ) {
-				// 	const isAuthError = errOrCloseEvent.code === 4401
-				// 		|| errOrCloseEvent.code === 1005
-				// 		|| errOrCloseEvent.code === 4403;
+				console.log('errOrCloseEvent: ', errOrCloseEvent)
+				if (
+					errOrCloseEvent
+					&& typeof errOrCloseEvent === 'object'
+					&& 'code' in errOrCloseEvent
+				) {
+					const isAuthError = errOrCloseEvent.code === 4401
+						|| errOrCloseEvent.code === 1005
+						|| errOrCloseEvent.code === 4403;
 
-				// 	if (isAuthError) {
-				// 		console.log('Auth error detected, refreshing token...', errOrCloseEvent.code);
-				// 		this.authService.getRefreshToken().subscribe();
-				// 		return true;
-				// 	}
-				// }
+					if (isAuthError) {
+						console.log('Auth error detected, refreshing token...', errOrCloseEvent.code);
+						this.authService.getRefreshToken().subscribe();
+						return true;
+					}
+				}
 				return true;
 			},
 			retryWait: async (retries) => {

@@ -41,6 +41,7 @@ export * from './lib/invoice/invoice.resolver';
 export * from './lib/invoice/to-company/invoice-to-company.resolver';
 export * from './lib/mission/mission.entity';
 export * from './lib/mission/mission.module';
+export * from './lib/mission/mission.pubsub';
 export * from './lib/mission/mission.repository';
 export * from './lib/mission/mission.resolver';
 export * from './lib/mission/to-chunk/mission-to-chunk.module';

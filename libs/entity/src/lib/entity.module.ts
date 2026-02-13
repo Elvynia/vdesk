@@ -1,13 +1,15 @@
 import { isEnvDev } from '@lv/common';
-import { Module } from '@nestjs/common';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Module, UnauthorizedException } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
-import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { MongooseModule } from '@nestjs/mongoose';
+import type { Context as WSContext } from 'graphql-ws';
 import { AuthModule } from './auth/auth.module';
 import { AuthResolver } from './auth/auth.resolver';
 import { commonConfigSchema } from './config/common-config.schema';
 import { CommonConfig } from './config/common-config.type';
+import { ExceptionHandlerPlugin } from './util/apollo/exception-handler.plugin';
 
 @Module({
 	controllers: [],
@@ -33,29 +35,41 @@ import { CommonConfig } from './config/common-config.type';
 				ConfigService,
 			],
 		}),
-		GraphQLModule.forRootAsync<MercuriusDriverConfig>({
-			driver: MercuriusDriver,
+		GraphQLModule.forRootAsync<ApolloDriverConfig>({
+			driver: ApolloDriver,
 			imports: [AuthModule],
 			useFactory: (
 				configService: ConfigService<CommonConfig>,
 				authResolver: AuthResolver
 			) => ({
 				autoSchemaFile: true,
-				subscription: {
-					onConnect: async (data) => {
-						const token = data.payload?.authorization;
-						console.debug(`[GraphQLModule] WS connect attempt (token=${!!token})`);
-						const { id } = await authResolver.verify(token);
-						// Verify throw using mercurius ErrorWithProps but may miss proper object parameter.
-						// returning false instead of throwing does not change anything.
-						console.info('[GraphQLModule] WS connect successful', id);
-						return { id };
-					},
-				},
-				graphiql: isEnvDev(),
 				path: configService.get('WEB_GRAPHQL_PATH', {
 					infer: true
 				}),
+				plugins: [
+					ExceptionHandlerPlugin
+				],
+				subscriptions: {
+					'graphql-ws': {
+						onConnect: async (context: WSContext<any, any>) => {
+							const token = context.connectionParams?.authorization as string;
+							console.debug(`[GraphQLModule] WS connect attempt (token=${!!token})`);
+							try {
+								const { id } = await authResolver.verify(token);
+								console.info('[GraphQLModule] WS connect successful', id);
+								return { id };
+							} catch (e) {
+								if (e instanceof UnauthorizedException) {
+									return false;
+								}
+								console.error('[GraphQLModule] WS connect exception: ', e)
+								context.extra.socket.close(1011, 'Internal error');
+								return;
+							}
+						},
+					}
+				},
+				graphiql: isEnvDev(),
 				fieldResolverEnhancers: ['guards']
 			}),
 			inject: [
@@ -64,5 +78,7 @@ import { CommonConfig } from './config/common-config.type';
 			],
 		}),
 	],
+	providers: [
+	]
 })
 export class EntityModule { }

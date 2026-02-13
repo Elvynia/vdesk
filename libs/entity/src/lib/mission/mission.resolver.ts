@@ -1,33 +1,32 @@
 import {
 	Args,
-	Context,
 	Mutation,
 	Query,
 	Resolver,
 	Subscription
 } from '@nestjs/graphql';
-import { PubSub } from 'mercurius';
+import { PubSub } from 'graphql-subscriptions';
 import { MissionCreate, MissionEntity, MissionUpdate } from './mission.entity';
+import { HasMissionPubSub } from './mission.pubsub';
 import { MissionRepository } from './mission.repository';
 
 @Resolver(() => MissionEntity)
 export class MissionResolver {
-	readonly topicActive = 'activeMissions';
+	readonly topicActive = 'listenActive';
 
-	constructor(private readonly missionRepository: MissionRepository) { }
+	constructor(
+		private readonly missionRepository: MissionRepository,
+		private pubSub: PubSub<HasMissionPubSub>
+	) { }
 
 	@Mutation(() => MissionEntity)
 	async createMission(
-		@Context('pubsub') pubSub: PubSub,
 		@Args('createMissionInput') createMissionInput: MissionCreate
 	) {
 		const mission = await this.missionRepository.create(createMissionInput);
-		pubSub.publish({
-			topic: this.topicActive,
-			payload: {
-				listenActive: [mission]
-			}
-		});
+		// if (isActive) {
+		this.pubSub.publish(this.topicActive, await this.findAllActive());
+		// }
 		return mission;
 	}
 
@@ -42,18 +41,12 @@ export class MissionResolver {
 	}
 
 	@Subscription(() => [MissionEntity])
-	async listenActive(
-		@Context('pubsub') pubSub: PubSub
-	) {
-		const missions = await this.missionRepository.findAllActive();
-		process.nextTick(() => pubSub.publish({
-			topic: this.topicActive,
-			payload: {
-				listenActive: missions
-			}
-		}));
+	async *listenActive() {
+		const initialMissions = await this.missionRepository.findAllActive();
+		yield { listenActive: initialMissions };
 
-		return pubSub.subscribe(this.topicActive);
+		// @ts-expect-error - graphql-subscriptions has incorrect throw() signature
+		yield* this.pubSub.asyncIterableIterator(this.topicActive);
 	}
 
 	@Query(() => MissionEntity, { name: 'missionId' })
@@ -63,24 +56,25 @@ export class MissionResolver {
 
 	@Mutation(() => MissionEntity)
 	async updateMission(
-		@Context('pubsub') pubSub: PubSub,
 		@Args('updateMissionInput') updateMissionInput: MissionUpdate
 	) {
 		const mission = await this.missionRepository.update(
 			updateMissionInput._id,
 			updateMissionInput
 		);
-		pubSub.publish({
-			topic: this.topicActive,
-			payload: {
-				listenActive: [mission]
-			}
-		});
+		// if (wasActive || isActive) {
+		this.pubSub.publish(this.topicActive, await this.findAllActive());
+		// }
 		return mission;
 	}
 
 	@Mutation(() => MissionEntity)
-	removeMission(@Args('id', { type: () => String }) id: string) {
-		return this.missionRepository.remove(id);
+	async removeMission(@Args('id', { type: () => String }) id: string) {
+		const isActive = await this.missionRepository.isActive(id);
+		const removed = this.missionRepository.remove(id);
+		if (isActive) {
+			this.pubSub.publish(this.topicActive, await this.findAllActive());
+		}
+		return removed;
 	}
 }
