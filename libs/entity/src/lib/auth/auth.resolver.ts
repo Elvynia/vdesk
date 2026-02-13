@@ -1,8 +1,7 @@
 import { AuthJwtPayload, AuthJwtPayloadCreate, AuthToken } from "@lv/common";
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService, JwtSignOptions, TokenExpiredError } from "@nestjs/jwt";
-import { ErrorWithProps } from "mercurius";
 import { AccountEntity } from "../account/account.entity";
 import { CommonConfig } from "../config/common-config.type";
 
@@ -47,7 +46,7 @@ export class AuthResolver {
 	async verify(token: string, throwOnExpiry: false): Promise<AuthJwtPayload>;
 	async verify(token: string, throwOnExpiry: boolean = true): Promise<AuthJwtPayload | undefined> {
 		if (!token) {
-			throw new ErrorWithProps('Missing auth', undefined, 400);
+			throw new BadRequestException('Missing auth');
 		}
 		try {
 			return this.jwtService.verify<AuthJwtPayload>(token, {
@@ -57,7 +56,7 @@ export class AuthResolver {
 			if (e instanceof TokenExpiredError) {
 				console.debug(`[AuthResolver] verify triggered token expired (throw=${throwOnExpiry})`);
 				if (throwOnExpiry) {
-					throw new ErrorWithProps('Session expired', { code: 'notAuthenticated' }, 401);
+					throw new UnauthorizedException('Session expired');
 				} else {
 					return undefined;
 				}

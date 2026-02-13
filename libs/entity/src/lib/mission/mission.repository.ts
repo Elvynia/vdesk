@@ -21,6 +21,22 @@ export class MissionRepository extends EntityRepository<
 		return this.model.find({ companyId });
 	}
 
+	isActive(id: string, date: Date = new Date()) {
+		return this.model.exists({
+			id,
+			start: { $lt: date },
+			$or: [{
+				end: {
+					$eq: null
+				}
+			}, {
+				end: {
+					$gt: date
+				}
+			}]
+		});
+	}
+
 	findAllActive(date: Date = new Date()) {
 		return this.findAll({
 			start: { $lt: date },

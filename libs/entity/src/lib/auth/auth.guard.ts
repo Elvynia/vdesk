@@ -27,22 +27,21 @@ export class AuthGuard implements CanActivate {
 
 		if (isPublic) return true;
 
-		const info = GqlExecutionContext.create(context).getInfo();
-		if (info?.operation?.operation === 'subscription') {
+		const gqlContext = GqlExecutionContext.create(context);
+		if (gqlContext.getContext().req.connectionParams) {
 			// TODO post verifyClient check
+			console.log('AUTH GUARD WS PASSTHROUGH FIXME')
 			return true;
+		} else if (gqlContext.getContext().req) {
+			console.log('AUTH GUARD HTTP CHECK')
+			const req = gqlContext.getContext()?.req;
+			// FIXME: Remove and configure graphiql to use auth ?
+			if (isEnvDev() && req.headers.referer === 'http://localhost:3000/graphiql') {
+				return true;
+			}
+			return await this.parseRequest(req);
 		}
-
-		let req = context.switchToHttp().getRequest<EntityRequest>();
-		if (!req.headers) {
-			req = GqlExecutionContext.create(context).getContext().req;
-		}
-
-		// FIXME: Remove and configure graphiql to use auth ?
-		if (isEnvDev() && req.headers.referer === 'http://localhost:3000/graphiql') {
-			return true;
-		}
-		return await this.parseRequest(req);
+		return false;
 	}
 
 	async parseRequest(req: EntityRequest) {

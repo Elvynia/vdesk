@@ -1,7 +1,6 @@
 import { makeInvoiceDateExecution } from "@lv/common";
 import { InvoiceRepository } from "@lv/entity";
-import { Controller, Get, Param, Render } from "@nestjs/common";
-import { ErrorWithProps } from "mercurius";
+import { Controller, Get, NotFoundException, Param, Render } from "@nestjs/common";
 
 @Controller('invoice/pdf')
 export class InvoicePdfController {
@@ -15,7 +14,7 @@ export class InvoicePdfController {
 	async print(@Param('id') id: string) {
 		const invoiceDoc = await this.invoiceRepo.findOnePrint(id);
 		if (!invoiceDoc) {
-			throw new ErrorWithProps('Invoice not found', undefined, 404);
+			throw new NotFoundException('Invoice not found');
 		}
 		const invoice = invoiceDoc.toJSON();
 		const dateExecution = makeInvoiceDateExecution(invoice);
