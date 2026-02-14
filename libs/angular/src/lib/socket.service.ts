@@ -22,7 +22,6 @@ export class SocketService {
 			)),
 			retryAttempts: 5,
 			shouldRetry: (errOrCloseEvent) => {
-				console.log('errOrCloseEvent: ', errOrCloseEvent)
 				if (
 					errOrCloseEvent
 					&& typeof errOrCloseEvent === 'object'
@@ -33,7 +32,6 @@ export class SocketService {
 						|| errOrCloseEvent.code === 4403;
 
 					if (isAuthError) {
-						console.log('Auth error detected, refreshing token...', errOrCloseEvent.code);
 						this.authService.getRefreshToken().subscribe();
 						return true;
 					}
@@ -60,7 +58,13 @@ export class SocketService {
 					}`
 				},
 				{
-					next: (data: any) => observer.next(data.data[name] as T),
+					next: (data?: any) => {
+						if (data?.data && data.data[name]) {
+							observer.next(data.data[name] as T)
+						} else {
+							observer.error(data?.errors)
+						}
+					},
 					error: (err) => observer.error(err),
 					complete: () => observer.complete(),
 				}

@@ -4,11 +4,11 @@ import { Module, UnauthorizedException } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
-import type { Context as WSContext } from 'graphql-ws';
 import { AuthModule } from './auth/auth.module';
 import { AuthResolver } from './auth/auth.resolver';
 import { commonConfigSchema } from './config/common-config.schema';
 import { CommonConfig } from './config/common-config.type';
+import { WSContext } from './util/apollo/context.type';
 import { ExceptionHandlerPlugin } from './util/apollo/exception-handler.plugin';
 
 @Module({
@@ -51,20 +51,20 @@ import { ExceptionHandlerPlugin } from './util/apollo/exception-handler.plugin';
 				],
 				subscriptions: {
 					'graphql-ws': {
-						onConnect: async (context: WSContext<any, any>) => {
+						onConnect: async (context: WSContext) => {
 							const token = context.connectionParams?.authorization as string;
 							console.debug(`[GraphQLModule] WS connect attempt (token=${!!token})`);
 							try {
-								const { id } = await authResolver.verify(token);
-								console.info('[GraphQLModule] WS connect successful', id);
-								return { id };
+								context.extra.user = await authResolver.verify(token);
+								console.info(`[GraphQLModule] WS connect successful (acc=${context.extra.user.acc})`);
+								return true;
 							} catch (e) {
 								if (e instanceof UnauthorizedException) {
 									return false;
 								}
 								console.error('[GraphQLModule] WS connect exception: ', e)
 								context.extra.socket.close(1011, 'Internal error');
-								return;
+								return false;
 							}
 						},
 					}

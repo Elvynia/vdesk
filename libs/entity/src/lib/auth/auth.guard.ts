@@ -8,6 +8,7 @@ import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { isJWT } from 'class-validator';
 import { MappingPublicKey } from '../decorator/mapping-public';
+import { GraphQLContext } from '../util/apollo/context.type';
 import { EntityRequest } from '../util/request.type';
 import { AuthResolver } from './auth.resolver';
 
@@ -27,14 +28,12 @@ export class AuthGuard implements CanActivate {
 
 		if (isPublic) return true;
 
-		const gqlContext = GqlExecutionContext.create(context);
-		if (gqlContext.getContext().req.connectionParams) {
-			// TODO post verifyClient check
-			console.log('AUTH GUARD WS PASSTHROUGH FIXME')
+		const gqlContext = GqlExecutionContext.create(context).getContext<GraphQLContext>();
+		if (gqlContext.req.connectionParams && gqlContext.req.extra.user.acc) {
+			gqlContext.req.user = gqlContext.req.extra.user;
 			return true;
-		} else if (gqlContext.getContext().req) {
-			console.log('AUTH GUARD HTTP CHECK')
-			const req = gqlContext.getContext()?.req;
+		} else if (gqlContext.req) {
+			const req = gqlContext?.req;
 			// FIXME: Remove and configure graphiql to use auth ?
 			if (isEnvDev() && req.headers.referer === 'http://localhost:3000/graphiql') {
 				return true;
@@ -63,9 +62,7 @@ export class AuthGuard implements CanActivate {
 			return false;
 		}
 
-		const { id } = await this.authResolver.verify(token);
-		// FIXME: Use whole AuthJwtPayload
-		req.user = id;
+		req.user = await this.authResolver.verify(token);
 		return true;
 	}
 }

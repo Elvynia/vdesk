@@ -1,10 +1,10 @@
 import {
-    Args,
-    Mutation,
-    Parent,
-    Query,
-    ResolveField,
-    Resolver,
+	Args,
+	Mutation,
+	Parent,
+	Query,
+	ResolveField,
+	Resolver
 } from '@nestjs/graphql';
 import { CompanyCreate, CompanyEntity, CompanyUpdate } from './company.entity';
 import { CompanyRepository } from './company.repository';
@@ -23,7 +23,7 @@ export class CompanyResolver {
 		private companyTypeRepository: CompanyTypeRepository,
 
 		private addressRepository: AddressRepository
-	) {}
+	) { }
 
 	@Mutation(() => CompanyEntity)
 	createCompany(
