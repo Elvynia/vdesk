@@ -40,6 +40,8 @@ export class InvoiceResolver {
 		@Args('updateInvoiceInput') updateInvoiceInput: InvoiceUpdate
 	) {
 		// TODO: Update chunk invoiced field.
+		// this.chunkRepository.markInvoiced(updateInvoiceInput.lines.flatMap((l) => l.chunkIds), true);
+		this.chunkRepository.markPaid(updateInvoiceInput.lines.flatMap((l) => l.chunkIds), updateInvoiceInput.paid);
 		return this.invoiceRepository.update(
 			updateInvoiceInput._id,
 			updateInvoiceInput
