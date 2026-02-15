@@ -39,7 +39,10 @@ export function makeInvoiceLineWeek({
 	start: Date;
 	end: Date;
 }): InvoiceLine {
-	const count = chunks.map((c) => c.count).reduce((a, b) => a + b, 0);
+	let count = chunks.map((c) => c.count).reduce((a, b) => a + b, 0);
+	if (missions[0].byDay) {
+		count = Math.ceil(count / missions[0].dayLength!);
+	}
 	const price = missions[0].rate;
 	const monthStart = (start.getMonth() + 1).toString().padStart(2, '0');
 	const monthEnd = (end.getMonth() + 1).toString().padStart(2, '0');
