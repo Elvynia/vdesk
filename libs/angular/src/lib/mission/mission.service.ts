@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { companyTypeFields, HasMissionPubSub, makeMissionFields, Mission, MissionFieldArgs } from '@lv/common';
+import { companyTypeFields, HasMissionPubSub, makeMissionFields, Mission } from '@lv/common';
 import { ApiConfig } from '../config';
 import { SocketService } from '../socket.service';
 import { ApiService } from '../util/api.service';
@@ -22,13 +22,13 @@ export class MissionService extends ApiService<Mission> {
 		this.apiUrl = config.apiUrl + config.apiPath + '/mission';
 	}
 
-	getFields(args?: MissionFieldArgs): string {
-		return makeMissionFields(args).join('\n');
+	getFields(): string {
+		return makeMissionFields().join('\n');
 	}
 
 	listenActive() {
 		return this.socketService.subscribe('listenActive', `{
-			${this.getFields({ chunkActive: true })}
+			${this.getFields()}
 			company {
 				_id
 				name
