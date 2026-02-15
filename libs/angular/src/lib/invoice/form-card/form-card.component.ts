@@ -23,13 +23,13 @@ import { Store } from '@ngrx/store';
 import { filter, finalize, first, startWith, takeUntil } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { HasMissionActiveState, selectMissionActive } from '../../mission/active/mission-active.store';
+import { missionActions } from '../../mission/mission.actions';
 import { ApiActionSave } from '../../util/api.action';
 import { formParseFloat } from '../../util/form/form-parse-number';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { InvoiceFormComponent } from '../form/form.component';
 import { InvoiceGeneratorComponent } from '../generator/generator.component';
 import { invoiceActions } from '../invoice.actions';
-import { missionActions } from '../../mission/mission.actions';
 
 type MissionSelectable = Mission & { disabled?: boolean };
 
@@ -96,7 +96,7 @@ export class InvoiceFormCardComponent extends ObserverCompomix() implements OnIn
 		// TODO: handle pending ?
 		this.store.select(selectMissionActive).pipe(
 			takeUntil(this.destroy$)
-		).subscribe((missions) => this.missionList = Object.values(missions));
+		).subscribe((missions) => this.missionList = Object.values(missions).map((m) => ({ ...m })));
 		this.store.dispatch(missionActions.listenActive());
 	}
 
