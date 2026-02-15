@@ -13,7 +13,7 @@ export class MissionEffects {
 
 	constructor(
 		private service: MissionService,
-		private snackbar: MatSnackBar
+		private snackbar: MatSnackBar,
 	) { }
 
 	create$ = createEffect(() =>

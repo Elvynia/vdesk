@@ -43,7 +43,14 @@ export class ChunkEditorComponent implements OnChanges {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.missions) {
-			this.chunks = this.missions?.flatMap((m) => m.chunks) || [];
+			this.chunks = this.missions
+				?.flatMap((m) => m.chunks)
+				.map((c) => ({ ...c }))
+				|| [];
+			if (this.selected) {
+				const selectedIds = this.selected.chunks.map((c) => c._id);
+				this.selected.chunks = this.chunks.filter((c) => selectedIds.includes(c._id));
+			}
 		}
 	}
 
@@ -61,21 +68,21 @@ export class ChunkEditorComponent implements OnChanges {
 	doUpdate(chunk: Chunk) {
 		chunk.pending = true;
 		this.store.dispatch(chunkActions.update({ value: chunk }));
-		this.actions
-			.pipe(
-				ofType(
-					chunkActions.updateSuccess,
-					chunkActions.updateError,
-				),
-				first(),
-				filter((a) => a.success)
-			).subscribe((a) => {
-				const op = (c: Chunk) => c._id === chunk._id ? a.value : c;
-				this.chunks = this.chunks.map(op);
-				if (this.selected) {
-					this.selected.chunks = this.selected.chunks.map(op);
-				}
-			});
+		// this.actions
+		// 	.pipe(
+		// 		ofType(
+		// 			chunkActions.updateSuccess,
+		// 			chunkActions.updateError,
+		// 		),
+		// 		first(),
+		// 		filter((a) => a.success)
+		// 	).subscribe((a) => {
+		// 		const op = (c: Chunk) => c._id === chunk._id ? a.value : c;
+		// 		this.chunks = this.chunks.map(op);
+		// 		if (this.selected) {
+		// 			this.selected.chunks = this.selected.chunks.map(op);
+		// 		}
+		// 	});
 	}
 
 	doDelete(chunk: Chunk) {
@@ -90,13 +97,9 @@ export class ChunkEditorComponent implements OnChanges {
 				first(),
 				filter((a) => a.success)
 			).subscribe(() => {
-				const op = (c: Chunk) => c._id !== chunk._id;
-				this.chunks = this.chunks.filter(op);
-				if (this.selected) {
-					this.selected.chunks = this.selected.chunks.filter(op);
-					if (!this.selected.chunks.length) {
-						this.drawer?.close();
-					}
+				if (this.selected && !this.selected.chunks.length) {
+					this.drawer?.close();
+					this.selected = null;
 				}
 			});
 	}

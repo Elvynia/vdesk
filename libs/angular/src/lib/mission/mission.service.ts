@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { companyTypeFields, makeMissionFields, Mission, MissionFieldArgs } from '@lv/common';
-import { map } from 'rxjs';
+import { companyTypeFields, HasMissionPubSub, makeMissionFields, Mission, MissionFieldArgs } from '@lv/common';
 import { ApiConfig } from '../config';
 import { SocketService } from '../socket.service';
 import { ApiService } from '../util/api.service';
@@ -17,7 +16,7 @@ export class MissionService extends ApiService<Mission> {
 	constructor(
 		httpClient: HttpClient,
 		config: ApiConfig,
-		private socketService: SocketService
+		private socketService: SocketService<HasMissionPubSub>
 	) {
 		super(httpClient, config);
 		this.apiUrl = config.apiUrl + config.apiPath + '/mission';
@@ -28,7 +27,7 @@ export class MissionService extends ApiService<Mission> {
 	}
 
 	listenActive() {
-		return this.socketService.subscribe<Mission[]>('listenActive', `{
+		return this.socketService.subscribe('listenActive', `{
 			${this.getFields({ chunkActive: true })}
 			company {
 				_id
@@ -42,24 +41,4 @@ export class MissionService extends ApiService<Mission> {
 		}`)
 	}
 
-	sendListActive() {
-		return this.httpClient.post(this.graphUrl, {
-			"query": `{
-					missionActive {
-						${this.getFields({ chunkActive: true })}
-						company {
-							_id
-							name
-							invoiceCount
-							trigram
-							type {
-								${companyTypeFields.join('\n')}
-							}
-						}
-					}
-				}`
-		}).pipe(
-			map((results: any) => results.data[`${this.entity}Active`] as Mission[])
-		);
-	}
 }

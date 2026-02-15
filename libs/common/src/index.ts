@@ -14,6 +14,8 @@ export * from './lib/invoice-line/invoice-line.type';
 export * from './lib/invoice/invoice.fields';
 export * from './lib/invoice/invoice.type';
 export * from './lib/mission/mission.fields';
+export * from './lib/mission/mission.fn';
+export * from './lib/mission/mission.pubsub';
 export * from './lib/mission/mission.type';
 export * from './lib/role/role.fields';
 export * from './lib/role/role.type';

@@ -6,7 +6,7 @@ import { AuthService } from './auth/service';
 import { HasAuthState, selectAuthToken } from './auth/type';
 
 @Injectable({ providedIn: 'root' })
-export class SocketService {
+export class SocketService<P extends Record<string, any> = Record<string, any>> {
 	private client: Client;
 
 	constructor(
@@ -49,8 +49,8 @@ export class SocketService {
 		});
 	}
 
-	subscribe<T>(name: string, query: string): Observable<T> {
-		return new Observable((observer: Subscriber<T>) => {
+	subscribe<K extends string & keyof P>(name: K, query: string): Observable<P[K]> {
+		return new Observable((observer: Subscriber<P[K]>) => {
 			const unsubscribe = this.client.subscribe(
 				{
 					query: `subscription {
@@ -60,7 +60,7 @@ export class SocketService {
 				{
 					next: (data?: any) => {
 						if (data?.data && data.data[name]) {
-							observer.next(data.data[name] as T)
+							observer.next(data.data[name])
 						} else {
 							observer.error(data?.errors)
 						}

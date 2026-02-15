@@ -86,7 +86,7 @@ export class ChunkUpdate {
 	@Prop()
 	date: Date;
 
-	@Field()
+	@Field({ nullable: true })
 	@Prop()
 	desc: string;
 
