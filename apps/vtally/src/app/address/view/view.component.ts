@@ -16,7 +16,7 @@ import { filter, first, takeUntil } from 'rxjs';
 	imports: [AddressListComponent, AddressFormCardComponent],
 	templateUrl: './view.component.html',
 	host: {
-		class: 'flex space-between gap-8 h-full w-full'
+		class: 'flex flex-col lg:flex-row space-between gap-8 h-full w-full'
 	}
 })
 export class AddressViewComponent extends ObserverCompomix() implements OnInit {
