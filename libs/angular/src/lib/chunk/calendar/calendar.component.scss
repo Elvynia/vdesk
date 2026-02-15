@@ -4,70 +4,158 @@
 .mat-calendar {
 	@include mat.datepicker-overrides(
 		(
-			calendar-date-today-outline-color: transparent,
 			calendar-date-text-color: var(--mat-sys-primary),
-			calendar-date-selected-state-text-color: var(--mat-sys-secondary),
-			calendar-date-selected-state-background-color: var(--mat-sys-on-tertiary)
+			calendar-date-selected-state-background-color: var(--mat-sys-background)
 		)
 	);
-}
 
-.mat-calendar-body-cell > .mat-calendar-body-cell-content {
-	top: 20%;
-}
+	.mat-calendar-body-cell {
+		&:hover {
+			filter: brightness(70%);
+		}
 
-.mat-calendar-body-cell.chunk::after {
-	font-size: 2.5vi;
-	background-color: var(--mat-sys-primary-container);
-	border-radius: 0.25rem;
-	padding-top: 1vi;
-	width: calc(100% - 0.25rem);
-}
+		.mat-calendar-body-cell-content {
+			top: 5%;
+			left: 0.25rem;
+			// Align text
+			align-items: flex-end;
+			padding-bottom: 0.5rem;
+			// Align background
+			border: 0;
+			border-radius: 0.25rem;
+			width: calc(100% - 0.25rem);
+			height: 90%;
 
-.mat-calendar-body-cell.chunk.c1::after {
-	content: "\2680";
-}
+			&.mat-calendar-body-today {
+				border: 1px solid;
+			}
 
-.mat-calendar-body-cell.chunk.c2::after {
-	content: "\2681";
-}
+			&.mat-calendar-body-selected {
+				background-image:
+					linear-gradient(
+						to bottom,
+						var(--mat-datepicker-calendar-date-selected-state-background-color) 0%,
+						var(--mat-datepicker-calendar-date-selected-state-background-color) 100%
+					),
+					linear-gradient(to bottom, currentcolor 0%, currentcolor 100%);
+				background-clip: content-box, padding-box;
+			}
+		}
 
-.mat-calendar-body-cell.chunk.c3::after {
-	content: "\2682";
-}
+		&.chunk {
+			&.pending {
+				--mat-datepicker-calendar-date-hover-state-background-color: var(--mat-sys-primary-container);
+				--mat-datepicker-calendar-date-selected-state-background-color: var(--mat-sys-primary-container);
 
-.mat-calendar-body-cell.chunk.c4::after {
-	content: "\2683";
-}
+				.mat-calendar-body-cell-content {
+					background-color: var(--mat-sys-primary-container);
+					color: var(--mat-sys-primary);
+				}
+			}
 
-.mat-calendar-body-cell.chunk.c5::after {
-	content: "\2684";
-}
+			&.invoiced {
+				--mat-datepicker-calendar-date-hover-state-background-color: var(--mat-sys-tertiary-container);
+				--mat-datepicker-calendar-date-selected-state-background-color: var(--mat-sys-tertiary-container);
 
-.mat-calendar-body-cell.chunk.c6::after {
-	content: "\2685";
-}
+				.mat-calendar-body-cell-content {
+					background-color: var(--mat-sys-tertiary-container);
+					color: var(--mat-sys-tertiary);
+				}
+			}
 
-.mat-calendar-body-cell.chunk.c7::after {
-	content: "\2683\2682";
-}
+			&.paid {
+				--mat-datepicker-calendar-date-hover-state-background-color: var(--mat-sys-secondary-container);
+				--mat-datepicker-calendar-date-selected-state-background-color: var(--mat-sys-secondary-container);
 
-.mat-calendar-body-cell.chunk.c8::after {
-	content: "\2683\2683";
-}
+				.mat-calendar-body-cell-content {
+					background-color: var(--mat-sys-secondary-container);
+					color: var(--mat-sys-secondary);
+				}
+			}
 
-.mat-calendar-body-cell.chunk.c9::after {
-	content: "\2684\2683";
-}
+			&::after {
+				font-size: 2rem;
+				padding-top: 0.75rem;
+				margin: 0 0.25rem;
+				width: calc(100% - 0.25rem);
+				z-index: 10;
+			}
 
-.mat-calendar-body-cell.chunk.c10::after {
-	content: "\2684\2684";
-}
+			&.c1::after {
+				content: "\2680";
+			}
 
-.mat-calendar-body-cell.chunk.c11::after {
-	content: "\2685\2684";
-}
+			&.c2::after {
+				content: "\2681";
+			}
 
-.mat-calendar-body-cell.chunk.c12::after {
-	content: "\2685\2685";
+			&.c3::after {
+				content: "\2682";
+			}
+
+			&.c4::after {
+				content: "\2683";
+			}
+
+			&.c5::after {
+				content: "\2684";
+			}
+
+			&.c6::after {
+				content: "\2685";
+			}
+
+			&.c7::after {
+				content: "\2683\2682";
+			}
+
+			&.c8::after {
+				content: "\2683\2683";
+			}
+
+			&.c9::after {
+				content: "\2684\2683";
+			}
+
+			&.c10::after {
+				content: "\2684\2684";
+			}
+
+			&.c11::after {
+				content: "\2685\2684";
+			}
+
+			&.c12::after {
+				content: "\2685\2685";
+			}
+
+			&.triple::after {
+				font-size: 1.45rem;
+			}
+
+			&.c13::after {
+				content: "\2684\2684\2682";
+			}
+
+			&.c14::after {
+				content: "\2684\2684\2683";
+			}
+
+			&.c15::after {
+				content: "\2684\2684\2684";
+			}
+
+			&.c16::after {
+				content: "\2684\2684\2685";
+			}
+
+			&.c17::after {
+				content: "\2685\2685\2684";
+			}
+
+			&.c18::after {
+				content: "\2685\2685\2685";
+			}
+		}
+	}
 }

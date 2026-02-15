@@ -75,7 +75,7 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 				// Otherwise it won't be updated in calendar's view until the next calendar event.
 				from(this.chunks).pipe(
 					delay(0),
-					finalize(() => this.viewReload = false && console.log('debug: ', ))
+					finalize(() => this.viewReload = false && console.log('debug: ',))
 				).subscribe(() => {
 					this.dateClass = (d) => {
 						const date = formParseFromDate(d);
@@ -84,7 +84,20 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 							.map((c) => c.count)
 							.reduce((acc, c) => acc + c, 0);
 						if (chunkLoad > 0) {
-							return ['chunk', 'c' + chunkLoad];
+							let classes = ['chunk', 'c' + chunkLoad];
+							if (chunkLoad > 12) {
+								classes.push('triple');
+							}
+							if (dayChunks.some((c) => !c.invoiced && !c.paid)) {
+								classes.push('pending');
+							}
+							if (dayChunks.some((c) => c.invoiced && !c.paid)) {
+								classes.push('invoiced');
+							}
+							if (dayChunks.some((c) => c.paid)) {
+								classes.push('paid');
+							}
+							return classes;
 						}
 						return [];
 					};
