@@ -19,14 +19,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Invoice, InvoiceCreate, InvoiceLine, InvoiceSave, InvoiceUpdate, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { filter, finalize, first, map, startWith, switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { filter, finalize, first, startWith, takeUntil } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
-import { MissionService } from '../../mission/mission.service';
+import { HasMissionActiveState, selectMissionActive } from '../../mission/active/mission-active.store';
 import { ApiActionSave } from '../../util/api.action';
 import { formParseFloat } from '../../util/form/form-parse-number';
+import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { InvoiceFormComponent } from '../form/form.component';
 import { InvoiceGeneratorComponent } from '../generator/generator.component';
 import { invoiceActions } from '../invoice.actions';
+import { missionActions } from '../../mission/mission.actions';
 
 type MissionSelectable = Mission & { disabled?: boolean };
 
@@ -52,7 +55,7 @@ type MissionSelectable = Mission & { disabled?: boolean };
 		`
 	}
 })
-export class InvoiceFormCardComponent implements OnInit, OnChanges {
+export class InvoiceFormCardComponent extends ObserverCompomix() implements OnInit, OnChanges {
 	@Input() value?: Invoice;
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<InvoiceCreate | InvoiceUpdate>;
@@ -77,19 +80,24 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 	}
 
 	constructor(
-		private missionService: MissionService,
+		private store: Store<HasMissionActiveState>,
 		private formBuilder: FormBuilder,
 		private actions: Actions
 	) {
+		super();
 		this.back = new EventEmitter();
 		this.save = new EventEmitter();
 		this.generatorExpanded = false;
 		this.missionList = [];
-		this.pending = true;
+		this.pending = false;
 	}
 
 	ngOnInit(): void {
-		this.fetchMissions();
+		// TODO: handle pending ?
+		this.store.select(selectMissionActive).pipe(
+			takeUntil(this.destroy$)
+		).subscribe((missions) => this.missionList = Object.values(missions));
+		this.store.dispatch(missionActions.listenActive());
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -102,17 +110,6 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 		this.formPanel.close();
 		this.reset();
 		this.back.next();
-	}
-
-	fetchMissions() {
-		this.pending = true;
-		const fetch$ = this.missionService.sendListActive().pipe(
-			finalize(() => this.pending = false)
-		);
-		fetch$.subscribe((missions) => {
-			this.missionList = missions.slice();
-		});
-		return fetch$;
 	}
 
 	updateGeneratePanel(event: MatCheckboxChange, genPanel: MatExpansionPanel) {
@@ -197,9 +194,6 @@ export class InvoiceFormCardComponent implements OnInit, OnChanges {
 				),
 				first(),
 				filter(({ success }) => !!success),
-				switchMap((a) => this.fetchMissions().pipe(
-					map(() => a)
-				)),
 				finalize(() => (this.pending = false))
 			)
 			.subscribe((a) => {

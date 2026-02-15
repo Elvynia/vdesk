@@ -1,3 +1,4 @@
+import { HasMissionPubSub, missionIsActive } from '@lv/common';
 import {
 	Args,
 	Mutation,
@@ -7,12 +8,10 @@ import {
 } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { MissionCreate, MissionEntity, MissionUpdate } from './mission.entity';
-import { HasMissionPubSub } from './mission.pubsub';
 import { MissionRepository } from './mission.repository';
 
 @Resolver(() => MissionEntity)
 export class MissionResolver {
-	readonly topicActive = 'listenActive';
 
 	constructor(
 		private readonly missionRepository: MissionRepository,
@@ -24,9 +23,7 @@ export class MissionResolver {
 		@Args('createMissionInput') createMissionInput: MissionCreate
 	) {
 		const mission = await this.missionRepository.create(createMissionInput);
-		// if (isActive) {
-		this.pubSub.publish(this.topicActive, await this.findAllActive());
-		// }
+		this.publishIfActive(mission);
 		return mission;
 	}
 
@@ -46,7 +43,9 @@ export class MissionResolver {
 		yield { listenActive: initialMissions };
 
 		// @ts-expect-error - graphql-subscriptions has incorrect throw() signature
-		yield* this.pubSub.asyncIterableIterator(this.topicActive);
+		for await (const payload of this.pubSub.asyncIterableIterator('listenActive')) {
+			yield { listenActive: payload._id ? [payload] : payload };
+		}
 	}
 
 	@Query(() => MissionEntity, { name: 'missionId' })
@@ -54,27 +53,35 @@ export class MissionResolver {
 		return this.missionRepository.findOne(id);
 	}
 
+	async publishIfActive(mission: string | MissionEntity) {
+		const isActive = typeof mission === 'string'
+			? await this.missionRepository.isActive(mission)
+			: missionIsActive(mission);
+		if (isActive) {
+			const payload = typeof mission === 'string' ? await this.findOne(mission) : mission;
+			this.pubSub.publish('listenActive', payload!);
+		}
+	}
+
 	@Mutation(() => MissionEntity)
 	async updateMission(
 		@Args('updateMissionInput') updateMissionInput: MissionUpdate
 	) {
+		const wasActive = await this.missionRepository.isActive(updateMissionInput._id);
 		const mission = await this.missionRepository.update(
 			updateMissionInput._id,
 			updateMissionInput
 		);
-		// if (wasActive || isActive) {
-		this.pubSub.publish(this.topicActive, await this.findAllActive());
-		// }
+		if (wasActive && mission) {
+			this.publishIfActive(mission);
+		}
 		return mission;
 	}
 
 	@Mutation(() => MissionEntity)
 	async removeMission(@Args('id', { type: () => String }) id: string) {
-		const isActive = await this.missionRepository.isActive(id);
-		const removed = this.missionRepository.remove(id);
-		if (isActive) {
-			this.pubSub.publish(this.topicActive, await this.findAllActive());
-		}
-		return removed;
+		const mission = await this.missionRepository.remove(id);
+		mission && this.publishIfActive(id);
+		return mission;
 	}
 }

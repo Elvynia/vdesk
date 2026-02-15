@@ -8,7 +8,7 @@ export const commonConfigSchema = Joi.object<CommonConfig>({
 
 	// ---- jwt ----
 	JWT_SECRET: Joi.string().min(16).required(),
-	JWT_EXPIRES_API: Joi.string().default('10s'),
+	JWT_EXPIRES_API: Joi.string().default('10m'),
 	JWT_EXPIRES_REFRESH: Joi.string().default('10d'),
 	JWT_EXPIRES_RESET: Joi.string().default('1h'),
 
