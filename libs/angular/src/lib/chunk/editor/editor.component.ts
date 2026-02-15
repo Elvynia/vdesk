@@ -6,9 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { Chunk, Mission } from '@lv/common';
-import { Actions, ofType } from '@ngrx/effects';
+import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { filter, first } from 'rxjs';
 import { LoadingDirective } from "../../loading/loading.directive";
 import { ChunkCalendarComponent } from '../calendar/calendar.component';
 import { ChunkCalendarSelectSingle } from '../calendar/calendar.type';
@@ -50,6 +49,10 @@ export class ChunkEditorComponent implements OnChanges {
 			if (this.selected) {
 				const selectedIds = this.selected.chunks.map((c) => c._id);
 				this.selected.chunks = this.chunks.filter((c) => selectedIds.includes(c._id));
+				if (!this.selected.chunks.length) {
+					this.drawer?.close();
+					this.selected = null;
+				}
 			}
 		}
 	}
@@ -68,40 +71,11 @@ export class ChunkEditorComponent implements OnChanges {
 	doUpdate(chunk: Chunk) {
 		chunk.pending = true;
 		this.store.dispatch(chunkActions.update({ value: chunk }));
-		// this.actions
-		// 	.pipe(
-		// 		ofType(
-		// 			chunkActions.updateSuccess,
-		// 			chunkActions.updateError,
-		// 		),
-		// 		first(),
-		// 		filter((a) => a.success)
-		// 	).subscribe((a) => {
-		// 		const op = (c: Chunk) => c._id === chunk._id ? a.value : c;
-		// 		this.chunks = this.chunks.map(op);
-		// 		if (this.selected) {
-		// 			this.selected.chunks = this.selected.chunks.map(op);
-		// 		}
-		// 	});
 	}
 
 	doDelete(chunk: Chunk) {
 		chunk.pending = true;
 		this.store.dispatch(chunkActions.delete({ value: chunk }));
-		this.actions
-			.pipe(
-				ofType(
-					chunkActions.deleteSuccess,
-					chunkActions.deleteError,
-				),
-				first(),
-				filter((a) => a.success)
-			).subscribe(() => {
-				if (this.selected && !this.selected.chunks.length) {
-					this.drawer?.close();
-					this.selected = null;
-				}
-			});
 	}
 
 	updateSelected(selection: ChunkCalendarSelectSingle | null) {
