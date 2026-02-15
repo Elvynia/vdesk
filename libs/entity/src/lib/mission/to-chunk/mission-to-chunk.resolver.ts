@@ -1,7 +1,6 @@
 import { OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import {
-	Args,
 	Parent,
 	ResolveField,
 	Resolver
@@ -24,10 +23,9 @@ export class MissionToChunkResolver implements OnModuleInit {
 
 	@ResolveField(() => [ChunkEntity])
 	async chunks(
-		@Parent() parent: MissionEntity,
-		@Args('active', { nullable: true }) active: boolean
+		@Parent() parent: MissionEntity
 	) {
-		return await this.chunkRepository.findByMission(parent._id.toString(), active);
+		return await this.chunkRepository.findByMission(parent._id.toString());
 	}
 
 }

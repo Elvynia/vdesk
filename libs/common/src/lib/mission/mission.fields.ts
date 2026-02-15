@@ -1,11 +1,6 @@
 import { chunkFields } from "../chunk/chunk.fields";
 
-export interface MissionFieldArgs {
-	chunkActive?: boolean;
-}
-export function makeMissionFields({
-	chunkActive
-}: MissionFieldArgs = {}) {
+export function makeMissionFields() {
 	return [
 		'_id',
 		'name',
@@ -15,7 +10,7 @@ export function makeMissionFields({
 		'start',
 		'end',
 		'desc',
-		`chunks (active:${chunkActive || false}) {
+		`chunks {
 		${chunkFields.join('\n')}
 	}`,
 		'companyId'
