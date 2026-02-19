@@ -97,6 +97,9 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 							if (dayChunks.some((c) => c.paid)) {
 								classes.push('paid');
 							}
+							if (dayChunks.some((c) => c.selected)) {
+								classes.push('selected');
+							}
 							return classes;
 						}
 						return [];

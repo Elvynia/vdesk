@@ -41,7 +41,7 @@
 					</mat-panel-description>
 				</mat-expansion-panel-header>
 				<lv-invoice-generator [group]="group" (lineAdded)="lineAdd($event)"
-					(lineRemoved)="lineRemove($event)"></lv-invoice-generator>
+					(lineRemoved)="lineRemove($event)" (lineReset)="lineReset()"></lv-invoice-generator>
 			</mat-expansion-panel>
 		</mat-accordion>
 	</mat-card-content>

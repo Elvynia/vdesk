@@ -24,15 +24,18 @@ export class InvoiceGeneratorComponent implements OnChanges {
 	@Input() group!: FormGroup;
 	@Output() lineAdded: EventEmitter<InvoiceLine>;
 	@Output() lineRemoved: EventEmitter<number>;
+	@Output() lineReset: EventEmitter<void>;
 	chunks: Chunk[];
-	lines!: InvoiceLine[];
+	lines: InvoiceLine[];
 	selected!: DateRange<Date> | null;
 	startAt!: Date;
 
 	constructor(private currencyPipe: CurrencyPipe) {
 		this.chunks = [];
+		this.lines = [];
 		this.lineAdded = new EventEmitter();
 		this.lineRemoved = new EventEmitter();
+		this.lineReset = new EventEmitter();
 		const now = new Date();
 		now.setMonth(now.getMonth() - 1);
 		now.setDate(1);
@@ -69,9 +72,13 @@ export class InvoiceGeneratorComponent implements OnChanges {
 					return aIds.every((aid) => bIds.includes(aid)) && bIds.every((bid) => aIds.includes(bid));
 				}),
 			).subscribe((missions: Mission[]) => {
+				this.lineReset.next();
 				this.reset();
 				if (missions && missions.length > 0) {
-					this.chunks = missions.flatMap((m) => m.chunks);
+					this.chunks = missions
+						.flatMap((m) => m.chunks)
+						.filter((c) => !c.invoiced)
+						.map((c) => ({ ...c }));
 				} else {
 					this.chunks = [];
 				}
@@ -81,7 +88,6 @@ export class InvoiceGeneratorComponent implements OnChanges {
 
 	addLines() {
 		this.lines.forEach((l) => this.lineAdded.next({ ...l }));
-		// TODO update fields
 		const createdOn = this.group.controls.createdOn.value as Date;
 		this.group.controls.paymentLimit.setValue(new Date(createdOn.getFullYear(), createdOn.getMonth() + 1, 0));
 		this.group.controls.amount.setValue(
@@ -91,6 +97,14 @@ export class InvoiceGeneratorComponent implements OnChanges {
 					.reduce((acc, c) => acc + c, 0)
 			)
 		);
+		// Mark added chunks as selected.
+		const addedIds = this.lines.flatMap((l) => l.chunkIds);
+		this.chunks = this.chunks
+			.filter((c) => addedIds.includes(c._id))
+			.map((c) => ({
+				...c,
+				selected: true
+			}));
 		this.reset();
 	}
 
@@ -102,7 +116,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 			end.setHours(23, 59, 59);
 			let weekChunks = this.chunks.filter((c) => {
 				const cDate = new Date(c.date).getTime();
-				return start.getTime() <= cDate && cDate <= end.getTime();
+				return !c.selected && start.getTime() <= cDate && cDate <= end.getTime();
 			});
 			if (weekChunks.length > 0) {
 				this.lines.push(makeInvoiceLineWeek({

@@ -63,7 +63,7 @@
 				}
 			}
 
-			&.paid {
+			&.paid, &.selected {
 				--mat-datepicker-calendar-date-hover-state-background-color: var(--mat-sys-secondary-container);
 				--mat-datepicker-calendar-date-selected-state-background-color: var(--mat-sys-secondary-container);
 

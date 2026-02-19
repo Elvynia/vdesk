@@ -15,6 +15,8 @@ export interface Chunk extends IEntity {
 	mission?: Mission;
 
 	missionId: string;
+
+	selected?: boolean;
 }
 
 export interface ChunkState {

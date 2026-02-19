@@ -181,6 +181,10 @@ export class InvoiceFormCardComponent extends ObserverCompomix() implements OnIn
 		this.groupLines.removeAt(index);
 	}
 
+	lineReset() {
+		this.groupLines.reset();
+	}
+
 	submit() {
 		this.pending = true;
 		this.save.next(this.getEditValue());
