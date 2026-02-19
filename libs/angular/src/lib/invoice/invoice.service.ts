@@ -24,6 +24,13 @@ export class InvoiceService extends ApiService<Invoice, InvoiceCreate, InvoiceUp
 		});
 	}
 
+	preview(id: string) {
+		return this.httpClient.get(this.config.apiUrl + '/invoice/pdf/' + id, {
+			observe: 'response',
+			responseType: 'blob'
+		});
+	}
+
 	getFields(): string {
 		return invoiceFields.join('\n');
 	}

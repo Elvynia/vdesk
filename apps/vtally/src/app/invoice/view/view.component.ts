@@ -54,6 +54,15 @@ export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 		this.store.dispatch(invoiceActions.delete({ value }));
 	}
 
+	detail(id: string) {
+		this.invoiceService.preview(id).subscribe((res) => {
+			if (res.body) {
+				var pdfUrl = window.URL.createObjectURL(new Blob(["\ufeff", res.body], { type: 'text/html'}));
+				window.open(pdfUrl, '_blank')?.focus();
+			}
+		});
+	}
+
 	download(id: string) {
 		this.invoiceService.download(id).subscribe(observeDownload());
 	}
