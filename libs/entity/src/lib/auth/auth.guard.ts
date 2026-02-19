@@ -29,17 +29,25 @@ export class AuthGuard implements CanActivate {
 		if (isPublic) return true;
 
 		const gqlContext = GqlExecutionContext.create(context).getContext<GraphQLContext>();
-		if (gqlContext.req.connectionParams && gqlContext.req.extra.user.acc) {
-			gqlContext.req.user = gqlContext.req.extra.user;
+		const httpContext = context.switchToHttp();
+		const req = gqlContext.req || httpContext.getRequest();
+		if (req.user?.acc && req.user.iss === '') {
+			// Authentified.
 			return true;
-		} else if (gqlContext.req) {
-			const req = gqlContext?.req;
+		}
+		if (req.connectionParams && req.extra.user.acc) {
+			// Authentified by WS initial connection.
+			req.user = req.extra.user;
+			return true;
+		} else if (req) {
 			// FIXME: Remove and configure graphiql to use auth ?
-			if (isEnvDev() && req.headers.referer === 'http://localhost:3000/graphiql') {
+			if (isEnvDev() && req.headers.referer === 'http://localhost:3000/api') {
 				return true;
 			}
+			// Search for auth header and parse JWT.
 			return await this.parseRequest(req);
 		}
+		// No recognized auth.
 		return false;
 	}
 
