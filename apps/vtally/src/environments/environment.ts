@@ -6,6 +6,7 @@ export const environment: TallyConfig = {
 	apiUrl: 'http://localhost:3000',
 	apiPath: '/api',
 	authPath: '/auth',
+	wsUrl: 'ws://localhost:3000',
 	navigationKeys: NAVIGATION_KEYS,
 	debounceTime: 200
 };

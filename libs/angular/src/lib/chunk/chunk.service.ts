@@ -14,7 +14,6 @@ export class ChunkService extends ApiService<Chunk> {
 
 	constructor(httpClient: HttpClient, config: ApiConfig) {
 		super(httpClient, config);
-		this.apiUrl = config.apiUrl + config.apiPath + '/chunk';
 	}
 
 	getFields(): string {

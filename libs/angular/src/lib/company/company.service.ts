@@ -14,7 +14,6 @@ export class CompanyService extends ApiService<Company> {
 
 	constructor(httpClient: HttpClient, config: ApiConfig) {
 		super(httpClient, config);
-		this.apiUrl = config.apiUrl + config.apiPath + '/company';
 	}
 
 	getFields(): string {

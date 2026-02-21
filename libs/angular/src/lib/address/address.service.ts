@@ -14,7 +14,6 @@ export class AddressService extends ApiService<Address> {
 
 	constructor(httpClient: HttpClient, config: ApiConfig) {
 		super(httpClient, config);
-		this.apiUrl = config.apiUrl + config.apiPath + '/address';
 	}
 
 	getFields(): string {

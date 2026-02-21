@@ -8,6 +8,7 @@ export class ApiConfig extends CommonConfig {
 	apiPath!: string;
 	apiUrl!: string;
 	authPath!: string;
+	wsUrl!: string;
 }
 
 export function provideConfigs<C extends CommonConfig>(value: C, main: Type<C>, classes: Type<C>[]): Provider[] {

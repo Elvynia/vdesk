@@ -6,6 +6,7 @@ export const environment: TallyConfig = {
 	apiUrl: 'https://desk.lv.dap',
 	apiPath: '/api',
 	authPath: '/auth',
+	wsUrl: 'ws://desk.lv.dap',
 	navigationKeys: NAVIGATION_KEYS,
 	debounceTime: 200
 };

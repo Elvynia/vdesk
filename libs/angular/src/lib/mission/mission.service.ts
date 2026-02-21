@@ -19,7 +19,6 @@ export class MissionService extends ApiService<Mission> {
 		private socketService: SocketService<HasMissionPubSub>
 	) {
 		super(httpClient, config);
-		this.apiUrl = config.apiUrl + config.apiPath + '/mission';
 	}
 
 	getFields(): string {

@@ -14,7 +14,6 @@ export class InvoiceService extends ApiService<Invoice, InvoiceCreate, InvoiceUp
 
 	constructor(httpClient: HttpClient, private config: ApiConfig) {
 		super(httpClient, config);
-		this.apiUrl = config.apiUrl + config.apiPath + '/invoice';
 	}
 
 	download(id: string) {

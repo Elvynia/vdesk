@@ -9,7 +9,6 @@ import { throwGraphQlError } from "./operator/throw-graphql-error";
 	providedIn: "root"
 })
 export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCreate> {
-	apiUrl!: string;
 	graphUrl: string;
 
 	get clazz(): string {

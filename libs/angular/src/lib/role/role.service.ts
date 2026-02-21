@@ -14,7 +14,6 @@ export class RoleService extends ApiService<Role> {
 
 	constructor(httpClient: HttpClient, config: ApiConfig) {
 		super(httpClient, config);
-		this.apiUrl = config.apiUrl + config.apiPath + '/role';
 	}
 
 	getFields(): string {

@@ -4,6 +4,7 @@ import { Client, createClient } from 'graphql-ws';
 import { firstValueFrom, map, Observable, Subscriber, tap } from 'rxjs';
 import { AuthService } from './auth/service';
 import { HasAuthState, selectAuthToken } from './auth/type';
+import { ApiConfig } from './config';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService<P extends Record<string, any> = Record<string, any>> {
@@ -12,10 +13,11 @@ export class SocketService<P extends Record<string, any> = Record<string, any>> 
 
 	constructor(
 		private store: Store<HasAuthState>,
-		private authService: AuthService
+		private authService: AuthService,
+		private config: ApiConfig
 	) {
 		this.client = createClient({
-			url: 'ws://127.0.0.1:3000/api',
+			url: `${this.config.wsUrl}${this.config.apiPath}`,
 			connectionParams: () => firstValueFrom(this.store.select(selectAuthToken).pipe(
 				tap((token) => this.lastToken = token),
 				map((authorization) => ({
