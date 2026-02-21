@@ -8,7 +8,7 @@ import { AsyncSubject, EMPTY, Observable, catchError, first, map, tap } from "rx
 import { ApiConfig } from "../config";
 import { notifyUserWarning } from "../util/notify-user";
 import { authActions } from "./actions";
-import { AuthEntity, HasAuthState, ChangePasswordRequest, LoginRequest } from "./type";
+import { AuthEntity, ChangePasswordRequest, HasAuthState, LoginRequest } from "./type";
 
 @Injectable({
 	providedIn: 'root'
@@ -21,8 +21,12 @@ export class AuthService {
 
 	get apiHeaders() {
 		let headers: HttpHeaders = this.baseHeaders;
-		headers = headers.append('Authorization', 'Bearer ' + this.auth?.apiToken);
+		headers = headers.append('Authorization', 'Bearer ' + this.apiToken);
 		return headers;
+	}
+
+	get apiToken() {
+		return this.auth?.apiToken;
 	}
 
 	get authenticated() {
@@ -65,6 +69,10 @@ export class AuthService {
 			this._initialized.complete();
 		}
 		return this._initialized;
+	}
+
+	doesTokenMatch(token: string) {
+		return token === this.auth?.apiToken;
 	}
 
 	changeExpiredPassword(request: ChangePasswordRequest) {

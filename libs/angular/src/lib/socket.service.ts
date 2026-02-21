@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Client, createClient } from 'graphql-ws';
-import { firstValueFrom, map, Observable, Subscriber } from 'rxjs';
+import { firstValueFrom, map, Observable, Subscriber, tap } from 'rxjs';
 import { AuthService } from './auth/service';
 import { HasAuthState, selectAuthToken } from './auth/type';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService<P extends Record<string, any> = Record<string, any>> {
 	private client: Client;
+	private lastToken?: string;
 
 	constructor(
 		private store: Store<HasAuthState>,
@@ -16,6 +17,7 @@ export class SocketService<P extends Record<string, any> = Record<string, any>> 
 		this.client = createClient({
 			url: 'ws://127.0.0.1:3000/api',
 			connectionParams: () => firstValueFrom(this.store.select(selectAuthToken).pipe(
+				tap((token) => this.lastToken = token),
 				map((authorization) => ({
 					authorization
 				}))
@@ -32,7 +34,9 @@ export class SocketService<P extends Record<string, any> = Record<string, any>> 
 						|| errOrCloseEvent.code === 4403;
 
 					if (isAuthError) {
-						this.authService.getRefreshToken().subscribe();
+						if (!this.lastToken || this.authService.doesTokenMatch(this.lastToken)) {
+							this.authService.getRefreshToken().subscribe();
+						}
 						return true;
 					}
 				}
