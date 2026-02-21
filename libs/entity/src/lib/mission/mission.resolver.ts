@@ -42,9 +42,16 @@ export class MissionResolver {
 		const initialMissions = await this.missionRepository.findAllActive();
 		yield { listenActive: initialMissions };
 
-		// @ts-expect-error - graphql-subscriptions has incorrect throw() signature
-		for await (const payload of this.pubSub.asyncIterableIterator('listenActive')) {
-			yield { listenActive: payload._id ? [payload] : payload };
+		const it = this.pubSub.asyncIterableIterator('listenActive');
+		try {
+			// @ts-expect-error - graphql-subscriptions has incorrect throw() signature
+			for await (const payload of it) {
+				yield { listenActive: payload._id ? [payload] : payload };
+			}
+		} finally {
+			if (it.return) {
+				await it.return();
+			}
 		}
 	}
 

@@ -67,6 +67,14 @@ import { ExceptionHandlerPlugin } from './util/apollo/exception-handler.plugin';
 								return false;
 							}
 						},
+						onDisconnect: (context: WSContext) => {
+							console.debug(`[GraphQLModule] WS disconnected (userId=${context.extra.user?.acc})`);
+							if (context.extra.subscriptions) {
+								context.extra.subscriptions.clear();
+								context.extra.subscriptions = null;
+							}
+							context.extra.user = null;
+						}
 					}
 				},
 				graphiql: isEnvDev(),
