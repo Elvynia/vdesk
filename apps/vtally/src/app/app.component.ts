@@ -25,7 +25,7 @@ import { TallyState } from './app.type';
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 	host: {
-		class: 'flex flex-col h-dvh'
+		class: /*tw*/ 'flex flex-col h-dvh'
 	}
 })
 export class AppComponent extends ObserverCompomix() implements OnInit {

@@ -16,7 +16,7 @@ import { filter, first, takeUntil } from 'rxjs';
 	imports: [CompanyListComponent, CompanyFormCardComponent],
 	templateUrl: './view.component.html',
 	host: {
-		class: 'flex flex-col lg:flex-row space-between gap-8 h-full w-full'
+		class: /*tw*/ 'flex flex-col lg:flex-row space-between gap-8 h-full w-full'
 	}
 })
 export class CompanyViewComponent extends ObserverCompomix() implements OnInit {

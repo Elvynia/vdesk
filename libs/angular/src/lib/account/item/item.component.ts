@@ -21,7 +21,7 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 	],
 	templateUrl: './item.component.html',
 	host: {
-		class: 'relative'
+		class: /*tw*/ 'relative'
 	}
 })
 export class AccountItemComponent extends HoverableCompomix() {

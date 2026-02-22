@@ -10,7 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 	],
 	templateUrl: './loading-placeholder.component.html',
 	host: {
-		class: 'flex place-content-center w-full h-full'
+		class: /*tw*/ 'flex place-content-center w-full h-full'
 	}
 })
 export class LoadingPlaceholderComponent {

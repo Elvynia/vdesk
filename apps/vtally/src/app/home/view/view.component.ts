@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs';
 	],
 	templateUrl: './view.component.html',
 	host: {
-		class: 'flex flex-col lg:flex-row h-full gap-8'
+		class: /*tw*/ 'flex flex-col lg:flex-row h-full gap-8'
 	}
 })
 export class ViewComponent extends ObserverCompomix() implements OnInit {
