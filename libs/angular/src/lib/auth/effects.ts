@@ -19,7 +19,10 @@ export class AuthEffects {
 	login$ = createEffect(() => this.actions$.pipe(
 		ofType(authActions.login),
 		switchMap(({ request }) => this.authService.login(request).pipe(
-			map((auth) => authActions.loginSuccess({ auth })),
+			map((value) => authActions.loginSuccess({
+				value,
+				success: true
+			})),
 			catchBackendErrorAction(this.snackbar, authActions.loginError)
 		))
 	));
@@ -27,7 +30,9 @@ export class AuthEffects {
 	changePassword$ = createEffect(() => this.actions$.pipe(
 		ofType(authActions.changeExpiredPassword),
 		switchMap(({ request }) => this.authService.changeExpiredPassword(request).pipe(
-			map(() => authActions.changeExpiredPasswordSuccess()),
+			map(() => authActions.changeExpiredPasswordSuccess({
+				success: true
+			})),
 			catchBackendErrorAction(this.snackbar, authActions.changeExpiredPasswordError)
 		))
 	));

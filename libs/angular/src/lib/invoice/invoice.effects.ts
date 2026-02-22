@@ -14,7 +14,7 @@ export class InvoiceEffects {
 	constructor(
 		private service: InvoiceService,
 		private snackbar: MatSnackBar
-	) {}
+	) { }
 
 	create$ = createEffect(() =>
 		this.actions$.pipe(
@@ -73,7 +73,10 @@ export class InvoiceEffects {
 								{}
 							),
 							map((values) =>
-								invoiceActions.listSuccess({ values })
+								invoiceActions.listSuccess({
+									values,
+									success: true
+								})
 							)
 						)
 					),

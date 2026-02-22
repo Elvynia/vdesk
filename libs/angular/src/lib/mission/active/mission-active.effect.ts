@@ -25,7 +25,10 @@ export const missionEffectListenActive = createEffect(
 							{}
 						),
 						map((values) =>
-							missionActions.listenActiveMessage({ values })
+							missionActions.listenActiveMessage({
+								values,
+								success: true
+							})
 						)
 					)
 				),
@@ -35,5 +38,5 @@ export const missionEffectListenActive = createEffect(
 				)
 			))
 		),
-  { functional: true }
+	{ functional: true }
 );

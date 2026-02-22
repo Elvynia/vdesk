@@ -6,7 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { AuthEntity, AuthService, isAuthenticated, ObserverCompomix, selectAuth } from '@lv/angular';
+import { AuthService, AuthState, isAuthenticated, ObserverCompomix, selectAuth } from '@lv/angular';
 import { MenuItem } from '@lv/common';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs';
@@ -31,7 +31,7 @@ import { TallyState } from './app.type';
 export class AppComponent extends ObserverCompomix() implements OnInit {
 	@ViewChild('drawer') drawer?: MatDrawer;
 	menu: MenuItem[];
-	auth!: AuthEntity;
+	auth!: AuthState;
 
 	get authenticated() {
 		return isAuthenticated(this.auth);

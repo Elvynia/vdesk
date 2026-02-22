@@ -10,11 +10,12 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { finalize, first } from 'rxjs';
+import { filter, finalize, first } from 'rxjs';
 import { passwordConfirmValidatorFn } from '../../account/validator/password-confirm.validator';
 import { passwordDifferentValidatorFn } from '../../account/validator/password-different.validator';
 import { passwordPolicyValidatorFn, SpecialChars } from '../../account/validator/password-policy.validator';
 import { LoadingDirective } from '../../loading/loading.directive';
+import { isApiActionSuccess } from '../../util/api.action';
 import { authActions } from '../actions';
 
 @Component({
@@ -22,14 +23,14 @@ import { authActions } from '../actions';
 	templateUrl: './form.component.html',
 	styleUrls: ['./form.component.css'],
 	imports: [
-    LoadingDirective,
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule
-]
+		LoadingDirective,
+		MatButtonModule,
+		MatCardModule,
+		MatCheckboxModule,
+		MatFormFieldModule,
+		MatInputModule,
+		ReactiveFormsModule
+	]
 })
 export class AuthFormComponent implements OnInit {
 	@Input({ transform: coerceBooleanProperty }) admin: boolean;
@@ -94,24 +95,29 @@ export class AuthFormComponent implements OnInit {
 		if (this.expiredPassword) {
 			this.store.dispatch(authActions.changeExpiredPassword({ request: this.group.getRawValue() }));
 			this.actions.pipe(
-				ofType(authActions.changeExpiredPasswordSuccess, authActions.changeExpiredPasswordError),
+				ofType(
+					authActions.changeExpiredPasswordSuccess,
+					authActions.changeExpiredPasswordError
+				),
 				first(),
+				filter((action) => isApiActionSuccess(action)),
 				finalize(() => this.pending = false)
-			).subscribe((action) => {
-				if (action.type === '[Auth] Change expired password success') {
-					this.expiredPassword = false;
-				}
+			).subscribe(() => {
+				this.expiredPassword = false;
 			});
 		} else if (this.forgotPassword) {
 			// TODO: forgotPassword action.
 		} else {
 			this.store.dispatch(authActions.login({ request: this.group.getRawValue() }));
 			this.actions.pipe(
-				ofType(authActions.loginError, authActions.loginSuccess),
+				ofType(
+					authActions.loginError,
+					authActions.loginSuccess
+				),
 				first(),
 				finalize(() => this.pending = false)
 			).subscribe((action) => {
-				if (action.type === '[Auth] Login Success' && this.redirectUrl?.length) {
+				if (action.success && this.redirectUrl?.length) {
 					this.router.navigate(this.redirectUrl);
 				} else {
 					this.group.reset();

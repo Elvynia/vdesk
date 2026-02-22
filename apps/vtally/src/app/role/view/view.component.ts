@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    ApiAction,
-    ObserverCompomix,
-    roleActions,
-    RoleFormCardComponent,
-    RoleListComponent,
+	isApiActionSuccess,
+	ObserverCompomix,
+	roleActions,
+	RoleFormCardComponent,
+	RoleListComponent
 } from '@lv/angular';
 import { Role, selectRoles } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
@@ -64,18 +64,16 @@ export class RoleViewComponent extends ObserverCompomix() implements OnInit {
 		this.store.dispatch(action);
 		this.actions
 			.pipe(
-				ofType<ApiAction<Role> & Action>(
+				ofType(
 					roleActions.createSuccess,
 					roleActions.createError,
 					roleActions.updateSuccess,
 					roleActions.updateError
 				),
-				first()
-			)
-			.subscribe((action) => {
-				if (action.success) {
-					this.cancel();
-				}
+				first(),
+				filter((action) => isApiActionSuccess(action))
+			).subscribe(() => {
+				this.cancel();
 			});
 	}
 }

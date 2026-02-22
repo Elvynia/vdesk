@@ -70,7 +70,10 @@ export class ChunkEffects {
 								{}
 							),
 							map((values) =>
-								chunkActions.listSuccess({ values })
+								chunkActions.listSuccess({
+									values,
+									success: true
+								})
 							)
 						)
 					),

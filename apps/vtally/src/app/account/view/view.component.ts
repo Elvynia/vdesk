@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { accountActions, AccountFormCardComponent, AccountListComponent, ApiAction, ObserverCompomix } from '@lv/angular';
+import { accountActions, AccountFormCardComponent, AccountListComponent, isApiActionSuccess, ObserverCompomix } from '@lv/angular';
 import { Account, selectAccounts } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
@@ -61,13 +61,16 @@ export class AccountViewComponent extends ObserverCompomix() implements OnInit {
 		}
 		this.store.dispatch(action);
 		this.actions.pipe(
-			ofType<ApiAction<Account> & Action>(accountActions.createSuccess, accountActions.createError,
-				accountActions.updateSuccess, accountActions.updateError),
-			first()
-		).subscribe((action) => {
-			if (action.success) {
-				this.cancel();
-			}
+			ofType(
+				accountActions.createSuccess,
+				accountActions.createError,
+				accountActions.updateSuccess,
+				accountActions.updateError
+			),
+			first(),
+			filter((action) => isApiActionSuccess(action))
+		).subscribe(() => {
+			this.cancel();
 		});
 	}
 }

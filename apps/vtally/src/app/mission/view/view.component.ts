@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    ApiAction,
-    missionActions,
-    MissionFormCardComponent,
-    MissionListComponent,
-    ObserverCompomix,
+	isApiActionSuccess,
+	missionActions,
+	MissionFormCardComponent,
+	MissionListComponent,
+	ObserverCompomix
 } from '@lv/angular';
 import { Mission, selectMissions } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
@@ -64,18 +64,16 @@ export class MissionViewComponent extends ObserverCompomix() implements OnInit {
 		this.store.dispatch(action);
 		this.actions
 			.pipe(
-				ofType<ApiAction<Mission> & Action>(
+				ofType(
 					missionActions.createSuccess,
 					missionActions.createError,
 					missionActions.updateSuccess,
 					missionActions.updateError
 				),
-				first()
-			)
-			.subscribe((action) => {
-				if (action.success) {
-					this.cancel();
-				}
+				first(),
+			filter((action) => isApiActionSuccess(action))
+		).subscribe(() => {
+				this.cancel();
 			});
 	}
 }

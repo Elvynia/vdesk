@@ -10,17 +10,17 @@ export interface ChangePasswordRequest extends LoginRequest {
 	oldPassword: string;
 }
 
-export interface AuthEntity extends Partial<AuthToken> {
+export interface AuthState extends Partial<AuthToken> {
 	username?: string;
 	authorities: string[];
 }
 
 export interface HasAuthState {
-	auth: AuthEntity;
+	auth: AuthState;
 }
 
-export const isAuthenticated = (state: AuthEntity) => !!state.apiToken;
-export const isAuthAdmin = (state: AuthEntity) => state.authorities?.includes('ROLE_ADMIN');
+export const isAuthenticated = (state: AuthState) => !!state.apiToken;
+export const isAuthAdmin = (state: AuthState) => state.authorities?.includes('ROLE_ADMIN');
 export const selectAuth = (state: HasAuthState) => state.auth;
 export const selectAuthIsAdmin = (state: HasAuthState) => isAuthAdmin(state.auth);
 export const selectAuthenticated = (state: HasAuthState) => !!state.auth.apiToken;

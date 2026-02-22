@@ -73,7 +73,10 @@ export class MissionEffects {
 								{}
 							),
 							map((values) =>
-								missionActions.listSuccess({ values })
+								missionActions.listSuccess({
+									values,
+									success: true
+								})
 							)
 						)
 					),

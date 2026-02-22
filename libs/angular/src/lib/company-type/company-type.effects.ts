@@ -14,7 +14,7 @@ export class CompanyTypeEffects {
 	constructor(
 		private service: CompanyTypeService,
 		private snackbar: MatSnackBar
-	) {}
+	) { }
 
 	create$ = createEffect(() =>
 		this.actions$.pipe(
@@ -76,7 +76,10 @@ export class CompanyTypeEffects {
 								{}
 							),
 							map((values) =>
-								companyTypeActions.listSuccess({ values })
+								companyTypeActions.listSuccess({
+									values,
+									success: true
+								})
 							)
 						)
 					),

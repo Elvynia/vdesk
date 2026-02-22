@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    ApiAction,
-    companyActions,
-    CompanyFormCardComponent,
-    CompanyListComponent,
-    ObserverCompomix,
+	companyActions,
+	CompanyFormCardComponent,
+	CompanyListComponent,
+	isApiActionSuccess,
+	ObserverCompomix
 } from '@lv/angular';
 import { Company, selectCompanies } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
@@ -66,18 +66,16 @@ export class CompanyViewComponent extends ObserverCompomix() implements OnInit {
 		this.store.dispatch(action);
 		this.actions
 			.pipe(
-				ofType<ApiAction<Company> & Action>(
+				ofType(
 					companyActions.createSuccess,
 					companyActions.createError,
 					companyActions.updateSuccess,
 					companyActions.updateError
 				),
-				first()
-			)
-			.subscribe((action) => {
-				if (action.success) {
-					this.cancel();
-				}
+				first(),
+				filter((action) => isApiActionSuccess(action))
+			).subscribe(() => {
+				this.cancel();
 			});
 	}
 }

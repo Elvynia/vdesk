@@ -14,7 +14,7 @@ export class CompanyEffects {
 	constructor(
 		private service: CompanyService,
 		private snackbar: MatSnackBar
-	) {}
+	) { }
 
 	create$ = createEffect(() =>
 		this.actions$.pipe(
@@ -73,8 +73,11 @@ export class CompanyEffects {
 								{}
 							),
 							map((values) =>
-								companyActions.listSuccess({ values })
-							)
+								companyActions.listSuccess({
+									values,
+									success: true
+								})
+							),
 						)
 					),
 					catchBackendErrorAction(

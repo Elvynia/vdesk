@@ -14,9 +14,9 @@ import { MatCardModule } from '@angular/material/card';
 import { Chunk, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { finalize, first } from 'rxjs';
+import { filter, finalize, first, tap } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
-import { ApiActionSave } from '../../util/api.action';
+import { isApiActionSuccess } from '../../util/api.action';
 import { formParseFromDate } from '../../util/form/form-parse-date';
 import { formParseInt } from '../../util/form/form-parse-number';
 import { chunkActions } from '../chunk.actions';
@@ -106,13 +106,14 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 					chunkActions.updateError
 				),
 				first(),
-				// filter(isApiActionSuccess),
+				// filter(isApiActionSuccess<Chunk>),
+				filter((action) => isApiActionSuccess(action)),
 				finalize(() => (this.pending = false))
 			)
-			.subscribe((a) => this.reset({
-				missionId: (a as ApiActionSave<Chunk>).value.missionId,
-				desc: keepAll ? (a as ApiActionSave<Chunk>).value.desc : undefined,
-				date: keepAll ? new Date((a as ApiActionSave<Chunk>).value.date) : undefined
+			.subscribe((action) => this.reset({
+				missionId: action.value.missionId,
+				desc: keepAll ? action.value.desc : undefined,
+				date: keepAll ? new Date(action.value.date) : undefined
 			}));
 	}
 

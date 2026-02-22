@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {
-	ApiAction,
 	invoiceActions,
 	InvoiceFormCardComponent,
 	InvoiceListComponent,
 	InvoiceService,
+	isApiActionSuccess,
 	observeDownload,
-	ObserverCompomix,
+	ObserverCompomix
 } from '@lv/angular';
 import { Invoice, InvoiceSave, isInvoiceUpdate, selectInvoices } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
@@ -57,7 +57,7 @@ export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 	detail(id: string) {
 		this.invoiceService.preview(id).subscribe((res) => {
 			if (res.body) {
-				var pdfUrl = window.URL.createObjectURL(new Blob(["\ufeff", res.body], { type: 'text/html'}));
+				var pdfUrl = window.URL.createObjectURL(new Blob(["\ufeff", res.body], { type: 'text/html' }));
 				window.open(pdfUrl, '_blank')?.focus();
 			}
 		});
@@ -81,18 +81,16 @@ export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 		this.store.dispatch(action);
 		this.actions
 			.pipe(
-				ofType<ApiAction<Invoice> & Action>(
+				ofType(
 					invoiceActions.createSuccess,
 					invoiceActions.createError,
 					invoiceActions.updateSuccess,
 					invoiceActions.updateError
 				),
-				first()
-			)
-			.subscribe((action) => {
-				if (action.success) {
-					this.cancel();
-				}
+				first(),
+				filter((action) => isApiActionSuccess(action))
+			).subscribe(() => {
+				this.cancel();
 			});
 	}
 }

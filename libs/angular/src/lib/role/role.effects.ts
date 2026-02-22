@@ -69,7 +69,10 @@ export class RoleEffects {
 									Object.assign(acc, { [value._id!]: value }),
 								{}
 							),
-							map((values) => roleActions.listSuccess({ values }))
+							map((values) => roleActions.listSuccess({
+								values,
+								success: true
+							}))
 						)
 					),
 					catchBackendErrorAction(

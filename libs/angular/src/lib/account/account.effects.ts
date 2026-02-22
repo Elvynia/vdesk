@@ -16,7 +16,11 @@ export class AccountEffects {
 	create$ = createEffect(() => this.actions$.pipe(
 		ofType(accountActions.create),
 		mergeMap(({ value }) => this.service.sendCreate(value).pipe(
-			map((created) => accountActions.createSuccess({ value: created, success: true })),
+			map((created) => accountActions.createSuccess({
+				value: created,
+				success: true,
+			})
+			),
 			catchBackendErrorAction(this.snackbar, accountActions.createError)
 		))
 	));
@@ -35,7 +39,12 @@ export class AccountEffects {
 		switchMap(() => this.service.sendList().pipe(
 			switchMap((results) => from(results).pipe(
 				reduce((acc, value) => Object.assign(acc, { [value._id!]: value }), {}),
-				map((values) => accountActions.listSuccess({ values })),
+				map((values) =>
+					accountActions.listSuccess({
+						values,
+						success: true
+					})
+				),
 			)),
 			catchBackendErrorAction(this.snackbar, accountActions.listError)
 		))

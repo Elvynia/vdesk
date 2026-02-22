@@ -14,7 +14,7 @@ export class AddressEffects {
 	constructor(
 		private service: AddressService,
 		private snackbar: MatSnackBar
-	) {}
+	) { }
 
 	create$ = createEffect(() =>
 		this.actions$.pipe(
@@ -73,7 +73,10 @@ export class AddressEffects {
 								{}
 							),
 							map((values) =>
-								addressActions.listSuccess({ values })
+								addressActions.listSuccess({
+									values,
+									success: true
+								})
 							)
 						)
 					),

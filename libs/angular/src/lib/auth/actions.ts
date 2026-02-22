@@ -1,19 +1,19 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { AuthEntity, ChangePasswordRequest, LoginRequest } from './type';
-import { ApiActionError } from '../util/api.action';
+import { ApiActionError, ApiActionSave, ApiActionSuccess } from '../util/api.action';
+import { AuthState, ChangePasswordRequest, LoginRequest } from './type';
 
 export const authActions = createActionGroup({
-    source: 'Auth',
-    events: {
-        'Login': props<{ request: LoginRequest }>(),
-        'Login Success': props<{ auth: AuthEntity }>(),
-        'Login Error': props<ApiActionError>(),
-        'Logout': emptyProps(),
-        'Refresh success': props<{ auth: AuthEntity }>(),
-        'Refresh error': emptyProps(),
-        'Password expired': props<{ username: string }>(),
-        'Change expired password': props<{ request: ChangePasswordRequest }>(),
-        'Change expired password success': emptyProps(),
-        'Change expired password error': emptyProps()
-    }
+	source: 'Auth',
+	events: {
+		'Login': props<{ request: LoginRequest }>(),
+		'Login Success': props<ApiActionSave<AuthState> & ApiActionSuccess>(),
+		'Login Error': props<ApiActionError>(),
+		'Logout': emptyProps(),
+		'Refresh success': props<ApiActionSave<AuthState> & ApiActionSuccess>(),
+		'Refresh error': props<ApiActionError>(),
+		'Password expired': props<{ username: string }>(),
+		'Change expired password': props<{ request: ChangePasswordRequest }>(),
+		'Change expired password success': props<ApiActionSuccess>(),
+		'Change expired password error': props<ApiActionError>()
+	}
 });

@@ -8,16 +8,16 @@ import { AsyncSubject, EMPTY, Observable, catchError, first, map, tap } from "rx
 import { ApiConfig } from "../config";
 import { notifyUserWarning } from "../util/notify-user";
 import { authActions } from "./actions";
-import { AuthEntity, ChangePasswordRequest, HasAuthState, LoginRequest } from "./type";
+import { AuthState, ChangePasswordRequest, HasAuthState, LoginRequest } from "./type";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthService {
 	url: string;
-	protected auth!: AuthEntity;
+	protected auth!: AuthState;
 	protected _refreshing: boolean;
-	protected _initialized!: AsyncSubject<AuthEntity>;
+	protected _initialized!: AsyncSubject<AuthState>;
 
 	get apiHeaders() {
 		let headers: HttpHeaders = this.baseHeaders;
@@ -54,14 +54,17 @@ export class AuthService {
 		this._refreshing = false;
 	}
 
-	initialize(): Observable<AuthEntity> {
+	initialize(): Observable<AuthState> {
 		if (!this._initialized) {
 			const stored = localStorage.getItem(this.getAuthKey());
 			this._initialized = new AsyncSubject();
 			if (stored) {
-				const auth = JSON.parse(stored) as AuthEntity;
-				this.setAuth(this.parseAuth(auth));
-				this.store.dispatch(authActions.loginSuccess({ auth }));
+				const value = JSON.parse(stored) as AuthState;
+				this.setAuth(this.parseAuth(value));
+				this.store.dispatch(authActions.loginSuccess({
+					value,
+					success: true
+				}));
 			} else {
 				this.resetAuth();
 			}
@@ -82,7 +85,7 @@ export class AuthService {
 	}
 
 	login(request: LoginRequest) {
-		return this.httpClient.post<AuthEntity>(this.url + '/login', request, {
+		return this.httpClient.post<AuthState>(this.url + '/login', request, {
 			headers: this.baseHeaders
 		}).pipe(
 			catchError((response: HttpErrorResponse) => {
@@ -112,14 +115,20 @@ export class AuthService {
 				.append('apiToken', this.auth!.apiToken!)
 				.append('refreshToken', this.auth!.refreshToken!);
 			refreshDone$.subscribe(() => this._refreshing = false);
-			return this.httpClient.post<AuthEntity>(this.url + '/refresh', data).pipe(
+			return this.httpClient.post<AuthState>(this.url + '/refresh', data).pipe(
 				map(this.parseAuth),
-				tap((auth) => {
-					this.setAuth(auth);
-					this.store.dispatch(authActions.refreshSuccess({ auth }));
+				tap((value) => {
+					this.setAuth(value);
+					this.store.dispatch(authActions.refreshSuccess({
+						value,
+						success: true
+					}));
 				}),
 				catchError(() => {
-					this.store.dispatch(authActions.refreshError());
+					this.store.dispatch(authActions.refreshError({
+						reason: 'Session expired',
+						success: false
+					}));
 					this.timeout();
 					return EMPTY;
 				})
@@ -141,20 +150,20 @@ export class AuthService {
 		return 'VDESK_AUTH_KEY';
 	};
 
-	private parseAuth(auth: AuthEntity) {
+	private parseAuth(auth: AuthState) {
 		const token = jwtDecode(auth.apiToken!);
 		return {
 			...auth,
 			authorities: token.aud ? (token.aud as string).split(',') : [],
 			username: token.sub
-		} as AuthEntity
+		} as AuthState
 	}
 
 	protected resetAuth() {
 		this.auth = { authorities: [] };
 	}
 
-	protected setAuth(auth: AuthEntity, rememberMe: boolean = false) {
+	protected setAuth(auth: AuthState, rememberMe: boolean = false) {
 		this.auth = auth;
 		if (rememberMe || localStorage.getItem(this.getAuthKey())) {
 			localStorage.setItem(this.getAuthKey(), JSON.stringify(auth));

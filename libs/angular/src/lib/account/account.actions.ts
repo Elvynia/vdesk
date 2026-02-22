@@ -7,11 +7,11 @@ export const accountActions = createActionGroup({
 	events: {
 		'Create': props<ApiActionSave<Account>>(),
 		'Create Success': props<ApiActionSave<Account> & ApiActionSuccess>(),
-		'Create Error': props<ApiActionSave<Account>>(),
+		'Create Error': props<ApiActionSave<Account> & ApiActionError>(),
 		'Delete': props<ApiActionSave<Account>>(),
 		'Delete Success': props<ApiActionSave<Account> & ApiActionSuccess>(),
 		'Delete Error': props<ApiActionSave<Account> & ApiActionError>(),
-		'Get': props<ApiActionId<Account>>(),
+		'Get': props<ApiActionId>(),
 		'Get Success': props<ApiActionSave<Account> & ApiActionSuccess>(),
 		'Get Error': props<ApiActionError>(),
 		'List': emptyProps(),
@@ -19,6 +19,6 @@ export const accountActions = createActionGroup({
 		'List Error': props<ApiActionError>(),
 		'Update': props<ApiActionSave<Account>>(),
 		'Update Success': props<ApiActionSave<Account> & ApiActionSuccess>(),
-		'Update Error': props<ApiActionError>(),
+		'Update Error': props<ApiActionSave<Account> & ApiActionError>(),
 	}
 });

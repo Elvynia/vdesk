@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    addressActions,
-    AddressFormCardComponent,
-    AddressListComponent,
-    ApiAction,
-    ObserverCompomix,
+	addressActions,
+	AddressFormCardComponent,
+	AddressListComponent,
+	isApiActionSuccess,
+	ObserverCompomix
 } from '@lv/angular';
 import { Address, selectAddresses } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
 
 @Component({
@@ -66,18 +66,16 @@ export class AddressViewComponent extends ObserverCompomix() implements OnInit {
 		this.store.dispatch(action);
 		this.actions
 			.pipe(
-				ofType<ApiAction<Address> & Action>(
+				ofType(
 					addressActions.createSuccess,
 					addressActions.createError,
 					addressActions.updateSuccess,
 					addressActions.updateError
 				),
-				first()
-			)
-			.subscribe((action) => {
-				if (action.success) {
-					this.cancel();
-				}
+				first(),
+				filter((action) => isApiActionSuccess(action))
+			).subscribe(() => {
+				this.cancel();
 			});
 	}
 }
