@@ -7,7 +7,7 @@ import {
 	Subscription
 } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { MissionCreate, MissionEntity, MissionUpdate } from './mission.entity';
+import { MissionCreate, MissionEntity, MissionEntityEntry, MissionUpdate } from './mission.entity';
 import { MissionRepository } from './mission.repository';
 
 @Resolver(() => MissionEntity)
@@ -32,21 +32,18 @@ export class MissionResolver {
 		return this.missionRepository.findAll();
 	}
 
-	@Query(() => [MissionEntity], { name: 'missionActive' })
-	findAllActive() {
-		return this.missionRepository.findAllActive();
-	}
-
-	@Subscription(() => [MissionEntity])
-	async *listenActive() {
+	@Subscription(() => [MissionEntityEntry], {
+		name: 'missionActive'
+	})
+	async *listenActive(): AsyncGenerator<HasMissionPubSub> {
 		const initialMissions = await this.missionRepository.findAllActive();
-		yield { listenActive: initialMissions };
+		yield { missionActive: initialMissions.map(m => ({ key: m._id, value: m })) };
 
-		const it = this.pubSub.asyncIterableIterator('listenActive');
+		const it = this.pubSub.asyncIterableIterator('missionActive') as
+			AsyncIterableIterator<HasMissionPubSub['missionActive']>;
 		try {
-			// @ts-expect-error - graphql-subscriptions has incorrect throw() signature
 			for await (const payload of it) {
-				yield { listenActive: payload._id ? [payload] : payload };
+				yield { missionActive: payload };
 			}
 		} finally {
 			if (it.return) {
@@ -60,14 +57,20 @@ export class MissionResolver {
 		return this.missionRepository.findOne(id);
 	}
 
-	async publishIfActive(mission: string | MissionEntity) {
-		const isActive = typeof mission === 'string'
-			? await this.missionRepository.isActive(mission)
-			: missionIsActive(mission);
-		if (isActive) {
-			const payload = typeof mission === 'string' ? await this.findOne(mission) : mission;
-			this.pubSub.publish('listenActive', payload!);
+	async publishIfActive(mission: string | MissionEntity, remove: boolean = false) {
+		let payload = null;
+		if (!remove) {
+			const isActive = typeof mission === 'string'
+				? await this.missionRepository.isActive(mission)
+				: missionIsActive(mission);
+			if (isActive) {
+				payload = typeof mission === 'string' ? await this.findOne(mission) : mission;
+			}
 		}
+		this.pubSub.publish('missionActive', [{
+			key: typeof mission === 'string' ? mission : mission._id,
+			value: payload
+		}]);
 	}
 
 	@Mutation(() => MissionEntity)
@@ -79,16 +82,17 @@ export class MissionResolver {
 			updateMissionInput._id,
 			updateMissionInput
 		);
-		if (wasActive && mission) {
-			this.publishIfActive(mission);
-		}
+		this.publishIfActive(
+			mission,
+			wasActive && !missionIsActive(mission)
+		);
 		return mission;
 	}
 
 	@Mutation(() => MissionEntity)
 	async removeMission(@Args('id', { type: () => String }) id: string) {
 		const mission = await this.missionRepository.remove(id);
-		mission && this.publishIfActive(id);
+		this.publishIfActive(id, true);
 		return mission;
 	}
 }

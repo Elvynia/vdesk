@@ -22,8 +22,8 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, finalize, first, startWith, takeUntil } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
+import { missionActiveActions } from '../../mission/active/mission-active.action';
 import { HasMissionActiveState, selectMissionActive } from '../../mission/active/mission-active.store';
-import { missionActions } from '../../mission/mission.actions';
 import { ApiActionSave } from '../../util/api.action';
 import { formParseFloat } from '../../util/form/form-parse-number';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
@@ -97,7 +97,7 @@ export class InvoiceFormCardComponent extends ObserverCompomix() implements OnIn
 		this.store.select(selectMissionActive).pipe(
 			takeUntil(this.destroy$)
 		).subscribe((missions) => this.missionList = Object.values(missions).map((m) => ({ ...m })));
-		this.store.dispatch(missionActions.listenActive());
+		this.store.dispatch(missionActiveActions.listenActive());
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {

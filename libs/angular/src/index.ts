@@ -66,6 +66,7 @@ export * from './lib/invoice/item/item.component';
 export * from './lib/invoice/list/list.component';
 export * from './lib/loading/loading.directive';
 export * from './lib/loading/placeholder/loading-placeholder.component';
+export * from './lib/mission/active/mission-active.action';
 export * from './lib/mission/active/mission-active.config';
 export * from './lib/mission/active/mission-active.effect';
 export * from './lib/mission/active/mission-active.reducer';

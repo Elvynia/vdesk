@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from "@angular/material/card";
-import { ChunkEditorComponent, ChunkFormCardComponent, HasMissionActiveState, missionActions, ObserverCompomix, selectMissionActive } from '@lv/angular';
+import { ChunkEditorComponent, ChunkFormCardComponent, HasMissionActiveState, missionActiveActions, ObserverCompomix, selectMissionActive } from '@lv/angular';
 import { Mission } from '@lv/common';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs';
@@ -33,6 +33,6 @@ export class ViewComponent extends ObserverCompomix() implements OnInit {
 		).subscribe((missions) => {
 			this.missions = Object.values(missions);
 		});
-		this.store.dispatch(missionActions.listenActive());
+		this.store.dispatch(missionActiveActions.listenActive());
 	}
 }

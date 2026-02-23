@@ -51,4 +51,8 @@ export * from './lib/role/role.entity';
 export * from './lib/role/role.module';
 export * from './lib/role/role.repository';
 export * from './lib/role/role.resolver';
+export * from './lib/util/apollo/context.type';
+export * from './lib/util/apollo/exception-handler.plugin';
+export * from './lib/util/make-entity-entry';
+export * from './lib/util/pubsub.module';
 export * from './lib/util/request.type';

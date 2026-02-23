@@ -1,7 +1,7 @@
 import { Mission } from "@lv/common";
 import { Action, createReducer, on } from "@ngrx/store";
 import { authActions } from "../../auth/actions";
-import { missionActions } from "../mission.actions";
+import { missionActiveActions } from "./mission-active.action";
 
 const initState = {};
 
@@ -12,11 +12,14 @@ export const missionActiveReducer = (
 	createReducer<Record<string, Mission>>(
 		initState,
 		on(
-			missionActions.listenActiveMessage,
-			(state, { values }) => ({
-				...state,
-				...values
-			})
+			missionActiveActions.listenActiveMessage,
+			(state, { values }) => Object.entries(values).reduce(
+				(active, [k, v]) => {
+					v ? active[k] = v : delete active[k];
+					return active;
+				},
+				{ ...state }
+			)
 		),
 		on(authActions.logout, () => ({ ...initState }))
 	)(state, action);

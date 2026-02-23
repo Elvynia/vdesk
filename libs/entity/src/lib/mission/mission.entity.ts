@@ -3,6 +3,7 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
 import { ChunkEntity } from '../chunk/chunk.entity';
 import { CompanyEntity } from '../company/company.entity';
+import { makeEntityEntry } from '../util/make-entity-entry';
 
 @InputType('MissionInput')
 @ObjectType()
@@ -133,3 +134,4 @@ export class MissionUpdate {
 }
 
 export const MissionSchema = SchemaFactory.createForClass(MissionEntity);
+export const MissionEntityEntry = makeEntityEntry(MissionEntity);

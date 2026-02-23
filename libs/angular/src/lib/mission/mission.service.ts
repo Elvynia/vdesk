@@ -26,15 +26,18 @@ export class MissionService extends ApiService<Mission> {
 	}
 
 	listenActive() {
-		return this.socketService.subscribe('listenActive', `{
-			${this.getFields()}
-			company {
-				_id
-				name
-				invoiceCount
-				trigram
-				type {
-					${companyTypeFields.join('\n')}
+		return this.socketService.subscribe('missionActive', `{
+			key
+			value {
+				${this.getFields()}
+				company {
+					_id
+					name
+					invoiceCount
+					trigram
+					type {
+						${companyTypeFields.join('\n')}
+					}
 				}
 			}
 		}`)

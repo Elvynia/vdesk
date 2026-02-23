@@ -9,31 +9,46 @@ export abstract class EntityRepository<Entity, CreateEntity = Entity, UpdateEnti
 	}
 
 	findAll(filter?: RootFilterQuery<Entity>) {
+		let query;
 		if (filter) {
-			return this.model.find(filter).exec();
+			query = this.model
+				.find(filter);
+		} else {
+			query = this.model
+				.find();
 		}
-		return this.model.find().exec();
+		return query
+			.orFail()
+			.exec();
 	}
 
 	findAllByIds(ids: string[]) {
-		return this.model.find({
-			_id: { $in: ids }
-		}).exec();
+		return this.model
+			.find({
+				_id: { $in: ids }
+			})
+			.orFail()
+			.exec();
 	}
 
 	findOne(_id: string) {
-		return this.model.findOne({ _id }).exec();
+		return this.model
+			.findOne({ _id })
+			// .orFail()
+			.exec();
 	}
 
 	update(_id: string, editEntity: UpdateEntity) {
 		return this.model
 			.findByIdAndUpdate({ _id }, editEntity, { new: true })
+			.orFail()
 			.exec();
 	}
 
 	remove(_id: string) {
 		return this.model
 			.findByIdAndDelete({ _id })
+			.orFail()
 			.exec();
 	}
 }
