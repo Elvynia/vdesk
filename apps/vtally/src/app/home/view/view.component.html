@@ -1,6 +1,11 @@
 <div class="flex flex-col gap-4 w-md">
 	<lv-chunk-form-card
-		[missions]="missions"
+	[missions]="missions"
 	></lv-chunk-form-card>
 	<lv-chunk-editor [missions]="missions"></lv-chunk-editor>
+</div>
+<div class="flex flex-col gap-4 w-md">
+	@for (i of invoices; track $index) {
+		<div>{{ i.name }}</div>
+	}
 </div>

@@ -18,6 +18,12 @@ export class InvoiceRepository extends EntityRepository<
 		super();
 	}
 
+	findAllPending() {
+		return this.findAll({
+			paid: false
+		});
+	}
+
 	findOnePrint(_id: string) {
 		return this.model.findOne({ _id })
 			.populate([{
@@ -25,16 +31,29 @@ export class InvoiceRepository extends EntityRepository<
 				populate: ['address', 'type'],
 				model: CompanyEntity.name
 			}])
+			.orFail()
 			.exec();
+	}
+
+	async isPending(_id: string) {
+		return !!(await this.model
+			.exists({
+				_id,
+				paid: false
+			})
+			.exec());
 	}
 
 	getYearCount(companyId: string) {
 		const startYear = new Date();
 		startYear.setMonth(0);
 		startYear.setDate(1);
-		return this.model.countDocuments({
-			companyId,
-			createdOn: { $gt: startYear }
-		});
+		return this.model
+			.countDocuments({
+				companyId,
+				createdOn: { $gt: startYear }
+			})
+			.orFail()
+			.exec();
 	}
 }

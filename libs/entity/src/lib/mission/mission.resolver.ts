@@ -1,4 +1,4 @@
-import { HasMissionPubSub, missionIsActive } from '@lv/common';
+import { HasMissionPubSub, mapEntityEntry, missionIsActive } from '@lv/common';
 import {
 	Args,
 	Mutation,
@@ -37,7 +37,7 @@ export class MissionResolver {
 	})
 	async *listenActive(): AsyncGenerator<HasMissionPubSub> {
 		const initialMissions = await this.missionRepository.findAllActive();
-		yield { missionActive: initialMissions.map(m => ({ key: m._id, value: m })) };
+		yield { missionActive: initialMissions.map(mapEntityEntry) };
 
 		const it = this.pubSub.asyncIterableIterator('missionActive') as
 			AsyncIterableIterator<HasMissionPubSub['missionActive']>;

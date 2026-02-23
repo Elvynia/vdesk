@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
 import { CompanyEntity } from '../company/company.entity';
 import { InvoiceLineEntity, InvoiceLineEntitySave, InvoiceLineSchema } from '../invoice-line/invoice-line.entity';
 import { MissionEntity } from '../mission/mission.entity';
+import { makeEntityEntry } from '../util/make-entity-entry';
 
 @InputType('InvoiceInput')
 @ObjectType()
@@ -188,3 +189,4 @@ export class InvoiceUpdate {
 }
 
 export const InvoiceSchema = SchemaFactory.createForClass(InvoiceEntity);
+export const InvoiceEntityEntry = makeEntityEntry(InvoiceEntity);

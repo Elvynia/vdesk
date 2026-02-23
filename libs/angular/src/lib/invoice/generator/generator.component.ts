@@ -46,43 +46,45 @@ export class InvoiceGeneratorComponent implements OnChanges {
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.group && this.group) {
 			this.reset();
-			this.group.controls.missions.valueChanges.pipe(
-				startWith(this.group.controls.missions.value),
-				map((missions) => {
-					let currency = '';
-					let name = '';
+			if (!this.group.controls._id.value) {
+				this.group.controls.missions.valueChanges.pipe(
+					startWith(this.group.controls.missions.value),
+					map((missions) => {
+						let currency = '';
+						let name = '';
+						if (missions && missions.length > 0) {
+							const currentYear = new Date().getFullYear();
+							const company = missions[0].company as Company;
+							const count = (company.invoiceCount! + 1).toString().padStart(2, '0');
+							currency = company.type.currency;
+							name = `${currentYear}-${company.trigram}-${count}`;
+						}
+						return { currency, name };
+					}),
+					distinctUntilAnyKeyChanged(['currency', 'name'])
+				).subscribe((values) => {
+					Object.entries(values).forEach(([k, v]) => this.group.get(k)?.setValue(v));
+				});
+				this.group.controls.missions.valueChanges.pipe(
+					startWith(this.group.controls.missions.value),
+					distinctUntilChanged((a: Mission[], b: Mission[]) => {
+						const aIds = a.map((am) => am._id);
+						const bIds = b.map((bm) => bm._id);
+						return aIds.every((aid) => bIds.includes(aid)) && bIds.every((bid) => aIds.includes(bid));
+					}),
+				).subscribe((missions: Mission[]) => {
+					this.lineReset.next();
+					this.reset();
 					if (missions && missions.length > 0) {
-						const currentYear = new Date().getFullYear();
-						const company = missions[0].company as Company;
-						const count = (company.invoiceCount! + 1).toString().padStart(2, '0');
-						currency = company.type.currency;
-						name = `${currentYear}-${company.trigram}-${count}`;
+						this.chunks = missions
+							.flatMap((m) => m.chunks)
+							.filter((c) => !c.invoiced)
+							.map((c) => ({ ...c }));
+					} else {
+						this.chunks = [];
 					}
-					return { currency, name };
-				}),
-				distinctUntilAnyKeyChanged(['currency', 'name'])
-			).subscribe((values) => {
-				Object.entries(values).forEach(([k, v]) => this.group.get(k)?.setValue(v));
-			});
-			this.group.controls.missions.valueChanges.pipe(
-				startWith(this.group.controls.missions.value),
-				distinctUntilChanged((a: Mission[], b: Mission[]) => {
-					const aIds = a.map((am) => am._id);
-					const bIds = b.map((bm) => bm._id);
-					return aIds.every((aid) => bIds.includes(aid)) && bIds.every((bid) => aIds.includes(bid));
-				}),
-			).subscribe((missions: Mission[]) => {
-				this.lineReset.next();
-				this.reset();
-				if (missions && missions.length > 0) {
-					this.chunks = missions
-						.flatMap((m) => m.chunks)
-						.filter((c) => !c.invoiced)
-						.map((c) => ({ ...c }));
-				} else {
-					this.chunks = [];
-				}
-			});
+				});
+			}
 		}
 	}
 

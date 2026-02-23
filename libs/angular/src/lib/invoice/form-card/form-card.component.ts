@@ -20,11 +20,11 @@ import { MatListModule } from '@angular/material/list';
 import { Invoice, InvoiceCreate, InvoiceLine, InvoiceSave, InvoiceUpdate, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { delay, filter, finalize, first, startWith, takeUntil } from 'rxjs';
+import { filter, finalize, first, startWith, takeUntil } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { missionActiveActions } from '../../mission/active/mission-active.action';
 import { HasMissionActiveState, selectMissionActive } from '../../mission/active/mission-active.store';
-import { ApiActionSave } from '../../util/api.action';
+import { isApiActionSuccess } from '../../util/api.action';
 import { formParseFloat } from '../../util/form/form-parse-number';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { InvoiceFormComponent } from '../form/form.component';
@@ -59,7 +59,7 @@ export class InvoiceFormCardComponent extends ObserverCompomix() implements OnIn
 	@Input() value?: Invoice;
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<InvoiceCreate | InvoiceUpdate>;
-	@ViewChild('formPanel') formPanel!: MatExpansionPanel;
+	@ViewChild('formPanel') formPanel?: MatExpansionPanel;
 	generatorExpanded: boolean;
 	group!: FormGroup;
 	missionLabel?: string;
@@ -113,7 +113,6 @@ export class InvoiceFormCardComponent extends ObserverCompomix() implements OnIn
 	}
 
 	cancel() {
-		this.formPanel.close();
 		this.reset();
 		this.back.next();
 	}
@@ -203,15 +202,13 @@ export class InvoiceFormCardComponent extends ObserverCompomix() implements OnIn
 					invoiceActions.updateError
 				),
 				first(),
-				filter(({ success }) => !!success),
+				filter((action) => isApiActionSuccess(action)),
 				finalize(() => (this.pending = false))
-			)
-			.subscribe((a) => {
-				this.reset({ missionIds: (a as any as ApiActionSave<Invoice>).value.missionIds });
-			});
+			).subscribe();
 	}
 
 	private reset(value?: Partial<Invoice>) {
+		this.formPanel?.close();
 		value = value || this.value;
 		this.group = this.formBuilder.nonNullable.group({
 			_id: [
