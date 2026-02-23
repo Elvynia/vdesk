@@ -20,7 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { Invoice, InvoiceCreate, InvoiceLine, InvoiceSave, InvoiceUpdate, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { filter, finalize, first, startWith, takeUntil } from 'rxjs';
+import { delay, filter, finalize, first, startWith, takeUntil } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { missionActiveActions } from '../../mission/active/mission-active.action';
 import { HasMissionActiveState, selectMissionActive } from '../../mission/active/mission-active.store';
@@ -89,11 +89,17 @@ export class InvoiceFormCardComponent extends ObserverCompomix() implements OnIn
 		this.save = new EventEmitter();
 		this.generatorExpanded = false;
 		this.missionList = [];
-		this.pending = false;
+		this.pending = true;
 	}
 
 	ngOnInit(): void {
-		// TODO: handle pending ?
+		this.actions.pipe(
+			ofType(
+				missionActiveActions.listenActiveMessage
+			),
+			first(),
+			finalize(() => this.pending = false)
+		).subscribe()
 		this.store.select(selectMissionActive).pipe(
 			takeUntil(this.destroy$)
 		).subscribe((missions) => this.missionList = Object.values(missions).map((m) => ({ ...m })));
