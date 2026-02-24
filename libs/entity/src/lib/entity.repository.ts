@@ -1,6 +1,11 @@
-import { Model, RootFilterQuery, UpdateQuery } from "mongoose";
+import { IEntity } from "@lv/common";
+import { AnyKeys, Model, RootFilterQuery, UpdateQuery } from "mongoose";
 
-export abstract class EntityRepository<Entity, CreateEntity = Entity, UpdateEntity extends UpdateQuery<Entity> = UpdateQuery<Entity>> {
+export abstract class EntityRepository<
+	Entity extends IEntity,
+	CreateEntity = Entity,
+	UpdateEntity extends UpdateQuery<Entity> = UpdateQuery<Entity>
+> {
 
 	protected abstract model: Model<Entity>;
 
@@ -35,6 +40,16 @@ export abstract class EntityRepository<Entity, CreateEntity = Entity, UpdateEnti
 		return this.model
 			.findOne({ _id })
 			// .orFail()
+			.exec();
+	}
+
+	patch(_id: string, entity: AnyKeys<Entity>) {
+		return this.model
+			.findByIdAndUpdate(
+				{ _id },
+				{ $set: entity },
+				{ new: true })
+			.orFail()
 			.exec();
 	}
 

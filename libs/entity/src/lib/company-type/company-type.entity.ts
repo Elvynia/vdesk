@@ -23,7 +23,7 @@ export class CompanyTypeEntity implements CompanyType {
 }
 
 @InputType()
-export class CompanyTypeCreate {
+export class CompanyTypeCreateEntity {
 	@Field()
 	@Prop()
 	name: string;
@@ -38,7 +38,7 @@ export class CompanyTypeCreate {
 }
 
 @InputType()
-export class CompanyTypeUpdate {
+export class CompanyTypeUpdateEntity {
 	@Field()
 	_id: string;
 

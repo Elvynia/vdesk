@@ -21,6 +21,16 @@ export const invoiceReducer = (
 			})
 		),
 		on(
+			invoiceActions.patchSuccess,
+			(state, { value }) => ({
+				...state,
+				[value._id]: {
+					...state[value._id],
+					...value
+				},
+			})
+		),
+		on(
 			invoiceActions.delete,
 			invoiceActions.deleteError,
 			(state, { value, type }) => ({

@@ -5,7 +5,7 @@ import {
 	Resolver
 } from '@nestjs/graphql';
 import { MissionResolver } from '../mission/mission.resolver';
-import { ChunkCreate, ChunkEntity, ChunkUpdate } from './chunk.entity';
+import { ChunkCreateEntity, ChunkEntity, ChunkUpdateEntity } from './chunk.entity';
 import { ChunkRepository } from './chunk.repository';
 
 @Resolver(() => ChunkEntity)
@@ -17,7 +17,7 @@ export class ChunkResolver {
 	) { }
 
 	@Mutation(() => ChunkEntity)
-	async createChunk(@Args('createChunkInput') createChunkInput: ChunkCreate) {
+	async createChunk(@Args('createChunkInput') createChunkInput: ChunkCreateEntity) {
 		const chunk = await this.chunkRepository.create(createChunkInput);
 		this.missionResolver.publishIfActive(chunk.missionId);
 		return chunk;
@@ -34,7 +34,7 @@ export class ChunkResolver {
 	}
 
 	@Mutation(() => ChunkEntity)
-	async updateChunk(@Args('updateChunkInput') updateChunkInput: ChunkUpdate) {
+	async updateChunk(@Args('updateChunkInput') updateChunkInput: ChunkUpdateEntity) {
 		const chunk = await this.chunkRepository.update(updateChunkInput._id, updateChunkInput);
 		chunk && this.missionResolver.publishIfActive(chunk.missionId);
 		return chunk;

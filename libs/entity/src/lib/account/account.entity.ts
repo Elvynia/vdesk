@@ -44,7 +44,7 @@ export class AccountEntity implements Account {
 }
 
 @InputType()
-export class AccountCreate {
+export class AccountCreateEntity {
 
 	@Field({ nullable: true })
 	creationDate: string;
@@ -66,7 +66,7 @@ export class AccountCreate {
 }
 
 @InputType()
-export class AccountUpdate {
+export class AccountUpdateEntity {
 	@Field()
 	_id: string;
 

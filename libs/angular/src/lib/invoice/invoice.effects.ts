@@ -125,4 +125,24 @@ export class InvoiceEffects {
 			)
 		)
 	);
+
+	patch$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(invoiceActions.patch),
+			mergeMap(({ value }) =>
+				this.service.sendPatch(value).pipe(
+					map((updated) =>
+						invoiceActions.patchSuccess({
+							value: updated,
+							success: true,
+						})
+					),
+					catchBackendErrorAction(
+						this.snackbar,
+						invoiceActions.patchError
+					)
+				)
+			)
+		)
+	);
 }

@@ -26,7 +26,7 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 	sendCreate(data: TCreate) {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
-				mutation($input: ${this.clazz}Create!) {
+				mutation($input: ${this.clazz}CreateEntity!) {
 					create${this.clazz}(create${this.clazz}Input: $input) {
 						${this.getFields()}
 					}
@@ -38,24 +38,6 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 		}).pipe(
 			throwGraphQlError(),
 			map((results: any) => results.data[`create${this.clazz}`] as T)
-		);
-	}
-
-	sendUpdate(data: TUpdate) {
-		return this.httpClient.post(this.graphUrl, {
-			query: `
-				mutation($input: ${this.clazz}Update!) {
-					update${this.clazz}(update${this.clazz}Input: $input) {
-						${this.getFields()}
-					}
-				}
-			`,
-			variables: {
-				input: data
-			}
-		}).pipe(
-			throwGraphQlError(),
-			map((results: any) => results.data[`update${this.clazz}`] as T)
 		);
 	}
 
@@ -104,6 +86,42 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 		}).pipe(
 			throwGraphQlError(),
 			map((results: any) => results.data[this.entity] as T[])
+		);
+	}
+
+	sendUpdate(data: TUpdate) {
+		return this.httpClient.post(this.graphUrl, {
+			query: `
+				mutation($input: ${this.clazz}UpdateEntity!) {
+					update${this.clazz}(update${this.clazz}Input: $input) {
+						${this.getFields()}
+					}
+				}
+			`,
+			variables: {
+				input: data
+			}
+		}).pipe(
+			throwGraphQlError(),
+			map((results: any) => results.data[`update${this.clazz}`] as T)
+		);
+	}
+
+	sendPatch(data: Partial<TUpdate> & IEntity) {
+		return this.httpClient.post(this.graphUrl, {
+			query: `
+				mutation($input: ${this.clazz}PatchEntity!) {
+					patch${this.clazz}(patch${this.clazz}Input: $input) {
+						${this.getFields()}
+					}
+				}
+			`,
+			variables: {
+				input: data
+			}
+		}).pipe(
+			throwGraphQlError(),
+			map((results: any) => results.data[`patch${this.clazz}`] as T)
 		);
 	}
 }

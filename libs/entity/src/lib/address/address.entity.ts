@@ -35,7 +35,7 @@ export class AddressEntity implements Address {
 }
 
 @InputType()
-export class AddressCreate {
+export class AddressCreateEntity {
 	@Field()
 	@Prop()
 	city: string;
@@ -62,7 +62,7 @@ export class AddressCreate {
 }
 
 @InputType()
-export class AddressUpdate {
+export class AddressUpdateEntity {
 	@Field()
 	_id: string;
 

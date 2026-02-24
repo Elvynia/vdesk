@@ -1,5 +1,5 @@
 import { Invoice } from '@lv/common';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, IntersectionType, ObjectType, OmitType, PartialType, PickType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
 import { CompanyEntity } from '../company/company.entity';
 import { InvoiceLineEntity, InvoiceLineEntitySave, InvoiceLineSchema } from '../invoice-line/invoice-line.entity';
@@ -94,7 +94,7 @@ export class InvoiceEntity implements Invoice {
 }
 
 @InputType()
-export class InvoiceCreate {
+export class InvoiceCreateEntity {
 
 	@Field()
 	amount: number;
@@ -141,7 +141,7 @@ export class InvoiceCreate {
 }
 
 @InputType()
-export class InvoiceUpdate {
+export class InvoiceUpdateEntity {
 	@Field()
 	_id: string;
 
@@ -187,6 +187,12 @@ export class InvoiceUpdate {
 	@Field({ nullable: true })
 	taxMultiplier?: number;
 }
+
+@InputType()
+export class InvoicePatchEntity extends IntersectionType(
+	PickType(InvoiceUpdateEntity, ['_id'] as const),
+	PartialType(OmitType(InvoiceUpdateEntity, ['_id'] as const))
+) { };
 
 export const InvoiceSchema = SchemaFactory.createForClass(InvoiceEntity);
 export const InvoiceEntityEntry = makeEntityEntry(InvoiceEntity);

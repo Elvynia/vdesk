@@ -4,7 +4,7 @@ import {
     Query,
     Resolver
 } from '@nestjs/graphql';
-import { RoleCreate, RoleEntity, RoleUpdate } from './role.entity';
+import { RoleCreateEntity, RoleEntity, RoleUpdateEntity } from './role.entity';
 import { RoleRepository } from './role.repository';
 
 @Resolver(() => RoleEntity)
@@ -12,7 +12,7 @@ export class RoleResolver {
 	constructor(private readonly roleRepository: RoleRepository) { }
 
 	@Mutation(() => RoleEntity)
-	createRole(@Args('createRoleInput') createRoleInput: RoleCreate) {
+	createRole(@Args('createRoleInput') createRoleInput: RoleCreateEntity) {
 		return this.roleRepository.create(createRoleInput);
 	}
 
@@ -27,7 +27,7 @@ export class RoleResolver {
 	}
 
 	@Mutation(() => RoleEntity)
-	updateRole(@Args('updateRoleInput') updateRoleInput: RoleUpdate) {
+	updateRole(@Args('updateRoleInput') updateRoleInput: RoleUpdateEntity) {
 		return this.roleRepository.update(updateRoleInput._id, updateRoleInput);
 	}
 

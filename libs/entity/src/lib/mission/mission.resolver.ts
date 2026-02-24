@@ -7,7 +7,7 @@ import {
 	Subscription
 } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { MissionCreate, MissionEntity, MissionEntityEntry, MissionUpdate } from './mission.entity';
+import { MissionCreateEntity, MissionEntity, MissionEntityEntry, MissionUpdateEntity } from './mission.entity';
 import { MissionRepository } from './mission.repository';
 
 @Resolver(() => MissionEntity)
@@ -20,7 +20,7 @@ export class MissionResolver {
 
 	@Mutation(() => MissionEntity)
 	async createMission(
-		@Args('createMissionInput') createMissionInput: MissionCreate
+		@Args('createMissionInput') createMissionInput: MissionCreateEntity
 	) {
 		const mission = await this.missionRepository.create(createMissionInput);
 		this.publishIfActive(mission);
@@ -75,7 +75,7 @@ export class MissionResolver {
 
 	@Mutation(() => MissionEntity)
 	async updateMission(
-		@Args('updateMissionInput') updateMissionInput: MissionUpdate
+		@Args('updateMissionInput') updateMissionInput: MissionUpdateEntity
 	) {
 		const wasActive = await this.missionRepository.isActive(updateMissionInput._id);
 		const mission = await this.missionRepository.update(

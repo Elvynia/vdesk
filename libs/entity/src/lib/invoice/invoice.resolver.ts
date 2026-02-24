@@ -10,7 +10,7 @@ import { PubSub } from 'graphql-subscriptions';
 import { MongooseError } from 'mongoose';
 import { ChunkRepository } from '../chunk/chunk.repository';
 import { MissionResolver } from '../mission/mission.resolver';
-import { InvoiceCreate, InvoiceEntity, InvoiceEntityEntry, InvoiceUpdate } from './invoice.entity';
+import { InvoiceCreateEntity, InvoiceEntity, InvoiceEntityEntry, InvoicePatchEntity, InvoiceUpdateEntity } from './invoice.entity';
 import { InvoiceRepository } from './invoice.repository';
 
 @Resolver(() => InvoiceEntity)
@@ -25,7 +25,7 @@ export class InvoiceResolver {
 	@Mutation(() => InvoiceEntity)
 	// @Transaction
 	async createInvoice(
-		@Args('createInvoiceInput') createInvoiceInput: InvoiceCreate
+		@Args('createInvoiceInput') createInvoiceInput: InvoiceCreateEntity
 	) {
 		this.chunkRepository.markInvoiced(createInvoiceInput.lines.flatMap((l) => l.chunkIds), true);
 		const created = await this.invoiceRepository.create(createInvoiceInput);
@@ -84,7 +84,7 @@ export class InvoiceResolver {
 
 	@Mutation(() => InvoiceEntity)
 	async updateInvoice(
-		@Args('updateInvoiceInput') updateInvoiceInput: InvoiceUpdate
+		@Args('updateInvoiceInput') updateInvoiceInput: InvoiceUpdateEntity
 	) {
 		const wasPending = await this.invoiceRepository.isPending(updateInvoiceInput._id);
 		this.chunkRepository.markPaid(updateInvoiceInput.lines.flatMap((l) => l.chunkIds), updateInvoiceInput.paid);
@@ -113,5 +113,23 @@ export class InvoiceResolver {
 		}
 		this.missionResolver.publishIfActive(removed.missionIds[0]);
 		return removed;
+	}
+
+	@Mutation(() => InvoiceEntity)
+	async patchInvoice(
+		@Args('patchInvoiceInput') patchInvoiceInput: InvoicePatchEntity
+	) {
+		const { _id, ...fields } = patchInvoiceInput;
+		const wasPending = await this.invoiceRepository.isPending(patchInvoiceInput._id);
+		const patched = await this.invoiceRepository.patch(
+			_id,
+			fields
+		);
+		this.publishIfPending(
+			patched,
+			wasPending && patched.paid
+		);
+		this.missionResolver.publishIfActive(patched.missionIds[0]);
+		return patched;
 	}
 }

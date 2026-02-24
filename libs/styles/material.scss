@@ -64,6 +64,30 @@ mat-list-item {
 			active-indicator-color: var(--mat-sys-secondary)
 		)
 	);
+	@include mat.slide-toggle-overrides(
+		(
+			selected-focus-state-layer-color: var(--mat-sys-secondary),
+			selected-handle-color: var(--mat-sys-on-secondary),
+			selected-hover-state-layer-color: var(--mat-sys-secondary),
+			selected-pressed-state-layer-color: var(--mat-sys-secondary),
+			selected-focus-handle-color: var(--mat-sys-secondary-container),
+			selected-hover-handle-color: var(--mat-sys-secondary-container),
+			selected-pressed-handle-color: var(--mat-sys-secondary-container),
+			selected-focus-track-color: var(--mat-sys-on-secondary),
+			selected-hover-track-color: var(--mat-sys-secondary),
+			selected-pressed-track-color: var(--mat-sys-secondary),
+			selected-track-color: var(--mat-sys-secondary),
+			selected-icon-color: var(--mat-sys-secondary-container),
+		)
+	);
+}
+
+.mat-mdc-slide-toggle-checked.lv-accent:not(:disabled) {
+	@include mat.slide-toggle-overrides(
+		(
+			label-text-color: var(--mat-sys-secondary),
+		)
+	);
 }
 
 .lv-error:not(:disabled) {
@@ -86,6 +110,38 @@ mat-list-item {
 	@include mat.progress-spinner-overrides(
 		(
 			active-indicator-color: var(--mat-sys-error)
+		)
+	);
+	@include mat.slide-toggle-overrides(
+		(
+			track-outline-color: var(--mat-sys-error)
+		)
+	);
+}
+
+.lv-tertiary:not(:disabled) {
+	@include mat.slide-toggle-overrides(
+		(
+			selected-focus-state-layer-color: var(--mat-sys-tertiary),
+			selected-handle-color: var(--mat-sys-on-tertiary),
+			selected-hover-state-layer-color: var(--mat-sys-tertiary),
+			selected-pressed-state-layer-color: var(--mat-sys-tertiary),
+			selected-focus-handle-color: var(--mat-sys-tertiary-container),
+			selected-hover-handle-color: var(--mat-sys-tertiary-container),
+			selected-pressed-handle-color: var(--mat-sys-tertiary-container),
+			selected-focus-track-color: var(--mat-sys-on-tertiary),
+			selected-hover-track-color: var(--mat-sys-tertiary),
+			selected-pressed-track-color: var(--mat-sys-tertiary),
+			selected-track-color: var(--mat-sys-tertiary),
+			selected-icon-color: var(--mat-sys-tertiary-container),
+		)
+	);
+}
+
+.mat-mdc-slide-toggle-checked.lv-tertiary:not(:disabled) {
+	@include mat.slide-toggle-overrides(
+		(
+			label-text-color: var(--mat-sys-tertiary),
 		)
 	);
 }

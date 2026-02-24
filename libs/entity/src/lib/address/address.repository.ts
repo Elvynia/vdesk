@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EntityRepository } from '../entity.repository';
-import { AddressCreate, AddressEntity, AddressUpdate } from './address.entity';
+import { AddressCreateEntity, AddressEntity, AddressUpdateEntity } from './address.entity';
 
 @Injectable()
 export class AddressRepository extends EntityRepository<
 	AddressEntity,
-	AddressCreate,
-	AddressUpdate
+	AddressCreateEntity,
+	AddressUpdateEntity
 > {
 	constructor(
 		@InjectModel(AddressEntity.name)

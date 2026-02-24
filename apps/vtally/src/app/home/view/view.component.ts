@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from "@angular/material/card";
-import { ChunkEditorComponent, ChunkFormCardComponent, HasInvoicePendingState, HasMissionActiveState, invoicePendingActions, missionActiveActions, ObserverCompomix, selectInvoicePending, selectMissionActive } from '@lv/angular';
+import { ChunkEditorComponent, ChunkFormCardComponent, HasInvoicePendingState, HasMissionActiveState, invoicePendingActions, InvoiceTrackerComponent, missionActiveActions, ObserverCompomix, selectInvoicePending, selectMissionActive } from '@lv/angular';
 import { Invoice, Mission } from '@lv/common';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs';
@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs';
 	imports: [
 		ChunkFormCardComponent,
 		ChunkEditorComponent,
+		InvoiceTrackerComponent,
 		MatCardModule,
 	],
 	templateUrl: './view.component.html',

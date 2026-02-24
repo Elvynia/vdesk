@@ -15,14 +15,14 @@ export class RoleEntity implements Role {
 }
 
 @InputType()
-export class RoleCreate {
+export class RoleCreateEntity {
 	@Field()
 	@Prop()
 	name: string;
 }
 
 @InputType()
-export class RoleUpdate {
+export class RoleUpdateEntity {
 	@Field()
 	_id: string;
 

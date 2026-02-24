@@ -4,7 +4,7 @@ import {
     Query,
     Resolver
 } from '@nestjs/graphql';
-import { AddressCreate, AddressEntity, AddressUpdate } from './address.entity';
+import { AddressCreateEntity, AddressEntity, AddressUpdateEntity } from './address.entity';
 import { AddressRepository } from './address.repository';
 
 @Resolver(() => AddressEntity)
@@ -13,7 +13,7 @@ export class AddressResolver {
 
 	@Mutation(() => AddressEntity)
 	createAddress(
-		@Args('createAddressInput') createAddressInput: AddressCreate
+		@Args('createAddressInput') createAddressInput: AddressCreateEntity
 	) {
 		return this.addressRepository.create(createAddressInput);
 	}
@@ -30,7 +30,7 @@ export class AddressResolver {
 
 	@Mutation(() => AddressEntity)
 	updateAddress(
-		@Args('updateAddressInput') updateAddressInput: AddressUpdate
+		@Args('updateAddressInput') updateAddressInput: AddressUpdateEntity
 	) {
 		return this.addressRepository.update(
 			updateAddressInput._id,

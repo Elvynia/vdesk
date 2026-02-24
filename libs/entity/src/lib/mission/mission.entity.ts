@@ -61,7 +61,7 @@ export class MissionEntity implements Mission {
 }
 
 @InputType()
-export class MissionCreate {
+export class MissionCreateEntity {
 	@Field()
 	@Prop()
 	name: string;
@@ -96,7 +96,7 @@ export class MissionCreate {
 }
 
 @InputType()
-export class MissionUpdate {
+export class MissionUpdateEntity {
 	@Field()
 	_id: string;
 

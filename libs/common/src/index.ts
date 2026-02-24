@@ -12,6 +12,7 @@ export * from './lib/company/company.type';
 export * from './lib/invoice-line/invoice-line.fields';
 export * from './lib/invoice-line/invoice-line.type';
 export * from './lib/invoice/invoice.fields';
+export * from './lib/invoice/invoice.fn';
 export * from './lib/invoice/invoice.pubsub';
 export * from './lib/invoice/invoice.type';
 export * from './lib/mission/mission.fields';

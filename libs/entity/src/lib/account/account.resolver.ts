@@ -4,7 +4,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { MappingPublic } from '../decorator/mapping-public';
 import { RoleEntity } from '../role/role.entity';
 import { RoleRepository } from '../role/role.repository';
-import { AccountCreate, AccountEntity, AccountUpdate } from './account.entity';
+import { AccountCreateEntity, AccountEntity, AccountUpdateEntity } from './account.entity';
 import { AccountRepository } from './account.repository';
 
 @Resolver(() => AccountEntity)
@@ -15,7 +15,7 @@ export class AccountResolver {
 
 	@Mutation(() => AccountEntity)
 	@MappingPublic()
-	createAccount(@Args('createAccountInput') createAccountInput: AccountCreate) {
+	createAccount(@Args('createAccountInput') createAccountInput: AccountCreateEntity) {
 		return this.accountRepository.create(createAccountInput);
 	}
 
@@ -31,7 +31,7 @@ export class AccountResolver {
 	}
 
 	@Mutation(() => AccountEntity)
-	updateAccount(@Args('updateAccountInput') updateAccountInput: AccountUpdate) {
+	updateAccount(@Args('updateAccountInput') updateAccountInput: AccountUpdateEntity) {
 		return this.accountRepository.update(
 			updateAccountInput._id,
 			updateAccountInput

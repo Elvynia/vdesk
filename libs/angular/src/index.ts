@@ -69,6 +69,7 @@ export * from './lib/invoice/pending/invoice-pending.config';
 export * from './lib/invoice/pending/invoice-pending.effect';
 export * from './lib/invoice/pending/invoice-pending.reducer';
 export * from './lib/invoice/pending/invoice-pending.store';
+export * from './lib/invoice/tracker/tracker.component';
 export * from './lib/loading/loading.directive';
 export * from './lib/loading/placeholder/loading-placeholder.component';
 export * from './lib/mission/active/mission-active.action';

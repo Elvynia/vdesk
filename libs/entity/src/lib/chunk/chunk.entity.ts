@@ -47,7 +47,7 @@ export class ChunkEntity implements Chunk {
 }
 
 @InputType()
-export class ChunkCreate {
+export class ChunkCreateEntity {
 	@Field()
 	@Prop()
 	count: number;
@@ -74,7 +74,7 @@ export class ChunkCreate {
 }
 
 @InputType()
-export class ChunkUpdate {
+export class ChunkUpdateEntity {
 	@Field()
 	_id: string;
 
