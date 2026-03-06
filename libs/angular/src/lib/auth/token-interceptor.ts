@@ -11,10 +11,13 @@ export function authHttpInterceptor(): HttpInterceptorFn {
 		if (authService.authenticated && req.url.includes(config.apiUrl)
 			&& !req.url.includes('/auth')) {
 			const handle = () => {
-				const lastToken = authService.apiToken;
-				return defer(() => next(req.clone({
-					headers: authService.apiHeaders
-				}))).pipe(
+				let lastToken: string | undefined;
+				return defer(() => {
+					lastToken = authService.apiToken;
+					return next(req.clone({
+						headers: authService.apiHeaders
+					}));
+				}).pipe(
 					retry({
 						count: 1,
 						delay: (error: HttpErrorResponse) => {
