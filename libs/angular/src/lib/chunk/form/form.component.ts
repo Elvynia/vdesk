@@ -2,9 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
-	MAT_DATE_LOCALE,
-	MatNativeDateModule,
-	provideNativeDateAdapter,
+	MatNativeDateModule
 } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,20 +23,6 @@ import { DecimalFormatDirective } from "../../util/format/decimal-format.directi
 		ReactiveFormsModule,
 		DecimalFormatDirective,
 		DatePipe,
-	],
-	providers: [
-		provideNativeDateAdapter({
-			parse: {
-				dateInput: 'DD/MM/YYYY',
-			},
-			display: {
-				dateInput: 'DD/MM/YYYY',
-				monthYearLabel: 'MMMM YYYY',
-				dateA11yLabel: 'LL',
-				monthYearA11yLabel: 'MMMM YYYY',
-			},
-		}),
-		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
 	],
 	templateUrl: './form.component.html',
 })

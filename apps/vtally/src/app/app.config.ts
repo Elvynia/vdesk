@@ -1,5 +1,6 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { ApiConfig, AuthEffects, authHttpInterceptor, authReducer, ChunkEffects, CommonConfig, provideConfigs, provideEntityAccount, provideEntityAddress, provideEntityCompany, provideEntityCompanyType, provideEntityInvoice, provideEntityInvoicePending, provideEntityMission, provideEntityMissionActive, provideEntityRole } from '@lv/angular';
@@ -30,5 +31,17 @@ export const appConfig: ApplicationConfig = {
 		provideEntityMissionActive(),
 		provideEntityInvoice(),
 		provideEntityInvoicePending(),
+		provideNativeDateAdapter({
+			parse: {
+				dateInput: 'DD/MM/YYYY',
+			},
+			display: {
+				dateInput: 'DD/MM/YYYY',
+				monthYearLabel: 'MMMM YYYY',
+				dateA11yLabel: 'LL',
+				monthYearA11yLabel: 'MMMM YYYY',
+			},
+		}),
+		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
 	],
 };
