@@ -23,7 +23,6 @@ export abstract class EntityRepository<
 				.find();
 		}
 		return query
-			.orFail()
 			.exec();
 	}
 
