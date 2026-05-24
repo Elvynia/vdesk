@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ɵInternalFormsSharedModule } from "@angular/forms";
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +11,7 @@ import { invoiceActions } from '../invoice.actions';
 @Component({
 	selector: 'lv-invoice-tracker',
 	imports: [
+		CommonModule,
 		MatCardModule,
 		MatListModule,
 		MatSlideToggleModule,
