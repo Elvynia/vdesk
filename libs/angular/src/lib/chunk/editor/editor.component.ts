@@ -1,23 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { Chunk, Mission } from '@lv/common';
-import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { LoadingDirective } from "../../loading/loading.directive";
 import { ChunkCalendarComponent } from '../calendar/calendar.component';
 import { ChunkCalendarSelectSingle } from '../calendar/calendar.type';
 import { chunkActions } from '../chunk.actions';
+import { ChunkFormCardComponent } from '../form-card/form-card.component';
 
 @Component({
 	selector: 'lv-chunk-editor',
 	imports: [
 		CommonModule,
 		ChunkCalendarComponent,
+		ChunkFormCardComponent,
 		MatButtonModule,
 		MatCardModule,
 		MatIconModule,
@@ -27,16 +28,25 @@ import { chunkActions } from '../chunk.actions';
 	],
 	templateUrl: './editor.component.html',
 	styleUrl: './editor.component.css',
+	host: {
+		class: /*tw*/ 'flex flex-col gap-2 h-full max-w-4xl'
+	},
 })
 export class ChunkEditorComponent implements OnChanges {
 	@Input() missions: Mission[];
-	@ViewChild('drawer') drawer?: MatDrawer;
+	chunk?: Partial<Chunk>;
 	chunks: Chunk[];
+	lastMonth: Date;
 	selected: ChunkCalendarSelectSingle | null;
+	selectedChunks?: Record<string, Chunk[]>;
 
-	constructor(private store: Store, private actions: Actions) {
+	constructor(
+		private store: Store
+	) {
 		this.chunks = [];
 		this.missions = [];
+		const now = new Date();
+		this.lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 		this.selected = null;
 	}
 
@@ -50,9 +60,9 @@ export class ChunkEditorComponent implements OnChanges {
 				const selectedIds = this.selected.chunks.map((c) => c._id);
 				this.selected.chunks = this.chunks.filter((c) => selectedIds.includes(c._id));
 				if (!this.selected.chunks.length) {
-					this.drawer?.close();
 					this.selected = null;
 				}
+				this.refreshChunks();
 			}
 		}
 	}
@@ -65,7 +75,9 @@ export class ChunkEditorComponent implements OnChanges {
 	}
 
 	doUpdateCount(chunk: Chunk, count: number) {
-		this.doUpdate({ ...chunk, count });
+		if (chunk.count !== count && count > 0) {
+			this.doUpdate({ ...chunk, count });
+		}
 	}
 
 	doUpdate(chunk: Chunk) {
@@ -78,17 +90,26 @@ export class ChunkEditorComponent implements OnChanges {
 		this.store.dispatch(chunkActions.delete({ value: chunk }));
 	}
 
+	refreshChunks() {
+		if (this.selected?.date) {
+			this.chunk = {
+				date: this.selected?.date
+			}
+			this.selectedChunks = this.selected.chunks.reduce<Record<string, Chunk[]>>((r, c) => {
+				const mission = this.missions.find((m) => m._id === c.missionId)!;
+				if (!r[mission.name]) {
+					r[mission.name] = []
+				}
+				r[mission.name].push(c);
+				return r;
+			}, {});
+		} else {
+			this.chunk = undefined;
+		}
+	}
+
 	updateSelected(selection: ChunkCalendarSelectSingle | null) {
 		this.selected = selection;
-		const hasChunks = !!selection?.chunks.length;
-		if (
-			this.drawer
-			&& (
-				hasChunks && !this.drawer.opened
-				|| !hasChunks && this.drawer.opened
-			)
-		) {
-			this.drawer.toggle();
-		}
+		this.refreshChunks();
 	}
 }

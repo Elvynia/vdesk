@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, KeyValuePipe, NgClass } from '@angular/common';
 import { Component, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -15,6 +15,8 @@ import { DecimalFormatDirective } from "../../util/format/decimal-format.directi
 @Component({
 	selector: 'lv-chunk-form',
 	imports: [
+		NgClass,
+		KeyValuePipe,
 		MatFormFieldModule,
 		MatInputModule,
 		MatDatepickerModule,
@@ -23,19 +25,25 @@ import { DecimalFormatDirective } from "../../util/format/decimal-format.directi
 		ReactiveFormsModule,
 		DecimalFormatDirective,
 		DatePipe,
+		NgClass
 	],
 	templateUrl: './form.component.html',
+	host: {
+		class: /*tw*/ 'flex flex-col h-full'
+	},
 })
 export class ChunkFormComponent implements OnChanges {
 	@Input() group!: FormGroup;
-	@Input() value?: Chunk;
+	@Input() value?: Partial<Chunk>;
 	@Input() missions: Mission[];
+	missionGroups: Record<string, Mission[]>;
 	countLabel: string;
 	decr: number = -1;
 	incr: number = 1;
 
 	constructor() {
 		this.missions = [];
+		this.missionGroups = {};
 		this.countLabel = 'Hours';
 	}
 
@@ -59,10 +67,24 @@ export class ChunkFormComponent implements OnChanges {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
+		if (changes.missions) {
+			this.missionGroups = this.missions?.reduce((g, m) => {
+				if (!g[m.company!.name]) {
+					g[m.company!.name] = [];
+				}
+				g[m.company!.name].push(m);
+				return g;
+			}, {} as Record<string, Mission[]>) || {};
+		}
 		if (changes.group && this.group) {
 			this.group.get('mission')!.valueChanges.pipe(
 				distinctUntilChanged()
 			).subscribe((m) => this.countLabel = m?.byDay ? 'Days' : 'Hours');
 		}
+	}
+
+	clearDesc(event: PointerEvent) {
+		event.stopPropagation();
+		this.group.controls.desc.reset();
 	}
 }

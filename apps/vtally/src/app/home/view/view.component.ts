@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from "@angular/material/card";
-import { ChunkEditorComponent, ChunkFormCardComponent, HasInvoicePendingState, HasMissionActiveState, invoicePendingActions, InvoiceTrackerComponent, missionActiveActions, ObserverCompomix, selectInvoicePending, selectMissionActive } from '@lv/angular';
+import { ChunkEditorComponent, HasInvoicePendingState, HasMissionActiveState, invoicePendingActions, InvoiceTrackerComponent, missionActiveActions, ObserverCompomix, selectInvoicePending, selectMissionActive } from '@lv/angular';
 import { Invoice, Mission } from '@lv/common';
 import { Store } from '@ngrx/store';
-import { takeUntil } from 'rxjs';
+import { distinctUntilChanged, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'lv-home-view',
 	imports: [
-		ChunkFormCardComponent,
 		ChunkEditorComponent,
 		InvoiceTrackerComponent,
 		MatCardModule,
 	],
 	templateUrl: './view.component.html',
 	host: {
-		class: /*tw*/ 'flex flex-col lg:flex-row h-full gap-8'
+		class: /*tw*/ 'flex flex-col gap-4 lg:flex-row lg:content-around h-full overflow-clip',
 	}
 })
 export class ViewComponent extends ObserverCompomix() implements OnInit {
@@ -31,8 +30,8 @@ export class ViewComponent extends ObserverCompomix() implements OnInit {
 	}
 
 	ngOnInit() {
-		// FIXME: memoized selector.
 		this.store.select(selectMissionActive).pipe(
+			distinctUntilChanged(),
 			takeUntil(this.destroy$)
 		).subscribe((missions) => {
 			this.missions = Object.values(missions);

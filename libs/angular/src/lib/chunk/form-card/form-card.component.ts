@@ -14,7 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Chunk, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { filter, finalize, first, tap } from 'rxjs';
+import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { isApiActionSuccess } from '../../util/api.action';
 import { formParseFromDate } from '../../util/form/form-parse-date';
@@ -34,15 +34,12 @@ import { ChunkFormComponent } from '../form/form.component';
 })
 export class ChunkFormCardComponent implements OnInit, OnChanges {
 	@Input() missions: Mission[];
-	@Input() value?: Chunk;
+	@Input() value?: Partial<Chunk>;
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<Chunk>;
 	group!: FormGroup;
 	pending: boolean;
-
-	get dataPending() {
-		return this.pending || !this.missions.length;
-	}
+	draft?: Partial<Chunk>;
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -95,8 +92,18 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 		if (this.group.invalid || this.group.pending || this.pending) {
 			return;
 		}
+		const value = this.getEditValue();
+		if (keepAll) {
+			this.draft = {
+				missionId: value.missionId,
+				desc: keepAll ? value.desc : undefined,
+				date: keepAll ? new Date(value.date) : undefined
+			};
+		} else {
+			this.draft = undefined;
+		}
 		this.pending = true;
-		this.store.next(chunkActions.create({ value: this.getEditValue() }));
+		this.store.next(chunkActions.create({ value }));
 		this.actions
 			.pipe(
 				ofType(
@@ -110,11 +117,7 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 				filter((action) => isApiActionSuccess(action)),
 				finalize(() => (this.pending = false))
 			)
-			.subscribe((action) => this.reset({
-				missionId: action.value.missionId,
-				desc: keepAll ? action.value.desc : undefined,
-				date: keepAll ? new Date(action.value.date) : undefined
-			}));
+			.subscribe(() => this.reset());
 	}
 
 	@HostListener('keyup.control.enter')
@@ -122,8 +125,8 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 		this.submit(true);
 	}
 
-	private reset(value?: Partial<Chunk>) {
-		value = value || this.value;
+	private reset() {
+		let value = this.draft || this.value;
 		this.group = this.formBuilder.group({
 			_id: [
 				{

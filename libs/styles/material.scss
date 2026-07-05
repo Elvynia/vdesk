@@ -34,10 +34,12 @@ body {
 }
 
 mat-list-item {
-	@include mat.list-overrides((
-		list-item-label-text-size: 18px,
-		list-item-supporting-text-size: 12px
-	))
+	@include mat.list-overrides(
+		(
+			list-item-label-text-size: 18px,
+			list-item-supporting-text-size: 12px
+		)
+	);
 }
 
 .lv-accent:not(:disabled) {
@@ -64,6 +66,21 @@ mat-list-item {
 			active-indicator-color: var(--mat-sys-secondary)
 		)
 	);
+	@include mat.radio-overrides(
+		(
+			ripple-color: var(--mat-sys-tertiary),
+			checked-ripple-color: var(--mat-sys-tertiary),
+			label-text-color: var(--mat-sys-secondary),
+			selected-focus-icon-color: var(--mat-sys-tertiary),
+			selected-hover-icon-color: var(--mat-sys-tertiary),
+			selected-icon-color: var(--mat-sys-tertiary),
+			selected-pressed-icon-color: var(--mat-sys-tertiary),
+			unselected-hover-icon-color: var(--mat-sys-secondary),
+			unselected-focus-icon-color: var(--mat-sys-secondary),
+			unselected-icon-color: var(--mat-sys-secondary),
+			unselected-pressed-icon-color: var(--mat-sys-secondary),
+		)
+	);
 	@include mat.slide-toggle-overrides(
 		(
 			selected-focus-state-layer-color: var(--mat-sys-secondary),
@@ -77,7 +94,7 @@ mat-list-item {
 			selected-hover-track-color: var(--mat-sys-secondary),
 			selected-pressed-track-color: var(--mat-sys-secondary),
 			selected-track-color: var(--mat-sys-secondary),
-			selected-icon-color: var(--mat-sys-secondary-container),
+			selected-icon-color: var(--mat-sys-secondary-container)
 		)
 	);
 }
@@ -85,7 +102,7 @@ mat-list-item {
 .mat-mdc-slide-toggle-checked.lv-accent:not(:disabled) {
 	@include mat.slide-toggle-overrides(
 		(
-			label-text-color: var(--mat-sys-secondary),
+			label-text-color: var(--mat-sys-secondary)
 		)
 	);
 }
@@ -120,6 +137,21 @@ mat-list-item {
 }
 
 .lv-tertiary:not(:disabled) {
+	@include mat.radio-overrides(
+		(
+			ripple-color: var(--mat-sys-secondary),
+			checked-ripple-color: var(--mat-sys-secondary),
+			label-text-color: var(--mat-sys-tertiary),
+			selected-focus-icon-color: var(--mat-sys-secondary),
+			selected-hover-icon-color: var(--mat-sys-secondary),
+			selected-icon-color: var(--mat-sys-secondary),
+			selected-pressed-icon-color: var(--mat-sys-secondary),
+			unselected-hover-icon-color: var(--mat-sys-tertiary),
+			unselected-focus-icon-color: var(--mat-sys-tertiary),
+			unselected-icon-color: var(--mat-sys-tertiary),
+			unselected-pressed-icon-color: var(--mat-sys-tertiary),
+		)
+	);
 	@include mat.slide-toggle-overrides(
 		(
 			selected-focus-state-layer-color: var(--mat-sys-tertiary),
@@ -133,15 +165,20 @@ mat-list-item {
 			selected-hover-track-color: var(--mat-sys-tertiary),
 			selected-pressed-track-color: var(--mat-sys-tertiary),
 			selected-track-color: var(--mat-sys-tertiary),
-			selected-icon-color: var(--mat-sys-tertiary-container),
+			selected-icon-color: var(--mat-sys-tertiary-container)
 		)
 	);
+}
+
+.small.mat-mdc-radio-button .mat-internal-form-field > label {
+	padding-left: 0;
+	margin-left: -0.25rem;
 }
 
 .mat-mdc-slide-toggle-checked.lv-tertiary:not(:disabled) {
 	@include mat.slide-toggle-overrides(
 		(
-			label-text-color: var(--mat-sys-tertiary),
+			label-text-color: var(--mat-sys-tertiary)
 		)
 	);
 }

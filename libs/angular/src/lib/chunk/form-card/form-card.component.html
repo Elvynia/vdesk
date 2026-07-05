@@ -1,16 +1,10 @@
-<mat-card>
-	<mat-card-header class="mb-4">
-		<h1 mat-card-title>Add time</h1>
-	</mat-card-header>
-	<mat-card-content class="flex! flex-col justify-center">
-		<lv-chunk-form [value]="value" [group]="group" [missions]="missions"
-			*lvLoading="dataPending; color: 'accent'; diameter: 128"></lv-chunk-form>
+<mat-card class="w-full h-full">
+	<mat-card-content class="flex! flex-col h-full">
+		<lv-chunk-form class="flex-1" [value]="value" [group]="group" [missions]="missions"
+			*lvLoading="missions.length === 0; color: 'accent'; diameter: 128"></lv-chunk-form>
 	</mat-card-content>
 	<mat-card-actions class="flex">
-		<!-- <button mat-stroked-button class="lv-error" [disabled]="pending" (click)="cancel()">
-			Cancel
-		</button> -->
 		<button mat-raised-button color="accent" class="grow" tabindex="3"
-			[disabled]="pending || group.invalid || group.pending" (click)="submit()">Save</button>
+			[disabled]="pending || group.invalid || group.pending" (click)="submit()">Save chunk</button>
 	</mat-card-actions>
 </mat-card>

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
-import { DateRange, MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
+import { DateRange, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
 import { Chunk, makeChunkFinder } from '@lv/common';
 import { delay, finalize, from } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
@@ -22,7 +22,7 @@ import { ChunkCalendarSelectRange, ChunkCalendarSelectSingle } from './calendar.
 	],
 	encapsulation: ViewEncapsulation.None,
 	host: {
-		'class': 'flex w-full h-full'
+		'class': /*tw*/ 'flex w-full h-full'
 	},
 	providers: [
 		{
@@ -40,6 +40,7 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 	@Input() selected!: Date | null;
 	@Output() rangeChange: EventEmitter<ChunkCalendarSelectRange | null>;
 	@Output() selectedChange: EventEmitter<ChunkCalendarSelectSingle | null>;
+	@Output() startAtChange: EventEmitter<Date>;
 	dateClass!: MatCalendarCellClassFunction<Date>;
 	hasRange: boolean;
 	chunkFinder!: ReturnType<typeof makeChunkFinder>;
@@ -52,6 +53,7 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 		this.hasRange = false;
 		this.rangeChange = new EventEmitter();
 		this.selectedChange = new EventEmitter();
+		this.startAtChange = new EventEmitter();
 		this.viewReload = false;
 	}
 
@@ -137,6 +139,12 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 			this.selectedNext();
 			this.rangeNext();
 		}
+	}
+
+	updateStart(view: MatCalendarView) {
+		console.log('debug: ', view)
+		// this.startAt = currentMonth;
+		// this.startAtChange.next(currentMonth);
 	}
 
 	private rangeNext() {

@@ -1,4 +1,4 @@
-mat-drawer {
-	--mat-button-filled-container-color: var(--color-on-tertiary);
-	--mat-button-filled-label-text-color: var(--color-tertiary);
+mat-divider {
+	--mat-divider-color: var(--color-primary);
+	--mat-divider-width: 4px;
 }
