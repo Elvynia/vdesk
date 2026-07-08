@@ -1,7 +1,7 @@
 {
-	"name": "vdesk",
+	"name": "desk",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/vdesk/src",
+	"sourceRoot": "apps/desk/src",
 	"projectType": "application",
 	"tags": [],
 	"targets": {
@@ -12,7 +12,7 @@
 				"args": [
 					"--node-env=production"
 				],
-				"cwd": "apps/vdesk"
+				"cwd": "apps/desk"
 			},
 			"configurations": {
 				"development": {
@@ -20,6 +20,12 @@
 						"--node-env=development"
 					]
 				}
+			}
+		},
+		"docker": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "VERSION=$(node -p \"require('./apps/desk/package.json').version\") && docker build -f apps/desk/Dockerfile -t lvdesk:$VERSION -t lvdesk:latest --build-arg VERSION=$VERSION ."
 			}
 		},
 		"serve": {
@@ -30,15 +36,15 @@
 				"build"
 			],
 			"options": {
-				"buildTarget": "vdesk:build",
+				"buildTarget": "desk:build",
 				"runBuildTargetDependencies": false
 			},
 			"configurations": {
 				"development": {
-					"buildTarget": "vdesk:build:development"
+					"buildTarget": "desk:build:development"
 				},
 				"production": {
-					"buildTarget": "vdesk:build:production"
+					"buildTarget": "desk:build:production"
 				}
 			}
 		}

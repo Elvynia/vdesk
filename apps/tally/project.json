@@ -1,9 +1,9 @@
 {
-	"name": "vdash",
+	"name": "tally",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
 	"prefix": "lv",
-	"sourceRoot": "apps/vdash/src",
+	"sourceRoot": "apps/tally/src",
 	"tags": [],
 	"targets": {
 		"build": {
@@ -12,22 +12,22 @@
 				"{options.outputPath}"
 			],
 			"options": {
-				"outputPath": "dist/apps/vdash",
-				"index": "apps/vdash/src/index.html",
-				"browser": "apps/vdash/src/main.ts",
+				"outputPath": "dist/apps/tally",
+				"index": "apps/tally/src/index.html",
+				"browser": "apps/tally/src/main.ts",
 				"polyfills": [
 					"zone.js"
 				],
-				"tsConfig": "apps/vdash/tsconfig.app.json",
-				"inlineStyleLanguage": "scss",
+				"tsConfig": "apps/tally/tsconfig.app.json",
+				"inlineStyleLanguage": "css",
 				"assets": [
 					{
 						"glob": "**/*",
-						"input": "apps/vdash/public"
+						"input": "apps/tally/public"
 					}
 				],
 				"styles": [
-					"apps/vdash/src/styles.scss",
+					"apps/tally/src/styles.scss",
 					"libs/styles/material.scss"
 				],
 				"scripts": []
@@ -38,7 +38,7 @@
 						{
 							"type": "initial",
 							"maximumWarning": "500kb",
-							"maximumError": "1mb"
+							"maximumError": "1.5mb"
 						},
 						{
 							"type": "anyComponentStyle",
@@ -49,8 +49,8 @@
 					"outputHashing": "all",
 					"fileReplacements": [
 						{
-							"replace": "apps/vdash/src/environments/environment.ts",
-							"with": "apps/vdash/src/environments/environment.prod.ts"
+							"replace": "apps/tally/src/environments/environment.ts",
+							"with": "apps/tally/src/environments/environment.prod.ts"
 						}
 					]
 				},
@@ -62,15 +62,21 @@
 			},
 			"defaultConfiguration": "production"
 		},
+		"docker": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "VERSION=$(node -p \"require('./apps/tally/package.json').version\") && docker build -f apps/tally/Dockerfile -t lvtally:$VERSION -t lvtally:latest --build-arg VERSION=$VERSION ."
+			}
+		},
 		"serve": {
 			"executor": "@angular-devkit/build-angular:dev-server",
 			"configurations": {
 				"production": {
-					"buildTarget": "vdash:build:production"
+					"buildTarget": "tally:build:production"
 				},
 				"development": {
-					"buildTarget": "vdash:build:development",
-					"port": 6401
+					"buildTarget": "tally:build:development",
+					"port": 6402
 				}
 			},
 			"defaultConfiguration": "development",
@@ -79,7 +85,7 @@
 		"extract-i18n": {
 			"executor": "@angular-devkit/build-angular:extract-i18n",
 			"options": {
-				"buildTarget": "vdash:build"
+				"buildTarget": "tally:build"
 			}
 		},
 		"lint": {
@@ -88,8 +94,8 @@
 		"serve-static": {
 			"executor": "@nx/web:file-server",
 			"options": {
-				"buildTarget": "vdash:build",
-				"staticFilePath": "dist/apps/vdash/browser",
+				"buildTarget": "tally:build",
+				"staticFilePath": "dist/apps/tally/browser",
 				"spa": true
 			}
 		}

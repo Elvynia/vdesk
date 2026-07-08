@@ -19,6 +19,7 @@
 			"{workspaceRoot}/.github/workflows/ci.yml"
 		]
 	},
+	"parallel": 1,
 	"plugins": [
 		{
 			"plugin": "@nx/webpack/plugin",
@@ -38,10 +39,7 @@
 			"plugin": "@nx/jest/plugin",
 			"options": {
 				"targetName": "test"
-			},
-			"exclude": [
-				"apps/vdesk-e2e/**/*"
-			]
+			}
 		}
 	],
 	"targetDefaults": {

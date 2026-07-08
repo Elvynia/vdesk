@@ -1,9 +1,12 @@
 {
-	"name": "@vdesk/source",
+	"name": "@lv/gear",
 	"version": "0.0.0",
 	"license": "MIT",
 	"scripts": {
-		"clean": "nx reset && rimraf dist .angular .nx node_modules/.cache"
+		"clean": "nx reset && rimraf dist .angular .nx node_modules/.cache",
+		"build": "nx run-many -p desk,tally -t docker --outputStyle=stream",
+		"deploy": "docker compose -f /home/fran/homelab/docker/gear.yaml up -d",
+		"release": "npm run build && npm run deploy"
 	},
 	"private": true,
 	"dependencies": {

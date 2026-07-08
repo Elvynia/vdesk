@@ -17,7 +17,7 @@ import { ExceptionHandlerPlugin } from './util/apollo/exception-handler.plugin';
 		ConfigModule.forRoot({
 			cache: true,
 			expandVariables: true,
-			envFilePath: 'apps/vdesk/.env',
+			envFilePath: 'apps/desk/.env',
 			ignoreEnvFile: !isEnvDev(),
 			isGlobal: true,
 			validationSchema: commonConfigSchema,

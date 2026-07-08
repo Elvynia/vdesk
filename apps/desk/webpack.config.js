@@ -8,9 +8,9 @@ const isProd = process.env.NODE_ENV === 'production';
 module.exports = [{
 	devtool: isProd ? false : 'source-map',
 	mode: isProd ? 'production' : 'development',
-	name: 'vdesk-nest',
+	name: 'desk-nest',
 	output: {
-		path: join(__dirname, '../../dist/apps/vdesk'),
+		path: join(__dirname, '../../dist/apps/desk'),
 		clean: true,
 		...(process.env.NODE_ENV !== 'production' && {
 			devtoolModuleFilenameTemplate: '[absolute-resource-path]',
@@ -35,15 +35,15 @@ module.exports = [{
 		}),
 	],
 }, {
-	name: 'vdesk-hbs',
-	dependencies: ['vdesk-nest'],
+	name: 'desk-hbs',
+	dependencies: ['desk-nest'],
 	entry: {
 		"indexFake": join(__dirname, './styles/index.js'),
 		"index": join(__dirname, './styles/index.css'),
 		"invoice-print": join(__dirname, './styles/invoice-print.css')
 	},
 	output: {
-		path: join(__dirname, '../../dist/apps/vdesk/styles')
+		path: join(__dirname, '../../dist/apps/desk/styles')
 	},
 	module: {
 		rules: [{

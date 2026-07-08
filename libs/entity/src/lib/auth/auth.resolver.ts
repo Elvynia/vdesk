@@ -14,7 +14,7 @@ export class AuthResolver {
 	async defaultOptions() {
 		return {
 			algorithm: 'RS512',
-			issuer: 'vdesk',
+			issuer: '@lv/desk',
 			secret: await this.config.get('JWT_SECRET', {
 				infer: true
 			})

@@ -8,7 +8,7 @@ RUN npm ci
 COPY nx.json tsconfig.base.json .postcssrc.json ./
 COPY apps ./apps
 COPY libs ./libs
-RUN npx nx run vdesk:build:production
+RUN npx nx run desk:build:production
 
 # ---------- runtime ----------
 FROM node:20-slim
@@ -28,10 +28,10 @@ RUN apt-get update && apt-get install -y \
     jq \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /sources/dist/apps/vdesk/package*.json ./
+COPY --from=builder /sources/dist/apps/desk/package*.json ./
 RUN npm ci --omit=dev
 
-COPY --from=builder /sources/dist/apps/vdesk ./
+COPY --from=builder /sources/dist/apps/desk ./
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s \
   CMD curl -f http://127.0.0.1:${WEB_PORT}/health || exit 1

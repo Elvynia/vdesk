@@ -102,9 +102,9 @@ async function entityGenerator(
 	const project = new Project({
 		tsConfigFilePath: 'tsconfig.base.json'
 	});
-	const backapp = 'vdesk';
+	const backapp = 'desk';
 	const backlib = 'entity';
-	const frontapp = 'vtally';
+	const frontapp = 'tally';
 	const frontlib = 'angular';
 	const updaterExport = makeAstUpdaterExport(tree);
 	const updaterEntity = options.skipAppChanges ? undefined : makeAstUpdaterEntity(project);

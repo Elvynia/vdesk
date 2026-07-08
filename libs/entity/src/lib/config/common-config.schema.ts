@@ -4,7 +4,7 @@ import { CommonConfig } from './common-config.type';
 export const commonConfigSchema = Joi.object<CommonConfig>({
 	// ---- database ----
 	DATABASE_URL: Joi.string().uri().required(),
-	DATABASE_NAME: Joi.string().default('vdesk'),
+	DATABASE_NAME: Joi.string().default('desk'),
 
 	// ---- jwt ----
 	JWT_SECRET: Joi.string().min(16).required(),

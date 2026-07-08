@@ -1,9 +1,9 @@
 {
-	"name": "vtally",
+	"name": "dash",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
 	"prefix": "lv",
-	"sourceRoot": "apps/vtally/src",
+	"sourceRoot": "apps/vdash/src",
 	"tags": [],
 	"targets": {
 		"build": {
@@ -12,22 +12,22 @@
 				"{options.outputPath}"
 			],
 			"options": {
-				"outputPath": "dist/apps/vtally",
-				"index": "apps/vtally/src/index.html",
-				"browser": "apps/vtally/src/main.ts",
+				"outputPath": "dist/apps/vdash",
+				"index": "apps/vdash/src/index.html",
+				"browser": "apps/vdash/src/main.ts",
 				"polyfills": [
 					"zone.js"
 				],
-				"tsConfig": "apps/vtally/tsconfig.app.json",
-				"inlineStyleLanguage": "css",
+				"tsConfig": "apps/vdash/tsconfig.app.json",
+				"inlineStyleLanguage": "scss",
 				"assets": [
 					{
 						"glob": "**/*",
-						"input": "apps/vtally/public"
+						"input": "apps/vdash/public"
 					}
 				],
 				"styles": [
-					"apps/vtally/src/styles.scss",
+					"apps/vdash/src/styles.scss",
 					"libs/styles/material.scss"
 				],
 				"scripts": []
@@ -38,7 +38,7 @@
 						{
 							"type": "initial",
 							"maximumWarning": "500kb",
-							"maximumError": "1.5mb"
+							"maximumError": "1mb"
 						},
 						{
 							"type": "anyComponentStyle",
@@ -49,8 +49,8 @@
 					"outputHashing": "all",
 					"fileReplacements": [
 						{
-							"replace": "apps/vtally/src/environments/environment.ts",
-							"with": "apps/vtally/src/environments/environment.prod.ts"
+							"replace": "apps/vdash/src/environments/environment.ts",
+							"with": "apps/vdash/src/environments/environment.prod.ts"
 						}
 					]
 				},
@@ -66,11 +66,11 @@
 			"executor": "@angular-devkit/build-angular:dev-server",
 			"configurations": {
 				"production": {
-					"buildTarget": "vtally:build:production"
+					"buildTarget": "vdash:build:production"
 				},
 				"development": {
-					"buildTarget": "vtally:build:development",
-					"port": 6402
+					"buildTarget": "vdash:build:development",
+					"port": 6401
 				}
 			},
 			"defaultConfiguration": "development",
@@ -79,7 +79,7 @@
 		"extract-i18n": {
 			"executor": "@angular-devkit/build-angular:extract-i18n",
 			"options": {
-				"buildTarget": "vtally:build"
+				"buildTarget": "vdash:build"
 			}
 		},
 		"lint": {
@@ -88,8 +88,8 @@
 		"serve-static": {
 			"executor": "@nx/web:file-server",
 			"options": {
-				"buildTarget": "vtally:build",
-				"staticFilePath": "dist/apps/vtally/browser",
+				"buildTarget": "vdash:build",
+				"staticFilePath": "dist/apps/vdash/browser",
 				"spa": true
 			}
 		}

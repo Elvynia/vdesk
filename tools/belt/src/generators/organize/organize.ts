@@ -12,7 +12,7 @@ async function organizeGenerator(
 		tsConfigFilePath: 'tsconfig.base.json'
 	});
 	const backlib = 'entity';
-	const frontapp = 'vtally';
+	const frontapp = 'tally';
 	const frontlib = 'angular';
 	options.nameDash = dasherize(options.name);
 	if (process.env.NX_DRY_RUN === 'false') {
