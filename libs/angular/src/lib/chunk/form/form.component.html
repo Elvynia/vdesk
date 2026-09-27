@@ -1,7 +1,7 @@
 <div class="flex flex-col flex-1" [formGroup]="group">
 	<div class="h-20 overflow-y-auto">
 		<mat-radio-group class="flex flex-wrap gap-2 mb-2" formControlName="mission" (change)="count.focus()">
-			@for (group of missionGroups | keyvalue; track group; let tertiary = $odd) {
+			@for (group of missionGroups | keyvalue; track group.key; let tertiary = $odd) {
 			<fieldset class="fieldset border rounded-md pe-2 pb-1"
 				[ngClass]="tertiary ? 'text-tertiary bg-on-tertiary border-tertiary' : 'text-secondary bg-on-secondary border-secondary'">
 				<legend class="ms-2">{{ group.key }}</legend>
@@ -20,7 +20,7 @@
 			<mat-label>
 				{{ countLabel }}
 			</mat-label>
-			<input matInput formControlName="count" tabindex="1" lvDecimalFormat #count>
+			<input matInput formControlName="count" tabindex="1" autofocus lvDecimalFormat #count>
 		</mat-form-field>
 		<mat-form-field class="min-w-32! basis-2/3" tabindex="-1" (click)="datePicker.open()">
 			<mat-label>Date</mat-label>

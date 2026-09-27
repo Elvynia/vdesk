@@ -11,6 +11,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { Chunk, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -28,6 +29,7 @@ import { ChunkFormComponent } from '../form/form.component';
 		ChunkFormComponent,
 		MatButtonModule,
 		MatCardModule,
+		MatIconModule,
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
@@ -39,7 +41,6 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 	@Output() save: EventEmitter<Chunk>;
 	group!: FormGroup;
 	pending: boolean;
-	draft?: Partial<Chunk>;
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -72,12 +73,13 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 	}
 
 	cancel() {
+		this.group?.reset({});
 		this.reset();
 		this.back.next();
 	}
 
 
-	getEditValue() {
+	getSubmitValue() {
 		const value = this.group.getRawValue() as Chunk;
 		return {
 			...value,
@@ -92,15 +94,9 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 		if (this.group.invalid || this.group.pending || this.pending) {
 			return;
 		}
-		const value = this.getEditValue();
-		if (keepAll) {
-			this.draft = {
-				missionId: value.missionId,
-				desc: keepAll ? value.desc : undefined,
-				date: keepAll ? new Date(value.date) : undefined
-			};
-		} else {
-			this.draft = undefined;
+		const value = this.getSubmitValue();
+		if (!keepAll) {
+			this.group.reset({});
 		}
 		this.pending = true;
 		this.store.next(chunkActions.create({ value }));
@@ -113,7 +109,7 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 					chunkActions.updateError
 				),
 				first(),
-				// filter(isApiActionSuccess<Chunk>),
+				filter(isApiActionSuccess<Chunk>),
 				filter((action) => isApiActionSuccess(action)),
 				finalize(() => (this.pending = false))
 			)
@@ -126,18 +122,25 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 	}
 
 	private reset() {
-		let value = this.draft || this.value;
+		let draft = this.group?.getRawValue() || {} as Partial<Chunk>;
+		let value = {
+			_id: this.value?._id,
+			count: this.value?.count || draft.count,
+			date: this.value?.date || draft.date || new Date(),
+			desc: this.value?.desc || draft.desc,
+			mission: this.findMission(this.value?.missionId) || draft.mission,
+		};
 		this.group = this.formBuilder.group({
 			_id: [
 				{
-					value: value?._id,
+					value: value._id,
 					disabled: true,
 				},
 			],
-			count: [value?.count, [Validators.required]],
-			date: [value?.date || new Date(), [Validators.required]],
-			desc: [value?.desc],
-			mission: [this.findMission(value?.missionId), [Validators.required]],
+			count: [value.count, [Validators.required]],
+			date: [value.date, [Validators.required]],
+			desc: [value.desc],
+			mission: [value.mission, [Validators.required]],
 		});
 	}
 }

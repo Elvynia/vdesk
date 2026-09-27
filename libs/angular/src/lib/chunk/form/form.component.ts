@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { Chunk, Mission } from '@lv/common';
-import { distinctUntilChanged } from 'rxjs';
+import { distinctUntilChanged, identity } from 'rxjs';
 import { DecimalFormatDirective } from "../../util/format/decimal-format.directive";
 
 @Component({
@@ -56,25 +56,29 @@ export class ChunkFormComponent implements OnChanges {
 		date.setValue(newDateValue);
 	}
 
-	@HostListener('keyup.control.1', ['missions[0]'])
-	@HostListener('keyup.control.2', ['missions[1]'])
-	@HostListener('keyup.control.3', ['missions[2]'])
-	@HostListener('keyup.control.4', ['missions[3]'])
-	updateMission(mission: Mission) {
-		if (mission) {
-			this.group.controls.mission.setValue(mission);
-		}
+	@HostListener('keyup.control.arrowUp', ['decr'])
+	@HostListener('keyup.control.arrowDown', ['incr'])
+	updateMission(val: number) {
+		console.log('debug: ', this.missionGroups)
+		let missionGroupsFlat = Object.values(this.missionGroups).flatMap(identity);
+		let missionId = this.group.controls.mission.value?._id;
+		let missionIndex = missionId ? missionGroupsFlat.findIndex((m) => m._id === missionId) + val : 0;
+		this.group.controls.mission.setValue(missionGroupsFlat[(missionIndex + missionGroupsFlat.length) % missionGroupsFlat.length]);
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (changes.missions) {
-			this.missionGroups = this.missions?.reduce((g, m) => {
-				if (!g[m.company!.name]) {
-					g[m.company!.name] = [];
-				}
-				g[m.company!.name].push(m);
-				return g;
-			}, {} as Record<string, Mission[]>) || {};
+		if (changes.missions && this.missions) {
+			this.missionGroups = this.missions
+				.sort((a, b) => a.company!.name.localeCompare(b.company!.name))
+				.reduce((g, m) => {
+					if (!g[m.company!.name]) {
+						g[m.company!.name] = [];
+					}
+					g[m.company!.name].push(m);
+					return g;
+				}, {} as Record<string, Mission[]>) || {};
+		} else if (changes.missions) {
+			this.missionGroups = {};
 		}
 		if (changes.group && this.group) {
 			this.group.get('mission')!.valueChanges.pipe(

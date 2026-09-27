@@ -3,7 +3,10 @@
 		<lv-chunk-form class="flex-1" [value]="value" [group]="group" [missions]="missions"
 			*lvLoading="missions.length === 0; color: 'accent'; diameter: 128"></lv-chunk-form>
 	</mat-card-content>
-	<mat-card-actions class="flex">
+	<mat-card-actions>
+		<button mat-icon-button color="warn" class="me-2" (click)="cancel()">
+			<mat-icon class="pb-2.5">restart_alt</mat-icon>
+		</button>
 		<button mat-raised-button color="accent" class="grow" tabindex="3"
 			[disabled]="pending || group.invalid || group.pending" (click)="submit()">Save chunk</button>
 	</mat-card-actions>
