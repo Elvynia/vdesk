@@ -6,10 +6,13 @@ export function formParseFromDate(date: Date, hasTime: boolean = false) {
 	return result;
 }
 
-export function formParseToDate(date: string, hasTime: boolean = false) {
-	let result = new Date(new Date(date).getTime() + new Date().getTimezoneOffset() * 60 * 1000);
-	if (!hasTime) {
-		result.setUTCHours(0, 0, 0, 0);
+export function formParseToDate(date: string | Date, hasTime: boolean = false) {
+	if (typeof date === 'string') {
+		let result = new Date(new Date(date).getTime() + new Date().getTimezoneOffset() * 60 * 1000);
+		if (!hasTime) {
+			result.setUTCHours(0, 0, 0, 0);
+		}
+		return result;
 	}
-	return result;
+	return date;
 }
