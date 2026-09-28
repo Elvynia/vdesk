@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
-import { DateRange, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
+import { DateRange, MatCalendar, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
 import { Chunk, makeChunkFinder } from '@lv/common';
 import { delay, EMPTY, finalize, from, of } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
@@ -42,6 +42,7 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 	@Output() rangeChange: EventEmitter<ChunkCalendarSelectRange | null>;
 	@Output() selectedChange: EventEmitter<ChunkCalendarSelectSingle | null>;
 	@Output() startAtChange: EventEmitter<Date>;
+	@ViewChild(MatCalendar) calendar!: MatCalendar<Date>;
 	dateClass!: MatCalendarCellClassFunction<Date>;
 	hasRange: boolean;
 	chunkFinder!: ReturnType<typeof makeChunkFinder>;
@@ -70,47 +71,41 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 		if (changes.range && changes.range.firstChange) {
 			this.hasRange = true;
 		}
-		// Reload view once for delay -> viewReload = false to work.
 		if (changes.chunks || changes.startAt) {
 			if (this.chunks) {
-				this.viewReload = true;
 				if (changes.chunks) {
 					this.chunkFinder = makeChunkFinder(this.chunks);
-					// Using async and viewReload boolean to trigger material calendar when changing dateClass function.
-					// Otherwise it won't be updated in calendar's view until the next calendar event.
-					from(this.chunks).pipe(
-						delay(0),
-						finalize(() => this.viewReload = false)
-					).subscribe(() => {
-						this.dateClass = (d) => {
-							const date = formParseFromDate(d);
-							const dayChunks = this.chunkFinder(date);
-							const chunkLoad = dayChunks
-								.map((c) => c.count)
-								.reduce((acc, c) => acc + c, 0);
-							if (chunkLoad > 0) {
-								let classes = ['chunk', 'c' + chunkLoad];
-								if (chunkLoad > 12) {
-									classes.push('triple');
-								}
-								if (dayChunks.some((c) => !c.invoiced && !c.paid)) {
-									classes.push('pending');
-								}
-								if (dayChunks.some((c) => c.invoiced && !c.paid)) {
-									classes.push('invoiced');
-								}
-								if (dayChunks.some((c) => c.paid)) {
-									classes.push('paid');
-								}
-								if (dayChunks.some((c) => c.selected)) {
-									classes.push('selected');
-								}
-								return classes;
+					this.dateClass = (d) => {
+						const date = formParseFromDate(d);
+						const dayChunks = this.chunkFinder(date);
+						const chunkLoad = dayChunks
+							.map((c) => c.count)
+							.reduce((acc, c) => acc + c, 0);
+						if (chunkLoad > 0) {
+							let classes = ['chunk', 'c' + chunkLoad];
+							if (chunkLoad > 12) {
+								classes.push('triple');
 							}
-							return [];
-						};
-					});
+							if (dayChunks.some((c) => !c.invoiced && !c.paid)) {
+								classes.push('pending');
+							}
+							if (dayChunks.some((c) => c.invoiced && !c.paid)) {
+								classes.push('invoiced');
+							}
+							if (dayChunks.some((c) => c.paid)) {
+								classes.push('paid');
+							}
+							if (dayChunks.some((c) => c.selected)) {
+								classes.push('selected');
+							}
+							return classes;
+						}
+						return [];
+					};
+					this.calendar?.updateTodaysDate();
 				} else {
+					// Using async and viewReload boolean to force mat-calendar to reopen as startAt is not part of change detection.
+					this.viewReload = true;
 					of(null).pipe(
 						delay(0),
 						finalize(() => this.viewReload = false)
