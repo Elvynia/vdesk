@@ -27,7 +27,9 @@
 			<input matInput formControlName="date" [matDatepicker]="datePicker" hidden #date="matInput" />
 			{{ date.value | date:'dd/MM' }}
 			<mat-datepicker #datePicker></mat-datepicker>
-			<span matTextSuffix>{{ group.controls.date.value.toLocaleDateString('fr', { weekday: 'long' })}}</span>
+			@if (group.controls.date.value) {
+				<span matTextSuffix>{{ group.controls.date.value.toLocaleDateString('fr', { weekday: 'long' })}}</span>
+			}
 		</mat-form-field>
 	</div>
 	<mat-form-field class="flex-0">

@@ -1,12 +1,14 @@
 <mat-card class="w-full h-full">
 	<mat-card-content class="flex! flex-col h-full">
 		<lv-chunk-form class="flex-1" [value]="value" [group]="group" [missions]="missions"
-			*lvLoading="missions.length === 0; color: 'accent'; diameter: 128"></lv-chunk-form>
+			*lvLoading="missions.length !== 0; color: 'accent'; diameter: 128; classes: ['m-auto']"></lv-chunk-form>
 	</mat-card-content>
 	<mat-card-actions>
-		<button mat-icon-button color="warn" class="me-2" (click)="cancel()">
-			<mat-icon class="pb-2.5">restart_alt</mat-icon>
-		</button>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+			class="size-6 m-3 text-tertiary cursor-pointer hover:scale-125" (click)="cancel()">
+			<path stroke-linecap="round" stroke-linejoin="round"
+				d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+		</svg>
 		<button mat-raised-button color="accent" class="grow" tabindex="3"
 			[disabled]="pending || group.invalid || group.pending" (click)="submit()">Save chunk</button>
 	</mat-card-actions>

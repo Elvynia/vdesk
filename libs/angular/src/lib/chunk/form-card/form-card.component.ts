@@ -18,7 +18,7 @@ import { Store } from '@ngrx/store';
 import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { isApiActionSuccess } from '../../util/api.action';
-import { formParseFromDate } from '../../util/form/form-parse-date';
+import { formParseFromDate, formParseToDate } from '../../util/form/form-parse-date';
 import { formParseInt } from '../../util/form/form-parse-number';
 import { chunkActions } from '../chunk.actions';
 import { ChunkFormComponent } from '../form/form.component';
@@ -126,7 +126,7 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 		let value = {
 			_id: this.value?._id,
 			count: this.value?.count || draft.count,
-			date: this.value?.date || draft.date || new Date(),
+			date: (this.value?.date ? formParseToDate(this.value.date) : undefined) || draft.date || new Date(),
 			desc: this.value?.desc || draft.desc,
 			mission: this.findMission(this.value?.missionId) || draft.mission,
 		};
