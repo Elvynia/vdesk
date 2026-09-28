@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="min-h-1/3">
   <mat-card-header class="flex justify-center">
     @if (expiredPassword) {
       <h2 mat-card-title>Renouvelement du mot de passe pour {{ group.get('username')!.value }}
@@ -11,8 +11,8 @@
       <h2 mat-card-title>Formulaire de connexion</h2>
     }
   </mat-card-header>
-  <mat-card-content class="flex flex-col justify-between mb-0" [formGroup]="group">
-    <ng-container *lvLoading="pending; diameter: 128">
+  <mat-card-content class="flex! grow flex-col justify-between mb-0" [formGroup]="group">
+    <ng-container *lvLoading="pending; d: 128; c: ['lv-primary']">
       @if (!admin) {
         <div class="mt-4 ps-3">
           <p>

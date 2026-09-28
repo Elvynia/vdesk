@@ -25,13 +25,14 @@ import { missionActions } from '../mission.actions';
 	selector: 'lv-mission-form-card',
 	imports: [
 		MissionFormComponent,
-
 		MatButtonModule,
 		MatCardModule,
-
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
+	host: {
+		class: /*tw*/ 'flex flex-col'
+	}
 })
 export class MissionFormCardComponent extends ObserverCompomix() implements OnInit, OnChanges {
 	@Input() value?: Mission;

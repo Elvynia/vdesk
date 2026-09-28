@@ -1,14 +1,14 @@
-<mat-card [formGroup]="group">
+<mat-card class="grow" [formGroup]="group">
 	<mat-card-header class="flex justify-between mb-4">
 		<h1 mat-card-title>{{ value?._id ? 'Edit' : 'New' }} invoice</h1>
 		<mat-checkbox class="ms-auto" labelPosition="before" formControlName="estimate">Estimate</mat-checkbox>
 	</mat-card-header>
-	<mat-card-content class="flex! flex-col mb-4">
-		<mat-accordion [multi]="false">
+	<mat-card-content class="flex! grow flex-col mb-4">
+		<mat-accordion [multi]="false" *lvLoading="pending; d: 128; c: ['lv-accent', 'py-4']">
 			<mat-expansion-panel hideToggle [disabled]="!groupMissions.length" #formPanel>
 				<mat-expansion-panel-header>
 					<h3 [hidden]="!formPanel.expanded">{{ missionLabel }}</h3>
-					<div class="flex flex-col grow" [hidden]="formPanel.expanded" *lvLoading="pending; color: 'accent'; diameter: 32; classes: ['my-4']">
+					<div class="flex grow flex-col" [hidden]="formPanel.expanded">
 						<mat-selection-list multiple class="flex! flex-wrap mb-2" [compareWith]="idComparator"
 							formControlName="missions">
 							@for (mission of missionList; track mission._id) {
@@ -40,8 +40,8 @@
 							(click)="$event.stopPropagation()">Enabled</mat-checkbox>
 					</mat-panel-description>
 				</mat-expansion-panel-header>
-				<lv-invoice-generator [group]="group" (lineAdded)="lineAdd($event)"
-					(lineRemoved)="lineRemove($event)" (lineReset)="lineReset()"></lv-invoice-generator>
+				<lv-invoice-generator [group]="group" (lineAdded)="lineAdd($event)" (lineRemoved)="lineRemove($event)"
+					(lineReset)="lineReset()"></lv-invoice-generator>
 			</mat-expansion-panel>
 		</mat-accordion>
 	</mat-card-content>

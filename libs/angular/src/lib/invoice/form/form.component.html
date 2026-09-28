@@ -55,13 +55,14 @@
 				<mat-label>Price</mat-label>
 				<input matInput name="price" formControlName="price" lvCurrencyFormat />
 			</mat-form-field>
-			<button mat-mini-fab color="warn" (click)="removeLine.next(i)">
+			<button mat-mini-fab color="warn" class="mt-2.5" (click)="removeLine.next(i)">
 				<mat-icon>clear</mat-icon>
 			</button>
 		</div>
 		}
-		<button mat-mini-fab color="accent" (click)="addLine.next()">
+		<button mat-stroked-button color="accent" class="lg:mx-8" (click)="addLine.next()">
 			<mat-icon>add_circle</mat-icon>
+			Add invoice line
 		</button>
 	</div>
 </div>

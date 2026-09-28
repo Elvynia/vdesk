@@ -33,6 +33,9 @@ import { ChunkFormComponent } from '../form/form.component';
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
+	host: {
+		class: /*tw*/ 'flex flex-col'
+	}
 })
 export class ChunkFormCardComponent implements OnInit, OnChanges {
 	@Input() missions: Mission[];

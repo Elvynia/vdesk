@@ -26,6 +26,9 @@ import { CompanyFormComponent } from '../form/form.component';
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
+	host: {
+		class: /*tw*/ 'flex flex-col'
+	}
 })
 export class CompanyFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Company;

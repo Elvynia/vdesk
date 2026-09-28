@@ -15,7 +15,7 @@
 	</mat-card-header>
 	<mat-card-content>
 		@if (values.length > 0) {
-		<mat-list>
+		<mat-list class="flex! flex-col gap-2">
 			@for (invoice of values; track invoice._id) {
 			<mat-list-item>
 				<span matListItemTitle>{{ invoice.name }}</span>

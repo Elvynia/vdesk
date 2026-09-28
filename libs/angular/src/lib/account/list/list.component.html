@@ -1,7 +1,9 @@
-<mat-list>
-	@for (value of values; track value._id) {
+<mat-list class="flex! flex-col gap-2">
+	@for (value of values; track value._id; let last = $last) {
 	<lv-account-item [value]="value" (detail)="detail.next($event)" (edit)="edit.next($event)"
 		(delete)="delete.next($event)"></lv-account-item>
+	@if (!last) {
 	<mat-divider></mat-divider>
+	}
 	}
 </mat-list>

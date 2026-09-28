@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
@@ -10,25 +10,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 	],
 	templateUrl: './loading-placeholder.component.html',
 	host: {
-		class: /*tw*/ 'flex place-content-center w-full h-full'
+		class: /*tw*/ 'flex grow items-center self-center'
 	}
 })
-export class LoadingPlaceholderComponent implements OnChanges {
+export class LoadingPlaceholderComponent {
 	@Input() diameter: number;
-	@Input() color: string;
-	@Input('classes') _classes?: string[];
-	classes: string[];
+	@Input() @HostBinding('class') classes?: string[];
 
 	constructor() {
 		this.diameter = 48;
-		this.color = 'accent';
-		this.classes = ['lv-' + this.color];
-	}
-
-	ngOnChanges(): void {
-		this.classes = [
-			...(this._classes || []),
-			'lv-' + this.color
-		];
 	}
 }

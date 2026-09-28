@@ -50,6 +50,7 @@ type MissionSelectable = Mission & { disabled?: boolean };
 	],
 	templateUrl: './form-card.component.html',
 	host: {
+		class: /*tw*/ 'flex flex-col',
 		style: `
 		--mat-expansion-header-collapsed-state-height: min-content;
 		`

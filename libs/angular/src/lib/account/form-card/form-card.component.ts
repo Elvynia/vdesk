@@ -18,6 +18,9 @@ import { AccountFormComponent } from '../form/form.component';
 		AccountFormComponent
 	],
 	templateUrl: './form-card.component.html',
+	host: {
+		class: /*tw*/ 'flex flex-col'
+	}
 })
 export class AccountFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Account;

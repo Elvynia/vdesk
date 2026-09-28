@@ -12,7 +12,9 @@ import { filter, first, takeUntil } from 'rxjs';
 		<%= clazz %>FormCardComponent
 	],
 	templateUrl: './view.component.html',
-	styleUrl: './view.component.scss'
+	host: {
+		class: /*tw*/ 'flex flex-col lg:flex-row justify-around items-start gap-8 h-full w-full'
+	}
 })
 export class <%= clazz %>ViewComponent extends ObserverCompomix() implements OnInit {
 	<%= namePlural %>: <%= clazz %>[];
@@ -40,6 +42,10 @@ export class <%= clazz %>ViewComponent extends ObserverCompomix() implements OnI
 			this.edit<%= clazz %> = undefined;
 		}
 		this.store.dispatch(<%= name %>Actions.delete({ value }));
+	}
+
+	detail(id: string) {
+
 	}
 
 	edit(<%= name %>: <%= clazz %>) {

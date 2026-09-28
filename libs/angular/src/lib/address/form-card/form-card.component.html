@@ -1,12 +1,12 @@
-<mat-card>
+<mat-card class="grow">
 	<mat-card-header class="mb-4">
 		<h1 mat-card-title>{{ value?._id ? 'Edit' : 'New' }} address</h1>
 	</mat-card-header>
-	<mat-card-content class="flex! flex-col justify-center">
+	<mat-card-content class="flex! grow flex-col">
 		<lv-address-form
 			[value]="value"
 			[group]="group"
-			*lvLoading="pending; color: 'accent'; diameter: 128"
+			*lvLoading="pending; d: 128; c: ['lv-accent', 'py-4']"
 		></lv-address-form>
 	</mat-card-content>
 	<mat-card-actions class="duo">

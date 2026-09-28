@@ -26,6 +26,9 @@ import { roleActions } from '../role.actions';
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
+	host: {
+		class: /*tw*/ 'flex flex-col'
+	}
 })
 export class RoleFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Role;

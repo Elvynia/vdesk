@@ -1,4 +1,4 @@
-<mat-list-item class="mb-2">
+<mat-list-item class="relative rounded-xl!" [class.bg-error/10!]="value.pending">
 	<span matListItemTitle>
 		{{ value.name }}
 	</span>
@@ -18,6 +18,6 @@
 		</button>
 	</div>
 	} @if (value.pending) {
-	<lv-loading-placeholder class="absolute-center"[diameter]="32" color="error"></lv-loading-placeholder>
+	<lv-loading-placeholder class="absolute-center lv-error" [diameter]="48"></lv-loading-placeholder>
 	}
 </mat-list-item>

@@ -16,10 +16,7 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 		MatListModule,
 		LoadingPlaceholderComponent
 	],
-	templateUrl: './item.component.html',
-	host: {
-		class: 'relative'
-	}
+	templateUrl: './item.component.html'
 })
 export class <%= clazz %>ItemComponent extends HoverableCompomix() {
 	@Input() value!: <%= clazz %>;

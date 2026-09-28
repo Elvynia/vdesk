@@ -27,7 +27,6 @@ import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 		MatDatepickerModule,
 		MatIconModule,
 		MatNativeDateModule,
-
 		ReactiveFormsModule,
 		CurrencyFormatDirective,
 		DecimalFormatDirective

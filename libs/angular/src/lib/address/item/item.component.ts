@@ -15,10 +15,7 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
     MatListModule,
     LoadingPlaceholderComponent
 ],
-	templateUrl: './item.component.html',
-	host: {
-		class: /*tw*/ 'relative'
-	}
+	templateUrl: './item.component.html'
 })
 export class AddressItemComponent extends HoverableCompomix() {
 	@Input() value!: Address;

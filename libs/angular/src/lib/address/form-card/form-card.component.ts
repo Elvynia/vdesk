@@ -26,6 +26,9 @@ import { AddressFormComponent } from '../form/form.component';
 		LoadingDirective,
 	],
 	templateUrl: './form-card.component.html',
+	host: {
+		class: /*tw*/ 'flex flex-col'
+	}
 })
 export class AddressFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Address;

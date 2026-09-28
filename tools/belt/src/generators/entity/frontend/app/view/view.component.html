@@ -1,2 +1,13 @@
-<lv-<%= nameDash %>-list [values]="<%= namePlural %>" (edit)="edit($event)" (delete)="delete($event)"></lv-<%= nameDash %>-list>
-<lv-<%= nameDash %>-form-card [value]="edit<%= clazz %>" (back)="cancel()" (save)="save($event)"></lv-<%= nameDash %>-form-card>
+<lv-<%= nameDash %>-list
+	class="flex-1"
+	[values]="<%= namePlural %>"
+	(detail)="get($event)"
+	(edit)="edit($event)"
+	(delete)="delete($event)"
+></lv-<%= nameDash %>-list>
+<lv-<%= nameDash %>-form-card
+	class="flex-1"
+	[value]="edit<%= clazz %>"
+	(back)="cancel()"
+	(save)="save($event)"
+></lv-<%= nameDash %>-form-card>
