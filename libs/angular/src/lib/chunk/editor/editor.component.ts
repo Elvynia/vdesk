@@ -9,12 +9,12 @@ import { Chunk, Mission } from '@lv/common';
 import { Store } from '@ngrx/store';
 import { fromEvent, merge, takeUntil } from 'rxjs';
 import { LoadingDirective } from "../../loading/loading.directive";
-import { formParseFromDate } from '../../util/form/form-parse-date';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { ChunkCalendarComponent } from '../calendar/calendar.component';
-import { ChunkCalendarSelectSingle } from '../calendar/calendar.type';
+import { ChunkCalendarSelect, ChunkCalendarSelectSingle } from '../calendar/calendar.type';
 import { chunkActions } from '../chunk.actions';
 import { ChunkFormCardComponent } from '../form-card/form-card.component';
+import { getSiblingMonth } from '../../util/form/get-sibling-month';
 
 @Component({
 	selector: 'lv-chunk-editor',
@@ -40,8 +40,8 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 	chunk?: Partial<Chunk>;
 	chunks: Chunk[];
 	keys: { alt: boolean, shift: boolean };
-	selectedMonth: Date;
-	lastMonth: Date;
+	currentMonth: Date;
+	nextMonth!: Date;
 	selected: ChunkCalendarSelectSingle | null;
 	selectedChunks?: Record<string, Chunk[]>;
 
@@ -53,8 +53,8 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 		this.missions = [];
 		const now = new Date();
 		this.keys = { alt: false, shift: false };
-		this.lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-		this.selectedMonth = this.lastMonth;
+		this.currentMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+		this.updateNextMonth();
 		this.selected = null;
 	}
 
@@ -95,7 +95,6 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 	}
 
 	doCopy(chunk: Chunk) {
-		chunk.pending = true;
 		this.chunk = {
 			...chunk,
 			_id: undefined
@@ -125,6 +124,7 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 					date: this.selected?.date
 				}
 			} else if (this.keys?.shift && this.selected.chunks.length > 0) {
+				console.log('debug: ', this.selected.chunks[0].date)
 				this.chunk = {
 					...this.selected.chunks[0],
 					_id: undefined
@@ -142,6 +142,10 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 		} else {
 			this.chunk = undefined;
 		}
+	}
+
+	updateNextMonth(event?: Date) {
+		this.nextMonth = getSiblingMonth(this.currentMonth);
 	}
 
 	updateSelected(selection: ChunkCalendarSelectSingle | null) {

@@ -14,7 +14,7 @@
 					<mat-slider class="flex-1" min="1" max="18" step="1" discrete [disabled]="c.pending">
 						<input matSliderThumb [value]="c.count" (valueChange)="doUpdateCount(c, $event)">
 					</mat-slider>
-					<ng-container *lvLoading="c.pending; d: 24; c: ['lv-danger', 'w-14!']">
+					<ng-container *lvLoading="c.pending; d: 24; c: ['lv-error', 'grow-0', 'justify-center', 'w-14!']">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
 							stroke="currentColor" class="size-6 text-tertiary cursor-pointer hover:scale-125"
 							(click)="doDelete(c)">
@@ -43,11 +43,11 @@
 		}
 	</div>
 </div>
-<mat-card class="min-h-1/3">
-	<mat-card-content class="flex! flex-col lg:flex-row gap-2">
-		<lv-chunk-calendar [chunks]="chunks" [selected]="selected?.date || null" [(startAt)]="lastMonth"
+<mat-card class="grow">
+	<mat-card-content class="flex! grow flex-col lg:flex-row gap-2">
+		<lv-chunk-calendar [chunks]="chunks" [selected]="selected?.date || null" [(startAt)]="currentMonth" (startAtChange)="updateNextMonth($event)"
 			(selectedChange)="updateSelected($event)"></lv-chunk-calendar>
-		<lv-chunk-calendar [chunks]="chunks" [selected]="selected?.date || null"
+		<lv-chunk-calendar [chunks]="chunks" [selected]="selected?.date || null" [startAt]="nextMonth"
 			(selectedChange)="updateSelected($event)"></lv-chunk-calendar>
 	</mat-card-content>
 </mat-card>

@@ -101,6 +101,7 @@ export * from './lib/util/api.service';
 export * from './lib/util/constructor.type';
 export * from './lib/util/form/form-parse-date';
 export * from './lib/util/form/form-parse-number';
+export * from './lib/util/form/get-sibling-month';
 export * from './lib/util/format/base-format.config';
 export * from './lib/util/format/base-format.directive';
 export * from './lib/util/format/currency-format.directive';

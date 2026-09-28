@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { DateRange, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
 import { Chunk, makeChunkFinder } from '@lv/common';
-import { delay, finalize, from } from 'rxjs';
+import { delay, EMPTY, finalize, from, of } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { formParseFromDate } from '../../util/form/form-parse-date';
 import { MondayDateAdapter } from '../../util/monday-date-adapter';
 import { ChunkCalendarSelectRange, ChunkCalendarSelectSingle } from './calendar.type';
+import { getSiblingMonth } from '../../util/form/get-sibling-month';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { ChunkCalendarSelectRange, ChunkCalendarSelectSingle } from './calendar.
 	],
 	encapsulation: ViewEncapsulation.None,
 	host: {
-		'class': /*tw*/ 'flex w-full h-full'
+		'class': /*tw*/ 'flex grow flex-col'
 	},
 	providers: [
 		{
@@ -69,44 +70,52 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 		if (changes.range && changes.range.firstChange) {
 			this.hasRange = true;
 		}
-		if (changes.chunks) {
+		// Reload view once for delay -> viewReload = false to work.
+		if (changes.chunks || changes.startAt) {
 			if (this.chunks) {
-				this.chunkFinder = makeChunkFinder(this.chunks);
 				this.viewReload = true;
-				// Using async and viewReload boolean to trigger material calendar when changing dateClass function.
-				// Otherwise it won't be updated in calendar's view until the next calendar event.
-				from(this.chunks).pipe(
-					delay(0),
-					finalize(() => this.viewReload = false && console.log('debug: ',))
-				).subscribe(() => {
-					this.dateClass = (d) => {
-						const date = formParseFromDate(d);
-						const dayChunks = this.chunkFinder(date);
-						const chunkLoad = dayChunks
-							.map((c) => c.count)
-							.reduce((acc, c) => acc + c, 0);
-						if (chunkLoad > 0) {
-							let classes = ['chunk', 'c' + chunkLoad];
-							if (chunkLoad > 12) {
-								classes.push('triple');
+				if (changes.chunks) {
+					this.chunkFinder = makeChunkFinder(this.chunks);
+					// Using async and viewReload boolean to trigger material calendar when changing dateClass function.
+					// Otherwise it won't be updated in calendar's view until the next calendar event.
+					from(this.chunks).pipe(
+						delay(0),
+						finalize(() => this.viewReload = false)
+					).subscribe(() => {
+						this.dateClass = (d) => {
+							const date = formParseFromDate(d);
+							const dayChunks = this.chunkFinder(date);
+							const chunkLoad = dayChunks
+								.map((c) => c.count)
+								.reduce((acc, c) => acc + c, 0);
+							if (chunkLoad > 0) {
+								let classes = ['chunk', 'c' + chunkLoad];
+								if (chunkLoad > 12) {
+									classes.push('triple');
+								}
+								if (dayChunks.some((c) => !c.invoiced && !c.paid)) {
+									classes.push('pending');
+								}
+								if (dayChunks.some((c) => c.invoiced && !c.paid)) {
+									classes.push('invoiced');
+								}
+								if (dayChunks.some((c) => c.paid)) {
+									classes.push('paid');
+								}
+								if (dayChunks.some((c) => c.selected)) {
+									classes.push('selected');
+								}
+								return classes;
 							}
-							if (dayChunks.some((c) => !c.invoiced && !c.paid)) {
-								classes.push('pending');
-							}
-							if (dayChunks.some((c) => c.invoiced && !c.paid)) {
-								classes.push('invoiced');
-							}
-							if (dayChunks.some((c) => c.paid)) {
-								classes.push('paid');
-							}
-							if (dayChunks.some((c) => c.selected)) {
-								classes.push('selected');
-							}
-							return classes;
-						}
-						return [];
-					};
-				})
+							return [];
+						};
+					});
+				} else {
+					of(null).pipe(
+						delay(0),
+						finalize(() => this.viewReload = false)
+					).subscribe();
+				}
 			} else {
 				this.chunks = [];
 				this.dateClass = this.dateClass = () => [];
@@ -141,10 +150,16 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 		}
 	}
 
-	updateStart(view: MatCalendarView) {
-		console.log('debug: ', view)
-		// this.startAt = currentMonth;
-		// this.startAtChange.next(currentMonth);
+	@HostListener('click', ['$event'])
+	onClick(event: any) {
+		const targetBtn = event.target.parentElement;
+		if (targetBtn.ariaLabel && targetBtn.ariaLabel.includes("Previous month")) {
+			this.startAt = getSiblingMonth(this.startAt, -1);
+			this.startAtChange.next(this.startAt);
+		} else if (targetBtn.ariaLabel && targetBtn.ariaLabel.includes("Next month")) {
+			this.startAt = getSiblingMonth(this.startAt);
+			this.startAtChange.next(this.startAt);
+		}
 	}
 
 	private rangeNext() {
