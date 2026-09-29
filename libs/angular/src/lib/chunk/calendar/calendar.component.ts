@@ -2,14 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
-import { DateRange, MatCalendar, MatCalendarCellClassFunction, MatCalendarView, MatDatepickerModule } from '@angular/material/datepicker';
+import { DateRange, MatCalendar, MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
 import { Chunk, makeChunkFinder } from '@lv/common';
-import { delay, EMPTY, finalize, from, of } from 'rxjs';
+import { defer, delay, finalize, of, repeat, takeUntil, timer } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
 import { formParseFromDate } from '../../util/form/form-parse-date';
+import { getSiblingMonth } from '../../util/form/get-sibling-month';
+import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { MondayDateAdapter } from '../../util/monday-date-adapter';
 import { ChunkCalendarSelectRange, ChunkCalendarSelectSingle } from './calendar.type';
-import { getSiblingMonth } from '../../util/form/get-sibling-month';
 
 
 @Component({
@@ -34,7 +35,7 @@ import { getSiblingMonth } from '../../util/form/get-sibling-month';
 	templateUrl: './calendar.component.html',
 	styleUrl: './calendar.component.scss',
 })
-export class ChunkCalendarComponent implements OnInit, OnChanges {
+export class ChunkCalendarComponent extends ObserverCompomix() implements OnInit, OnChanges {
 	@Input() chunks: Chunk[];
 	@Input() startAt!: Date;
 	@Input() range!: DateRange<Date> | null;
@@ -42,13 +43,14 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 	@Output() rangeChange: EventEmitter<ChunkCalendarSelectRange | null>;
 	@Output() selectedChange: EventEmitter<ChunkCalendarSelectSingle | null>;
 	@Output() startAtChange: EventEmitter<Date>;
-	@ViewChild(MatCalendar) calendar!: MatCalendar<Date>;
+	@ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
 	dateClass!: MatCalendarCellClassFunction<Date>;
 	hasRange: boolean;
 	chunkFinder!: ReturnType<typeof makeChunkFinder>;
 	viewReload: boolean;
 
 	constructor() {
+		super();
 		this.chunks = [];
 		this.chunkFinder = makeChunkFinder([]);
 		this.dateClass = this.dateClass = () => [];
@@ -65,6 +67,16 @@ export class ChunkCalendarComponent implements OnInit, OnChanges {
 			now.setDate(1);
 			this.startAt = now;
 		}
+		// Today highlight refresh after midnight.
+		defer(() => {
+			const now = new Date();
+			const nextMidnight = new Date(now);
+			nextMidnight.setHours(24, 0, 0, 0);
+			return timer(nextMidnight.getTime() + 100 - now.getTime());
+		}).pipe(
+			repeat(),
+			takeUntil(this.destroy$)
+		).subscribe(() => this.calendar?.updateTodaysDate());
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
