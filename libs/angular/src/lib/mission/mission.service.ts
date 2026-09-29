@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { companyTypeFields, HasMissionPubSub, makeMissionFields, Mission } from '@lv/common';
+import { companyFields, HasMissionPubSub, makeMissionFields, Mission } from '@lv/common';
 import { ApiConfig } from '../config';
 import { SocketService } from '../socket.service';
 import { ApiService } from '../util/api.service';
@@ -31,13 +31,7 @@ export class MissionService extends ApiService<Mission> {
 			value {
 				${this.getFields()}
 				company {
-					_id
-					name
-					invoiceCount
-					trigram
-					type {
-						${companyTypeFields.join('\n')}
-					}
+					${companyFields.join('\n')}
 				}
 			}
 		}`)

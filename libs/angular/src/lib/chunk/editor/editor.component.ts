@@ -122,19 +122,19 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 			if (this.keys?.alt) {
 				this.chunk = {
 					date: this.selected?.date
-				}
+				};
 			} else if (this.keys?.shift && this.selected.chunks.length > 0) {
-				console.log('debug: ', this.selected.chunks[0].date)
 				this.chunk = {
 					...this.selected.chunks[0],
 					_id: undefined
-				}
+				};
 			}
 			this.selectedChunks = this.selected.chunks.reduce<Record<string, Chunk[]>>((r, c) => {
 				const mission = this.missions.find((m) => m._id === c.missionId)!;
-				const key = mission.company!.name + ' - ' + mission.name;
+				const company = mission.company!;
+				const key = (company.shortName || company.name) + ' - ' + mission.name;
 				if (!r[key]) {
-					r[key] = []
+					r[key] = [];
 				}
 				r[key].push(c);
 				return r;
@@ -144,7 +144,7 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 		}
 	}
 
-	updateNextMonth(event?: Date) {
+	updateNextMonth() {
 		this.nextMonth = getSiblingMonth(this.currentMonth);
 	}
 

@@ -71,10 +71,11 @@ export class ChunkFormComponent implements OnChanges {
 			this.missionGroups = this.missions
 				.sort((a, b) => a.company!.name.localeCompare(b.company!.name))
 				.reduce((g, m) => {
-					if (!g[m.company!.name]) {
-						g[m.company!.name] = [];
+					const key = (m.company!.shortName || m.company!.name);
+					if (!g[key]) {
+						g[key] = [];
 					}
-					g[m.company!.name].push(m);
+					g[key].push(m);
 					return g;
 				}, {} as Record<string, Mission[]>) || {};
 		} else if (changes.missions) {

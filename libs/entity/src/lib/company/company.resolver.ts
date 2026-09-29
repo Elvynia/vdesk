@@ -6,7 +6,7 @@ import {
 	ResolveField,
 	Resolver
 } from '@nestjs/graphql';
-import { CompanyCreateEntity, CompanyEntity, CompanyUpdateEntity } from './company.entity';
+import { CompanyCreateEntity, CompanyEntity, CompanyPatchEntity, CompanyUpdateEntity } from './company.entity';
 import { CompanyRepository } from './company.repository';
 
 import { CompanyTypeEntity } from '../company-type/company-type.entity';
@@ -49,6 +49,16 @@ export class CompanyResolver {
 		return this.companyRepository.update(
 			updateCompanyInput._id,
 			updateCompanyInput
+		);
+	}
+
+	@Mutation(() => CompanyEntity)
+	patchCompany(
+		@Args('patchCompanyInput') patchCompanyInput: CompanyPatchEntity
+	) {
+		return this.companyRepository.patch(
+			patchCompanyInput._id,
+			patchCompanyInput
 		);
 	}
 

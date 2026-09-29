@@ -6,6 +6,7 @@ export const companyFields = [
 	'_id',
 	'name',
 	'identifier',
+	'shortName',
 	'taxNumber',
 	'trigram',
 	`type {

@@ -1,8 +1,12 @@
-<div class="pt-3" [formGroup]="group">
+<div class="flex flex-col flex-1" [formGroup]="group">
+	<mat-form-field>
+		<mat-label>Name</mat-label>
+		<input matInput name="name" formControlName="name" />
+	</mat-form-field>
 	<div class="flex flex-col lg:flex-row lg:justify-around gap-2">
 		<mat-form-field>
-			<mat-label>Name</mat-label>
-			<input matInput name="name" formControlName="name" />
+			<mat-label>Short Name</mat-label>
+			<input matInput name="shortName" formControlName="shortName" />
 		</mat-form-field>
 		<mat-form-field>
 			<mat-label>Trigram</mat-label>

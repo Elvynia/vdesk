@@ -67,6 +67,7 @@ export class CompanyFormCardComponent implements OnInit, OnChanges {
 				_id: value._id,
 				name: value.name,
 				identifier: value.identifier,
+				shortName: value.shortName,
 				trigram: value.trigram,
 				taxNumber: value.taxNumber,
 				type: value.type._id,
@@ -76,6 +77,7 @@ export class CompanyFormCardComponent implements OnInit, OnChanges {
 			return {
 				name: value.name,
 				identifier: value.identifier,
+				shortName: value.shortName,
 				trigram: value.trigram,
 				taxNumber: value.taxNumber,
 				type: value.type._id,
@@ -112,6 +114,7 @@ export class CompanyFormCardComponent implements OnInit, OnChanges {
 			],
 			name: [this.value?.name, [Validators.required]],
 			identifier: [this.value?.identifier, [Validators.required]],
+			shortName: [this.value?.shortName],
 			trigram: [this.value?.trigram, [Validators.required]],
 			taxNumber: [this.value?.taxNumber],
 			type: [this.value?.type, [Validators.required]],
