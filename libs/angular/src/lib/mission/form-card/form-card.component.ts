@@ -147,7 +147,7 @@ export class MissionFormCardComponent extends ObserverCompomix() implements OnIn
 			],
 			name: [this.value?.name, [Validators.required]],
 			rate: [this.value?.rate, [Validators.required]],
-			byDay: [this.value?.byDay, []],
+			byDay: [this.value?.byDay || false, []],
 			dayLength: [this.value?.dayLength, []],
 			start: [this.value?.start, []],
 			end: [this.value?.end, []],
