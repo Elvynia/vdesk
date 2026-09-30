@@ -6,7 +6,7 @@ import { DateRange, MatCalendar, MatCalendarCellClassFunction, MatDatepickerModu
 import { Chunk, makeChunkFinder } from '@lv/common';
 import { defer, delay, finalize, of, repeat, takeUntil, timer } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
-import { formParseFromDate } from '../../util/form/form-parse-date';
+import { parseFromDateOnly } from '../../util/form/form-parse-date';
 import { getSiblingMonth } from '../../util/form/get-sibling-month';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { MondayDateAdapter } from '../../util/monday-date-adapter';
@@ -88,7 +88,7 @@ export class ChunkCalendarComponent extends ObserverCompomix() implements OnInit
 				if (changes.chunks) {
 					this.chunkFinder = makeChunkFinder(this.chunks);
 					this.dateClass = (d) => {
-						const date = formParseFromDate(d);
+						const date = parseFromDateOnly(d);
 						const dayChunks = this.chunkFinder(date);
 						const chunkLoad = dayChunks
 							.map((c) => c.count)
@@ -174,8 +174,8 @@ export class ChunkCalendarComponent extends ObserverCompomix() implements OnInit
 			type: 'range',
 			range: this.range,
 			chunks: this.chunkFinder(
-				formParseFromDate(this.range.start!),
-				formParseFromDate(this.range.end!)
+				parseFromDateOnly(this.range.start!),
+				parseFromDateOnly(this.range.end!)
 			)
 		} : null);
 	}
@@ -184,7 +184,7 @@ export class ChunkCalendarComponent extends ObserverCompomix() implements OnInit
 		this.selectedChange.next(this.selected ? {
 			type: 'single',
 			date: this.selected,
-			chunks: this.chunkFinder(formParseFromDate(this.selected))
+			chunks: this.chunkFinder(parseFromDateOnly(this.selected))
 		} : null);
 	}
 }

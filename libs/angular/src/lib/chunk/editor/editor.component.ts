@@ -9,12 +9,13 @@ import { Chunk, Mission } from '@lv/common';
 import { Store } from '@ngrx/store';
 import { fromEvent, merge, takeUntil } from 'rxjs';
 import { LoadingDirective } from "../../loading/loading.directive";
+import { getSiblingMonth } from '../../util/form/get-sibling-month';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { ChunkCalendarComponent } from '../calendar/calendar.component';
-import { ChunkCalendarSelect, ChunkCalendarSelectSingle } from '../calendar/calendar.type';
+import { ChunkCalendarSelectSingle } from '../calendar/calendar.type';
 import { chunkActions } from '../chunk.actions';
 import { ChunkFormCardComponent } from '../form-card/form-card.component';
-import { getSiblingMonth } from '../../util/form/get-sibling-month';
+import { parseToDateOnly } from '../../util/form/form-parse-date';
 
 @Component({
 	selector: 'lv-chunk-editor',
@@ -46,7 +47,7 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 	selectedChunks?: Record<string, Chunk[]>;
 
 	constructor(
-		private store: Store
+		private store: Store,
 	) {
 		super();
 		this.chunks = [];
@@ -77,11 +78,7 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 				.map((c) => ({ ...c }))
 				|| [];
 			if (this.selected) {
-				const selectedIds = this.selected.chunks.map((c) => c._id);
-				this.selected.chunks = this.chunks.filter((c) => selectedIds.includes(c._id));
-				if (!this.selected.chunks.length) {
-					this.selected = null;
-				}
+				this.selected.chunks = this.chunks.filter((c) => this.selected!.date.getTime() === parseToDateOnly(c.date).getTime());
 				this.refreshChunks();
 			}
 		}
