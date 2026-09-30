@@ -104,12 +104,12 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 	}
 
 	doUpdate(chunk: Chunk) {
-		chunk.pending = true;
 		this.store.dispatch(chunkActions.update({ value: chunk }));
 	}
 
 	doUpdateCount(chunk: Chunk, count: number) {
 		if (chunk.count !== count && count > 0) {
+			chunk.pending = true;
 			this.doUpdate({ ...chunk, count });
 		}
 	}
