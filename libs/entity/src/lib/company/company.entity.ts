@@ -100,6 +100,10 @@ export class CompanyUpdateEntity {
 
 	@Field({ nullable: true })
 	@Prop()
+	shortName?: string;
+
+	@Field({ nullable: true })
+	@Prop()
 	taxNumber?: string;
 
 	@Field()
