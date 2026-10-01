@@ -11,8 +11,8 @@ export function makeMissionFields() {
 		'end',
 		'desc',
 		`chunks {
-		${chunkFields.join('\n')}
-	}`,
+			${chunkFields.join('\n')}
+		}`,
 		'companyId'
 	]
 };
