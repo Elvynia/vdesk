@@ -3,7 +3,6 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { RoleEntity } from '../role/role.entity';
 
-@InputType('AccountInput')
 @ObjectType()
 @Schema()
 export class AccountEntity implements Account {

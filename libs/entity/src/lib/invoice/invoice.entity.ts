@@ -6,7 +6,6 @@ import { InvoiceLineEntity, InvoiceLineEntitySave, InvoiceLineSchema } from '../
 import { MissionEntity } from '../mission/mission.entity';
 import { makeEntityEntry } from '../util/make-entity-entry';
 
-@InputType('InvoiceInput')
 @ObjectType()
 @Schema({
 	toJSON: {

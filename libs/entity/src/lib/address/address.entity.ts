@@ -2,7 +2,6 @@ import { Address } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@InputType('AddressInput')
 @ObjectType()
 @Schema()
 export class AddressEntity implements Address {

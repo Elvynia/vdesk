@@ -3,7 +3,6 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
 import { MissionEntity } from '../mission/mission.entity';
 
-@InputType('ChunkInput')
 @ObjectType()
 @Schema({
 	toJSON: {

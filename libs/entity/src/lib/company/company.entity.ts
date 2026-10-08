@@ -7,7 +7,6 @@ import { CompanyTypeEntity } from '../company-type/company-type.entity';
 import { AddressEntity } from '../address/address.entity';
 import { MissionEntity } from '../mission/mission.entity';
 
-@InputType('CompanyInput')
 @ObjectType()
 @Schema()
 export class CompanyEntity implements Company {

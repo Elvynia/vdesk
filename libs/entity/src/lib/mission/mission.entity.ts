@@ -5,7 +5,6 @@ import { ChunkEntity } from '../chunk/chunk.entity';
 import { CompanyEntity } from '../company/company.entity';
 import { makeEntityEntry } from '../util/make-entity-entry';
 
-@InputType('MissionInput')
 @ObjectType()
 @Schema({
 	toJSON: {
@@ -58,6 +57,7 @@ export class MissionEntity implements Mission {
 	@Field()
 	@Prop({ type: () => String, ref: () => CompanyEntity })
 	companyId: string;
+
 }
 
 @InputType()

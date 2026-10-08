@@ -3,7 +3,6 @@ import { Field, InputType, ObjectType } from "@nestjs/graphql";
 import { Prop, Schema, SchemaFactory, Virtual } from "@nestjs/mongoose";
 import { ChunkEntity } from "../chunk/chunk.entity";
 
-@InputType('InvoiceLineInput')
 @ObjectType()
 @Schema({
 	toJSON: {

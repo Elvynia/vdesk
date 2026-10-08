@@ -2,7 +2,6 @@ import { CompanyType } from '@lv/common';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@InputType('CompanyTypeInput')
 @ObjectType()
 @Schema()
 export class CompanyTypeEntity implements CompanyType {
