@@ -48,8 +48,8 @@ export class AccountViewComponent extends ObserverCompomix() implements OnInit {
 		this.editAccount = account;
 	}
 
-	get(valueId: string) {
-		this.store.dispatch(accountActions.get({ valueId }));
+	get({ _id }: Account) {
+		this.store.dispatch(accountActions.get({ valueId: _id }));
 	}
 
 	save(value: Account) {

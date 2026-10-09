@@ -11,7 +11,7 @@ import { CompanyItemComponent } from '../item/item.component';
 export class CompanyListComponent {
 	@Input() values: Company[];
 	@Output() delete: EventEmitter<Company>;
-	@Output() detail: EventEmitter<string>;
+	@Output() detail: EventEmitter<Company>;
 	@Output() edit: EventEmitter<Company>;
 
 	constructor() {

@@ -11,7 +11,7 @@ import {
 import { Invoice, InvoiceSave, isInvoiceUpdate, selectInvoices } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { filter, first, takeUntil } from 'rxjs';
+import { filter, finalize, first, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'lv-invoice-view',
@@ -54,8 +54,8 @@ export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 		this.store.dispatch(invoiceActions.delete({ value }));
 	}
 
-	detail(id: string) {
-		this.invoiceService.preview(id).subscribe((res) => {
+	detail(value: Invoice) {
+		this.invoiceService.preview(value._id).subscribe((res) => {
 			if (res.body) {
 				var pdfUrl = window.URL.createObjectURL(new Blob(["\ufeff", res.body], { type: 'text/html' }));
 				window.open(pdfUrl, '_blank')?.focus();
@@ -63,8 +63,15 @@ export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 		});
 	}
 
-	download(id: string) {
-		this.invoiceService.download(id).subscribe(observeDownload());
+	download(value: Invoice) {
+		this.firePending(value, true);
+		this.invoiceService.download(value._id).pipe(
+			finalize(() => this.firePending(value))
+		).subscribe(observeDownload());
+	}
+
+	private firePending(value: Invoice, pending: boolean = false) {
+		this.store.dispatch(invoiceActions.pending({ valueId: value._id, pending }));
 	}
 
 	edit(invoice: InvoiceSave) {

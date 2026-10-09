@@ -19,7 +19,7 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 export class MissionItemComponent extends HoverableCompomix() {
 	@Input() value!: Mission;
 	@Output() delete: EventEmitter<Mission>;
-	@Output() detail: EventEmitter<string>;
+	@Output() detail: EventEmitter<Mission>;
 	@Output() edit: EventEmitter<Mission>;
 
 	constructor() {

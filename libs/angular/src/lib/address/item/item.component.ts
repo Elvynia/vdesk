@@ -20,7 +20,7 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 export class AddressItemComponent extends HoverableCompomix() {
 	@Input() value!: Address;
 	@Output() delete: EventEmitter<Address>;
-	@Output() detail: EventEmitter<string>;
+	@Output() detail: EventEmitter<Address>;
 	@Output() edit: EventEmitter<Address>;
 
 	constructor() {

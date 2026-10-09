@@ -11,7 +11,7 @@ import { AddressItemComponent } from '../item/item.component';
 export class AddressListComponent {
 	@Input() values: Address[];
 	@Output() delete: EventEmitter<Address>;
-	@Output() detail: EventEmitter<string>;
+	@Output() detail: EventEmitter<Address>;
 	@Output() edit: EventEmitter<Address>;
 
 	constructor() {

@@ -23,5 +23,6 @@ export const invoiceActions = createActionGroup({
 		'Patch': props<ApiActionSave<Partial<InvoiceUpdate> & IEntity>>(),
 		'Patch Success': props<ApiActionSave<Invoice> & ApiActionSuccess>(),
 		'Patch Error': props<ApiActionSave<Partial<InvoiceUpdate> & IEntity> & ApiActionError>(),
+		'Pending': props<{ valueId: string, pending: boolean }>(),
 	},
 });

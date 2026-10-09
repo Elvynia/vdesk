@@ -11,7 +11,7 @@ import { RoleItemComponent } from '../item/item.component';
 export class RoleListComponent {
 	@Input() values: Role[];
 	@Output() delete: EventEmitter<Role>;
-	@Output() detail: EventEmitter<string>;
+	@Output() detail: EventEmitter<Role>;
 	@Output() edit: EventEmitter<Role>;
 
 	constructor() {

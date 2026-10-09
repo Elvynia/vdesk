@@ -5,7 +5,7 @@
 	@if (hovering) {
 	<div matListItemMeta>
 		<button mat-icon-button [class.lv-accent]="!value.pending" [disabled]="value.pending"
-			(click)="detail.next(value._id)">
+			(click)="detail.next(value)">
 			<mat-icon>info</mat-icon>
 		</button>
 		<button mat-icon-button [class.lv-accent]="!value.pending" [disabled]="value.pending"

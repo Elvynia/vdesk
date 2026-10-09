@@ -20,8 +20,8 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 export class InvoiceItemComponent extends HoverableCompomix() {
 	@Input() value!: Invoice;
 	@Output() delete: EventEmitter<Invoice>;
-	@Output() detail: EventEmitter<string>;
-	@Output() download: EventEmitter<string>;
+	@Output() detail: EventEmitter<Invoice>;
+	@Output() download: EventEmitter<Invoice>;
 	@Output() edit: EventEmitter<Invoice>;
 
 	constructor() {

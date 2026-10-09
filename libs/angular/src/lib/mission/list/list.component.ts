@@ -16,7 +16,7 @@ import { MissionItemComponent } from '../item/item.component';
 export class MissionListComponent implements OnChanges {
 	@Input() values: Mission[];
 	@Output() delete: EventEmitter<Mission>;
-	@Output() detail: EventEmitter<string>;
+	@Output() detail: EventEmitter<Mission>;
 	@Output() edit: EventEmitter<Mission>;
 	groups: Record<string, Mission[]>;
 

@@ -21,6 +21,16 @@ export const invoiceReducer = (
 			})
 		),
 		on(
+			invoiceActions.pending,
+			(state, { valueId, pending }) => ({
+				...state,
+				[valueId]: {
+					...state[valueId],
+					pending
+				},
+			})
+		),
+		on(
 			invoiceActions.patchSuccess,
 			(state, { value }) => ({
 				...state,

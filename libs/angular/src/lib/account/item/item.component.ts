@@ -24,7 +24,7 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 export class AccountItemComponent extends HoverableCompomix() {
 	@Input() value!: Account;
 	@Output() delete: EventEmitter<Account>;
-	@Output() detail: EventEmitter<string>;
+	@Output() detail: EventEmitter<Account>;
 	@Output() edit: EventEmitter<Account>;
 
 	constructor() {

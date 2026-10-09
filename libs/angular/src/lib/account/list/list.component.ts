@@ -14,7 +14,7 @@ import { AccountItemComponent } from '../item/item.component';
 export class AccountListComponent {
 	@Input() values: Account[];
 	@Output() delete: EventEmitter<Account>;
-	@Output() detail: EventEmitter<string>;
+	@Output() detail: EventEmitter<Account>;
 	@Output() edit: EventEmitter<Account>;
 
 	constructor() {
