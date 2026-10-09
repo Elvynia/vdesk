@@ -1,24 +1,15 @@
 import { CurrencyPipe } from '@angular/common';
-
 import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MAT_DATE_LOCALE, MatNativeDateModule, provideNativeDateAdapter, } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Company, Mission } from '@lv/common';
-
-import { MatCheckboxModule } from '@angular/material/checkbox';
-
-import { CurrencyFormatDirective } from '../../util/format/currency-format.directive';
-
-import { DigitsFormatDirective } from '../../util/format/digits-format.directive';
-
-import {
-	MAT_DATE_LOCALE,
-	MatNativeDateModule,
-	provideNativeDateAdapter,
-} from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { Company, Mission } from '@lv/common';
+import { CurrencyFormatDirective } from '../../util/format/currency-format.directive';
+import { DigitsFormatDirective } from '../../util/format/digits-format.directive';
 
 @Component({
 	selector: 'lv-mission-form',
@@ -29,13 +20,10 @@ import { MatSelectModule } from '@angular/material/select';
 		MatDatepickerModule,
 		MatNativeDateModule,
 		MatSelectModule,
-
 		ReactiveFormsModule,
-
 		CurrencyFormatDirective,
 		DigitsFormatDirective,
 	],
-
 	providers: [
 		provideNativeDateAdapter({
 			parse: {
@@ -51,7 +39,6 @@ import { MatSelectModule } from '@angular/material/select';
 		{ provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
 		CurrencyPipe,
 	],
-
 	templateUrl: './form.component.html',
 })
 export class MissionFormComponent {

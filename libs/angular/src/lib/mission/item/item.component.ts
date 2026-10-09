@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,11 +9,11 @@ import { HoverableCompomix } from '../../util/mixins/hoverable.compomix';
 @Component({
 	selector: 'lv-mission-item',
 	imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-    LoadingPlaceholderComponent
-],
+		MatButtonModule,
+		MatIconModule,
+		MatListModule,
+		LoadingPlaceholderComponent
+	],
 	templateUrl: './item.component.html'
 })
 export class MissionItemComponent extends HoverableCompomix() {
