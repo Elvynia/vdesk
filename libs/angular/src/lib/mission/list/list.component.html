@@ -1,11 +1,14 @@
 <mat-list class="flex! flex-col gap-2">
-	@for (value of values; track value._id) {
+	@for (group of groups | keyvalue; track group.key) {
+	<h2 mat-subheader>{{ group.key }}</h2>
+	@for (value of group.value; track value._id) {
 	<lv-mission-item
 		[value]="value"
 		(detail)="detail.next($event)"
 		(edit)="edit.next($event)"
 		(delete)="delete.next($event)"
 	></lv-mission-item>
+	}
 	<mat-divider></mat-divider>
 	}
 </mat-list>

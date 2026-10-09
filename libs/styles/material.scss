@@ -33,7 +33,13 @@ body {
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-mat-list-item {
+:root {
+	@include mat.card-overrides(
+		(
+			elevated-container-color: var(--mat-sys-surface-container),
+			elevated-container-elevation: var(--mat-sys-level3)
+		)
+	);
 	@include mat.list-overrides(
 		(
 			list-item-label-text-size: 18px,
@@ -78,7 +84,7 @@ mat-list-item {
 			unselected-hover-icon-color: var(--mat-sys-secondary),
 			unselected-focus-icon-color: var(--mat-sys-secondary),
 			unselected-icon-color: var(--mat-sys-secondary),
-			unselected-pressed-icon-color: var(--mat-sys-secondary),
+			unselected-pressed-icon-color: var(--mat-sys-secondary)
 		)
 	);
 	@include mat.slide-toggle-overrides(
@@ -149,7 +155,7 @@ mat-list-item {
 			unselected-hover-icon-color: var(--mat-sys-tertiary),
 			unselected-focus-icon-color: var(--mat-sys-tertiary),
 			unselected-icon-color: var(--mat-sys-tertiary),
-			unselected-pressed-icon-color: var(--mat-sys-tertiary),
+			unselected-pressed-icon-color: var(--mat-sys-tertiary)
 		)
 	);
 	@include mat.slide-toggle-overrides(

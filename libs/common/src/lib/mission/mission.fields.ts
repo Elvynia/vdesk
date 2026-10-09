@@ -1,4 +1,3 @@
-import { chunkFields } from "../chunk/chunk.fields";
 
 export function makeMissionFields() {
 	return [
@@ -10,9 +9,6 @@ export function makeMissionFields() {
 		'start',
 		'end',
 		'desc',
-		`chunks {
-			${chunkFields.join('\n')}
-		}`,
 		'companyId'
 	]
 };

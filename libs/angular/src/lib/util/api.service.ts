@@ -76,11 +76,11 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 		);
 	}
 
-	sendList() {
+	sendList(fields: string = this.getFields()) {
 		return this.httpClient.post(this.graphUrl, {
 			"query": `{
 				${this.entity} {
-					${this.getFields()}
+					${fields}
 				}
 			}`
 		}).pipe(

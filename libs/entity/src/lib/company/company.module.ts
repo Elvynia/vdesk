@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CompanyEntity, CompanySchema } from './company.entity';
-import { CompanyResolver } from './company.resolver';
-import { CompanyRepository } from './company.repository';
-
-import { CompanyTypeModule } from '../company-type/company-type.module';
-
 import { AddressModule } from '../address/address.module';
+import { CompanyTypeModule } from '../company-type/company-type.module';
+import { CompanyEntity, CompanySchema } from './company.entity';
+import { CompanyLoader } from './company.loader';
+import { CompanyRepository } from './company.repository';
+import { CompanyResolver } from './company.resolver';
 
 @Module({
 	imports: [
@@ -22,7 +21,15 @@ import { AddressModule } from '../address/address.module';
 
 		AddressModule,
 	],
-	providers: [CompanyResolver, CompanyRepository],
-	exports: [CompanyResolver, CompanyRepository],
+	providers: [
+		CompanyLoader,
+		CompanyRepository,
+		CompanyResolver,
+	],
+	exports: [
+		CompanyLoader,
+		CompanyRepository,
+		CompanyResolver,
+	],
 })
-export class CompanyModule {}
+export class CompanyModule { }

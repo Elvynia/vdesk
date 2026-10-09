@@ -4,6 +4,7 @@ import { Module, UnauthorizedException } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DataloaderModule } from '@tracworx/nestjs-dataloader';
 import { AuthModule } from './auth/auth.module';
 import { AuthResolver } from './auth/auth.resolver';
 import { commonConfigSchema } from './config/common-config.schema';
@@ -85,6 +86,7 @@ import { ExceptionHandlerPlugin } from './util/apollo/exception-handler.plugin';
 				AuthResolver
 			],
 		}),
+		DataloaderModule
 	],
 	providers: [
 	]

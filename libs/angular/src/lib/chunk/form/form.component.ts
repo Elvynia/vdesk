@@ -8,7 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { Chunk, Mission } from '@lv/common';
+import { Chunk, Mission, missionGroupByCompany } from '@lv/common';
 import { distinctUntilChanged, identity } from 'rxjs';
 import { DecimalFormatDirective } from "../../util/format/decimal-format.directive";
 
@@ -59,7 +59,6 @@ export class ChunkFormComponent implements OnChanges {
 	@HostListener('keyup.control.arrowUp', ['decr'])
 	@HostListener('keyup.control.arrowDown', ['incr'])
 	updateMission(val: number) {
-		console.log('debug: ', this.missionGroups)
 		let missionGroupsFlat = Object.values(this.missionGroups).flatMap(identity);
 		let missionId = this.group.controls.mission.value?._id;
 		let missionIndex = missionId ? missionGroupsFlat.findIndex((m) => m._id === missionId) + val : 0;
@@ -68,16 +67,7 @@ export class ChunkFormComponent implements OnChanges {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.missions && this.missions) {
-			this.missionGroups = this.missions
-				.sort((a, b) => a.company!.name.localeCompare(b.company!.name))
-				.reduce((g, m) => {
-					const key = (m.company!.shortName || m.company!.name);
-					if (!g[key]) {
-						g[key] = [];
-					}
-					g[key].push(m);
-					return g;
-				}, {} as Record<string, Mission[]>) || {};
+			this.missionGroups = missionGroupByCompany(this.missions, true);
 		} else if (changes.missions) {
 			this.missionGroups = {};
 		}

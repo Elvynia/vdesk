@@ -1,4 +1,4 @@
-import { IEntity } from "@lv/common";
+import { IEntity, reduceArrayToObject } from "@lv/common";
 import { AnyKeys, Model, RootFilterQuery, UpdateQuery } from "mongoose";
 
 export abstract class EntityRepository<
@@ -26,7 +26,7 @@ export abstract class EntityRepository<
 			.exec();
 	}
 
-	findAllByIds(ids: string[]) {
+	findAllByIds(ids: readonly string[]) {
 		return this.model
 			.find({
 				_id: { $in: ids }
@@ -40,6 +40,11 @@ export abstract class EntityRepository<
 			.findOne({ _id })
 			// .orFail()
 			.exec();
+	}
+
+	async getMapByIds(ids: readonly string[]) {
+		return (await this.findAllByIds(ids))
+			.reduce(reduceArrayToObject, {} as Record<string, Entity>);
 	}
 
 	patch(_id: string, entity: AnyKeys<Entity>) {

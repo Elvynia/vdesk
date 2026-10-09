@@ -1,4 +1,4 @@
-import { AddressModule, AuthModule, ChunkModule, ChunkToMissionModule, CompanyModule, CompanyToInvoiceModule, CompanyTypeModule, EntityModule, InvoiceModule, MissionModule, MissionToChunkModule, MissionToCompanyModule, RoleModule } from '@lv/entity';
+import { AddressModule, AuthModule, ChunkModule, ChunkToMissionModule, CompanyModule, CompanyToInvoiceModule, CompanyTypeModule, EntityModule, InvoiceModule, MissionModule, MissionToChunkModule, MissionToCompanyResolver, RoleModule } from '@lv/entity';
 import { Module } from '@nestjs/common';
 import { HealthModule } from './health/health.module';
 import { InvoicePdfController } from './invoice/invoice-pdf.controller';
@@ -20,12 +20,14 @@ import { InvoicePrintController } from './invoice/invoice-print.controller';
 		ChunkModule,
 		ChunkToMissionModule,
 		MissionToChunkModule,
-		MissionToCompanyModule,
 		InvoiceModule
 	],
 	controllers: [
 		InvoicePdfController,
 		InvoicePrintController
 	],
+	providers: [
+		MissionToCompanyResolver
+	]
 })
 export class AppModule { }
