@@ -10,7 +10,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Address } from '@lv/common';
+import { Address, AddressCreate } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
@@ -33,7 +33,7 @@ import { AddressFormComponent } from '../form/form.component';
 export class AddressFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Address;
 	@Output() back: EventEmitter<void>;
-	@Output() save: EventEmitter<Address>;
+	@Output() save: EventEmitter<AddressCreate | Address>;
 	group!: FormGroup;
 	pending: boolean;
 
@@ -65,33 +65,22 @@ export class AddressFormCardComponent implements OnInit, OnChanges {
 		if (value._id) {
 			return {
 				_id: value._id,
-
 				city: value.city,
-
 				firstname: value.firstname,
-
 				lastname: value.lastname,
-
 				line1: value.line1,
-
 				line2: value.line2,
-
 				zip: value.zip,
 			} as Address;
 		} else {
 			return {
 				city: value.city,
-
 				firstname: value.firstname,
-
 				lastname: value.lastname,
-
 				line1: value.line1,
-
 				line2: value.line2,
-
 				zip: value.zip,
-			} as Address;
+			} as AddressCreate;
 		}
 	}
 

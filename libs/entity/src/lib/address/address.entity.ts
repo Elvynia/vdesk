@@ -1,5 +1,5 @@
 import { Address } from '@lv/common';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @ObjectType()
@@ -34,60 +34,19 @@ export class AddressEntity implements Address {
 }
 
 @InputType()
-export class AddressCreateEntity {
-	@Field()
-	@Prop()
-	city: string;
-
-	@Field({ nullable: true })
-	@Prop()
-	firstname?: string;
-
-	@Field()
-	@Prop()
-	lastname: string;
-
-	@Field()
-	@Prop()
-	line1: string;
-
-	@Field({ nullable: true })
-	@Prop()
-	line2?: string;
-
-	@Field()
-	@Prop()
-	zip: string;
-}
+export class AddressCreateEntity extends OmitType(
+	AddressEntity,
+	['_id'],
+	InputType
+) { }
 
 @InputType()
-export class AddressUpdateEntity {
+export class AddressPatchEntity extends PartialType(
+	AddressEntity,
+	InputType
+) {
 	@Field()
-	_id: string;
-
-	@Field()
-	@Prop()
-	city: string;
-
-	@Field({ nullable: true })
-	@Prop()
-	firstname?: string;
-
-	@Field()
-	@Prop()
-	lastname: string;
-
-	@Field()
-	@Prop()
-	line1: string;
-
-	@Field({ nullable: true })
-	@Prop()
-	line2?: string;
-
-	@Field()
-	@Prop()
-	zip: string;
+	override _id: string;
 }
 
 export const AddressSchema = SchemaFactory.createForClass(AddressEntity);

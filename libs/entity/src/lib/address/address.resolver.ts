@@ -1,15 +1,15 @@
 import {
-    Args,
-    Mutation,
-    Query,
-    Resolver
+	Args,
+	Mutation,
+	Query,
+	Resolver
 } from '@nestjs/graphql';
-import { AddressCreateEntity, AddressEntity, AddressUpdateEntity } from './address.entity';
+import { AddressCreateEntity, AddressEntity, AddressPatchEntity } from './address.entity';
 import { AddressRepository } from './address.repository';
 
 @Resolver(() => AddressEntity)
 export class AddressResolver {
-	constructor(private readonly addressRepository: AddressRepository) {}
+	constructor(private readonly addressRepository: AddressRepository) { }
 
 	@Mutation(() => AddressEntity)
 	createAddress(
@@ -29,12 +29,12 @@ export class AddressResolver {
 	}
 
 	@Mutation(() => AddressEntity)
-	updateAddress(
-		@Args('updateAddressInput') updateAddressInput: AddressUpdateEntity
+	patchAddress(
+		@Args('patchAddressInput') patchAddressInput: AddressPatchEntity
 	) {
-		return this.addressRepository.update(
-			updateAddressInput._id,
-			updateAddressInput
+		return this.addressRepository.patch(
+			patchAddressInput._id,
+			patchAddressInput
 		);
 	}
 

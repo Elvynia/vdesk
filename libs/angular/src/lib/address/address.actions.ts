@@ -1,11 +1,11 @@
-import { Address } from '@lv/common';
+import { Address, AddressCreate } from '@lv/common';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ApiActionError, ApiActionId, ApiActionListSuccess, ApiActionSave, ApiActionSuccess, } from '../util/api.action';
 
 export const addressActions = createActionGroup({
 	source: 'Address',
 	events: {
-		'Create': props<ApiActionSave<Address>>(),
+		'Create': props<ApiActionSave<AddressCreate>>(),
 		'Create Success': props<ApiActionSave<Address> & ApiActionSuccess>(),
 		'Create Error': props<ApiActionSave<Address> & ApiActionError>(),
 		'Delete': props<ApiActionSave<Address>>(),

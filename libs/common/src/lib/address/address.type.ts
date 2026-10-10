@@ -14,6 +14,8 @@ export interface Address extends IEntity {
 	zip: string;
 }
 
+export type AddressCreate = Omit<Address, '_id'>;
+
 export interface AddressState {
 	addresses: Record<string, Address>;
 }

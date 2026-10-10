@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AddressEntity, AddressSchema } from './address.entity';
-import { AddressResolver } from './address.resolver';
+import { AddressLoader } from './address.loader';
 import { AddressRepository } from './address.repository';
+import { AddressResolver } from './address.resolver';
 
 @Module({
 	imports: [
@@ -14,7 +15,15 @@ import { AddressRepository } from './address.repository';
 			},
 		]),
 	],
-	providers: [AddressResolver, AddressRepository],
-	exports: [AddressResolver, AddressRepository],
+	providers: [
+		AddressLoader,
+		AddressResolver,
+		AddressRepository
+	],
+	exports: [
+		AddressLoader,
+		AddressResolver,
+		AddressRepository
+	],
 })
-export class AddressModule {}
+export class AddressModule { }
