@@ -89,22 +89,9 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 		);
 	}
 
+	// TODO: Remove and rename sendPatch to sendUpdate.
 	sendUpdate(data: TUpdate) {
-		return this.httpClient.post(this.graphUrl, {
-			query: `
-				mutation($input: ${this.clazz}UpdateEntity!) {
-					update${this.clazz}(update${this.clazz}Input: $input) {
-						${this.getFields()}
-					}
-				}
-			`,
-			variables: {
-				input: data
-			}
-		}).pipe(
-			throwGraphQlError(),
-			map((results: any) => results.data[`update${this.clazz}`] as T)
-		);
+		return this.sendPatch(data as any);
 	}
 
 	sendPatch(data: Partial<TUpdate> & IEntity) {

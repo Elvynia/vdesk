@@ -9,8 +9,12 @@ export interface Account extends IEntity {
 	password?: string;
 	username: string;
 	verified: boolean;
-	role: Role;
+	roleId: string;
+	role?: Role;
 }
+
+export type AccountCreate = Pick<Account, 'username' | 'password' | 'email' | 'enabled' | 'roleId'>;
+export type AccountPatch = Pick<Account, '_id' | 'username' | 'email' | 'enabled' | 'roleId'>;
 
 export interface AccountState {
 	accounts: Record<string, Account>;

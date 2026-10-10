@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Account } from '@lv/common';
+import { Account, AccountCreate, AccountPatch } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
@@ -25,7 +25,7 @@ import { AccountFormComponent } from '../form/form.component';
 export class AccountFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Account;
 	@Output() back: EventEmitter<void>;
-	@Output() save: EventEmitter<Account>;
+	@Output() save: EventEmitter<AccountCreate | AccountPatch>;
 	group!: FormGroup;
 	pending: boolean;
 
@@ -61,13 +61,16 @@ export class AccountFormCardComponent implements OnInit, OnChanges {
 				_id: value._id,
 				email: value.email,
 				enabled: value.enabled,
-				role: value.role._id
-			}
+				roleId: value.role._id
+			} as AccountPatch
 		} else {
 			return {
-				...value,
-				role: value.role._id
-			};
+				username: value.username,
+				password: value.password,
+				email: value.email,
+				enabled: value.enabled,
+				roleId: value.role._id
+			} as AccountCreate;
 		}
 	}
 
@@ -91,10 +94,10 @@ export class AccountFormCardComponent implements OnInit, OnChanges {
 				value: this.value?._id,
 				disabled: true
 			}],
-			username: [this.value?.username, [Validators.required]],
+			username: [this.value?.username, [Validators.required, Validators.pattern(/^[A-Za-z\-_]{2,50}$/)]],
 			password: [this.value?.username, [Validators.required]],
 			email: [this.value?.email, [Validators.required, Validators.email]],
-			enabled: [this.value?.enabled],
+			enabled: [this.value?.enabled || false],
 			role: [this.value?.role, [Validators.required]],
 		});
 	}

@@ -26,8 +26,8 @@ export class MissionEntity implements Mission {
 	@Prop()
 	rate: number;
 
-	@Field({ defaultValue: false })
-	@Prop()
+	@Field()
+	@Prop({ default: false })
 	byDay: boolean;
 
 	@Field({ nullable: true })
@@ -46,7 +46,7 @@ export class MissionEntity implements Mission {
 	@Prop()
 	desc?: string;
 
-	@Field(() => [ChunkEntity], { defaultValue: [] })
+	@Field(() => [ChunkEntity])
 	@Virtual()
 	chunks: ChunkEntity[];
 

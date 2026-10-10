@@ -47,7 +47,7 @@ export abstract class EntityRepository<
 			.reduce(reduceArrayToObject, {} as Record<string, Entity>);
 	}
 
-	patch(_id: string, entity: AnyKeys<Entity>) {
+	patch<PatchEntity extends AnyKeys<Entity>>(_id: string, entity: PatchEntity) {
 		return this.model
 			.findByIdAndUpdate(
 				{ _id },

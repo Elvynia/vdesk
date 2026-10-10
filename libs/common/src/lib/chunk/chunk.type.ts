@@ -6,7 +6,7 @@ export interface Chunk extends IEntity {
 
 	date: Date | string;
 
-	desc: string;
+	desc?: string;
 
 	invoiced: boolean;
 

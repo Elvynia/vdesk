@@ -1,11 +1,11 @@
-import { Account } from "@lv/common";
+import { Account, AccountCreate, AccountPatch } from "@lv/common";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
 import { ApiActionError, ApiActionId, ApiActionListSuccess, ApiActionSave, ApiActionSuccess } from "../util/api.action";
 
 export const accountActions = createActionGroup({
 	source: 'Account',
 	events: {
-		'Create': props<ApiActionSave<Account>>(),
+		'Create': props<ApiActionSave<AccountCreate>>(),
 		'Create Success': props<ApiActionSave<Account> & ApiActionSuccess>(),
 		'Create Error': props<ApiActionSave<Account> & ApiActionError>(),
 		'Delete': props<ApiActionSave<Account>>(),
@@ -17,7 +17,7 @@ export const accountActions = createActionGroup({
 		'List': emptyProps(),
 		'List Success': props<ApiActionListSuccess<Account>>(),
 		'List Error': props<ApiActionError>(),
-		'Update': props<ApiActionSave<Account>>(),
+		'Update': props<ApiActionSave<AccountPatch>>(),
 		'Update Success': props<ApiActionSave<Account> & ApiActionSuccess>(),
 		'Update Error': props<ApiActionSave<Account> & ApiActionError>(),
 	}

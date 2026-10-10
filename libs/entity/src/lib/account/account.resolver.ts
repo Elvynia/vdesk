@@ -1,10 +1,13 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Loader } from '@tracworx/nestjs-dataloader';
+import DataLoader from 'dataloader';
 import { AuthGuard } from '../auth/auth.guard';
 import { MappingPublic } from '../decorator/mapping-public';
 import { RoleEntity } from '../role/role.entity';
+import { RoleLoader } from '../role/role.loader';
 import { RoleRepository } from '../role/role.repository';
-import { AccountCreateEntity, AccountEntity, AccountUpdateEntity } from './account.entity';
+import { AccountCreateEntity, AccountEntity, AccountPatchEntity } from './account.entity';
 import { AccountRepository } from './account.repository';
 
 @Resolver(() => AccountEntity)
@@ -31,10 +34,10 @@ export class AccountResolver {
 	}
 
 	@Mutation(() => AccountEntity)
-	updateAccount(@Args('updateAccountInput') updateAccountInput: AccountUpdateEntity) {
-		return this.accountRepository.update(
-			updateAccountInput._id,
-			updateAccountInput
+	patchAccount(@Args('patchAccountInput') patchAccountInput: AccountPatchEntity) {
+		return this.accountRepository.patch(
+			patchAccountInput._id,
+			patchAccountInput
 		);
 	}
 
@@ -44,7 +47,10 @@ export class AccountResolver {
 	}
 
 	@ResolveField(() => RoleEntity)
-	async role(@Parent() parent: AccountEntity) {
-		return await this.roleRepository.findOne(parent.role as any);
+	role(
+		@Parent() parent: AccountEntity,
+		@Loader(RoleLoader) loader: DataLoader<string, RoleEntity>
+	) {
+		return loader.load(parent.roleId);
 	}
 }

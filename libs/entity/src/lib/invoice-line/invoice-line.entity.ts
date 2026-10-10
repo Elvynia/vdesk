@@ -14,8 +14,8 @@ import { ChunkEntity } from "../chunk/chunk.entity";
 })
 export class InvoiceLineEntity implements InvoiceLine {
 
-	@Field({ defaultValue: 1 })
-	@Prop()
+	@Field()
+	@Prop({ default: 1 })
 	count: number;
 
 	@Field()
@@ -26,7 +26,7 @@ export class InvoiceLineEntity implements InvoiceLine {
 	@Prop()
 	price: number;
 
-	@Field(() => [ChunkEntity], { defaultValue: [] })
+	@Field(() => [ChunkEntity])
 	@Virtual()
 	chunks?: ChunkEntity[];
 

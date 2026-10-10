@@ -1,7 +1,6 @@
 import { Account } from '@lv/common';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType, PartialType, PickType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { RoleEntity } from '../role/role.entity';
 
 @ObjectType()
 @Schema()
@@ -37,46 +36,25 @@ export class AccountEntity implements Account {
 	@Prop()
 	verified: boolean;
 
-	@Field(() => RoleEntity)
-	@Prop({ type: () => String, ref: () => RoleEntity })
-	role: RoleEntity;
+	@Field()
+	@Prop({ type: String })
+	roleId: string;
 }
 
 @InputType()
-export class AccountCreateEntity {
-
-	@Field({ nullable: true })
-	creationDate: string;
-
-	@Field({ nullable: true })
-	email: string;
-
-	@Field({ nullable: true })
-	enabled: boolean;
-
-	@Field()
-	password: string;
-
-	@Field()
-	role: string;
-
-	@Field()
-	username: string;
-}
+export class AccountCreateEntity extends PickType(
+	AccountEntity,
+	['username', 'password', 'email', 'enabled', 'creationDate', 'roleId'],
+	InputType
+) { }
 
 @InputType()
-export class AccountUpdateEntity {
+export class AccountPatchEntity extends PartialType(
+	AccountEntity,
+	InputType
+) {
 	@Field()
-	_id: string;
-
-	@Field({ nullable: true })
-	email: string;
-
-	@Field({ nullable: true })
-	enabled: boolean;
-
-	@Field()
-	role: string;
+	override _id: string;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(AccountEntity);

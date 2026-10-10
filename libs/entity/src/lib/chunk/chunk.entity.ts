@@ -26,14 +26,14 @@ export class ChunkEntity implements Chunk {
 
 	@Field({ nullable: true })
 	@Prop()
-	desc: string;
+	desc?: string;
 
-	@Field({ defaultValue: false })
-	@Prop()
+	@Field()
+	@Prop({ default: false })
 	invoiced: boolean;
 
-	@Field({ defaultValue: false })
-	@Prop()
+	@Field()
+	@Prop({ default: false })
 	paid: boolean;
 
 	@Field(() => MissionEntity)

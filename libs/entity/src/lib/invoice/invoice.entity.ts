@@ -59,7 +59,7 @@ export class InvoiceEntity implements Invoice {
 	@Prop([InvoiceLineSchema])
 	lines: InvoiceLineEntity[];
 
-	@Field(() => [MissionEntity], { defaultValue: [] })
+	@Field(() => [MissionEntity])
 	@Virtual()
 	missions?: MissionEntity[];
 

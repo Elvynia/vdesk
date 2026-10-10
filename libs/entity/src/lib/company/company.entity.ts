@@ -46,7 +46,7 @@ export class CompanyEntity implements Company {
 	@Prop({ type: () => String, ref: () => AddressEntity })
 	address?: AddressEntity;
 
-	@Field(() => [MissionEntity], { defaultValue: [] })
+	@Field(() => [MissionEntity])
 	@Virtual()
 	missions: MissionEntity[];
 }
@@ -79,9 +79,9 @@ export class CompanyCreateEntity {
 }
 
 @InputType()
-export class CompanyPatchEntity extends PartialType(OmitType(CompanyEntity, ['_id', 'missions', 'invoiceCount'])) {
+export class CompanyPatchEntity extends PartialType(OmitType(CompanyEntity, ['missions', 'invoiceCount'])) {
 	@Field()
-	_id: string;
+	override _id: string;
 }
 
 @InputType()
