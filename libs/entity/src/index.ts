@@ -43,7 +43,6 @@ export * from './lib/mission/mission.entity';
 export * from './lib/mission/mission.module';
 export * from './lib/mission/mission.repository';
 export * from './lib/mission/mission.resolver';
-export * from './lib/mission/to-chunk/mission-to-chunk.module';
 export * from './lib/mission/to-chunk/mission-to-chunk.resolver';
 export * from './lib/mission/to-company/mission-to-company.resolver';
 export * from './lib/role/role.entity';

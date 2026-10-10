@@ -19,6 +19,9 @@ export interface Chunk extends IEntity {
 	selected?: boolean;
 }
 
+export type ChunkCreate = Omit<Chunk, '_id' | 'invoiced' | 'paid'>;
+export type ChunkPatch = Partial<Omit<Chunk, '_id'>> & IEntity;
+
 export interface ChunkState {
 	chunks: Record<string, Chunk>;
 }

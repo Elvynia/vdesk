@@ -1,11 +1,11 @@
-import { Chunk } from '@lv/common';
+import { Chunk, ChunkCreate } from '@lv/common';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ApiActionError, ApiActionId, ApiActionListSuccess, ApiActionSave, ApiActionSuccess, } from '../util/api.action';
 
 export const chunkActions = createActionGroup({
 	source: 'Chunk',
 	events: {
-		'Create': props<ApiActionSave<Chunk>>(),
+		'Create': props<ApiActionSave<ChunkCreate>>(),
 		'Create Success': props<ApiActionSave<Chunk> & ApiActionSuccess>(),
 		'Create Error': props<ApiActionSave<Chunk> & ApiActionError>(),
 		'Delete': props<ApiActionSave<Chunk>>(),

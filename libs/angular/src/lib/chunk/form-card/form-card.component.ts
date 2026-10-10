@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { Chunk, Mission } from '@lv/common';
+import { Chunk, ChunkCreate, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, finalize, first } from 'rxjs';
@@ -90,7 +90,7 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 			date: parseFromDateOnly(value.date as Date).toISOString(),
 			mission: undefined,
 			missionId: value.mission!._id,
-		}
+		} as ChunkCreate
 	}
 
 	submit(keepAll?: boolean) {
@@ -108,8 +108,6 @@ export class ChunkFormCardComponent implements OnInit, OnChanges {
 				ofType(
 					chunkActions.createSuccess,
 					chunkActions.createError,
-					chunkActions.updateSuccess,
-					chunkActions.updateError
 				),
 				first(),
 				filter(isApiActionSuccess<Chunk>),

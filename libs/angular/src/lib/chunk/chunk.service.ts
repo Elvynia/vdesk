@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Chunk, chunkFields } from '@lv/common';
+import { Chunk, ChunkCreate, chunkFields, ChunkPatch } from '@lv/common';
 import { ApiConfig } from '../config';
 import { ApiService } from '../util/api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class ChunkService extends ApiService<Chunk> {
+export class ChunkService extends ApiService<Chunk, ChunkCreate, ChunkPatch> {
 	get entity(): string {
 		return 'chunk';
 	}

@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EntityRepository } from '../entity.repository';
-import { ChunkCreateEntity, ChunkEntity, ChunkUpdateEntity } from './chunk.entity';
+import { ChunkCreateEntity, ChunkEntity, ChunkPatchEntity } from './chunk.entity';
 
 @Injectable()
 export class ChunkRepository extends EntityRepository<
 	ChunkEntity,
 	ChunkCreateEntity,
-	ChunkUpdateEntity
+	ChunkPatchEntity
 > {
 	constructor(
 		@InjectModel(ChunkEntity.name)
@@ -17,8 +17,8 @@ export class ChunkRepository extends EntityRepository<
 		super();
 	}
 
-	findByMission(missionId: string) {
-		return this.model.find({ missionId });
+	findByMissionIds(missionIds: readonly string[]) {
+		return this.model.find({ missionId: { $in: missionIds.slice() } });
 	}
 
 	markInvoiced(ids: string[], invoiced: boolean) {

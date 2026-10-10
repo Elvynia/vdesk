@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MissionModule } from '../mission/mission.module';
 import { ChunkEntity, ChunkSchema } from './chunk.entity';
+import { ChunkLoader } from './chunk.loader';
 import { ChunkRepository } from './chunk.repository';
 import { ChunkResolver } from './chunk.resolver';
 
@@ -16,7 +17,15 @@ import { ChunkResolver } from './chunk.resolver';
 		]),
 		MissionModule,
 	],
-	providers: [ChunkResolver, ChunkRepository],
-	exports: [ChunkResolver, ChunkRepository],
+	providers: [
+		ChunkLoader,
+		ChunkResolver,
+		ChunkRepository
+	],
+	exports: [
+		ChunkLoader,
+		ChunkResolver,
+		ChunkRepository
+	],
 })
 export class ChunkModule { }

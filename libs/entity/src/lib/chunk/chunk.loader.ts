@@ -1,3 +1,4 @@
+import { reduceArrayToMap } from "@lv/common";
 import { DataloaderProvider } from "@tracworx/nestjs-dataloader";
 import DataLoader from "dataloader";
 import { ChunkEntity } from "./chunk.entity";
@@ -11,6 +12,14 @@ export class ChunkLoader {
 	) { }
 
 	createDataloader() {
-		return new DataLoader<string, ChunkEntity>(async (ids) => this.repository.findAllByIds(ids));
+		return new DataLoader<string, ChunkEntity[]>(async (keys) => {
+			const results = (await this.repository.findByMissionIds(keys)).reduce(
+				reduceArrayToMap('missionId'),
+				new Map<string, ChunkEntity[]>()
+			);
+			return keys.map((k) => results.get(k) || []);
+		}, {
+			cache: false
+		});
 	}
 }
