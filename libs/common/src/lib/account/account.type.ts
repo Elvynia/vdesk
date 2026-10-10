@@ -14,7 +14,7 @@ export interface Account extends IEntity {
 }
 
 export type AccountCreate = Pick<Account, 'username' | 'password' | 'email' | 'enabled' | 'roleId'>;
-export type AccountPatch = Pick<Account, '_id' | 'username' | 'email' | 'enabled' | 'roleId'>;
+export type AccountPatch = Partial<Pick<Account, 'username' | 'email' | 'enabled' | 'roleId'>> & IEntity;
 
 export interface AccountState {
 	accounts: Record<string, Account>;

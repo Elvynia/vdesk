@@ -15,6 +15,7 @@ export interface Address extends IEntity {
 }
 
 export type AddressCreate = Omit<Address, '_id'>;
+export type AddressPatch = Partial<Address> & IEntity;
 
 export interface AddressState {
 	addresses: Record<string, Address>;

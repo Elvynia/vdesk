@@ -6,7 +6,7 @@ import {
 	isApiActionSuccess,
 	ObserverCompomix
 } from '@lv/angular';
-import { Address, AddressCreate, selectAddresses } from '@lv/common';
+import { Address, AddressCreate, AddressPatch, isEntity, selectAddresses } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
@@ -56,9 +56,9 @@ export class AddressViewComponent extends ObserverCompomix() implements OnInit {
 		this.editAddress = address;
 	}
 
-	save(value: AddressCreate | Address) {
+	save(value: AddressCreate | AddressPatch) {
 		let action;
-		if ('_id' in value && value._id) {
+		if (isEntity(value)) {
 			action = addressActions.update({ value });
 		} else {
 			action = addressActions.create({ value });

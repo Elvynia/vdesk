@@ -1,4 +1,4 @@
-import { Address } from '@lv/common';
+import { Address, AddressCreate, AddressPatch } from '@lv/common';
 import { Field, InputType, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
@@ -38,13 +38,13 @@ export class AddressCreateEntity extends OmitType(
 	AddressEntity,
 	['_id'],
 	InputType
-) { }
+) implements AddressCreate { }
 
 @InputType()
 export class AddressPatchEntity extends PartialType(
 	AddressEntity,
 	InputType
-) {
+) implements AddressPatch {
 	@Field()
 	override _id: string;
 }

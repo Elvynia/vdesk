@@ -1,4 +1,4 @@
-import { Address, AddressCreate } from '@lv/common';
+import { Address, AddressCreate, AddressPatch } from '@lv/common';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ApiActionError, ApiActionId, ApiActionListSuccess, ApiActionSave, ApiActionSuccess, } from '../util/api.action';
 
@@ -17,7 +17,7 @@ export const addressActions = createActionGroup({
 		'List': emptyProps(),
 		'List Success': props<ApiActionListSuccess<Address>>(),
 		'List Error': props<ApiActionError>(),
-		'Update': props<ApiActionSave<Address>>(),
+		'Update': props<ApiActionSave<AddressPatch>>(),
 		'Update Success': props<ApiActionSave<Address> & ApiActionSuccess>(),
 		'Update Error': props<ApiActionSave<Address> & ApiActionError>(),
 	},

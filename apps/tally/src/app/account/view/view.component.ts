@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { accountActions, AccountFormCardComponent, AccountListComponent, isApiActionSuccess, ObserverCompomix } from '@lv/angular';
-import { Account, AccountCreate, AccountPatch, selectAccounts } from '@lv/common';
+import { Account, AccountCreate, AccountPatch, isEntity, selectAccounts } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
@@ -54,7 +54,7 @@ export class AccountViewComponent extends ObserverCompomix() implements OnInit {
 
 	save(value: AccountCreate | AccountPatch) {
 		let action;
-		if ('_id' in value && value._id) {
+		if (isEntity(value)) {
 			action = accountActions.update({ value });
 		} else {
 			action = accountActions.create({ value });

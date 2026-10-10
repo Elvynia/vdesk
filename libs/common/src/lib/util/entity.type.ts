@@ -8,6 +8,6 @@ export interface EntityEntry<T> {
 	value: T | null;
 }
 
-export function isEntity<T>(value: T | any): value is T {
+export function isEntity<T extends IEntity>(value: any): value is T {
 	return !!value._id;
 }

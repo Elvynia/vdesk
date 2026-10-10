@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Address, AddressCreate, addressFields } from '@lv/common';
+import { Address, AddressCreate, addressFields, AddressPatch } from '@lv/common';
 import { ApiConfig } from '../config';
 import { ApiService } from '../util/api.service';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class AddressService extends ApiService<Address, AddressCreate> {
+export class AddressService extends ApiService<Address, AddressCreate, AddressPatch> {
 	get entity(): string {
 		return 'address';
 	}

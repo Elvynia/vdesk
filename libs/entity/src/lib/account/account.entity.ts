@@ -1,4 +1,4 @@
-import { Account } from '@lv/common';
+import { Account, AccountCreate, AccountPatch } from '@lv/common';
 import { Field, InputType, ObjectType, PartialType, PickType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
@@ -37,7 +37,7 @@ export class AccountEntity implements Account {
 	verified: boolean;
 
 	@Field()
-	@Prop({ type: String })
+	@Prop()
 	roleId: string;
 }
 
@@ -46,13 +46,13 @@ export class AccountCreateEntity extends PickType(
 	AccountEntity,
 	['username', 'password', 'email', 'enabled', 'creationDate', 'roleId'],
 	InputType
-) { }
+) implements AccountCreate { }
 
 @InputType()
 export class AccountPatchEntity extends PartialType(
 	AccountEntity,
 	InputType
-) {
+) implements AccountPatch {
 	@Field()
 	override _id: string;
 }
