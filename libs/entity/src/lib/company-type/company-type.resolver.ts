@@ -1,19 +1,19 @@
 import {
-    Args,
-    Mutation,
-    Query,
-    Resolver
+	Args,
+	Mutation,
+	Query,
+	Resolver
 } from '@nestjs/graphql';
 import {
-    CompanyTypeCreateEntity,
-    CompanyTypeEntity,
-    CompanyTypeUpdateEntity,
+	CompanyTypeCreateEntity,
+	CompanyTypeEntity,
+	CompanyTypePatchEntity,
 } from './company-type.entity';
 import { CompanyTypeRepository } from './company-type.repository';
 
 @Resolver(() => CompanyTypeEntity)
 export class CompanyTypeResolver {
-	constructor(private readonly companyTypeRepository: CompanyTypeRepository) {}
+	constructor(private readonly companyTypeRepository: CompanyTypeRepository) { }
 
 	@Mutation(() => CompanyTypeEntity)
 	createCompanyType(
@@ -34,13 +34,13 @@ export class CompanyTypeResolver {
 	}
 
 	@Mutation(() => CompanyTypeEntity)
-	updateCompanyType(
-		@Args('updateCompanyTypeInput')
-		updateCompanyTypeInput: CompanyTypeUpdateEntity
+	patchCompanyType(
+		@Args('patchCompanyTypeInput')
+		patchCompanyTypeInput: CompanyTypePatchEntity
 	) {
-		return this.companyTypeRepository.update(
-			updateCompanyTypeInput._id,
-			updateCompanyTypeInput
+		return this.companyTypeRepository.patch(
+			patchCompanyTypeInput._id,
+			patchCompanyTypeInput
 		);
 	}
 

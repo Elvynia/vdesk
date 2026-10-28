@@ -10,7 +10,7 @@ import { PubSub } from 'graphql-subscriptions';
 import { MongooseError } from 'mongoose';
 import { ChunkRepository } from '../chunk/chunk.repository';
 import { MissionResolver } from '../mission/mission.resolver';
-import { InvoiceCreateEntity, InvoiceEntity, InvoiceEntityEntry, InvoicePatchEntity, InvoiceUpdateEntity } from './invoice.entity';
+import { InvoiceCreateEntity, InvoiceEntity, InvoiceEntityEntry, InvoicePatchEntity } from './invoice.entity';
 import { InvoiceRepository } from './invoice.repository';
 
 @Resolver(() => InvoiceEntity)
@@ -80,24 +80,6 @@ export class InvoiceResolver {
 			key: typeof invoice === 'string' ? invoice : invoice._id,
 			value: payload
 		}]);
-	}
-
-	@Mutation(() => InvoiceEntity)
-	async updateInvoice(
-		@Args('updateInvoiceInput') updateInvoiceInput: InvoiceUpdateEntity
-	) {
-		const wasPending = await this.invoiceRepository.isPending(updateInvoiceInput._id);
-		this.chunkRepository.markPaid(updateInvoiceInput.lines.flatMap((l) => l.chunkIds), updateInvoiceInput.paid);
-		const updated = await this.invoiceRepository.update(
-			updateInvoiceInput._id,
-			updateInvoiceInput
-		);
-		this.publishIfPending(
-			updated,
-			wasPending && updated.paid
-		);
-		this.missionResolver.publishIfActive(updated.missionIds[0]);
-		return updated;
 	}
 
 	@Mutation(() => InvoiceEntity)

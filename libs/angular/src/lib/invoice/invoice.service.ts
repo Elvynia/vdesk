@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HasInvoicePubSub, Invoice, InvoiceCreate, invoiceFields, InvoiceUpdate } from '@lv/common';
+import { HasInvoicePubSub, Invoice, InvoiceCreate, invoiceFields, InvoicePatch } from '@lv/common';
 import { ApiConfig } from '../config';
 import { SocketService } from '../socket.service';
 import { ApiService } from '../util/api.service';
@@ -8,7 +8,7 @@ import { ApiService } from '../util/api.service';
 @Injectable({
 	providedIn: 'root',
 })
-export class InvoiceService extends ApiService<Invoice, InvoiceCreate, InvoiceUpdate> {
+export class InvoiceService extends ApiService<Invoice, InvoiceCreate, InvoicePatch> {
 	get entity(): string {
 		return 'invoice';
 	}

@@ -1,19 +1,10 @@
 import { Mission } from '@lv/common';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
-import { ChunkEntity } from '../chunk/chunk.entity';
-import { CompanyEntity } from '../company/company.entity';
+import { Field, InputType, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { makeEntityEntry } from '../util/make-entity-entry';
 
 @ObjectType()
-@Schema({
-	toJSON: {
-		virtuals: true,
-	},
-	toObject: {
-		virtuals: true
-	}
-})
+@Schema()
 export class MissionEntity implements Mission {
 	@Field()
 	_id: string;
@@ -46,91 +37,27 @@ export class MissionEntity implements Mission {
 	@Prop()
 	desc?: string;
 
-	@Field(() => [ChunkEntity])
-	@Virtual()
-	chunks: ChunkEntity[];
-
-	@Field(() => CompanyEntity)
-	@Virtual()
-	company?: CompanyEntity;
-
 	@Field()
-	@Prop({ type: () => String, ref: () => CompanyEntity })
+	@Prop()
 	companyId: string;
 
 }
 
 @InputType()
-export class MissionCreateEntity {
-	@Field()
-	@Prop()
-	name: string;
-
-	@Field()
-	@Prop()
-	rate: number;
-
-	@Field({ defaultValue: false })
-	@Prop()
-	byDay: boolean;
-
-	@Field({ nullable: true })
-	@Prop()
-	dayLength?: number;
-
-	@Field({ nullable: true })
-	@Prop()
-	start?: Date;
-
-	@Field({ nullable: true })
-	@Prop()
-	end?: Date;
-
-	@Field({ nullable: true })
-	@Prop()
-	desc?: string;
-
-	@Field()
-	@Prop({ type: () => String, ref: () => CompanyEntity })
-	companyId: string;
-}
+export class MissionCreateEntity extends OmitType(
+	MissionEntity,
+	['_id'],
+	InputType
+) { }
 
 @InputType()
-export class MissionUpdateEntity {
+export class MissionPatchEntity extends PartialType(
+	MissionCreateEntity,
+	InputType
+) {
+
 	@Field()
 	_id: string;
-
-	@Field()
-	@Prop()
-	name: string;
-
-	@Field()
-	@Prop()
-	rate: number;
-
-	@Field({ defaultValue: false })
-	@Prop()
-	byDay: boolean;
-
-	@Field({ nullable: true })
-	@Prop()
-	dayLength?: number;
-
-	@Field({ nullable: true })
-	@Prop()
-	start?: Date;
-
-	@Field({ nullable: true })
-	@Prop()
-	end?: Date;
-
-	@Field({ nullable: true })
-	@Prop()
-	desc?: string;
-
-	@Field()
-	@Prop({ type: () => String, ref: () => CompanyEntity })
-	companyId: string;
 }
 
 export const MissionSchema = SchemaFactory.createForClass(MissionEntity);

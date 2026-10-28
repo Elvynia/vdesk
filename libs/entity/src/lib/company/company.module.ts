@@ -16,9 +16,7 @@ import { CompanyResolver } from './company.resolver';
 				collection: 'company',
 			},
 		]),
-
 		CompanyTypeModule,
-
 		AddressModule,
 	],
 	providers: [

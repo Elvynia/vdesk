@@ -10,7 +10,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Company } from '@lv/common';
+import { CompanyCreate, CompanyPatch, CompanyRead } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
@@ -31,9 +31,9 @@ import { CompanyFormComponent } from '../form/form.component';
 	}
 })
 export class CompanyFormCardComponent implements OnInit, OnChanges {
-	@Input() value?: Company;
+	@Input() value?: CompanyRead;
 	@Output() back: EventEmitter<void>;
-	@Output() save: EventEmitter<Company>;
+	@Output() save: EventEmitter<CompanyCreate | CompanyPatch>;
 	group!: FormGroup;
 	pending: boolean;
 
@@ -70,9 +70,9 @@ export class CompanyFormCardComponent implements OnInit, OnChanges {
 				shortName: value.shortName,
 				trigram: value.trigram,
 				taxNumber: value.taxNumber,
-				type: value.type._id,
-				address: value.address?._id,
-			} as Company;
+				typeId: value.type._id,
+				addressId: value.address?._id,
+			} as CompanyPatch;
 		} else {
 			return {
 				name: value.name,
@@ -80,9 +80,9 @@ export class CompanyFormCardComponent implements OnInit, OnChanges {
 				shortName: value.shortName,
 				trigram: value.trigram,
 				taxNumber: value.taxNumber,
-				type: value.type._id,
-				address: value.address?._id,
-			} as Company;
+				typeId: value.type._id,
+				addressId: value.address?._id,
+			} as CompanyCreate;
 		}
 	}
 

@@ -1,11 +1,6 @@
-import { Company } from '@lv/common';
+import { Company, CompanyCreate, CompanyPatch } from '@lv/common';
 import { Field, InputType, Int, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
-
-import { CompanyTypeEntity } from '../company-type/company-type.entity';
-
-import { AddressEntity } from '../address/address.entity';
-import { MissionEntity } from '../mission/mission.entity';
 
 @ObjectType()
 @Schema()
@@ -37,85 +32,29 @@ export class CompanyEntity implements Company {
 	@Prop()
 	trigram: string;
 
-	@Field(() => CompanyTypeEntity)
-	@Prop({ type: () => String, ref: () => CompanyTypeEntity })
-	type: CompanyTypeEntity;
-
-	// FIXME: Add addressId and make address virtual ?
-	@Field(() => AddressEntity, { nullable: true })
-	@Prop({ type: () => String, ref: () => AddressEntity })
-	address?: AddressEntity;
-
-	@Field(() => [MissionEntity])
-	@Virtual()
-	missions: MissionEntity[];
-}
-
-@InputType()
-export class CompanyCreateEntity {
 	@Field()
 	@Prop()
-	name: string;
-
-	@Field()
-	@Prop()
-	identifier: string;
+	typeId: string;
 
 	@Field({ nullable: true })
 	@Prop()
-	taxNumber?: string;
-
-	@Field()
-	@Prop()
-	trigram: string;
-
-	@Field()
-	@Prop()
-	type: string;
-
-	@Field({ nullable: true })
-	@Prop()
-	address?: string;
+	addressId?: string;
 }
 
 @InputType()
-export class CompanyPatchEntity extends PartialType(OmitType(CompanyEntity, ['missions', 'invoiceCount'])) {
-	@Field()
-	override _id: string;
-}
+export class CompanyCreateEntity extends OmitType(
+	CompanyEntity,
+	['_id', 'invoiceCount'],
+	InputType
+) implements CompanyCreate { }
 
 @InputType()
-export class CompanyUpdateEntity {
+export class CompanyPatchEntity extends PartialType(
+	CompanyCreateEntity,
+	InputType
+) implements CompanyPatch {
 	@Field()
 	_id: string;
-
-	@Field()
-	@Prop()
-	name: string;
-
-	@Field()
-	@Prop()
-	identifier: string;
-
-	@Field({ nullable: true })
-	@Prop()
-	shortName?: string;
-
-	@Field({ nullable: true })
-	@Prop()
-	taxNumber?: string;
-
-	@Field()
-	@Prop()
-	trigram: string;
-
-	@Field()
-	@Prop()
-	type: string;
-
-	@Field({ nullable: true })
-	@Prop()
-	address?: string;
 }
 
 export const CompanySchema = SchemaFactory.createForClass(CompanyEntity);

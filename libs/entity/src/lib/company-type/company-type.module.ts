@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CompanyTypeEntity, CompanyTypeSchema } from './company-type.entity';
-import { CompanyTypeResolver } from './company-type.resolver';
+import { CompanyTypeLoader } from './company-type.loader';
 import { CompanyTypeRepository } from './company-type.repository';
+import { CompanyTypeResolver } from './company-type.resolver';
 
 @Module({
 	imports: [
@@ -14,7 +15,15 @@ import { CompanyTypeRepository } from './company-type.repository';
 			},
 		]),
 	],
-	providers: [CompanyTypeResolver, CompanyTypeRepository],
-	exports: [CompanyTypeResolver, CompanyTypeRepository],
+	providers: [
+		CompanyTypeLoader,
+		CompanyTypeResolver,
+		CompanyTypeRepository
+	],
+	exports: [
+		CompanyTypeLoader,
+		CompanyTypeResolver,
+		CompanyTypeRepository
+	],
 })
-export class CompanyTypeModule {}
+export class CompanyTypeModule { }

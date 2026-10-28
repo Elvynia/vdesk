@@ -1,28 +1,18 @@
-import { OnModuleInit } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
-import {
-	Parent,
-	ResolveField,
-	Resolver
-} from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Loader } from '@tracworx/nestjs-dataloader';
+import DataLoader from 'dataloader';
 import { CompanyEntity } from '../../company/company.entity';
-import { CompanyRepository } from '../../company/company.repository';
+import { CompanyLoader } from '../../company/company.loader';
 import { InvoiceEntity } from '../../invoice/invoice.entity';
 
 @Resolver(() => InvoiceEntity)
-export class InvoiceToCompanyResolver implements OnModuleInit {
-	private companyRepository: CompanyRepository;
-
-	constructor(
-		private readonly moduleRef: ModuleRef
-	) { }
-
-	onModuleInit() {
-		this.companyRepository = this.moduleRef.get(CompanyRepository, { strict: false });
-	}
+export class InvoiceToCompanyResolver {
 
 	@ResolveField(() => CompanyEntity)
-	company(@Parent() invoice: InvoiceEntity) {
-		return this.companyRepository.findOne(invoice.companyId);
+	company(
+		@Parent() invoice: InvoiceEntity,
+		@Loader(CompanyLoader) loader: DataLoader<string, CompanyEntity>
+	) {
+		return loader.load(invoice.companyId);
 	}
 }

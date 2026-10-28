@@ -3,13 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CompanyEntity } from '../company/company.entity';
 import { EntityRepository } from '../entity.repository';
-import { InvoiceCreateEntity, InvoiceEntity, InvoiceUpdateEntity } from './invoice.entity';
+import { InvoiceCreateEntity, InvoiceEntity, InvoicePatchEntity } from './invoice.entity';
 
 @Injectable()
 export class InvoiceRepository extends EntityRepository<
 	InvoiceEntity,
 	InvoiceCreateEntity,
-	InvoiceUpdateEntity
+	InvoicePatchEntity
 > {
 	constructor(
 		@InjectModel(InvoiceEntity.name)

@@ -1,5 +1,5 @@
-import { CompanyType } from '@lv/common';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { CompanyType, CompanyTypeCreate, CompanyTypePatch } from '@lv/common';
+import { Field, InputType, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @ObjectType()
@@ -22,36 +22,19 @@ export class CompanyTypeEntity implements CompanyType {
 }
 
 @InputType()
-export class CompanyTypeCreateEntity {
-	@Field()
-	@Prop()
-	name: string;
-
-	@Field()
-	@Prop()
-	identifierLabel: string;
-
-	@Field()
-	@Prop()
-	currency: string;
-}
+export class CompanyTypeCreateEntity extends OmitType(
+	CompanyTypeEntity,
+	['_id'],
+	InputType
+) implements CompanyTypeCreate { }
 
 @InputType()
-export class CompanyTypeUpdateEntity {
+export class CompanyTypePatchEntity extends PartialType(
+	CompanyTypeEntity,
+	InputType
+) implements CompanyTypePatch {
 	@Field()
-	_id: string;
-
-	@Field()
-	@Prop()
-	name: string;
-
-	@Field()
-	@Prop()
-	identifierLabel: string;
-
-	@Field()
-	@Prop()
-	currency: string;
+	override _id: string;
 }
 
 export const CompanyTypeSchema =

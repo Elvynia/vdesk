@@ -1,28 +1,18 @@
-import { OnModuleInit } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
-import {
-	Parent,
-	ResolveField,
-	Resolver
-} from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Loader } from '@tracworx/nestjs-dataloader';
+import DataLoader from 'dataloader';
 import { MissionEntity } from '../../mission/mission.entity';
-import { MissionRepository } from '../../mission/mission.repository';
+import { MissionLoader } from '../../mission/mission.loader';
 import { ChunkEntity } from '../chunk.entity';
 
 @Resolver(() => ChunkEntity)
-export class ChunkToMissionResolver implements OnModuleInit {
-	private missionRepository: MissionRepository;
-
-	constructor(
-		private readonly moduleRef: ModuleRef
-	) { }
-
-	onModuleInit() {
-		this.missionRepository = this.moduleRef.get(MissionRepository, { strict: false });
-	}
+export class ChunkToMissionResolver {
 
 	@ResolveField(() => MissionEntity)
-	mission(@Parent() chunk: ChunkEntity) {
-		return this.missionRepository.findOne(chunk.missionId);
+	mission(
+		@Parent() chunk: ChunkEntity,
+		@Loader(MissionLoader) loader: DataLoader<string, MissionEntity>
+	) {
+		return loader.load(chunk.missionId);
 	}
 }

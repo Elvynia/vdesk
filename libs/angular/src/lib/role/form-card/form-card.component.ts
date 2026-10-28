@@ -1,16 +1,16 @@
 import {
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    SimpleChanges,
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	OnInit,
+	Output,
+	SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Role } from '@lv/common';
+import { Role, RoleCreate } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, finalize, first } from 'rxjs';
 import { LoadingDirective } from '../../loading/loading.directive';
@@ -33,7 +33,7 @@ import { roleActions } from '../role.actions';
 export class RoleFormCardComponent implements OnInit, OnChanges {
 	@Input() value?: Role;
 	@Output() back: EventEmitter<void>;
-	@Output() save: EventEmitter<Role>;
+	@Output() save: EventEmitter<RoleCreate | Role>;
 	group!: FormGroup;
 	pending: boolean;
 
@@ -71,7 +71,7 @@ export class RoleFormCardComponent implements OnInit, OnChanges {
 		} else {
 			return {
 				name: value.name,
-			} as Role;
+			} as RoleCreate;
 		}
 	}
 

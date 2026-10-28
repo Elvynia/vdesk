@@ -16,17 +16,7 @@ export interface InvoiceLine {
 	total?: number;
 }
 
-export interface InvoiceLineCreate {
-
-	count: number;
-
-	desc: string;
-
-	price: number;
-
-	chunkIds: string[];
-
-}
+export type InvoiceLineCreate = Omit<InvoiceLine, 'chunk' | 'total'>;
 
 export function makeInvoiceLineWeek({
 	missions,

@@ -1,9 +1,7 @@
-import { IEntity } from '../util/entity.type';
-
-import { CompanyType } from '../company-type/company-type.type';
-
 import { Address } from '../address/address.type';
+import { CompanyType } from '../company-type/company-type.type';
 import { Mission } from '../mission/mission.type';
+import { IEntity } from '../util/entity.type';
 
 export interface Company extends IEntity {
 	name: string;
@@ -18,15 +16,25 @@ export interface Company extends IEntity {
 
 	trigram: string;
 
-	type: CompanyType;
+	typeId: string;
+
+	addressId?: string;
+
+	missions?: Mission[];
+}
+
+export interface CompanyRead extends Company {
 
 	address?: Address;
 
-	missions: Mission[];
+	type: CompanyType;
 }
 
+export type CompanyCreate = Omit<Company, '_id' | 'invoiceCount' | 'type' | 'address'>;
+export type CompanyPatch = Partial<CompanyCreate> & IEntity;
+
 export interface CompanyState {
-	companies: Record<string, Company>;
+	companies: Record<string, CompanyRead>;
 }
 
 export const selectCompanies = (state: CompanyState) => state.companies;

@@ -8,7 +8,7 @@ import {
 	observeDownload,
 	ObserverCompomix
 } from '@lv/angular';
-import { Invoice, InvoiceSave, isInvoiceUpdate, selectInvoices } from '@lv/common';
+import { Invoice, InvoiceSave, isEntity, selectInvoices } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, finalize, first, takeUntil } from 'rxjs';
@@ -80,7 +80,7 @@ export class InvoiceViewComponent extends ObserverCompomix() implements OnInit {
 
 	save(value: InvoiceSave) {
 		let action;
-		if (isInvoiceUpdate(value)) {
+		if (isEntity(value)) {
 			action = invoiceActions.update({ value });
 		} else {
 			action = invoiceActions.create({ value });

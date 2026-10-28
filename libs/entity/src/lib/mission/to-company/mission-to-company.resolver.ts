@@ -15,7 +15,7 @@ export class MissionToCompanyResolver {
 	constructor(
 	) { }
 
-	@ResolveField(() => String, { nullable: true })
+	@ResolveField(() => CompanyEntity)
 	company(
 		@Parent() mission: MissionEntity,
 		@Loader(CompanyLoader) loader: DataLoader<string, CompanyEntity>,

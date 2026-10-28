@@ -5,14 +5,14 @@ import { EntityRepository } from '../entity.repository';
 import {
 	CompanyTypeCreateEntity,
 	CompanyTypeEntity,
-	CompanyTypeUpdateEntity,
+	CompanyTypePatchEntity,
 } from './company-type.entity';
 
 @Injectable()
 export class CompanyTypeRepository extends EntityRepository<
 	CompanyTypeEntity,
 	CompanyTypeCreateEntity,
-	CompanyTypeUpdateEntity
+	CompanyTypePatchEntity
 > {
 	constructor(
 		@InjectModel(CompanyTypeEntity.name)

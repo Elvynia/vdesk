@@ -1,9 +1,7 @@
-import { Invoice } from '@lv/common';
-import { Field, InputType, IntersectionType, ObjectType, OmitType, PartialType, PickType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
-import { CompanyEntity } from '../company/company.entity';
-import { InvoiceLineEntity, InvoiceLineEntitySave, InvoiceLineSchema } from '../invoice-line/invoice-line.entity';
-import { MissionEntity } from '../mission/mission.entity';
+import { Invoice, InvoiceCreate, InvoicePatch } from '@lv/common';
+import { Field, InputType, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { InvoiceLineCreateEntity, InvoiceLineEntity, InvoiceLineSchema } from '../invoice-line/invoice-line.entity';
 import { makeEntityEntry } from '../util/make-entity-entry';
 
 @ObjectType()
@@ -24,19 +22,8 @@ export class InvoiceEntity implements Invoice {
 	@Prop()
 	amount: number;
 
-	@Field(() => CompanyEntity, { nullable: true })
-	@Virtual({
-		options: {
-			foreignField: '_id',
-			localField: 'companyId',
-			justOne: true,
-			ref: () => CompanyEntity
-		}
-	})
-	company?: CompanyEntity;
-
-	@Field(() => String)
-	@Prop({ type: () => String, ref: () => CompanyEntity })
+	@Field()
+	@Prop()
 	companyId: string;
 
 	@Field()
@@ -55,14 +42,13 @@ export class InvoiceEntity implements Invoice {
 	@Prop()
 	execEnd: Date;
 
+	/**
+	 * InvoiceLineSchema in Prop decorator makes virtuals work on embedded entities.
+	 */
 	@Field(() => [InvoiceLineEntity])
 	@Prop([InvoiceLineSchema])
 	lines: InvoiceLineEntity[];
 
-	@Field(() => [MissionEntity])
-	@Virtual()
-	missions?: MissionEntity[];
-
 	@Field(() => [String])
 	@Prop()
 	missionIds: string[];
@@ -93,105 +79,24 @@ export class InvoiceEntity implements Invoice {
 }
 
 @InputType()
-export class InvoiceCreateEntity {
+export class InvoiceCreateEntity extends OmitType(
+	InvoiceEntity,
+	['_id', 'lines'],
+	InputType
+) implements InvoiceCreate {
 
-	@Field()
-	amount: number;
-
-	@Field(() => String)
-	@Prop({ type: () => String, ref: () => CompanyEntity })
-	companyId: string;
-
-	@Field()
-	createdOn: Date;
-
-	@Field()
-	estimate: boolean;
-
-	@Field()
-	execStart: Date;
-
-	@Field()
-	execEnd: Date;
-
-	@Field(() => [InvoiceLineEntitySave])
-	lines: InvoiceLineEntitySave[];
-
-	@Field(() => [String])
-	missionIds: string[];
-
-	@Field()
-	name: string;
-
-	@Field({ nullable: true })
-	paid: boolean;
-
-	@Field()
-	paymentLimit: Date;
-
-	@Field()
-	sent: boolean;
-
-	@Field({ nullable: true })
-	tax: boolean;
-
-	@Field({ nullable: true })
-	taxMultiplier?: number;
+	@Field(() => [InvoiceLineCreateEntity])
+	lines: InvoiceLineCreateEntity[];
 }
 
 @InputType()
-export class InvoiceUpdateEntity {
+export class InvoicePatchEntity extends PartialType(
+	InvoiceCreateEntity,
+	InputType
+) implements InvoicePatch {
 	@Field()
 	_id: string;
-
-	@Field()
-	amount: number;
-
-	@Field(() => String)
-	companyId: string;
-
-	@Field()
-	createdOn: Date;
-
-	@Field()
-	estimate: boolean;
-
-	@Field()
-	execStart: Date;
-
-	@Field()
-	execEnd: Date;
-
-	@Field(() => [InvoiceLineEntitySave])
-	lines: InvoiceLineEntitySave[];
-
-	@Field(() => [String])
-	missionIds: string[];
-
-	@Field()
-	name: string;
-
-	@Field({ nullable: true })
-	paid: boolean;
-
-	@Field()
-	paymentLimit: Date;
-
-	@Field()
-	sent: boolean;
-
-	@Field({ nullable: true })
-	tax: boolean;
-
-	@Field({ nullable: true })
-	taxMultiplier?: number;
-}
-
-@InputType()
-export class InvoicePatchEntity extends IntersectionType(
-	PickType(InvoiceUpdateEntity, ['_id'] as const),
-	PartialType(OmitType(InvoiceUpdateEntity, ['_id'] as const))
-) { };
+};
 
 export const InvoiceSchema = SchemaFactory.createForClass(InvoiceEntity);
 export const InvoiceEntityEntry = makeEntityEntry(InvoiceEntity);

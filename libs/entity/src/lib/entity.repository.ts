@@ -13,14 +13,14 @@ export abstract class EntityRepository<
 		return this.model.create(editEntity);
 	}
 
-	findAll(filter?: RootFilterQuery<Entity>) {
+	findAll<T extends Entity>(filter?: RootFilterQuery<Entity>) {
 		let query;
 		if (filter) {
 			query = this.model
-				.find(filter);
+				.find<T>(filter);
 		} else {
 			query = this.model
-				.find();
+				.find<T>();
 		}
 		return query
 			.exec();

@@ -17,15 +17,23 @@ export interface Mission extends IEntity {
 
 	desc?: string;
 
-	chunks: Chunk[];
-
-	company?: Company;
-
 	companyId: string;
 }
 
+export interface MissionRead extends Mission {
+
+	company: Pick<Company, 'name' | 'shortName'>;
+}
+
+export interface MissionActive extends Mission {
+
+	chunks: Chunk[];
+
+	company: Company;
+}
+
 export interface MissionState {
-	missions: Record<string, Mission>;
+	missions: Record<string, MissionRead>;
 }
 
 export const selectMissions = (state: MissionState) => state.missions;

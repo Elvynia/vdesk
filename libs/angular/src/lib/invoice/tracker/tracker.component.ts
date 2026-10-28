@@ -4,7 +4,7 @@ import { ɵInternalFormsSharedModule } from "@angular/forms";
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Invoice, sortInvoices } from '@lv/common';
+import { Invoice, InvoicePatch, sortInvoices } from '@lv/common';
 import { Store } from '@ngrx/store';
 import { invoiceActions } from '../invoice.actions';
 
@@ -33,8 +33,8 @@ export class InvoiceTrackerComponent {
 		this.values = [];
 	}
 
-	private update(value: Pick<Invoice, '_id' | 'sent'> | Pick<Invoice, '_id' | 'paid'>) {
-		this.store.dispatch(invoiceActions.patch({ value }));
+	private update(value: InvoicePatch) {
+		this.store.dispatch(invoiceActions.update({ value }));
 	}
 
 	updatePaid(event: MatSlideToggleChange, { _id }: Invoice) {

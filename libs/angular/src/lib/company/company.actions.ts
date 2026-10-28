@@ -1,11 +1,11 @@
-import { Company } from '@lv/common';
+import { Company, CompanyCreate, CompanyPatch } from '@lv/common';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ApiActionError, ApiActionId, ApiActionListSuccess, ApiActionSave, ApiActionSuccess, } from '../util/api.action';
 
 export const companyActions = createActionGroup({
 	source: 'Company',
 	events: {
-		'Create': props<ApiActionSave<Company>>(),
+		'Create': props<ApiActionSave<CompanyCreate>>(),
 		'Create Success': props<ApiActionSave<Company> & ApiActionSuccess>(),
 		'Create Error': props<ApiActionSave<Company> & ApiActionError>(),
 		'Delete': props<ApiActionSave<Company>>(),
@@ -17,7 +17,7 @@ export const companyActions = createActionGroup({
 		'List': emptyProps(),
 		'List Success': props<ApiActionListSuccess<Company>>(),
 		'List Error': props<ApiActionError>(),
-		'Update': props<ApiActionSave<Company>>(),
+		'Update': props<ApiActionSave<CompanyPatch>>(),
 		'Update Success': props<ApiActionSave<Company> & ApiActionSuccess>(),
 		'Update Error': props<ApiActionSave<Company> & ApiActionError>(),
 	},

@@ -1,4 +1,4 @@
-import { IEntity, Invoice, InvoiceCreate, InvoiceUpdate } from '@lv/common';
+import { Invoice, InvoiceCreate, InvoicePatch } from '@lv/common';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ApiActionError, ApiActionId, ApiActionListSuccess, ApiActionSave, ApiActionSuccess, } from '../util/api.action';
 
@@ -17,12 +17,9 @@ export const invoiceActions = createActionGroup({
 		'List': emptyProps(),
 		'List Success': props<ApiActionListSuccess<Invoice>>(),
 		'List Error': props<ApiActionError>(),
-		'Update': props<ApiActionSave<InvoiceUpdate>>(),
+		'Update': props<ApiActionSave<InvoicePatch>>(),
 		'Update Success': props<ApiActionSave<Invoice> & ApiActionSuccess>(),
 		'Update Error': props<ApiActionSave<Invoice> & ApiActionError>(),
-		'Patch': props<ApiActionSave<Partial<InvoiceUpdate> & IEntity>>(),
-		'Patch Success': props<ApiActionSave<Invoice> & ApiActionSuccess>(),
-		'Patch Error': props<ApiActionSave<Partial<InvoiceUpdate> & IEntity> & ApiActionError>(),
 		'Pending': props<{ valueId: string, pending: boolean }>(),
 	},
 });

@@ -1,7 +1,7 @@
 import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { Mission, missionGroupByCompany } from '@lv/common';
+import { Mission, missionGroupByCompany, MissionRead } from '@lv/common';
 import { MissionItemComponent } from '../item/item.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { MissionItemComponent } from '../item/item.component';
 	templateUrl: './list.component.html',
 })
 export class MissionListComponent implements OnChanges {
-	@Input() values: Mission[];
+	@Input() values: MissionRead[];
 	@Output() delete: EventEmitter<Mission>;
 	@Output() detail: EventEmitter<Mission>;
 	@Output() edit: EventEmitter<Mission>;

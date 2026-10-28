@@ -6,7 +6,7 @@ import {
 	MissionListComponent,
 	ObserverCompomix
 } from '@lv/angular';
-import { Mission, selectMissions } from '@lv/common';
+import { Mission, MissionRead, selectMissions } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
@@ -20,7 +20,7 @@ import { filter, first, takeUntil } from 'rxjs';
 	}
 })
 export class MissionViewComponent extends ObserverCompomix() implements OnInit {
-	missions: Mission[];
+	missions: MissionRead[];
 	editMission?: Mission;
 
 	constructor(private store: Store<any>, private actions: Actions) {

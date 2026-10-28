@@ -8,6 +8,9 @@ export interface CompanyType extends IEntity {
 	currency: string;
 }
 
+export type CompanyTypeCreate = Omit<CompanyType, '_id'>;
+export type CompanyTypePatch = Partial<CompanyType> & IEntity;
+
 export interface CompanyTypeState {
 	companyTypes: Record<string, CompanyType>;
 }

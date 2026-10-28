@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from "@angular/material/card";
 import { ChunkEditorComponent, HasInvoicePendingState, HasMissionActiveState, invoicePendingActions, InvoiceTrackerComponent, missionActiveActions, ObserverCompomix, selectInvoicePending, selectMissionActive } from '@lv/angular';
-import { Invoice, Mission } from '@lv/common';
+import { Invoice, Mission, MissionActive } from '@lv/common';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged, takeUntil } from 'rxjs';
 
@@ -18,7 +18,7 @@ import { distinctUntilChanged, takeUntil } from 'rxjs';
 	}
 })
 export class ViewComponent extends ObserverCompomix() implements OnInit {
-	missions: Mission[];
+	missions: MissionActive[];
 	invoices: Invoice[];
 
 	constructor(

@@ -1,14 +1,15 @@
+import { MissionActive } from '@lv/common';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EntityRepository } from '../entity.repository';
-import { MissionCreateEntity, MissionEntity, MissionUpdateEntity } from './mission.entity';
+import { MissionCreateEntity, MissionEntity, MissionPatchEntity } from './mission.entity';
 
 @Injectable()
 export class MissionRepository extends EntityRepository<
 	MissionEntity,
 	MissionCreateEntity,
-	MissionUpdateEntity
+	MissionPatchEntity
 > {
 	constructor(
 		@InjectModel(MissionEntity.name)
@@ -38,12 +39,11 @@ export class MissionRepository extends EntityRepository<
 					}
 				}]
 			})
-			.orFail()
 			.exec();
 	}
 
 	findAllActive(date: Date = new Date()) {
-		return this.findAll({
+		return this.findAll<MissionActive>({
 			start: { $lt: date },
 			$or: [{
 				end: {

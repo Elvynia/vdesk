@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { chunkFields, companyTypeFields, HasMissionPubSub, makeMissionFields, Mission } from '@lv/common';
-import { Observable } from 'rxjs';
 import { ApiConfig } from '../config';
 import { SocketService } from '../socket.service';
 import { ApiService } from '../util/api.service';
@@ -24,14 +23,6 @@ export class MissionService extends ApiService<Mission> {
 
 	getFields(): string {
 		return makeMissionFields().join('\n');
-	}
-
-	override sendList(): Observable<Mission[]> {
-		return super.sendList(
-			makeMissionFields()
-				.concat(['company { name shortName }'])
-				.join('\n')
-		);
 	}
 
 	listenActive() {

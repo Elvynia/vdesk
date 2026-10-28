@@ -1,7 +1,6 @@
 import { InvoiceLine } from "@lv/common";
-import { Field, InputType, ObjectType } from "@nestjs/graphql";
+import { Field, InputType, ObjectType, OmitType } from "@nestjs/graphql";
 import { Prop, Schema, SchemaFactory, Virtual } from "@nestjs/mongoose";
-import { ChunkEntity } from "../chunk/chunk.entity";
 
 @ObjectType()
 @Schema({
@@ -26,42 +25,25 @@ export class InvoiceLineEntity implements InvoiceLine {
 	@Prop()
 	price: number;
 
-	@Field(() => [ChunkEntity])
-	@Virtual()
-	chunks?: ChunkEntity[];
-
 	@Field(() => [String])
-	@Prop({ type: () => [String], ref: () => [ChunkEntity] })
+	@Prop([String])
 	chunkIds: string[];
 
 	@Field()
 	@Virtual({
 		get: function (this: InvoiceLineEntity) {
+			console.log('debug: line', this.count, this.price)
 			return (this.count || 1) * (this.price || 0);
 		}
 	})
 	total: number;
 }
 
-@InputType('InvoiceLineInputSave')
-export class InvoiceLineEntitySave {
-
-	@Field({ defaultValue: 1 })
-	@Prop()
-	count: number;
-
-	@Field()
-	@Prop()
-	desc: string;
-
-	@Field()
-	@Prop()
-	price: number;
-
-	@Field(() => [String])
-	@Prop({ type: () => [String], ref: () => [ChunkEntity] })
-	chunkIds: string[];
-
-}
+@InputType()
+export class InvoiceLineCreateEntity extends OmitType(
+	InvoiceLineEntity,
+	['total'],
+	InputType
+) { }
 
 export const InvoiceLineSchema = SchemaFactory.createForClass(InvoiceLineEntity);

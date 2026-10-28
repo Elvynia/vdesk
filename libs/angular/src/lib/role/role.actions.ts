@@ -1,11 +1,11 @@
-import { Role } from '@lv/common';
+import { Role, RoleCreate } from '@lv/common';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ApiActionError, ApiActionId, ApiActionListSuccess, ApiActionSave, ApiActionSuccess, } from '../util/api.action';
 
 export const roleActions = createActionGroup({
 	source: 'Role',
 	events: {
-		'Create': props<ApiActionSave<Role>>(),
+		'Create': props<ApiActionSave<RoleCreate>>(),
 		'Create Success': props<ApiActionSave<Role> & ApiActionSuccess>(),
 		'Create Error': props<ApiActionSave<Role> & ApiActionError>(),
 		'Delete': props<ApiActionSave<Role>>(),

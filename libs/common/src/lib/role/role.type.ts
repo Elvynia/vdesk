@@ -4,6 +4,8 @@ export interface Role extends IEntity {
 	name: string;
 }
 
+export type RoleCreate = Omit<Role, '_id'>;
+
 export interface RoleState {
 	roles: Record<string, Role>;
 }

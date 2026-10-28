@@ -1,4 +1,4 @@
-import { HasMissionPubSub, mapEntityEntry, missionIsActive } from '@lv/common';
+import { HasMissionPubSub, mapEntityEntry, MissionActive, missionIsActive } from '@lv/common';
 import {
 	Args,
 	Mutation,
@@ -7,7 +7,7 @@ import {
 	Subscription
 } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { MissionCreateEntity, MissionEntity, MissionEntityEntry, MissionUpdateEntity } from './mission.entity';
+import { MissionCreateEntity, MissionEntity, MissionEntityEntry, MissionPatchEntity } from './mission.entity';
 import { MissionRepository } from './mission.repository';
 
 @Resolver(() => MissionEntity)
@@ -69,18 +69,18 @@ export class MissionResolver {
 		}
 		this.pubSub.publish('missionActive', [{
 			key: typeof mission === 'string' ? mission : mission._id,
-			value: payload
+			value: payload as MissionActive
 		}]);
 	}
 
 	@Mutation(() => MissionEntity)
-	async updateMission(
-		@Args('updateMissionInput') updateMissionInput: MissionUpdateEntity
+	async patchMission(
+		@Args('patchMissionInput') patchMissionInput: MissionPatchEntity
 	) {
-		const wasActive = await this.missionRepository.isActive(updateMissionInput._id);
-		const mission = await this.missionRepository.update(
-			updateMissionInput._id,
-			updateMissionInput
+		const wasActive = await this.missionRepository.isActive(patchMissionInput._id) || false;
+		const mission = await this.missionRepository.patch(
+			patchMissionInput._id,
+			patchMissionInput
 		);
 		this.publishIfActive(
 			mission,

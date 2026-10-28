@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { Chunk, ChunkCreate, Mission } from '@lv/common';
+import { Chunk, ChunkCreate, MissionRead } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, finalize, first } from 'rxjs';
@@ -38,7 +38,7 @@ import { ChunkFormComponent } from '../form/form.component';
 	}
 })
 export class ChunkFormCardComponent implements OnInit, OnChanges {
-	@Input() missions: Mission[];
+	@Input() missions: MissionRead[];
 	@Input() value?: Partial<Chunk>;
 	@Output() back: EventEmitter<void>;
 	@Output() save: EventEmitter<Chunk>;

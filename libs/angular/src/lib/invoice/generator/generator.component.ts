@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { FormGroup } from '@angular/forms';
 import { MatButtonModule } from "@angular/material/button";
 import { DateRange } from '@angular/material/datepicker';
-import { Chunk, Company, distinctUntilAnyKeyChanged, findDayOfWeek, InvoiceLine, makeInvoiceLineWeek, Mission } from '@lv/common';
+import { Chunk, CompanyRead, distinctUntilAnyKeyChanged, findDayOfWeek, InvoiceLine, makeInvoiceLineWeek, MissionActive } from '@lv/common';
 import { distinctUntilChanged, map, startWith } from 'rxjs';
 import { ChunkCalendarComponent } from '../../chunk/calendar/calendar.component';
 import { ChunkCalendarSelectRange } from '../../chunk/calendar/calendar.type';
@@ -54,7 +54,7 @@ export class InvoiceGeneratorComponent implements OnChanges {
 						let name = '';
 						if (missions && missions.length > 0) {
 							const currentYear = new Date().getFullYear();
-							const company = missions[0].company as Company;
+							const company = missions[0].company as CompanyRead;
 							const count = (company.invoiceCount! + 1).toString().padStart(2, '0');
 							currency = company.type.currency;
 							name = `${currentYear}-${company.trigram}-${count}`;
@@ -67,12 +67,12 @@ export class InvoiceGeneratorComponent implements OnChanges {
 				});
 				this.group.controls.missions.valueChanges.pipe(
 					startWith(this.group.controls.missions.value),
-					distinctUntilChanged((a: Mission[], b: Mission[]) => {
+					distinctUntilChanged((a: MissionActive[], b: MissionActive[]) => {
 						const aIds = a.map((am) => am._id);
 						const bIds = b.map((bm) => bm._id);
 						return aIds.every((aid) => bIds.includes(aid)) && bIds.every((bid) => aIds.includes(bid));
 					}),
-				).subscribe((missions: Mission[]) => {
+				).subscribe((missions) => {
 					this.lineReset.next();
 					this.reset();
 					if (missions && missions.length > 0) {

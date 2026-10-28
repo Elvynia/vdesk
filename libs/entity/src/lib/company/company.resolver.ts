@@ -6,14 +6,16 @@ import {
 	ResolveField,
 	Resolver
 } from '@nestjs/graphql';
-import { CompanyCreateEntity, CompanyEntity, CompanyPatchEntity, CompanyUpdateEntity } from './company.entity';
-import { CompanyRepository } from './company.repository';
-
-import { CompanyTypeEntity } from '../company-type/company-type.entity';
-import { CompanyTypeRepository } from '../company-type/company-type.repository';
-
+import { Loader } from '@tracworx/nestjs-dataloader';
+import DataLoader from 'dataloader';
 import { AddressEntity } from '../address/address.entity';
+import { AddressLoader } from '../address/address.loader';
 import { AddressRepository } from '../address/address.repository';
+import { CompanyTypeEntity } from '../company-type/company-type.entity';
+import { CompanyTypeLoader } from '../company-type/company-type.loader';
+import { CompanyTypeRepository } from '../company-type/company-type.repository';
+import { CompanyCreateEntity, CompanyEntity, CompanyPatchEntity } from './company.entity';
+import { CompanyRepository } from './company.repository';
 
 @Resolver(() => CompanyEntity)
 export class CompanyResolver {
@@ -43,16 +45,6 @@ export class CompanyResolver {
 	}
 
 	@Mutation(() => CompanyEntity)
-	updateCompany(
-		@Args('updateCompanyInput') updateCompanyInput: CompanyUpdateEntity
-	) {
-		return this.companyRepository.update(
-			updateCompanyInput._id,
-			updateCompanyInput
-		);
-	}
-
-	@Mutation(() => CompanyEntity)
 	patchCompany(
 		@Args('patchCompanyInput') patchCompanyInput: CompanyPatchEntity
 	) {
@@ -68,12 +60,18 @@ export class CompanyResolver {
 	}
 
 	@ResolveField(() => CompanyTypeEntity)
-	async type(@Parent() parent: CompanyEntity) {
-		return await this.companyTypeRepository.findOne(parent.type as any);
+	type(
+		@Parent() parent: CompanyEntity,
+		@Loader(CompanyTypeLoader) loader: DataLoader<string, CompanyTypeEntity>
+	) {
+		return loader.load(parent.typeId);
 	}
 
-	@ResolveField(() => AddressEntity)
-	async address(@Parent() parent: CompanyEntity) {
-		return await this.addressRepository.findOne(parent.address as any);
+	@ResolveField(() => AddressEntity, { nullable: true })
+	address(
+		@Parent() parent: CompanyEntity,
+		@Loader(AddressLoader) loader: DataLoader<string, AddressEntity>
+	) {
+		return parent.addressId ? loader.load(parent.addressId) : null;
 	}
 }

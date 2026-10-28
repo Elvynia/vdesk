@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { makeMissionFields, MissionRead } from '@lv/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, map, mergeMap, reduce, switchMap, tap } from 'rxjs';
 import { notifyUserSuccess } from '../util/notify-user';
@@ -20,7 +21,12 @@ export class MissionEffects {
 		this.actions$.pipe(
 			ofType(missionActions.create),
 			mergeMap(({ value }) =>
-				this.service.sendCreate(value).pipe(
+				this.service.sendCreate(
+					value,
+					makeMissionFields()
+						.concat(['company { name shortName }'])
+						.join('\n')
+				).pipe(
 					map((created) =>
 						missionActions.createSuccess({
 							value: created,
@@ -64,7 +70,11 @@ export class MissionEffects {
 		this.actions$.pipe(
 			ofType(missionActions.list),
 			switchMap(() =>
-				this.service.sendList().pipe(
+				this.service.sendList<MissionRead>(
+					makeMissionFields()
+						.concat(['company { name shortName }'])
+						.join('\n')
+				).pipe(
 					switchMap((results) =>
 						from(results).pipe(
 							reduce(
@@ -93,7 +103,12 @@ export class MissionEffects {
 		this.actions$.pipe(
 			ofType(missionActions.get),
 			switchMap(({ valueId }) =>
-				this.service.sendGet(valueId).pipe(
+				this.service.sendGet(
+					valueId,
+					makeMissionFields()
+						.concat(['company { name shortName }'])
+						.join('\n')
+				).pipe(
 					map((value) =>
 						missionActions.getSuccess({ value, success: true })
 					),
@@ -110,7 +125,12 @@ export class MissionEffects {
 		this.actions$.pipe(
 			ofType(missionActions.update),
 			mergeMap(({ value }) =>
-				this.service.sendUpdate(value).pipe(
+				this.service.sendPatch(
+					value,
+					makeMissionFields()
+						.concat(['company { name shortName }'])
+						.join('\n')
+				).pipe(
 					map((updated) =>
 						missionActions.updateSuccess({
 							value: updated,

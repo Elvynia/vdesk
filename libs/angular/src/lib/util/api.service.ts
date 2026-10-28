@@ -8,7 +8,7 @@ import { throwGraphQlError } from "./operator/throw-graphql-error";
 @Injectable({
 	providedIn: "root"
 })
-export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCreate> {
+export abstract class ApiService<Entity extends IEntity, EntityCreate = Entity, EntityPatch = EntityCreate> {
 	graphUrl: string;
 
 	get clazz(): string {
@@ -23,12 +23,12 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 
 	abstract getFields(args?: any): string;
 
-	sendCreate(data: TCreate) {
+	sendCreate<T extends Entity = Entity>(data: EntityCreate, fields: string = this.getFields()) {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
 				mutation($input: ${this.clazz}CreateEntity!) {
 					create${this.clazz}(create${this.clazz}Input: $input) {
-						${this.getFields()}
+						${fields}
 					}
 				}
 			`,
@@ -41,12 +41,12 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 		);
 	}
 
-	sendDelete(id: string) {
+	sendDelete(id: string, fields: string = '_id') {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
                 mutation($input: String!) {
 					remove${this.clazz}(id: $input) {
-						${this.getFields()}
+						${fields}
 					}
 				}
             `,
@@ -58,12 +58,12 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 		);
 	}
 
-	sendGet(id: string) {
+	sendGet<T extends Entity = Entity>(id: string, fields: string = this.getFields()) {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
 				query Get${this.clazz}($id: String!) {
 					${this.entity}Id(id: $id) {
-						${this.getFields()}
+						${fields}
 					}
 				}
 			`,
@@ -76,7 +76,7 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 		);
 	}
 
-	sendList(fields: string = this.getFields()) {
+	sendList<T extends Entity = Entity>(fields: string = this.getFields()) {
 		return this.httpClient.post(this.graphUrl, {
 			"query": `{
 				${this.entity} {
@@ -90,16 +90,16 @@ export abstract class ApiService<T extends IEntity, TCreate = T, TUpdate = TCrea
 	}
 
 	// TODO: Remove and rename sendPatch to sendUpdate.
-	sendUpdate(data: TUpdate) {
+	sendUpdate(data: EntityPatch) {
 		return this.sendPatch(data as any);
 	}
 
-	sendPatch(data: Partial<TUpdate> & IEntity) {
+	sendPatch<T extends Entity = Entity>(data: EntityPatch, fields: string = this.getFields()) {
 		return this.httpClient.post(this.graphUrl, {
 			query: `
 				mutation($input: ${this.clazz}PatchEntity!) {
 					patch${this.clazz}(patch${this.clazz}Input: $input) {
-						${this.getFields()}
+						${fields}
 					}
 				}
 			`,

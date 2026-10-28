@@ -8,7 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { Chunk, Mission, missionGroupByCompany } from '@lv/common';
+import { Chunk, Mission, missionGroupByCompany, MissionRead } from '@lv/common';
 import { distinctUntilChanged, identity } from 'rxjs';
 import { DecimalFormatDirective } from "../../util/format/decimal-format.directive";
 
@@ -35,8 +35,8 @@ import { DecimalFormatDirective } from "../../util/format/decimal-format.directi
 export class ChunkFormComponent implements OnChanges {
 	@Input() group!: FormGroup;
 	@Input() value?: Partial<Chunk>;
-	@Input() missions: Mission[];
-	missionGroups: Record<string, Mission[]>;
+	@Input() missions: MissionRead[];
+	missionGroups: Record<string, MissionRead[]>;
 	countLabel: string;
 	decr: number = -1;
 	incr: number = 1;

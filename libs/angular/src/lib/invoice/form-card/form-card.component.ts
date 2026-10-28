@@ -17,7 +17,7 @@ import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { Invoice, InvoiceCreate, InvoiceLine, InvoiceSave, InvoiceUpdate, Mission } from '@lv/common';
+import { Invoice, InvoiceCreate, InvoiceLine, InvoicePatch, InvoiceSave, Mission } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, finalize, first, startWith, takeUntil } from 'rxjs';
@@ -59,7 +59,7 @@ type MissionSelectable = Mission & { disabled?: boolean };
 export class InvoiceFormCardComponent extends ObserverCompomix() implements OnInit, OnChanges {
 	@Input() value?: Invoice;
 	@Output() back: EventEmitter<void>;
-	@Output() save: EventEmitter<InvoiceCreate | InvoiceUpdate>;
+	@Output() save: EventEmitter<InvoiceSave>;
 	@ViewChild('formPanel') formPanel?: MatExpansionPanel;
 	generatorExpanded: boolean;
 	group!: FormGroup;
@@ -164,7 +164,7 @@ export class InvoiceFormCardComponent extends ObserverCompomix() implements OnIn
 			return {
 				...result,
 				_id: value._id,
-			} satisfies InvoiceUpdate;
+			} satisfies InvoicePatch;
 		} else {
 			return result;
 		}

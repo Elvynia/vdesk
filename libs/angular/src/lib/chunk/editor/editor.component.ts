@@ -5,17 +5,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
-import { Chunk, Mission } from '@lv/common';
+import { Chunk, MissionActive } from '@lv/common';
 import { Store } from '@ngrx/store';
 import { fromEvent, merge, takeUntil } from 'rxjs';
 import { LoadingDirective } from "../../loading/loading.directive";
+import { parseToDateOnly } from '../../util/form/form-parse-date';
 import { getSiblingMonth } from '../../util/form/get-sibling-month';
 import { ObserverCompomix } from '../../util/mixins/observer.compomix';
 import { ChunkCalendarComponent } from '../calendar/calendar.component';
 import { ChunkCalendarSelectSingle } from '../calendar/calendar.type';
 import { chunkActions } from '../chunk.actions';
 import { ChunkFormCardComponent } from '../form-card/form-card.component';
-import { parseToDateOnly } from '../../util/form/form-parse-date';
 
 @Component({
 	selector: 'lv-chunk-editor',
@@ -37,7 +37,7 @@ import { parseToDateOnly } from '../../util/form/form-parse-date';
 	},
 })
 export class ChunkEditorComponent extends ObserverCompomix() implements OnChanges, OnInit {
-	@Input() missions: Mission[];
+	@Input() missions: MissionActive[];
 	chunk?: Partial<Chunk>;
 	chunks: Chunk[];
 	keys: { alt: boolean, shift: boolean };
