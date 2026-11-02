@@ -88,6 +88,9 @@ import { ExceptionHandlerPlugin } from './util/apollo/exception-handler.plugin';
 		}),
 		DataloaderModule
 	],
+	exports: [
+		GraphQLModule
+	],
 	providers: [
 	]
 })
