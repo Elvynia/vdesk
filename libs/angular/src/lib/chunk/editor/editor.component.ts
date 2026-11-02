@@ -138,6 +138,7 @@ export class ChunkEditorComponent extends ObserverCompomix() implements OnChange
 			}, {});
 		} else {
 			this.chunk = undefined;
+			this.selectedChunks = undefined;
 		}
 	}
 
