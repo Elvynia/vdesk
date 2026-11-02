@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AddressModule } from '../address/address.module';
 import { CompanyTypeModule } from '../company-type/company-type.module';
+import { CompanyByOneLoader } from './company-by-one.loader';
 import { CompanyEntity, CompanySchema } from './company.entity';
-import { CompanyLoader } from './company.loader';
 import { CompanyRepository } from './company.repository';
 import { CompanyResolver } from './company.resolver';
 
@@ -20,12 +20,12 @@ import { CompanyResolver } from './company.resolver';
 		AddressModule,
 	],
 	providers: [
-		CompanyLoader,
+		CompanyByOneLoader,
 		CompanyRepository,
 		CompanyResolver,
 	],
 	exports: [
-		CompanyLoader,
+		CompanyByOneLoader,
 		CompanyRepository,
 		CompanyResolver,
 	],

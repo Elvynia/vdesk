@@ -2,6 +2,7 @@ import { MissionActive } from '@lv/common';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { EntityToManyRepository } from '../entity-to-many.repository';
 import { EntityRepository } from '../entity.repository';
 import { MissionCreateEntity, MissionEntity, MissionPatchEntity } from './mission.entity';
 
@@ -10,7 +11,8 @@ export class MissionRepository extends EntityRepository<
 	MissionEntity,
 	MissionCreateEntity,
 	MissionPatchEntity
-> {
+> implements EntityToManyRepository<MissionEntity> {
+
 	constructor(
 		@InjectModel(MissionEntity.name)
 		protected readonly model: Model<MissionEntity>,
@@ -18,9 +20,9 @@ export class MissionRepository extends EntityRepository<
 		super();
 	}
 
-	findByCompany(companyId: string) {
+	findByParentIds(ids: readonly string[]) {
 		return this.model.find({
-			companyId
+			companyId: { $in: ids }
 		}).exec();
 	}
 

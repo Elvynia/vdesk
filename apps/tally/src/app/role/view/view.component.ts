@@ -6,7 +6,7 @@ import {
 	RoleFormCardComponent,
 	RoleListComponent
 } from '@lv/angular';
-import { isEntity, Role, RoleCreate, selectRoles } from '@lv/common';
+import { isEntityWithId, Role, RoleCreate, selectRoles } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
@@ -56,7 +56,7 @@ export class RoleViewComponent extends ObserverCompomix() implements OnInit {
 
 	save(value: RoleCreate | Role) {
 		let action;
-		if (isEntity(value)) {
+		if (isEntityWithId(value)) {
 			action = roleActions.update({ value });
 		} else {
 			action = roleActions.create({ value });

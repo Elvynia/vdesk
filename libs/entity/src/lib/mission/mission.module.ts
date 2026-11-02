@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PubSubModule } from '../util/pubsub.module';
+import { MissionByManyLoader } from './mission-by-many.loader';
+import { MissionByOneLoader } from './mission-by-one.loader';
 import { MissionEntity, MissionSchema } from './mission.entity';
-import { MissionLoader } from './mission.loader';
 import { MissionRepository } from './mission.repository';
 import { MissionResolver } from './mission.resolver';
 
@@ -18,12 +19,14 @@ import { MissionResolver } from './mission.resolver';
 		PubSubModule,
 	],
 	providers: [
-		MissionLoader,
+		MissionByManyLoader,
+		MissionByOneLoader,
 		MissionResolver,
 		MissionRepository,
 	],
 	exports: [
-		MissionLoader,
+		MissionByManyLoader,
+		MissionByOneLoader,
 		MissionResolver,
 		MissionRepository,
 	],

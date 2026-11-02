@@ -3,9 +3,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ChunkModule } from '../chunk/chunk.module';
 import { MissionModule } from '../mission/mission.module';
 import { PubSubModule } from '../util/pubsub.module';
+import { InvoiceByManyLoader } from './invoice-by-many.loader';
 import { InvoiceCountLoader } from './invoice-count.loader';
 import { InvoiceEntity, InvoiceSchema } from './invoice.entity';
-import { InvoiceLoader } from './invoice.loader';
 import { InvoiceRepository } from './invoice.repository';
 import { InvoiceResolver } from './invoice.resolver';
 
@@ -23,14 +23,14 @@ import { InvoiceResolver } from './invoice.resolver';
 		PubSubModule
 	],
 	providers: [
+		InvoiceByManyLoader,
 		InvoiceCountLoader,
-		InvoiceLoader,
 		InvoiceResolver,
 		InvoiceRepository
 	],
 	exports: [
+		InvoiceByManyLoader,
 		InvoiceCountLoader,
-		InvoiceLoader,
 		InvoiceResolver,
 		InvoiceRepository
 	],

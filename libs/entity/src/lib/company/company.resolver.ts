@@ -8,12 +8,10 @@ import {
 } from '@nestjs/graphql';
 import { Loader } from '@tracworx/nestjs-dataloader';
 import DataLoader from 'dataloader';
+import { AddressByOneLoader } from '../address/address-by-one.loader';
 import { AddressEntity } from '../address/address.entity';
-import { AddressLoader } from '../address/address.loader';
-import { AddressRepository } from '../address/address.repository';
+import { CompanyTypeByOneLoader } from '../company-type/company-type-by-one.loader';
 import { CompanyTypeEntity } from '../company-type/company-type.entity';
-import { CompanyTypeLoader } from '../company-type/company-type.loader';
-import { CompanyTypeRepository } from '../company-type/company-type.repository';
 import { CompanyCreateEntity, CompanyEntity, CompanyPatchEntity } from './company.entity';
 import { CompanyRepository } from './company.repository';
 
@@ -21,10 +19,6 @@ import { CompanyRepository } from './company.repository';
 export class CompanyResolver {
 	constructor(
 		private readonly companyRepository: CompanyRepository,
-
-		private companyTypeRepository: CompanyTypeRepository,
-
-		private addressRepository: AddressRepository
 	) { }
 
 	@Mutation(() => CompanyEntity)
@@ -62,7 +56,7 @@ export class CompanyResolver {
 	@ResolveField(() => CompanyTypeEntity)
 	type(
 		@Parent() parent: CompanyEntity,
-		@Loader(CompanyTypeLoader) loader: DataLoader<string, CompanyTypeEntity>
+		@Loader(CompanyTypeByOneLoader) loader: DataLoader<string, CompanyTypeEntity>
 	) {
 		return loader.load(parent.typeId);
 	}
@@ -70,7 +64,7 @@ export class CompanyResolver {
 	@ResolveField(() => AddressEntity, { nullable: true })
 	address(
 		@Parent() parent: CompanyEntity,
-		@Loader(AddressLoader) loader: DataLoader<string, AddressEntity>
+		@Loader(AddressByOneLoader) loader: DataLoader<string, AddressEntity>
 	) {
 		return parent.addressId ? loader.load(parent.addressId) : null;
 	}

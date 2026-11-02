@@ -6,7 +6,7 @@ import { EntityRepository } from "../entity.repository";
 import { EntityOf } from "./entity-of";
 
 
-export function makeDataloader<
+export function makeDataloaderByOne<
 	Entity extends IEntity,
 	CreateEntity = Entity,
 	UpdateEntity extends UpdateQuery<Entity> = UpdateQuery<Entity>,
@@ -17,11 +17,14 @@ export function makeDataloader<
 		async (keys) => {
 			const results = await repository.getMapByIds(keys);
 			return keys.map((k) => results[k] || new Error(`${k} not found`));
+		},
+		{
+			cache: false
 		}
 	);
 }
 
-export function makeDataloaderToMany<
+export function makeDataloaderByMany<
 	Repository extends EntityToManyRepository<any>,
 	ParentKey extends StringKeys<EntityOf<Repository>> = StringKeys<EntityOf<Repository>>,
 >(

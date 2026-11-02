@@ -6,10 +6,10 @@ import {
 } from '@nestjs/graphql';
 import { Loader } from '@tracworx/nestjs-dataloader';
 import DataLoader from 'dataloader';
-import { InvoiceEntity } from '../../invoice/invoice.entity';
-import { InvoiceLoader } from '../../invoice/invoice.loader';
-import { CompanyEntity } from '../company.entity';
+import { InvoiceByManyLoader } from '../../invoice/invoice-by-many.loader';
 import { InvoiceCountLoader } from '../../invoice/invoice-count.loader';
+import { InvoiceEntity } from '../../invoice/invoice.entity';
+import { CompanyEntity } from '../company.entity';
 
 @Resolver(() => CompanyEntity)
 export class CompanyToInvoiceResolver {
@@ -17,7 +17,7 @@ export class CompanyToInvoiceResolver {
 	@ResolveField(() => [InvoiceEntity])
 	invoices(
 		@Parent() company: CompanyEntity,
-		@Loader(InvoiceLoader) loader: DataLoader<string, InvoiceEntity>
+		@Loader(InvoiceByManyLoader) loader: DataLoader<string, InvoiceEntity>
 	) {
 		return loader.load(company._id.toString());
 	}

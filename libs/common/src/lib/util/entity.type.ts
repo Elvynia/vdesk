@@ -9,5 +9,9 @@ export interface EntityEntry<T> {
 }
 
 export function isEntity<T extends IEntity>(value: any): value is T {
+	return '_id' in value;
+}
+
+export function isEntityWithId<T extends IEntity>(value: any): value is T {
 	return !!value._id;
 }

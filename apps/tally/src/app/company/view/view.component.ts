@@ -6,7 +6,7 @@ import {
 	isApiActionSuccess,
 	ObserverCompomix
 } from '@lv/angular';
-import { Company, CompanyCreate, CompanyPatch, CompanyRead, isEntity, selectCompanies } from '@lv/common';
+import { Company, CompanyCreate, CompanyPatch, CompanyRead, isEntityWithId, selectCompanies } from '@lv/common';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, first, takeUntil } from 'rxjs';
@@ -58,7 +58,7 @@ export class CompanyViewComponent extends ObserverCompomix() implements OnInit {
 
 	save(value: CompanyCreate | CompanyPatch) {
 		let action;
-		if (isEntity(value)) {
+		if (isEntityWithId(value)) {
 			action = companyActions.update({ value });
 		} else {
 			action = companyActions.create({ value });

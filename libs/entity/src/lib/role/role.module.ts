@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { RoleByOneLoader } from './role-by-one.loader';
 import { RoleEntity, RoleSchema } from './role.entity';
-import { RoleLoader } from './role.loader';
 import { RoleRepository } from './role.repository';
 import { RoleResolver } from './role.resolver';
 
@@ -16,12 +16,12 @@ import { RoleResolver } from './role.resolver';
 		]),
 	],
 	providers: [
-		RoleLoader,
+		RoleByOneLoader,
 		RoleResolver,
 		RoleRepository
 	],
 	exports: [
-		RoleLoader,
+		RoleByOneLoader,
 		RoleResolver,
 		RoleRepository
 	],

@@ -4,8 +4,8 @@ import { Loader } from '@tracworx/nestjs-dataloader';
 import DataLoader from 'dataloader';
 import { AuthGuard } from '../auth/auth.guard';
 import { MappingPublic } from '../decorator/mapping-public';
+import { RoleByOneLoader } from '../role/role-by-one.loader';
 import { RoleEntity } from '../role/role.entity';
-import { RoleLoader } from '../role/role.loader';
 import { RoleRepository } from '../role/role.repository';
 import { AccountCreateEntity, AccountEntity, AccountPatchEntity } from './account.entity';
 import { AccountRepository } from './account.repository';
@@ -49,7 +49,7 @@ export class AccountResolver {
 	@ResolveField(() => RoleEntity)
 	role(
 		@Parent() parent: AccountEntity,
-		@Loader(RoleLoader) loader: DataLoader<string, RoleEntity>
+		@Loader(RoleByOneLoader) loader: DataLoader<string, RoleEntity>
 	) {
 		return loader.load(parent.roleId);
 	}

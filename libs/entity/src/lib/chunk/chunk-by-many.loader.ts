@@ -1,16 +1,15 @@
 import { DataloaderProvider } from "@tracworx/nestjs-dataloader";
-import { makeDataloaderToMany } from "../util/make-data-loader";
-import { ChunkEntity } from "./chunk.entity";
+import { makeDataloaderByMany } from "../util/make-data-loader";
 import { ChunkRepository } from "./chunk.repository";
 
 @DataloaderProvider()
-export class ChunkLoader {
+export class ChunkByManyLoader {
 
 	constructor(
 		private repository: ChunkRepository
 	) { }
 
 	createDataloader() {
-		return makeDataloaderToMany(this.repository, 'missionId');
+		return makeDataloaderByMany(this.repository, 'missionId');
 	}
 }

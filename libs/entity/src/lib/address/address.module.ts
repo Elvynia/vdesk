@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AddressByOneLoader } from './address-by-one.loader';
 import { AddressEntity, AddressSchema } from './address.entity';
-import { AddressLoader } from './address.loader';
 import { AddressRepository } from './address.repository';
 import { AddressResolver } from './address.resolver';
 
@@ -16,12 +16,12 @@ import { AddressResolver } from './address.resolver';
 		]),
 	],
 	providers: [
-		AddressLoader,
+		AddressByOneLoader,
 		AddressResolver,
 		AddressRepository
 	],
 	exports: [
-		AddressLoader,
+		AddressByOneLoader,
 		AddressResolver,
 		AddressRepository
 	],
