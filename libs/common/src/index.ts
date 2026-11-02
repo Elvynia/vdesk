@@ -29,3 +29,4 @@ export * from './lib/util/navigation-keys';
 export * from './lib/util/operator/distinct-until-any-key-changed';
 export * from './lib/util/operator/map-entity-entry';
 export * from './lib/util/operator/reduce-array';
+export * from './lib/util/string-keys';

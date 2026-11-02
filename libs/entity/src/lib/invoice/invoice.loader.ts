@@ -1,5 +1,5 @@
 import { DataloaderProvider } from "@tracworx/nestjs-dataloader";
-import { makeDataloader } from "../util/make-data-loader";
+import { makeDataloaderToMany } from "../util/make-data-loader";
 import { InvoiceRepository } from "./invoice.repository";
 
 @DataloaderProvider()
@@ -10,6 +10,6 @@ export class InvoiceLoader {
 	) { }
 
 	createDataloader() {
-		return makeDataloader(this.repository);
+		return makeDataloaderToMany(this.repository, 'companyId');
 	}
 }

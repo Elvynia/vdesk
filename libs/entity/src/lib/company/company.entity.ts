@@ -1,6 +1,6 @@
 import { Company, CompanyCreate, CompanyPatch } from '@lv/common';
-import { Field, InputType, Int, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
+import { Field, InputType, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @ObjectType()
 @Schema()
@@ -15,10 +15,6 @@ export class CompanyEntity implements Company {
 	@Field()
 	@Prop()
 	identifier: string;
-
-	@Field(() => Int, { nullable: true })
-	@Virtual()
-	invoiceCount?: number;
 
 	@Field({ nullable: true })
 	@Prop()
@@ -44,7 +40,7 @@ export class CompanyEntity implements Company {
 @InputType()
 export class CompanyCreateEntity extends OmitType(
 	CompanyEntity,
-	['_id', 'invoiceCount'],
+	['_id'],
 	InputType
 ) implements CompanyCreate { }
 

@@ -32,7 +32,6 @@ export class InvoiceLineEntity implements InvoiceLine {
 	@Field()
 	@Virtual({
 		get: function (this: InvoiceLineEntity) {
-			console.log('debug: line', this.count, this.price)
 			return (this.count || 1) * (this.price || 0);
 		}
 	})
