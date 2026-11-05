@@ -79,7 +79,8 @@ import { ExceptionHandlerPlugin } from './util/apollo/exception-handler.plugin';
 					}
 				},
 				graphiql: isEnvDev(),
-				fieldResolverEnhancers: ['guards']
+				fieldResolverEnhancers: ['guards'],
+				preserveHttpStatusForExecutionErrors: false
 			}),
 			inject: [
 				ConfigService,

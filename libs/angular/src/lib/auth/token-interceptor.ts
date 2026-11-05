@@ -23,7 +23,10 @@ export function authHttpInterceptor(): HttpInterceptorFn {
 						delay: (error: HttpErrorResponse) => {
 							if (
 								authService.authenticated
-								&& error.status === 401
+								&& (
+									error.status === 401
+									|| error.status === 4403
+								)
 							) {
 								if (
 									lastToken
